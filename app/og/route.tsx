@@ -19,15 +19,17 @@ export async function GET(req: NextRequest) {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'center',
+          alignItems: 'flex-end',
+          justifyContent: 'flex-start',
           backgroundImage: 'url(https://www.ericcampbell.dev/og-bg.png)',
         }}
       >
         <div
           style={{
-            marginLeft: 190,
-            marginRight: 190,
+            marginTop: 80,
+            marginRight: 80,
+            marginLeft: 140,
+            textAlign: 'right',
             display: 'flex',
             fontSize: 130,
             fontFamily: 'Kaisei Tokumin',
