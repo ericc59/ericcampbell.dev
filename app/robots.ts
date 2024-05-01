@@ -5,7 +5,7 @@ export default function robots() {
         userAgent: '*',
       },
     ],
-    sitemap: 'https://ericcampbell.dev/sitemap.xml',
-    host: 'https://ericcampbell.dev',
+    sitemap: 'https://www.ericcampbell.dev/sitemap.xml',
+    host: 'https://www.ericcampbell.dev',
   };
 }

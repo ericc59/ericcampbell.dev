@@ -23,8 +23,8 @@ export async function generateMetadata({
     image,
   } = post.metadata;
   let ogImage = image
-    ? `https://ericcampbell.dev${image}`
-    : `https://ericcampbell.dev/og?title=${title}`;
+    ? `https://www.ericcampbell.dev${image}`
+    : `https://www.ericcampbell.dev/og?title=${title}`;
 
   return {
     title,
@@ -34,7 +34,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `https://ericcampbell.dev/blog/${post.slug}`,
+      url: `https://www.ericcampbell.dev/blog/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -103,9 +103,9 @@ export default function Blog({ params }) {
             dateModified: post.metadata.publishedAt,
             description: post.metadata.summary,
             image: post.metadata.image
-              ? `https://ericcampbell.dev${post.metadata.image}`
-              : `https://ericcampbell.dev/og?title=${post.metadata.title}`,
-            url: `https://ericcampbell.dev/blog/${post.slug}`,
+              ? `https://www.ericcampbell.dev${post.metadata.image}`
+              : `https://www.ericcampbell.dev/og?title=${post.metadata.title}`,
+            url: `https://www.ericcampbell.dev/blog/${post.slug}`,
             author: {
               '@type': 'Person',
               name: 'Eric Campbell',
