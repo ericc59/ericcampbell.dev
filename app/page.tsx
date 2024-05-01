@@ -67,7 +67,7 @@ export default function Page() {
         </div>
         <div className="relative mb-4 h-40">
           <Image
-            alt="Chariot mobile app "
+            alt="Chariot team "
             src={chariotTeam}
             fill
             sizes="(max-width: 768px) 213px, 33vw"
