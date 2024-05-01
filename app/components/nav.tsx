@@ -38,8 +38,8 @@ export function Navbar() {
                 <Image
                   alt="icon"
                   src={icon}
-                  width={64}
-                  height={64}
+                  width={512}
+                  height={512}
                   className="w-8 h-8 lg:h-24 lg:w-24 aspect-square inline-block rounded-full object-center"
                 />
               </div>
