@@ -1,12 +1,17 @@
 import Image from 'next/image';
 import { PreloadResources } from './preload';
-import nwcCelebrate from 'public/images/home/nwc-celebrate.jpeg';
-import nwc from 'public/images/home/nwc.jpeg';
+// import nwcCelebrate from 'public/images/home/nwc-celebrate.jpeg';
+// import nwc from 'public/images/home/nwc.jpeg';
 import chariot from 'public/images/home/chariot-wsj.jpeg';
+import chariotVan from 'public/images/home/chariot-van.jpg';
 import io from 'public/images/home/io.jpeg';
 import scoot from 'public/images/home/scoot.jpeg';
 // import scootDemo from 'public/images/home/scoot-launch.jpeg';
 import tourwrist from 'public/images/home/tourwrist.jpeg';
+import scootQuad from 'public/images/home/scoot-quad.jpg';
+import chariotMobile from 'public/images/home/chariot-mobile.gif';
+import chariotTeam from 'public/images/home/chariot-team.webp';
+
 import { Badge } from './components/badge';
 
 export default function Page() {
@@ -53,11 +58,21 @@ export default function Page() {
         <div className="relative mb-4 h-40">
           <Image
             alt="Celebrating the New Wave Capital launch with co-founders Albert Cheng and Stewart Hauser, after a grueling 1 year long regulatory approval process"
-            src={nwcCelebrate}
+            src={chariotVan}
             fill
             sizes="(max-width: 768px) 213px, 33vw"
             priority
             className="rounded-lg object-cover"
+          />
+        </div>
+        <div className="relative mb-4 h-40">
+          <Image
+            alt="Chariot mobile app "
+            src={chariotTeam}
+            fill
+            sizes="(max-width: 768px) 213px, 33vw"
+            priority
+            className="rounded-lg object-cover "
           />
         </div>
         <div className="relative mb-4 h-80 sm:mb-0">
@@ -80,20 +95,21 @@ export default function Page() {
             priority
           />
         </div>
-        <div className="relative mb-4 h-40 sm:mb-0">
+
+        <div className="relative mb-4 h-40">
           <Image
-            alt="Me celebrating New Wave Capital's launch"
-            src={nwc}
+            alt="Scoot Network founders attending and winning 1st place at Jason Calacanis LAUNCH conference"
+            src={scoot}
             fill
             sizes="(max-width: 768px) 213px, 33vw"
             priority
             className="rounded-lg object-cover"
           />
         </div>
-        <div className="relative mb-4 h-40">
+        <div className="relative mb-4 h-40 sm:mb-0">
           <Image
-            alt="Scoot Network founders attending and winning 1st place at Jason Calacanis LAUNCH conference"
-            src={scoot}
+            alt="Me celebrating New Wave Capital's launch"
+            src={scootQuad}
             fill
             sizes="(max-width: 768px) 213px, 33vw"
             priority
