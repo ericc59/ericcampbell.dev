@@ -13,10 +13,10 @@ export const metadata: Metadata = {
     default: 'Eric Campbell',
     template: '%s | Eric Campbell',
   },
-  description: 'Developer, writer, and creator.',
+  description: 'Software engineering leader and startup founder.',
   openGraph: {
     title: 'Eric Campbell',
-    description: 'Developer, writer, and creator.',
+    description: 'Software engineering leader and startup founder.',
     url: 'https://www.ericcampbell.dev',
     siteName: 'Eric Campbell',
     locale: 'en_US',

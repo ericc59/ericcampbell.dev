@@ -7,16 +7,7 @@ import io from 'public/images/home/io.jpeg';
 import scoot from 'public/images/home/scoot.jpeg';
 // import scootDemo from 'public/images/home/scoot-launch.jpeg';
 import tourwrist from 'public/images/home/tourwrist.jpeg';
-
-function Badge(props) {
-  return (
-    <a
-      {...props}
-      target="_blank"
-      className="inline-flex items-center rounded border border-neutral-200 bg-neutral-50 p-1 text-sm leading-4 text-neutral-900 no-underline dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
-    />
-  );
-}
+import { Badge } from './components/badge';
 
 export default function Page() {
   return (
@@ -52,6 +43,10 @@ export default function Page() {
         VC-backed startups with exits. I've also started companies that have
         failed. Ultimately, I'm a builder with a never ending passion for
         creating new things.
+        <br />
+        <br />
+        Originally from Kearney, Nebraska, I'm currently based in Dallas, Texas
+        after a decade in San Francisco.
       </p>
 
       <div className="my-8 columns-2 gap-4 sm:columns-3">
