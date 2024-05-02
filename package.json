@@ -2,11 +2,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "next build",
+    "build": "pnpm db:deploy && next build",
     "build-only": "next build",
     "start": "next start",
     "db:migrate": "pnpm with-env prisma migrate dev",
-    "db:deploy": "pnpm with-env prisma migrate deploy",
+    "db:deploy": "prisma migrate deploy",
     "with-env": "dotenv -e .env.local -- "
   },
   "dependencies": {
