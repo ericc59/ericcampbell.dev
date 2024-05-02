@@ -102,10 +102,11 @@ export default function ProjectPage() {
                     {project.metadata.technologies?.map((tech) => (
                       <Badge key={tech} size="lg">
                         <svg
-                          width="60"
-                          height="30"
+                          // width="60"
+                          // height="30"f
                           role="img"
                           aria-label="technology logo"
+                          className="h-12 w-auto"
                         >
                           <use href={`/sprite.svg#${tech}`} />
                         </svg>
@@ -120,8 +121,9 @@ export default function ProjectPage() {
                     {project.metadata.infrastructure?.map((infra) => (
                       <Badge key={infra} size="lg">
                         <svg
-                          width="60"
-                          height="30"
+                          // width="60"
+                          // height="30"
+                          className="h-12 w-auto"
                           role="img"
                           aria-label="infra logo"
                         >
