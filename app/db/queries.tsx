@@ -1,7 +1,6 @@
 'use server';
 
 import { auth, youtube } from '@googleapis/youtube';
-// import { sql } from './postgres';
 import prisma from './prisma';
 import {
   unstable_cache as cache,
@@ -27,10 +26,7 @@ export async function getBlogViews() {
   }
 
   noStore();
-  // let views = await sql`
-  //   SELECT count
-  //   FROM views
-  // `;
+
   let views = await prisma.views.findMany({
     select: {
       count: true,
@@ -49,10 +45,7 @@ export async function getProjectViews() {
   }
 
   noStore();
-  // let views = await sql`
-  //   SELECT count
-  //   FROM views
-  // `;
+
   let views = await prisma.views.findMany({
     select: {
       count: true,
@@ -73,10 +66,7 @@ export async function getBlogViewsCount(): Promise<
   }
 
   noStore();
-  // return sql`
-  //   SELECT slug, count
-  //   FROM views
-  // `;
+
   return prisma.views.findMany({
     select: {
       slug: true,
@@ -96,10 +86,7 @@ export async function getProjectViewsCount(): Promise<
   }
 
   noStore();
-  // return sql`
-  //   SELECT slug, count
-  //   FROM views
-  // `;
+
   return prisma.views.findMany({
     select: {
       slug: true,
@@ -149,12 +136,6 @@ export async function getGuestbookEntries() {
   }
 
   noStore();
-  // return sql`
-  //   SELECT id, body, created_by, updated_at
-  //   FROM guestbook
-  //   ORDER BY created_at DESC
-  //   LIMIT 100
-  // `;
 
   return prisma.guestbook.findMany({
     select: {

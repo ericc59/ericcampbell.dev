@@ -47,7 +47,7 @@ async function GuestbookEntries() {
     <div key={entry.id} className="flex flex-col space-y-1 mb-4">
       <div className="w-full text-sm break-words">
         <span className="text-neutral-600 dark:text-neutral-400 mr-1">
-          {entry.created_by}:
+          {entry.createdBy}:
         </span>
         {entry.body}
       </div>

@@ -2,19 +2,12 @@
 
 import { auth } from 'app/auth';
 import { type Session } from 'next-auth';
-// import { sql } from './postgres';
 import prisma from './prisma';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 import { view_types } from '@prisma/client';
 
 export async function increment(slug: string, type: view_types) {
   noStore();
-  // await sql`
-  //   INSERT INTO views (slug, count)
-  //   VALUES (${slug}, 1)
-  //   ON CONFLICT (slug)
-  //   DO UPDATE SET count = views.count + 1
-  // `;
 
   await prisma.views.upsert({
     where: {
@@ -54,11 +47,6 @@ export async function saveGuestbookEntry(formData: FormData) {
   let entry = formData.get('entry')?.toString() || '';
   let body = entry.slice(0, 500);
 
-  // await sql`
-  //   INSERT INTO guestbook (email, body, created_by, created_at)
-  //   VALUES (${email}, ${body}, ${created_by}, NOW())
-  // `;
-
   await prisma.guestbook.create({
     data: {
       email: email,
@@ -97,12 +85,7 @@ export async function deleteGuestbookEntries(selectedEntries: string[]) {
   }
 
   let selectedEntriesAsNumbers = selectedEntries.map(Number);
-  // let arrayLiteral = `{${selectedEntriesAsNumbers.join(',')}}`;
 
-  // await sql`
-  //   DELETE FROM guestbook
-  //   WHERE id = ANY(${arrayLiteral}::int[])
-  // `;
   await prisma.guestbook.deleteMany({
     where: {
       id: {

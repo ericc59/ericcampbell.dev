@@ -128,7 +128,7 @@ function GuestbookEntry({ entry, children }) {
       <div className="w-full text-sm break-words items-center flex">
         {children}
         <span className="text-neutral-600 dark:text-neutral-400 mr-1 border-neutral-100">
-          {entry.created_by}:
+          {entry.createdBy}:
         </span>
         {entry.body}
       </div>
