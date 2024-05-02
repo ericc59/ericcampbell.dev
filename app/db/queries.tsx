@@ -1,7 +1,8 @@
 'use server';
 
 import { auth, youtube } from '@googleapis/youtube';
-import { sql } from './postgres';
+// import { sql } from './postgres';
+import prisma from './prisma';
 import {
   unstable_cache as cache,
   unstable_noStore as noStore,
@@ -21,34 +22,96 @@ let yt = youtube({
 });
 
 export async function getBlogViews() {
-  if (!process.env.POSTGRES_URL) {
+  if (!process.env.DATABASE_URL) {
     return [];
   }
 
   noStore();
-  let views = await sql`
-    SELECT count
-    FROM views
-  `;
+  // let views = await sql`
+  //   SELECT count
+  //   FROM views
+  // `;
+  let views = await prisma.views.findMany({
+    select: {
+      count: true,
+    },
+    where: {
+      type: 'blog',
+    },
+  });
 
   return views.reduce((acc, curr) => acc + Number(curr.count), 0);
 }
 
-export async function getViewsCount(): Promise<
-  { slug: string; count: number }[]
-> {
-  if (!process.env.POSTGRES_URL) {
+export async function getProjectViews() {
+  if (!process.env.DATABASE_URL) {
     return [];
   }
 
   noStore();
-  return sql`
-    SELECT slug, count
-    FROM views
-  `;
+  // let views = await sql`
+  //   SELECT count
+  //   FROM views
+  // `;
+  let views = await prisma.views.findMany({
+    select: {
+      count: true,
+    },
+    where: {
+      type: 'project',
+    },
+  });
+
+  return views.reduce((acc, curr) => acc + Number(curr.count), 0);
 }
 
-export const getLeeYouTubeSubs = cache(
+export async function getBlogViewsCount(): Promise<
+  { slug: string; count: number }[]
+> {
+  if (!process.env.DATABASE_URL) {
+    return [];
+  }
+
+  noStore();
+  // return sql`
+  //   SELECT slug, count
+  //   FROM views
+  // `;
+  return prisma.views.findMany({
+    select: {
+      slug: true,
+      count: true,
+    },
+    where: {
+      type: 'blog',
+    },
+  });
+}
+
+export async function getProjectViewsCount(): Promise<
+  { slug: string; count: number }[]
+> {
+  if (!process.env.DATABASE_URL) {
+    return [];
+  }
+
+  noStore();
+  // return sql`
+  //   SELECT slug, count
+  //   FROM views
+  // `;
+  return prisma.views.findMany({
+    select: {
+      slug: true,
+      count: true,
+    },
+    where: {
+      type: 'project',
+    },
+  });
+}
+
+export const getEricYouTubeSubs = cache(
   async () => {
     let response = await yt.channels.list({
       id: [''],
@@ -81,15 +144,28 @@ export const getVercelYouTubeSubs = cache(
 );
 
 export async function getGuestbookEntries() {
-  if (!process.env.POSTGRES_URL) {
+  if (!process.env.DATABASE_URL) {
     return [];
   }
 
   noStore();
-  return sql`
-    SELECT id, body, created_by, updated_at
-    FROM guestbook
-    ORDER BY created_at DESC
-    LIMIT 100
-  `;
+  // return sql`
+  //   SELECT id, body, created_by, updated_at
+  //   FROM guestbook
+  //   ORDER BY created_at DESC
+  //   LIMIT 100
+  // `;
+
+  return prisma.guestbook.findMany({
+    select: {
+      id: true,
+      body: true,
+      createdBy: true,
+      updatedAt: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 100,
+  });
 }

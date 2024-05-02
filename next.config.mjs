@@ -1,8 +1,10 @@
-import postgres from 'postgres';
+// import postgres from 'postgres';
 
-export const sql = postgres(process.env.POSTGRES_URL, {
-  ssl: 'prefer',
-});
+// export const sql = postgres(process.env.POSTGRES_URL, {
+//   ssl: 'prefer',
+// });
+
+import { PrismaClient } from '@prisma/client';
 
 const nextConfig = {
   experimental: {
@@ -15,14 +17,26 @@ const nextConfig = {
   },
   transpilePackages: ['next-mdx-remote'],
   async redirects() {
-    if (!process.env.POSTGRES_URL) {
+    if (!process.env.DATABASE_URL) {
       return [];
     }
 
-    let redirects = await sql`
-      SELECT source, destination, permanent
-      FROM redirects;
-    `;
+    // let redirects = await sql`
+    //   SELECT source, destination, permanent
+    //   FROM redirects;
+    // `;
+
+    const prisma = new PrismaClient({
+      datasourceUrl: process.env.DATABASE_URL,
+    });
+
+    let redirects = await prisma.redirects.findMany({
+      select: {
+        source: true,
+        destination: true,
+        permanent: true,
+      },
+    });
 
     return redirects.map(({ source, destination, permanent }) => ({
       source,

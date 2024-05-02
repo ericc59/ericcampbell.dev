@@ -5,13 +5,19 @@ type Metadata = {
   title: string;
   publishedAt: string;
   summary: string;
+  logo?: string;
   image?: string;
+  link?: string;
+  category: string;
+  type: string;
+  infrastructure: string[];
+  technologies: string[];
 };
 
 function parseFrontmatter(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
-  let frontMatterBlock = match![1];
+  let frontMatterBlock = match![1].replace(/(\w+):[\s|\n]+/g, '$1: ');
   let content = fileContent.replace(frontmatterRegex, '').trim();
   let frontMatterLines = frontMatterBlock.trim().split('\n');
   let metadata: Partial<Metadata> = {};
@@ -20,8 +26,15 @@ function parseFrontmatter(fileContent: string) {
     let [key, ...valueArr] = line.split(': ');
     let value = valueArr.join(': ').trim();
     value = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
-    metadata[key.trim() as keyof Metadata] = value;
+
+    if (['technologies', 'infrastructure'].includes(key)) {
+      metadata[key.trim()] = JSON.parse(value.replace(/\'/g, '"')) as string[];
+    } else {
+      metadata[key.trim()] = value as string;
+    }
   });
+
+  console.log(metadata);
 
   return { metadata: metadata as Metadata, content };
 }
@@ -56,6 +69,6 @@ function getMDXData(dir) {
   });
 }
 
-export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), 'content/blogs'));
+export function getProjects() {
+  return getMDXData(path.join(process.cwd(), 'content/projects'));
 }

@@ -26,7 +26,7 @@ export default function Page() {
               height="32"
               role="img"
               aria-label="Protocol logo"
-              className="mr-1 inline-flex "
+              className="mr-1 inline-flex dark:invert"
             >
               <use href="/sprite.svg#protocol" />
             </svg>

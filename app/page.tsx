@@ -13,6 +13,7 @@ import chariotMobile from 'public/images/home/chariot-mobile.gif';
 import chariotTeam from 'public/images/home/chariot-team.webp';
 
 import { Badge } from './components/badge';
+import { Card } from './components/card';
 
 export default function Page() {
   return (
@@ -21,10 +22,13 @@ export default function Page() {
       <h1 className="font-black text-3xl mb-8 tracking-tighter">
         hey, I'm eric campbell 👋
       </h1>
-      <p className="prose prose-neutral dark:prose-invert bg-white border p-5 rounded-2xl border-black">
-        I'm a <b>product-focused engineering leader</b> who loves building tools
-        to make engineering and product teams more efficient. I currently work
-        as the founder of{' '}
+      <Card>
+        I'm a{' '}
+        <b className="dark:text-white text-black">
+          product-focused engineering leader
+        </b>{' '}
+        who loves building tools to make engineering and product teams more
+        efficient. I currently work as the founder of{' '}
         <span className="not-prose">
           <Badge href="https://pxyz.dev">
             <svg
@@ -52,7 +56,7 @@ export default function Page() {
         <br />
         Originally from Kearney, Nebraska, I'm currently based in Dallas, Texas
         after a decade in San Francisco.
-      </p>
+      </Card>
 
       <div className="my-8 columns-2 gap-4 sm:columns-3">
         <div className="relative mb-4 h-40">

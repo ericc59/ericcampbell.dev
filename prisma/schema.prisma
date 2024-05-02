@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model guestbook {
+  id         Int       @id @default(autoincrement())
+  email      String    @db.VarChar(255)
+  body       String
+  createdBy String    @db.VarChar(255)
+  createdAt DateTime  @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+}
+
+model redirects {
+  id          Int     @id @default(autoincrement())
+  source      String  @db.VarChar(255)
+  destination String  @db.VarChar(255)
+  permanent   Boolean
+}
+
+enum view_types {
+  blog
+  project
+  work
+}
+
+model views {
+  type view_types  
+  slug  String @id @db.VarChar(255)
+  count Int
+
+  @@index([type, slug])
+}

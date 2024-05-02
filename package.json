@@ -4,11 +4,15 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "build-only": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:migrate": "pnpm with-env prisma migrate dev",
+    "db:deploy": "pnpm with-env prisma migrate deploy",
+    "with-env": "dotenv -e .env.local -- "
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "2.12.0",
     "@googleapis/youtube": "^13.1.0",
+    "@prisma/client": "5.13.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
@@ -32,6 +36,19 @@
     "typescript": "5.3.3"
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": [
+          "*.mdx"
+        ],
+        "options": {
+          "printWidth": 300
+        }
+      }
+    ]
+  },
+  "devDependencies": {
+    "prisma": "^5.13.0"
   }
 }

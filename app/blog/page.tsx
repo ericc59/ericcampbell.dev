@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import ViewCounter from './view-counter';
-import { getViewsCount } from 'app/db/queries';
+import { getBlogViewsCount } from 'app/db/queries';
 import { getBlogPosts } from 'app/db/blog';
 
 export const metadata = {
@@ -45,7 +45,7 @@ export default function BlogPage() {
 }
 
 async function Views({ slug }: { slug: string }) {
-  let views = await getViewsCount();
+  let views = await getBlogViewsCount();
 
   return <ViewCounter allViews={views} slug={slug} />;
 }
