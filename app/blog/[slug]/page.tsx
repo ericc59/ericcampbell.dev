@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import { Suspense, cache } from 'react';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
-import { getViewsCount } from 'app/db/queries';
+import { getBlogViewsCount } from 'app/db/queries';
 import { getBlogPosts } from 'app/db/blog';
 import ViewCounter from '../view-counter';
 import { increment } from 'app/db/actions';
 import { unstable_noStore as noStore } from 'next/cache';
+import { view_types } from '@prisma/client';
 
 export async function generateMetadata({
   params,
@@ -136,7 +137,7 @@ export default function Blog({ params }) {
 let incrementViews = cache(increment);
 
 async function Views({ slug }: { slug: string }) {
-  let views = await getViewsCount();
-  incrementViews(slug);
+  let views = await getBlogViewsCount();
+  incrementViews(slug, view_types.blog);
   return <ViewCounter allViews={views} slug={slug} />;
 }
