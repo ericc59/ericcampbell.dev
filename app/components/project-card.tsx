@@ -33,7 +33,7 @@ export function ProjectCard({ project, href }) {
               {formatDate(project.metadata.publishedAt)}
             </div>
 
-            <div className="bg-neutral-900 whitespace-nowrap text-neutral-200 px-4 py-1 inline-block  font-medium  dark:bg-neutral-100 dark:text-neutral-200 rounded-lg  text-xs">
+            <div className="bg-neutral-900 whitespace-nowrap text-neutral-200 px-4 py-1 inline-block  font-medium  dark:bg-neutral-600 dark:text-neutral-200 rounded-lg  text-xs">
               {project.metadata.category}
             </div>
           </div>
