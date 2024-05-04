@@ -1,4 +1,6 @@
 import { getBlogPosts } from 'app/db/blog';
+import { getProjects } from './db/project';
+import { getContracts } from './db/contract';
 
 export default async function sitemap() {
   let blogs = getBlogPosts().map((post) => ({
@@ -6,10 +8,22 @@ export default async function sitemap() {
     lastModified: post.metadata.publishedAt,
   }));
 
-  let routes = ['', '/blog', '/guestbook', '/uses', '/work'].map((route) => ({
-    url: `https://www.ericcampbell.dev${route}`,
-    lastModified: new Date().toISOString().split('T')[0],
+  let projects = getProjects().map((post) => ({
+    url: `https://www.ericcampbell.dev/projects/${post.slug}`,
+    lastModified: post.metadata.publishedAt,
   }));
 
-  return [...routes, ...blogs];
+  let contractWork = getContracts().map((post) => ({
+    url: `https://www.ericcampbell.dev/contract-work/${post.slug}`,
+    lastModified: post.metadata.publishedAt,
+  }));
+
+  let routes = ['', '/blog', '/work', '/projects', '/contract-work'].map(
+    (route) => ({
+      url: `https://www.ericcampbell.dev${route}`,
+      lastModified: new Date().toISOString().split('T')[0],
+    })
+  );
+
+  return [...routes, ...blogs, ...projects, ...contractWork];
 }
