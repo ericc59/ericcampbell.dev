@@ -1,13 +1,13 @@
+import { getContracts } from 'app/db/contract';
 import { ProjectCard } from 'app/components/project-card';
-import { getProjects } from 'app/db/project';
 
 export const metadata = {
-  title: 'Projects',
-  description: 'View my projects',
+  title: 'Contract Work',
+  description: "View contract work I've done",
 };
 
 export default function ProjectPage() {
-  let allProjects = getProjects().sort((a, b) => {
+  let allProjects = getContracts().sort((a, b) => {
     if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
       return -1;
     }
@@ -18,11 +18,17 @@ export default function ProjectPage() {
     <section className="space-y-8">
       <div className="space-y-2">
         <h1 className="font-bold text-2xl tracking-tighter">
-          things i've made trying to put a dent in the universe
+          contract work i've done for clients
         </h1>
         <p className="prose prose-neutral dark:prose-invert">
-          I'm on a mission to build a portfolio of products that people love.
-          Here's what I've been up to.
+          Looking for some high-quality contract work?{' '}
+          <a
+            href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
+            className="text-green-500 font-black"
+          >
+            Hire me
+          </a>{' '}
+          for a project.
         </p>
       </div>
 
@@ -32,7 +38,7 @@ export default function ProjectPage() {
             <ProjectCard
               key={project.slug}
               project={project}
-              href={`/projects/${project.slug}`}
+              href={`/contract-work/${project.slug}`}
             />
           ))}
         </div>

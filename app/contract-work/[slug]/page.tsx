@@ -3,7 +3,6 @@ import { Suspense, cache } from 'react';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getProjectViewsCount } from 'app/db/queries';
-import { getProjects } from 'app/db/project';
 import ViewCounter from '../view-counter';
 import { increment } from 'app/db/actions';
 import { view_types } from '@prisma/client';
@@ -12,11 +11,12 @@ import { Card } from 'app/components/card';
 import Image from 'next/image';
 import { formatDate } from 'app/lib/util';
 import ProjectBrowserImage from 'app/components/project-browser-image';
+import { getContracts } from 'app/db/contract';
 
 export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
-  let project = getProjects().find((project) => project.slug === params.slug);
+  let project = getContracts().find((project) => project.slug === params.slug);
   if (!project) {
     return;
   }
@@ -56,7 +56,7 @@ export async function generateMetadata({
 }
 
 export default function Project({ params }) {
-  let project = getProjects().find((project) => project.slug === params.slug);
+  let project = getContracts().find((project) => project.slug === params.slug);
 
   if (!project) {
     notFound();

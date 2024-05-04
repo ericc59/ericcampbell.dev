@@ -104,7 +104,7 @@ export default function Page() {
       </Card>
 
       <Card>
-        <h2 className="font-medium text-xl mb-1 tracking-tighter">
+        <h2 className="font-medium text-xl mb-1 tracking-tighter flex items-center justify-between">
           <Badge
             size="lg"
             href="https://techcrunch.com/2016/09/09/ford-mobility-solutions-acquires-chariot/"
@@ -120,6 +120,17 @@ export default function Page() {
             />
             Chariot
           </Badge>
+
+          <div className="flex text-sm items-center ml-2">
+            <svg
+              role="img"
+              aria-label="Y Combinator logo"
+              className="mr-1  h-8 w-20"
+            >
+              <use href="/sprite.svg#ycombinator" />
+            </svg>
+            W15
+          </div>
         </h2>
         <p className="font-bold text-sm">Chief Technology Officer, 2014-2016</p>
         <p className="prose prose-neutral dark:prose-invert mt-4">

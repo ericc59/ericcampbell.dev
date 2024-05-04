@@ -14,7 +14,7 @@ type Metadata = {
   technologies: string[];
 };
 
-function parseFrontmatter(fileContent: string) {
+export function parseFrontmatter(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
   let frontMatterBlock = match![1].replace(/(\w+):[\s|\n]+/g, '$1: ');
@@ -39,7 +39,7 @@ function parseFrontmatter(fileContent: string) {
   return { metadata: metadata as Metadata, content };
 }
 
-function getMDXFiles(dir) {
+export function getMDXFiles(dir) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx');
 }
 
@@ -54,7 +54,7 @@ function extractTweetIds(content) {
   return tweetMatches?.map((tweet) => tweet.match(/[0-9]+/g)[0]) || [];
 }
 
-function getMDXData(dir) {
+export function getMDXData(dir) {
   let mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file));
