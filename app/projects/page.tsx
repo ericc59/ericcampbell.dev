@@ -21,49 +21,53 @@ export default function ProjectPage() {
         <h1 className="font-bold text-2xl tracking-tighter">
           things i've made trying to put a dent in the universe
         </h1>
-        <p>
+        <p className="prose prose-neutral dark:prose-invert">
           I'm on a mission to build products people love with high-performance
           engineering and product teams. Here's what I've been up to.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2  ">
-        {allProjects
-          .sort((a, b) => {
-            if (
-              new Date(a.metadata.publishedAt) >
-              new Date(b.metadata.publishedAt)
-            ) {
-              return -1;
-            }
-            return 1;
-          })
-          .map((project) => (
-            <Card key={project.slug}>
-              <div>
+      <div>
+        <h2 className="font-medium text-xl mt-4 tracking-tighter text-neutral-500 dark:text-neutral-300">
+          contract work
+        </h2>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {allProjects
+            .sort((a, b) => {
+              if (
+                new Date(a.metadata.publishedAt) >
+                new Date(b.metadata.publishedAt)
+              ) {
+                return -1;
+              }
+              return 1;
+            })
+            .filter((project) => project.metadata.type === 'contract')
+            .map((project) => (
+              <Card key={project.slug}>
                 <div>
-                  {project.metadata.logo && (
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className=" w-full"
-                    >
-                      <Image
-                        src={project.metadata.logo}
-                        className="object-contain h-24 w-auto"
-                        width={512}
-                        height={512}
-                        priority
-                        alt={`${project.metadata.title} logo`}
-                      />
-                    </Link>
-                  )}
-                  {!project.metadata.logo && (
-                    <Link href={`/projects/${project.slug}`}>
-                      <h2 className="text-neutral-900 dark:text-neutral-100 tracking-tight">
-                        {project.metadata.title}
-                      </h2>
-                    </Link>
-                  )}
+                  {/* {project.metadata.logo && (
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className=" w-full"
+                      >
+                        <Image
+                          src={project.metadata.logo}
+                          className="object-contain h-24 w-auto"
+                          width={512}
+                          height={512}
+                          priority
+                          alt={`${project.metadata.title} logo`}
+                        />
+                      </Link>
+                    )} */}
+
+                  <Link href={`/projects/${project.slug}`}>
+                    <h3 className="text-neutral-900 font-bold text-2xl dark:text-neutral-100 tracking-tight">
+                      {project.metadata.title}
+                    </h3>
+                  </Link>
+
                   <Link href={`/projects/${project.slug}`}>
                     <div className="text-sm text-neutral-600 mb-8 decoration-transparent dark:text-neutral-400">
                       {project.metadata.summary}
@@ -74,7 +78,7 @@ export default function ProjectPage() {
                 {project.metadata.image && (
                   <Link
                     href={`/projects/${project.slug}`}
-                    className="relative h-full my-8 aspect-video border rounded p-2 block"
+                    className="relative w-full h-auto block  my-8 aspect-video border rounded p-2  "
                   >
                     <Image
                       alt="Project image"
@@ -87,55 +91,23 @@ export default function ProjectPage() {
                   </Link>
                 )}
 
+                <div className="font-medium px-2 py-1 bg-black text-white rounded-lg inline-block text-xs">
+                  {new Date(project.metadata.publishedAt).toLocaleDateString()}
+                </div>
+
                 {/* <Suspense fallback={<p className="h-6" />}>
                   <Views slug={project.slug} />
                 </Suspense> */}
+              </Card>
+            ))}
+        </div>
+      </div>
 
-                <div className="mb-4">
-                  <div className="text-sm font-light">Type</div>
-                  <Badge>{project.metadata.type}</Badge>
-                </div>
-
-                <div className="mb-4">
-                  <div className="text-sm font-light">Tech Stack</div>
-                  <div className="grid grid-cols-3 gap-2">
-                    {project.metadata.technologies?.map((tech) => (
-                      <Badge key={tech} size="lg">
-                        <svg
-                          // width="60"
-                          // height="30"f
-                          role="img"
-                          aria-label="technology logo"
-                          className="h-12 w-auto"
-                        >
-                          <use href={`/sprite.svg#${tech}`} />
-                        </svg>
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <div className="text-sm font-light">Infrastructure</div>
-                  <div className="grid grid-cols-3 gap-2">
-                    {project.metadata.infrastructure?.map((infra) => (
-                      <Badge key={infra} size="lg">
-                        <svg
-                          // width="60"
-                          // height="30"
-                          className="h-12 w-auto"
-                          role="img"
-                          aria-label="infra logo"
-                        >
-                          <use href={`/sprite.svg#${infra}`} />
-                        </svg>
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          ))}
+      <div>
+        <h2 className="font-medium text-xl mt-4 tracking-tighter text-neutral-500 dark:text-neutral-300">
+          fun projects
+        </h2>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2"></div>
       </div>
     </section>
   );

@@ -8,12 +8,16 @@ import ViewCounter from '../view-counter';
 import { increment } from 'app/db/actions';
 import { unstable_noStore as noStore } from 'next/cache';
 import { view_types } from '@prisma/client';
+import { Badge } from 'app/components/badge';
+import { Card } from 'app/components/card';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
-  let post = getProjects().find((post) => post.slug === params.slug);
-  if (!post) {
+  let project = getProjects().find((project) => project.slug === params.slug);
+  if (!project) {
     return;
   }
 
@@ -22,7 +26,7 @@ export async function generateMetadata({
     publishedAt: publishedTime,
     summary: description,
     image,
-  } = post.metadata;
+  } = project.metadata;
   let ogImage = image
     ? `https://www.ericcampbell.dev${image}`
     : `https://www.ericcampbell.dev/og?title=${title}`;
@@ -35,7 +39,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `https://www.ericcampbell.dev/projects/${post.slug}`,
+      url: `https://www.ericcampbell.dev/projects/${project.slug}`,
       images: [
         {
           url: ogImage,
@@ -84,9 +88,9 @@ function formatDate(date: string) {
 }
 
 export default function Project({ params }) {
-  let post = getProjects().find((post) => post.slug === params.slug);
+  let project = getProjects().find((project) => project.slug === params.slug);
 
-  if (!post) {
+  if (!project) {
     notFound();
   }
 
@@ -99,14 +103,14 @@ export default function Project({ params }) {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'ProjectPosting',
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
-            image: post.metadata.image
-              ? `https://www.ericcampbell.dev${post.metadata.image}`
-              : `https://www.ericcampbell.dev/og?title=${post.metadata.title}`,
-            url: `https://www.ericcampbell.dev/projects/${post.slug}`,
+            headline: project.metadata.title,
+            datePublished: project.metadata.publishedAt,
+            dateModified: project.metadata.publishedAt,
+            description: project.metadata.summary,
+            image: project.metadata.image
+              ? `https://www.ericcampbell.dev${project.metadata.image}`
+              : `https://www.ericcampbell.dev/og?title=${project.metadata.title}`,
+            url: `https://www.ericcampbell.dev/projects/${project.slug}`,
             author: {
               '@type': 'Person',
               name: 'Eric Campbell',
@@ -114,21 +118,91 @@ export default function Project({ params }) {
           }),
         }}
       />
-      <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
-        {post.metadata.title}
-      </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
-        <Suspense fallback={<p className="h-5" />}>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            {formatDate(post.metadata.publishedAt)}
-          </p>
-        </Suspense>
-        <Suspense fallback={<p className="h-5" />}>
-          <Views slug={post.slug} />
-        </Suspense>
-      </div>
+      <Card>
+        <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
+          {project.metadata.title}
+        </h1>
+
+        <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
+          <Suspense fallback={<p className="h-5" />}>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              {formatDate(project.metadata.publishedAt)}
+            </p>
+          </Suspense>
+          <Suspense fallback={<p className="h-5" />}>
+            <Views slug={project.slug} />
+          </Suspense>
+        </div>
+        <div className="prose prose-neutral dark:prose-invert mb-6">
+          {project.metadata.summary}
+        </div>
+
+        <div className="grid lg:grid-cols-4">
+          <div className="mb-4">
+            <div className="text-sm font-medium">Type</div>
+            <Badge>{project.metadata.type}</Badge>
+          </div>
+
+          <a
+            href={project.metadata.link ?? '/'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-4"
+          >
+            <div className="text-sm font-medium">URL</div>
+            <Badge>{project.metadata.link} &rarr;</Badge>
+          </a>
+        </div>
+
+        <div className="mb-4">
+          <div className="text-sm font-medium">Tech Stack</div>
+          <div className="grid grid-cols-3 gap-2">
+            {project.metadata.technologies?.map((tech) => (
+              <Badge key={tech} size="lg">
+                <svg
+                  role="img"
+                  aria-label="technology logo"
+                  className="h-6 w-auto"
+                >
+                  <use href={`/sprite.svg#${tech}`} />
+                </svg>
+                {tech === 'shadcnui' && (
+                  <span className="text-lg text-neutral-900 dark:text-neutral-100">
+                    shadcnui
+                  </span>
+                )}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <div className="text-sm font-medium">Infrastructure</div>
+          <div className="grid grid-cols-3 gap-2">
+            {project.metadata.infrastructure?.map((infra) => (
+              <Badge key={infra} size="lg">
+                <svg className="h-6 w-auto" role="img" aria-label="infra logo">
+                  <use href={`/sprite.svg#${infra}`} />
+                </svg>
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </Card>
+      {project.metadata.image && (
+        <div className="block relative w-full min-h-[300px] lg:min-h-0 h-full mt-4 overflow-hidden bg-white dark:bg-black border border-black p-5 rounded-2xl">
+          <Image
+            alt="Project image"
+            src={project.metadata.image}
+            fill
+            sizes="(max-width: 768px) 413px, 66vw"
+            priority
+            className="rounded-lg object-cover"
+          />
+        </div>
+      )}
       <article className="prose prose-quoteless prose-neutral dark:prose-invert">
-        <CustomMDX source={post.content} />
+        <CustomMDX source={project.content} />
       </article>
     </section>
   );

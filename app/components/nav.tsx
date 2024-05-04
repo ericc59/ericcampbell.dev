@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import icon from 'public/images/home/eric2.jpeg';
-import Image from 'next/image';
 import { Badge } from './badge';
 
 const navItems = {
@@ -30,21 +28,6 @@ export function Navbar() {
           id="nav"
         >
           <div className="flex flex-row items-center space-x-0     ">
-            <Link
-              href="/"
-              className="transition-all  hover:text-neutral-800 dark:hover:text-neutral-200 relative "
-            >
-              <div>
-                <Image
-                  alt="icon"
-                  src={icon}
-                  width={512}
-                  height={512}
-                  className="w-8 h-8 lg:h-24 lg:w-24 aspect-square inline-block rounded-full object-center"
-                />
-              </div>
-            </Link>
-
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
                 <Link

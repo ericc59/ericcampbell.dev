@@ -11,51 +11,84 @@ import tourwrist from 'public/images/home/tourwrist.jpeg';
 import scootQuad from 'public/images/home/scoot-quad.jpg';
 import chariotMobile from 'public/images/home/chariot-mobile.gif';
 import chariotTeam from 'public/images/home/chariot-team.webp';
+import eric from 'public/images/home/eric2.jpeg';
 
 import { Badge } from './components/badge';
 import { Card } from './components/card';
+import Link from 'next/link';
 
 export default function Page() {
   return (
     <section>
       <PreloadResources />
-      <h1 className="font-black text-3xl mb-8 tracking-tighter">
-        hey, I'm eric campbell 👋
-      </h1>
+
+      <div className="flex flex-col-reverse gap-4 lg:flex-row lg:items-center lg:justify-between mb-8">
+        <h1 className="font-black text-3xl  tracking-tighter">
+          hey, I'm eric campbell 👋
+        </h1>
+        <Link
+          href="/"
+          className="transition-all  hover:text-neutral-800 dark:hover:text-neutral-200 relative "
+        >
+          <div>
+            <Image
+              alt="icon"
+              src={eric}
+              width={512}
+              height={512}
+              className=" h-24  w-24 aspect-square inline-block rounded-full object-center"
+            />
+          </div>
+        </Link>
+      </div>
       <Card>
-        I'm a{' '}
-        <b className="dark:text-white text-black">
-          product-focused engineering leader
-        </b>{' '}
-        who loves building tools to make engineering and product teams more
-        efficient. I currently work as the founder of{' '}
-        <span className="not-prose">
-          <Badge href="https://pxyz.dev">
-            <svg
-              width="20"
-              height="10"
-              role="img"
-              aria-label="Protocol logo"
-              className="mr-1 inline-flex "
-            >
-              <use href="/sprite.svg#protocol" />
-            </svg>
-            Protocol
-          </Badge>
-        </span>
-        {', '}
-        where I work on developer tools to help startups build better products
-        faster.
-        <br />
-        <br />
-        In the past, I've been a co-founder, CTO, and engineering leader at four
-        VC-backed startups with exits. I've also started companies that have
-        failed. Ultimately, I'm a builder with a never ending passion for
-        creating new things.
-        <br />
-        <br />
-        Originally from Kearney, Nebraska, I'm currently based in Dallas, Texas
-        after a decade in San Francisco.
+        <div className="prose prose-neutral dark:prose-invert">
+          I'm a{' '}
+          <b className="dark:text-white text-black">
+            product-focused engineering leader
+          </b>{' '}
+          who loves building tools to make engineering and product teams more
+          efficient. I currently work as the founder of{' '}
+          <span className="not-prose">
+            <Badge href="https://pxyz.dev">
+              <svg
+                width="20"
+                height="10"
+                role="img"
+                aria-label="Protocol logo"
+                className="mr-1 inline-flex "
+              >
+                <use href="/sprite.svg#protocol" />
+              </svg>
+              Protocol
+            </Badge>
+          </span>
+          {', '}
+          where I work on developer tools to help startups build better products
+          faster.
+          <br />
+          <br />
+          In the past, I've been a co-founder, CTO{' '}
+          <span className="not-prose font-semibold">
+            <Badge href="https:/www.ycombinator.com">
+              <svg
+                role="img"
+                aria-label="Y Combinator logo"
+                className="mr-1  h-4 w-20"
+              >
+                <use href="/sprite.svg#ycombinator" />
+              </svg>
+              W15
+            </Badge>
+          </span>
+          , and engineering leader at four VC-backed startups with exits. I've
+          also started companies that have failed. Ultimately, I'm a builder
+          with a never ending passion for creating new things.
+          <br />
+          <br />
+          Originally from Kearney, Nebraska, I'm currently based in Dallas,
+          Texas after a decade in San Francisco.
+        </div>
       </Card>
 
       <div className="my-8 columns-2 gap-4 sm:columns-3">

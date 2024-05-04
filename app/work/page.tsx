@@ -12,7 +12,7 @@ export default function Page() {
     <section className="space-y-8">
       <div className="space-y-2">
         <h1 className="font-bold text-2xl  tracking-tighter">my work</h1>
-        <p>
+        <p className="prose prose-neutral dark:prose-invert">
           I'm on a mission to build products people love with high-performance
           engineering and product teams. Here's what I've been up to.
         </p>
