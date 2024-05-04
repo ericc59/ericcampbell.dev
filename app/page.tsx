@@ -22,7 +22,7 @@ export default function Page() {
     <section>
       <PreloadResources />
 
-      <div className="flex flex-col-reverse gap-4 lg:flex-row lg:items-center lg:justify-between ">
+      <div className="flex flex-col-reverse gap-4 lg:flex-row lg:items-end lg:justify-between ">
         <h1 className="font-black text-3xl  tracking-tighter">
           hey, I'm eric campbell 👋
         </h1>
