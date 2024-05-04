@@ -22,7 +22,7 @@ export default function Page() {
     <section>
       <PreloadResources />
 
-      <div className="flex flex-col-reverse gap-4 lg:flex-row lg:items-center lg:justify-between mb-8">
+      <div className="flex flex-col-reverse gap-4 lg:flex-row lg:items-center lg:justify-between ">
         <h1 className="font-black text-3xl  tracking-tighter">
           hey, I'm eric campbell 👋
         </h1>
@@ -41,6 +41,16 @@ export default function Page() {
           </div>
         </Link>
       </div>
+      <p className="prose prose-neutral dark:prose-invert mb-8">
+        Looking for some high-quality contract work?{' '}
+        <a
+          href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
+          className="text-green-500 font-black"
+        >
+          Hire me
+        </a>{' '}
+        for a project.
+      </p>
       <Card>
         <div className="prose prose-neutral dark:prose-invert">
           I'm a{' '}
