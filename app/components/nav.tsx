@@ -70,6 +70,13 @@ export function Navbar() {
               </svg>
               Github
             </Badge>
+
+            <Badge
+              className="bg-[#2DFFC0] hover:bg-[#96FFE0] border-neutral-900 dark:border-neutral-100"
+              href="https://cal.com/eric-campbell"
+            >
+              Hire Me
+            </Badge>
           </div>
         </nav>
       </div>
