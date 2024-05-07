@@ -44,7 +44,9 @@ export default function Page() {
       <p className="prose prose-neutral dark:prose-invert mb-8">
         Looking for some high-quality contract work?{' '}
         <a
-          href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://cal.com/eric-campbell"
           className="text-green-500 font-black"
         >
           Hire me
