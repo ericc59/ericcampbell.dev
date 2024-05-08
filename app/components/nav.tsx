@@ -55,7 +55,18 @@ export function Navbar() {
               >
                 <use href="/sprite.svg#twitter" />
               </svg>
-              Follow me
+            </Badge>
+
+            <Badge href="https://www.linkedin.com/in/ericcampbell59/">
+              <svg
+                width="16"
+                height="16"
+                role="img"
+                aria-label="LinkedIn logo"
+                className="mr-1 inline-flex "
+              >
+                <use href="/sprite.svg#linkedin" />
+              </svg>
             </Badge>
 
             <Badge href="https://github.com/ericc59">
@@ -68,7 +79,6 @@ export function Navbar() {
               >
                 <use href="/sprite.svg#github" />
               </svg>
-              Github
             </Badge>
 
             <Badge
