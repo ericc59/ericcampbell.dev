@@ -16,6 +16,7 @@ export default function ToolsPage() {
               src="/images/tools/product-screenshot.png"
               alt="Product Screenshot Tool"
               className=" object-cover rounded w-96 h-auto"
+              sizes="(max-width: 768px) 100vw, 384px"
               width={1973}
               height={1234}
             />
