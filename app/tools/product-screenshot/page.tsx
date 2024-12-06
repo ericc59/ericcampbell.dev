@@ -56,7 +56,7 @@ const ProductFrame = () => {
   const [image, setImage] = useState<string | null>(null);
   const [padding, setPadding] = useState(100);
   const [outerRadius, setOuterRadius] = useState(24);
-  const [innerRadius, setInnerRadius] = useState(16);
+  const [innerRadius, setInnerRadius] = useState(24);
   const [inset, setInset] = useState(16);
   const [insetColor, setInsetColor] = useState('#000000');
   const [insetOpacity, setInsetOpacity] = useState(50);
@@ -72,6 +72,7 @@ const ProductFrame = () => {
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [frameOpacity, setFrameOpacity] = useState(100);
   const [frameColor, setFrameColor] = useState('#000000');
+  const [frameSize, setFrameSize] = useState(16);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -93,12 +94,10 @@ const ProductFrame = () => {
     if (backgroundType === 'gradient') {
       return {
         background: `linear-gradient(to right, ${gradientStart}, ${gradientEnd})`,
-        opacity: frameOpacity / 100,
       };
     }
     return {
       backgroundColor,
-      opacity: frameOpacity / 100,
     };
   };
 
@@ -181,7 +180,7 @@ const ProductFrame = () => {
           className="relative"
           style={{
             padding: `${padding}px`,
-            borderRadius: `${outerRadius}px`,
+            // borderRadius: `${outerRadius}px`,
             ...getBackgroundStyle(),
           }}
         >
@@ -195,23 +194,18 @@ const ProductFrame = () => {
           ) : (
             <div
               style={{
-                borderRadius: `${innerRadius}px`,
+                borderRadius: `${innerRadius - 8}px`,
                 boxShadow:
                   shadow > 0
                     ? `0 ${shadow}px ${shadow * 2}px rgba(0,0,0,${
                         shadow * 0.02
                       })`
                     : 'none',
-                border:
-                  inset > 0
-                    ? `${inset}px solid ${insetColor}${Math.round(
-                        insetOpacity * 2.55
-                      )
-                        .toString(16)
-                        .padStart(2, '0')}`
-                    : 'none',
+                padding: `${frameSize}px`,
+                background:
+                  frameColor +
+                  Math.round(frameOpacity).toString(16).padStart(2, '0'),
                 overflow: 'hidden',
-                background: '#000',
               }}
             >
               <img
@@ -220,7 +214,7 @@ const ProductFrame = () => {
                 className="w-full h-auto"
                 style={{
                   display: 'block',
-                  borderRadius: `${innerRadius}px`,
+                  borderRadius: `${16}px`,
                 }}
               />
             </div>
@@ -289,7 +283,7 @@ const ProductFrame = () => {
                     {presets.map((preset, index) => (
                       <button
                         key={index}
-                        className="w-full aspect-square rounded-lg hover:ring-2 hover:ring-blue-500 transition-all"
+                        className="w-full aspect-square border rounded-lg hover:ring-2 hover:ring-blue-500 transition-all"
                         style={{
                           background: `linear-gradient(to right, ${preset.colors[0]}, ${preset.colors[1]})`,
                         }}
@@ -313,6 +307,7 @@ const ProductFrame = () => {
                 <label className="block text-sm text-gray-400 mb-2">
                   Padding
                 </label>
+                <p className="text-xs text-gray-500">({padding}px padding)</p>
                 <input
                   type="range"
                   min="0"
@@ -327,6 +322,9 @@ const ProductFrame = () => {
                 <label className="block text-sm text-gray-400 mb-2">
                   Rounded corners
                 </label>
+                <p className="text-xs text-gray-500">
+                  ({innerRadius}px inner, {outerRadius}px outer)
+                </p>
                 <input
                   type="range"
                   min="0"
@@ -334,7 +332,7 @@ const ProductFrame = () => {
                   value={innerRadius}
                   onChange={(e) => {
                     setInnerRadius(Number(e.target.value));
-                    setOuterRadius(Number(e.target.value) + 8);
+                    setOuterRadius(Number(e.target.value));
                   }}
                   className="w-full"
                 />
@@ -344,6 +342,9 @@ const ProductFrame = () => {
                 <label className="block text-sm text-gray-400 mb-2">
                   Shadow
                 </label>
+                <p className="text-xs text-gray-500">
+                  ({shadow}px blur, {shadow * 2}px spread)
+                </p>
                 <input
                   type="range"
                   min="0"
@@ -361,8 +362,26 @@ const ProductFrame = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-400 mb-2">
+                  Frame Size
+                </label>
+                <p className="text-xs text-gray-500">({frameSize}px padding)</p>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={frameSize}
+                  onChange={(e) => setFrameSize(Number(e.target.value))}
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">
                   Frame Color
                 </label>
+                <p className="text-xs text-gray-500">
+                  (Hex color code, e.g. #000000)
+                </p>
                 <input
                   type="color"
                   value={frameColor}
@@ -375,10 +394,13 @@ const ProductFrame = () => {
                 <label className="block text-sm text-gray-400 mb-2">
                   Frame Opacity
                 </label>
+                <p className="text-xs text-gray-500">
+                  ({Math.round(frameOpacity / 2.55)}% opacity)
+                </p>
                 <input
                   type="range"
                   min="0"
-                  max="100"
+                  max="255"
                   value={frameOpacity}
                   onChange={(e) => setFrameOpacity(Number(e.target.value))}
                   className="w-full"
