@@ -112,45 +112,52 @@ const ProductFrame = () => {
 
       if (!ctx) return;
 
-      const totalWidth = img.width + padding * 2;
-      const totalHeight = img.height + padding * 2;
+      const totalWidth = img.width + padding * 2 + frameSize * 2;
+      const totalHeight = img.height + padding * 2 + frameSize * 2;
 
       canvas.width = totalWidth;
       canvas.height = totalHeight;
 
-      // Draw background
       ctx.fillStyle =
         backgroundType === 'gradient'
           ? createGradient(ctx, totalWidth, totalHeight)
           : backgroundColor;
 
-      // Draw rounded rectangle background
       ctx.beginPath();
       ctx.roundRect(0, 0, totalWidth, totalHeight, outerRadius);
       ctx.fill();
 
-      // Draw the image with inner radius
+      ctx.fillStyle =
+        frameColor + Math.round(frameOpacity).toString(16).padStart(2, '0');
+      ctx.beginPath();
+      ctx.roundRect(
+        padding,
+        padding,
+        img.width + frameSize * 2,
+        img.height + frameSize * 2,
+        innerRadius
+      );
+      ctx.fill();
+
       ctx.save();
       ctx.beginPath();
-      ctx.roundRect(padding, padding, img.width, img.height, innerRadius);
+      ctx.roundRect(
+        padding + frameSize,
+        padding + frameSize,
+        img.width,
+        img.height,
+        Math.max(0, innerRadius - frameSize)
+      );
       ctx.clip();
-      ctx.drawImage(img, padding, padding, img.width, img.height);
+      ctx.drawImage(
+        img,
+        padding + frameSize,
+        padding + frameSize,
+        img.width,
+        img.height
+      );
       ctx.restore();
 
-      // Draw inset if enabled
-      if (inset > 0) {
-        ctx.strokeStyle =
-          insetColor +
-          Math.round(insetOpacity * 2.55)
-            .toString(16)
-            .padStart(2, '0');
-        ctx.lineWidth = inset;
-        ctx.beginPath();
-        ctx.roundRect(padding, padding, img.width, img.height, innerRadius);
-        ctx.stroke();
-      }
-
-      // Create download link
       const link = document.createElement('a');
       link.download = 'framed-screenshot.png';
       link.href = canvas.toDataURL('image/png');
