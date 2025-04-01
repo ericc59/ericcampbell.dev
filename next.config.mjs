@@ -7,9 +7,7 @@
 import { PrismaClient } from '@prisma/client';
 
 const nextConfig = {
-  experimental: {
-    ppr: true,
-  },
+  
   logging: {
     fetches: {
       fullUrl: true,
