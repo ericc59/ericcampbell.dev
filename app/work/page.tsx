@@ -33,7 +33,7 @@ export default function Page() {
 						Flow Auctions
 					</Badge>
 				</h2>
-				<p className="font-bold text-sm">Founder & CEO, Current</p>
+				<p className="font-bold text-sm">Co-Founder, Current</p>
 				<p className="prose prose-neutral dark:prose-invert mt-4">
 					I started Flow Auctions in 2024 with a desire to build the world's
 					first AI-Native Auction House Management Platform and the best place
@@ -56,7 +56,7 @@ export default function Page() {
 						Protocol
 					</Badge>
 				</h2>
-				<p className="font-bold text-sm">Founder & CEO, Current</p>
+				<p className="font-bold text-sm">Founder, Current</p>
 				<p className="prose prose-neutral dark:prose-invert mt-4">
 					I started Protocol in 2022 with a desire to build a better developer
 					experience for the web. I believe the Next.js and Node ecosystems
@@ -148,7 +148,7 @@ export default function Page() {
 						<svg
 							role="img"
 							aria-label="Y Combinator logo"
-							className="mr-1  h-8 w-20"
+							className="mr-1 h-6 w-16"
 						>
 							<use href="/sprite.svg#ycombinator" />
 						</svg>
