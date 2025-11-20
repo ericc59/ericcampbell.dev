@@ -1,12 +1,12 @@
 export function Badge(props) {
-  return (
-    <a
-      {...props}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-flex whitespace-nowrap items-center rounded border border-neutral-200 bg-neutral-50 leading-4 text-neutral-900 no-underline dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 ${
-        props.size === 'lg' ? 'p-2 text-xl font-semibold gap-1' : 'p-1 text-sm'
-      } ${props.className}`}
-    />
-  );
+	return (
+		<a
+			{...props}
+			target="_blank"
+			rel="noopener noreferrer"
+			className={`inline-flex whitespace-nowrap items-center rounded-md border border-neutral-800 bg-neutral-900/80 leading-4 text-neutral-400 no-underline hover:border-neon/50 hover:text-neon transition-all duration-200 font-mono ${
+				props.size === "lg" ? "p-2 text-xl font-semibold gap-1" : "p-1 text-sm"
+			} ${props.className}`}
+		/>
+	);
 }

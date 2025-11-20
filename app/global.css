@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 ::selection {
-  background-color: #47a3f3;
-  color: #fefefe;
+  background-color: #2DFFC0;
+  color: #000;
 }
 
 :root {
@@ -29,6 +29,14 @@
   html {
     color-scheme: dark;
   }
+}
+
+body {
+    background-color: #0a0a0a;
+    background-image: linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+    background-size: 50px 50px;
+    min-height: 100vh;
 }
 
 html {
