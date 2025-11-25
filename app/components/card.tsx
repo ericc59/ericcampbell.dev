@@ -1,7 +1,14 @@
 export function Card({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="bg-neutral-900/80 backdrop-blur-xl border border-neutral-800 hover:border-neon/50 transition-all duration-300 p-5 rounded-2xl hover:shadow-[0_0_30px_-10px_rgba(45,255,192,0.1)]">
+		<div className="group relative bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-300 p-6">
+			{/* Corner accents */}
+			<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+			<div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+
 			{children}
+
+			{/* Bottom accent line */}
+			<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 		</div>
 	);
 }

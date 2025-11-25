@@ -1,5 +1,3 @@
-import { Badge } from "app/components/badge";
-import { Card } from "app/components/card";
 import Image from "next/image";
 
 import chariot from "public/images/work/chariot.webp";
@@ -9,243 +7,134 @@ import sphere from "public/images/work/sphere.png";
 
 export default function Page() {
 	return (
-		<section className="space-y-12">
-			<div className="space-y-4">
-				<h1 className="font-black text-4xl lg:text-5xl tracking-tighter text-white">
-					My <span className="text-neon">Work</span>
+		<section className="space-y-16">
+			{/* Page header */}
+			<div className="space-y-6">
+				<div className="flex items-center gap-4">
+					<div className="w-12 h-px bg-amber" />
+					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+						Career Timeline
+					</span>
+				</div>
+				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
+					Work <span className="text-amber text-glow-subtle">&</span> Experience
 				</h1>
-				<p className="text-lg text-neutral-400 max-w-xl leading-relaxed">
+				<p className="text-stone text-lg max-w-2xl leading-relaxed">
 					I'm on a mission to build products people love with high-performance
 					engineering and product teams. Here's a timeline of my journey.
 				</p>
 			</div>
 
-			<div className="relative border-l border-neutral-800 ml-4 pl-8 space-y-12">
-				{/* Flow Auctions */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neon"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://flowauctions.com"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<svg
-										width="32"
-										height="32"
-										role="img"
-										aria-label="Flow Auctions logo"
-										className="fill-current"
-									>
-										<use href="/sprite.svg#flow" />
-									</svg>
-								</Badge>
-								Flow Auctions
-							</h2>
-							<span className="font-mono text-xs text-neon border border-neon/20 bg-neon/10 px-2 py-1 rounded-full">
-								Co-Founder, Current
-							</span>
-						</div>
-						<p className="text-neutral-400 leading-relaxed">
+			{/* Timeline */}
+			<div className="relative">
+				{/* Vertical line */}
+				<div className="absolute left-4 lg:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-amber via-elevated to-elevated" />
+
+				<div className="space-y-8">
+					{/* Flow Auctions - Current */}
+					<TimelineEntry
+						status="active"
+						company="Flow Auctions"
+						role="Co-Founder"
+						period="2024 - Present"
+						href="https://flowauctions.com"
+					>
+						<p>
 							I started Flow Auctions in 2024 with a desire to build the world's
 							first AI-Native Auction House Management Platform and the best
 							place in the world to buy rare coins, bullion, and collectibles.
 						</p>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* Protocol */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://pxyz.dev"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<svg
-										width="32"
-										height="32"
-										role="img"
-										aria-label="Protocol logo"
-										className="fill-current"
-									>
-										<use href="/sprite.svg#protocol" />
-									</svg>
-								</Badge>
-								Protocol
-							</h2>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								Founder, Current
-							</span>
-						</div>
-						<p className="text-neutral-400 leading-relaxed">
+					{/* Protocol */}
+					<TimelineEntry
+						company="Protocol"
+						role="Founder"
+						period="2022 - Present"
+						href="https://pxyz.dev"
+					>
+						<p>
 							I started Protocol in 2022 with a desire to build a better
 							developer experience for the web. I believe the Next.js and Node
 							ecosystems provide the best unified platform for building web
 							applications, but lack a lot of tools that older frameworks
 							provided out of the box. Protocol is changing that.
 						</p>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* Zapier */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://www.zapier.com"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<svg
-										width="32"
-										height="32"
-										role="img"
-										aria-label="Zapier logo"
-										className="fill-current"
-									>
-										<use href="/sprite.svg#zapier" />
-									</svg>
-								</Badge>
-								Zapier
-							</h2>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								Principal Engineer, 2019-2022
-							</span>
-						</div>
-						<p className="text-neutral-400 leading-relaxed">
-							I joined the Labs team at{" "}
-							<a
-								href="https://www.zapier.com"
-								className="text-neon hover:underline"
-							>
-								Zapier
-							</a>{" "}
-							to help ideate, build, and launch new products for the company. I
-							worked on the Maker, Forms,{" "}
+					{/* Zapier */}
+					<TimelineEntry
+						company="Zapier"
+						role="Principal Engineer"
+						period="2019 - 2022"
+						href="https://www.zapier.com"
+					>
+						<p>
+							I joined the Labs team at Zapier to help ideate, build, and launch
+							new products for the company. I worked on the Maker, Forms,{" "}
 							<a
 								href="https://zapier.com/tables"
-								className="text-neon hover:underline"
+								className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
 							>
 								Tables
 							</a>
 							, and{" "}
 							<a
 								href="https://zapier.com/interfaces"
-								className="text-neon hover:underline"
+								className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
 							>
 								Interfaces
 							</a>{" "}
 							products.
 						</p>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* New Wave Capital */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://www.zapier.com"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<svg
-										width="32"
-										height="32"
-										role="img"
-										aria-label="New Wave Capital logo"
-										className="fill-current"
-									>
-										<use href="/sprite.svg#nwc" />
-									</svg>
-								</Badge>
-								New Wave Capital
-							</h2>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								Founder & CEO/CTO, 2016-2018
-							</span>
-						</div>
-						<div className="space-y-4 text-neutral-400 leading-relaxed">
+					{/* New Wave Capital */}
+					<TimelineEntry
+						company="New Wave Capital"
+						role="Founder & CEO/CTO"
+						period="2016 - 2018"
+					>
+						<div className="space-y-4">
 							<p>
 								I co-founded New Wave Capital along with{" "}
 								<a
 									href="https://www.linkedin.com/in/stewarthauser"
-									className="text-neon hover:underline"
+									className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
 								>
 									Stewart Hauser
 								</a>{" "}
 								and{" "}
 								<a
 									href="https://www.linkedin.com/in/albertcheng1"
-									className="text-neon hover:underline"
+									className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
 								>
 									Albert Cheng
 								</a>{" "}
 								with a goal of democratizing access to digital assets and
-								imporove the security for everyone.
+								improving security for everyone.
 							</p>
 							<p>
 								After being the first company of its type approved by the SEC
-								after a year long regulatory approval process, we finally
+								after a year-long regulatory approval process, we finally
 								launched and grew the company to around $750k in AUM.
-								Unfortunately, the revenues were not enough to cover the
-								expenses and we were forced to shut down the company in 2018.
+								Unfortunately, the revenues were not enough to cover the expenses
+								and we were forced to shut down the company in 2018.
 							</p>
 						</div>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* Chariot */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-start justify-between mb-4 gap-4">
-							<div className="space-y-1">
-								<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-									<Badge
-										size="lg"
-										href="https://techcrunch.com/2016/09/09/ford-mobility-solutions-acquires-chariot/"
-										className="!border-transparent !bg-transparent !p-0"
-									>
-										<Image
-											width={32}
-											height={32}
-											role="img"
-											aria-label="Chariot logo"
-											className="rounded-lg"
-											src={chariot}
-											alt="Chariot Logo"
-										/>
-									</Badge>
-									Chariot
-								</h2>
-								<div className="flex items-center gap-2 text-sm text-neutral-500">
-									<svg
-										role="img"
-										aria-label="Y Combinator logo"
-										className="h-4 w-auto"
-									>
-										<use href="/sprite.svg#ycombinator" />
-									</svg>
-									<span>W15</span>
-								</div>
-							</div>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								CTO, 2014-2016
-							</span>
-						</div>
-
-						<div className="space-y-4 text-neutral-400 leading-relaxed">
+					{/* Chariot */}
+					<TimelineEntry
+						company="Chariot"
+						role="CTO"
+						period="2014 - 2016"
+						href="https://techcrunch.com/2016/09/09/ford-mobility-solutions-acquires-chariot/"
+						badge="YC W15"
+						outcome="Acquired by Ford"
+						logo={chariot}
+					>
+						<div className="space-y-4">
 							<p>
 								Chariot ("Uber for buses") was a ridesharing startup in San
 								Francisco that offered dynamic bus routes around the city to
@@ -254,43 +143,21 @@ export default function Page() {
 							<p>
 								I built our backend platform (Python), frontend web app (React),
 								admin dashboard (React), and proprietary ETA system and
-								reverse-commute route finding algorithms (Python)
-							</p>
-							<p className="text-neon font-semibold">
-								Acquired by Ford Motor Company.
+								reverse-commute route finding algorithms (Python).
 							</p>
 						</div>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* Sphere */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://www.youtube.com/watch?app=desktop&v=nVLCxQ55P6M"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<Image
-										width={32}
-										height={32}
-										role="img"
-										aria-label="Sphere logo"
-										className="rounded-full border-2 border-white/10"
-										src={sphere}
-										alt="Sphere Logo"
-									/>
-								</Badge>
-								Sphere
-							</h2>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								CTO, 2012-2013
-							</span>
-						</div>
-						<div className="space-y-4 text-neutral-400 leading-relaxed">
+					{/* Sphere */}
+					<TimelineEntry
+						company="Sphere"
+						role="CTO"
+						period="2012 - 2013"
+						href="https://www.youtube.com/watch?app=desktop&v=nVLCxQ55P6M"
+						outcome="Acquired by Google"
+						logo={sphere}
+					>
+						<div className="space-y-4">
 							<p>
 								Sphere was a computer vision and image processing startup which
 								developed the first fully spherical panoramic imaging technology
@@ -299,102 +166,151 @@ export default function Page() {
 							</p>
 							<p>
 								I built our C/C++ SDKs, backend platform (Ruby/Rails), frontend
-								web app(Ruby/Rails), and worked on the mobile apps (Native iOS &
-								Android).
+								web app (Ruby/Rails), and worked on the mobile apps (Native iOS
+								& Android).
 							</p>
-							<p className="text-neon font-semibold">Acquired by Google.</p>
 						</div>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* Scoot */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://techcrunch.com/2019/06/12/bird-confirms-acquisition-of-scoot/"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<Image
-										width={32}
-										height={32}
-										role="img"
-										aria-label="Scoot logo"
-										className="rounded-full border-2 border-white/10"
-										src={scoot}
-										alt="Scoot Logo"
-									/>
-								</Badge>
-								Scoot
-							</h2>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								Founding Engineer, 2012-2013
-							</span>
-						</div>
-						<div className="space-y-4 text-neutral-400 leading-relaxed">
+					{/* Scoot */}
+					<TimelineEntry
+						company="Scoot"
+						role="Founding Engineer"
+						period="2012 - 2013"
+						href="https://techcrunch.com/2019/06/12/bird-confirms-acquisition-of-scoot/"
+						outcome="Acquired by Bird"
+						logo={scoot}
+					>
+						<div className="space-y-4">
 							<p>
 								Scoot was the first electric scooter rental company. We created
 								Vespa style sitdown scooters with a custom dock for mobile
 								phones.
 							</p>
-
 							<p>
 								I built our backend platform (Ruby/Rails), frontend web app
 								(Ruby/Rails), admin dashboard (Ruby/Rails), and the
 								cross-platform mobile app (C#/Xamarin).
 							</p>
-
-							<p className="text-neon font-semibold">Acquired by Bird.</p>
 						</div>
-					</Card>
-				</div>
+					</TimelineEntry>
 
-				{/* My Energy */}
-				<div className="relative">
-					<div className="absolute -left-[39px] top-2 h-5 w-5 rounded-full border-4 border-obsidian bg-neutral-700"></div>
-					<Card>
-						<div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
-							<h2 className="font-medium text-2xl tracking-tighter flex items-center gap-3">
-								<Badge
-									size="lg"
-									href="https://techcrunch.com/2013/05/07/nest-acquires-myenergy-to-boost-its-home-energy-management-tools/"
-									className="!border-transparent !bg-transparent !p-0"
-								>
-									<Image
-										width={32}
-										height={32}
-										role="img"
-										aria-label="My Energy logo"
-										className="rounded-full border-2 border-white/10"
-										src={myenergy}
-										alt="My Energy Logo"
-									/>
-								</Badge>
-								My Energy
-							</h2>
-							<span className="font-mono text-xs text-neutral-500 border border-neutral-800 px-2 py-1 rounded-full">
-								CTO, 2009-2012
-							</span>
-						</div>
-						<div className="space-y-4 text-neutral-400 leading-relaxed">
-							<p>
-								My Energy provided consumers with information on how much
-								electricity, water, and natural gas they use and how much they
-								spend on these utilities. Simply connect your online utility
-								accounts with the platform, and the system imports all the
-								necessary bits and displays them on the beautiful web dashboard.
-							</p>
-
-							<p className="text-neon font-semibold">
-								Acquired by Nest & Google.
-							</p>
-						</div>
-					</Card>
+					{/* My Energy */}
+					<TimelineEntry
+						company="My Energy"
+						role="CTO"
+						period="2009 - 2012"
+						href="https://techcrunch.com/2013/05/07/nest-acquires-myenergy-to-boost-its-home-energy-management-tools/"
+						outcome="Acquired by Nest & Google"
+						logo={myenergy}
+					>
+						<p>
+							My Energy provided consumers with information on how much
+							electricity, water, and natural gas they use and how much they
+							spend on these utilities. Simply connect your online utility
+							accounts with the platform, and the system imports all the
+							necessary bits and displays them on the beautiful web dashboard.
+						</p>
+					</TimelineEntry>
 				</div>
 			</div>
 		</section>
+	);
+}
+
+function TimelineEntry({
+	status,
+	company,
+	role,
+	period,
+	href,
+	badge,
+	outcome,
+	logo,
+	children,
+}: {
+	status?: "active";
+	company: string;
+	role: string;
+	period: string;
+	href?: string;
+	badge?: string;
+	outcome?: string;
+	logo?: any;
+	children: React.ReactNode;
+}) {
+	return (
+		<div className="relative pl-12 lg:pl-20">
+			{/* Timeline dot */}
+			<div
+				className={`
+				absolute left-2 lg:left-6 top-2
+				w-4 h-4 rounded-full
+				border-4 border-void
+				${status === "active" ? "bg-amber animate-pulse-glow" : "bg-elevated"}
+			`}
+			/>
+
+			{/* Content card */}
+			<div className="group relative bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-300">
+				{/* Header */}
+				<div className="flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-elevated/50">
+					<div className="flex items-center gap-4">
+						{/* Logo */}
+						{logo && (
+							<div className="w-10 h-10 rounded overflow-hidden bg-elevated flex items-center justify-center">
+								<Image
+									src={logo}
+									alt={`${company} logo`}
+									width={40}
+									height={40}
+									className="object-cover"
+								/>
+							</div>
+						)}
+
+						{/* Company name & role */}
+						<div>
+							<div className="flex items-center gap-3">
+								{href ? (
+									<a
+										href={href}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="font-display text-xl text-cream hover:text-amber transition-colors"
+									>
+										{company}
+									</a>
+								) : (
+									<span className="font-display text-xl text-cream">
+										{company}
+									</span>
+								)}
+								{badge && (
+									<span className="font-mono text-xs text-amber bg-amber/10 px-2 py-0.5 border border-amber/20">
+										{badge}
+									</span>
+								)}
+							</div>
+							<div className="font-mono text-xs text-stone mt-1">{role}</div>
+						</div>
+					</div>
+
+					{/* Period & outcome */}
+					<div className="mt-4 md:mt-0 text-right">
+						<div className="font-mono text-xs text-ash">{period}</div>
+						{outcome && (
+							<div className="font-mono text-xs text-amber mt-1">{outcome}</div>
+						)}
+					</div>
+				</div>
+
+				{/* Body */}
+				<div className="p-6 text-stone leading-relaxed">{children}</div>
+
+				{/* Corner accent */}
+				<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+			</div>
+		</div>
 	);
 }

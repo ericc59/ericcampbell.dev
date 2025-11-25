@@ -1,8 +1,6 @@
 import "./global.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { SandpackCSS } from "./blog/[slug]/sandpack";
 import { Navbar } from "./components/nav";
@@ -43,32 +41,54 @@ export const metadata: Metadata = {
 	},
 };
 
-const cx = (...classes) => classes.filter(Boolean).join(" ");
-
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	return (
-		<html
-			lang="en"
-			className={cx(
-				"text-neutral-200 bg-obsidian antialiased",
-				GeistSans.variable,
-				GeistMono.variable,
-			)}
-		>
+		<html lang="en" className="bg-void text-cream antialiased">
 			<head>
 				<SandpackCSS />
 			</head>
-			<body className="antialiased max-w-6xl mb-40 flex flex-col mx-4 mt-8 lg:mx-auto bg-transparent">
-				<main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+			<body className="antialiased min-h-screen relative">
+				{/* Ambient glow effect - top */}
+				<div
+					className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none opacity-30"
+					style={{
+						background:
+							"radial-gradient(ellipse at center, rgba(255, 155, 66, 0.15) 0%, transparent 70%)",
+					}}
+				/>
+
+				{/* Main content container */}
+				<div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
 					<Navbar />
-					{children}
-					<Analytics />
-					<SpeedInsights />
-				</main>
+					<main className="pb-32">{children}</main>
+
+					{/* Footer */}
+					<footer className="border-t border-elevated py-12 mt-20">
+						<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+							<div className="space-y-2">
+								<p className="font-mono text-xs text-ash uppercase tracking-widest">
+									Signal Transmission
+								</p>
+								<p className="text-stone text-sm">
+									Building the future, one commit at a time.
+								</p>
+							</div>
+							<div className="flex items-center gap-2">
+								<span className="w-2 h-2 rounded-full bg-green-500 animate-pulse-glow" />
+								<span className="font-mono text-xs text-ash">
+									SYSTEM ONLINE
+								</span>
+							</div>
+						</div>
+					</footer>
+				</div>
+
+				<Analytics />
+				<SpeedInsights />
 			</body>
 		</html>
 	);

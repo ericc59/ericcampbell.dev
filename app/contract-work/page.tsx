@@ -18,30 +18,49 @@ export default function ProjectPage() {
 	});
 
 	return (
-		<section className="space-y-8">
-			<div className="space-y-2">
-				<h1 className="font-bold text-2xl tracking-tighter">
-					contract work i've done for clients
+		<section className="space-y-16">
+			{/* Page header */}
+			<div className="space-y-6">
+				<div className="flex items-center gap-4">
+					<div className="w-12 h-px bg-amber" />
+					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+						Client Work
+					</span>
+				</div>
+				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
+					Contract <span className="text-amber text-glow-subtle">Projects</span>
 				</h1>
-				<p className="prose prose-neutral dark:prose-invert">
-					Looking for some high-quality contract work?{" "}
+				<p className="text-stone text-lg max-w-2xl leading-relaxed">
+					High-quality contract work I've done for clients. Looking for expert
+					engineering?{" "}
 					<a
 						href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
-						className="text-green-500 font-black"
+						className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
 					>
-						Hire me
-					</a>{" "}
-					for a project.
+						Let's talk
+					</a>
+					.
 				</p>
 			</div>
 
-			<div>
-				<div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-					{allProjects.map((project) => (
+			{/* Projects grid */}
+			<div className="relative">
+				{/* Section header */}
+				<div className="flex items-center gap-4 mb-8">
+					<span className="font-mono text-xs text-ash">
+						{String(allProjects.length).padStart(2, "0")} PROJECTS
+					</span>
+					<div className="flex-1 h-px bg-elevated" />
+				</div>
+
+				{/* Grid */}
+				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+					{allProjects.map((project, index) => (
 						<ProjectCard
 							key={project?.slug}
 							project={project}
 							href={`/contract-work/${project?.slug}`}
+							index={index}
 						/>
 					))}
 				</div>
@@ -49,9 +68,3 @@ export default function ProjectPage() {
 		</section>
 	);
 }
-
-// async function Views({ slug }: { slug: string }) {
-//   let views = await getProjectViewsCount();
-
-//   return <ViewCounter allViews={views} slug={slug} />;
-// }

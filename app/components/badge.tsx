@@ -1,12 +1,27 @@
-export function Badge(props) {
+export function Badge(props: {
+	href?: string;
+	size?: "lg" | "sm";
+	className?: string;
+	children?: React.ReactNode;
+	[key: string]: any;
+}) {
+	const { size = "sm", className = "", ...rest } = props;
+
 	return (
 		<a
-			{...props}
+			{...rest}
 			target="_blank"
 			rel="noopener noreferrer"
-			className={`inline-flex whitespace-nowrap items-center rounded-md border border-neutral-800 bg-neutral-900/80 leading-4 text-neutral-400 no-underline hover:border-neon/50 hover:text-neon transition-all duration-200 font-mono ${
-				props.size === "lg" ? "p-2 text-xl font-semibold gap-1" : "p-1 text-sm"
-			} ${props.className}`}
+			className={`
+				inline-flex whitespace-nowrap items-center
+				border border-elevated bg-surface/50
+				leading-4 text-stone no-underline
+				hover:border-amber/50 hover:text-amber
+				transition-all duration-300
+				font-mono
+				${size === "lg" ? "p-2 text-xl font-semibold gap-1" : "px-2 py-1 text-xs"}
+				${className}
+			`}
 		/>
 	);
 }

@@ -15,24 +15,43 @@ export default function ProjectPage() {
 	});
 
 	return (
-		<section className="space-y-12">
-			<div className="space-y-4">
-				<h1 className="font-black text-4xl lg:text-5xl tracking-tighter text-white">
-					<span className="text-neon">Projects</span> & Experiments
+		<section className="space-y-16">
+			{/* Page header */}
+			<div className="space-y-6">
+				<div className="flex items-center gap-4">
+					<div className="w-12 h-px bg-amber" />
+					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+						Portfolio
+					</span>
+				</div>
+				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
+					Projects <span className="text-amber text-glow-subtle">&</span>{" "}
+					Experiments
 				</h1>
-				<p className="text-lg text-neutral-400 max-w-2xl leading-relaxed">
+				<p className="text-stone text-lg max-w-2xl leading-relaxed">
 					Things I've made trying to put a dent in the universe. Some shipped,
 					some failed, all learned from.
 				</p>
 			</div>
 
-			<div>
+			{/* Projects grid */}
+			<div className="relative">
+				{/* Section header */}
+				<div className="flex items-center gap-4 mb-8">
+					<span className="font-mono text-xs text-ash">
+						{String(allProjects.length).padStart(2, "0")} PROJECTS
+					</span>
+					<div className="flex-1 h-px bg-elevated" />
+				</div>
+
+				{/* Grid */}
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-					{allProjects.map((project) => (
+					{allProjects.map((project, index) => (
 						<ProjectCard
 							key={project.slug}
 							project={project}
 							href={`/projects/${project.slug}`}
+							index={index}
 						/>
 					))}
 				</div>
@@ -40,9 +59,3 @@ export default function ProjectPage() {
 		</section>
 	);
 }
-
-// async function Views({ slug }: { slug: string }) {
-//   let views = await getProjectViewsCount();
-
-//   return <ViewCounter allViews={views} slug={slug} />;
-// }
