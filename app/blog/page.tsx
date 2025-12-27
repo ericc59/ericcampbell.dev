@@ -1,8 +1,8 @@
+import { getBlogPosts } from "app/db/blog";
+import { getBlogViewsCount } from "app/db/queries";
 import Link from "next/link";
 import { Suspense } from "react";
 import ViewCounter from "./view-counter";
-import { getBlogViewsCount } from "app/db/queries";
-import { getBlogPosts } from "app/db/blog";
 
 export const metadata = {
 	title: "Blog",
@@ -17,13 +17,14 @@ export default function BlogPage() {
 			{/* Page header */}
 			<div className="space-y-6">
 				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-amber" />
-					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+					<div className="w-12 h-px bg-lime-400" />
+					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
 						Writing
 					</span>
 				</div>
 				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Blog <span className="text-amber text-glow-subtle">&</span> Thoughts
+					Blog <span className="text-lime-400 text-glow-subtle">&</span>{" "}
+					Thoughts
 				</h1>
 				<p className="text-stone text-lg max-w-2xl leading-relaxed">
 					Observations on engineering, startups, and building products. Signal,
@@ -60,14 +61,14 @@ export default function BlogPage() {
 								className="group relative block py-6 px-4 -mx-4 hover:bg-surface/30 transition-all duration-300"
 							>
 								{/* Index */}
-								<div className="absolute left-4 top-6 font-mono text-xs text-ash opacity-50 group-hover:opacity-100 group-hover:text-amber transition-all duration-300">
+								<div className="absolute left-4 top-6 font-mono text-xs text-ash opacity-50 group-hover:opacity-100 group-hover:text-lime-400 transition-all duration-300">
 									{String(index + 1).padStart(2, "0")}
 								</div>
 
 								{/* Content */}
 								<div className="ml-12 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
 									<div className="space-y-1">
-										<h2 className="font-display text-lg text-cream group-hover:text-amber transition-colors duration-300">
+										<h2 className="font-display text-lg text-cream group-hover:text-lime-400 transition-colors duration-300">
 											{post.metadata.title}
 										</h2>
 										{post.metadata.summary && (
@@ -91,7 +92,7 @@ export default function BlogPage() {
 												{
 													month: "short",
 													year: "numeric",
-												}
+												},
 											)}
 										</span>
 									</div>
@@ -100,7 +101,7 @@ export default function BlogPage() {
 								{/* Arrow indicator */}
 								<div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 									<svg
-										className="w-4 h-4 text-amber"
+										className="w-4 h-4 text-lime-400"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -115,7 +116,7 @@ export default function BlogPage() {
 								</div>
 
 								{/* Bottom border */}
-								<div className="absolute bottom-0 left-12 right-4 h-px bg-elevated group-hover:bg-amber/20 transition-colors duration-300" />
+								<div className="absolute bottom-0 left-12 right-4 h-px bg-elevated group-hover:bg-lime-400/20 transition-colors duration-300" />
 							</Link>
 						))}
 				</div>

@@ -19,13 +19,13 @@ export default function ProjectPage() {
 			{/* Page header */}
 			<div className="space-y-6">
 				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-amber" />
-					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+					<div className="w-12 h-px bg-lime-400" />
+					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
 						Portfolio
 					</span>
 				</div>
 				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Projects <span className="text-amber text-glow-subtle">&</span>{" "}
+					Projects <span className="text-lime-400 text-glow-subtle">&</span>{" "}
 					Experiments
 				</h1>
 				<p className="text-stone text-lg max-w-2xl leading-relaxed">

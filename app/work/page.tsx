@@ -11,13 +11,14 @@ export default function Page() {
 			{/* Page header */}
 			<div className="space-y-6">
 				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-amber" />
-					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+					<div className="w-12 h-px bg-lime-400" />
+					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
 						Career Timeline
 					</span>
 				</div>
 				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Work <span className="text-amber text-glow-subtle">&</span> Experience
+					Work <span className="text-lime-400 text-glow-subtle">&</span>{" "}
+					Experience
 				</h1>
 				<p className="text-stone text-lg max-w-2xl leading-relaxed">
 					I'm on a mission to build products people love with high-performance
@@ -74,14 +75,14 @@ export default function Page() {
 							new products for the company. I worked on the Maker, Forms,{" "}
 							<a
 								href="https://zapier.com/tables"
-								className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
+								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 							>
 								Tables
 							</a>
 							, and{" "}
 							<a
 								href="https://zapier.com/interfaces"
-								className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
+								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 							>
 								Interfaces
 							</a>{" "}
@@ -100,14 +101,14 @@ export default function Page() {
 								I co-founded New Wave Capital along with{" "}
 								<a
 									href="https://www.linkedin.com/in/stewarthauser"
-									className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
+									className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 								>
 									Stewart Hauser
 								</a>{" "}
 								and{" "}
 								<a
 									href="https://www.linkedin.com/in/albertcheng1"
-									className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
+									className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 								>
 									Albert Cheng
 								</a>{" "}
@@ -118,8 +119,8 @@ export default function Page() {
 								After being the first company of its type approved by the SEC
 								after a year-long regulatory approval process, we finally
 								launched and grew the company to around $750k in AUM.
-								Unfortunately, the revenues were not enough to cover the expenses
-								and we were forced to shut down the company in 2018.
+								Unfortunately, the revenues were not enough to cover the
+								expenses and we were forced to shut down the company in 2018.
 							</p>
 						</div>
 					</TimelineEntry>
@@ -247,12 +248,12 @@ function TimelineEntry({
 				absolute left-2 lg:left-6 top-2
 				w-4 h-4 rounded-full
 				border-4 border-void
-				${status === "active" ? "bg-amber animate-pulse-glow" : "bg-elevated"}
+				${status === "active" ? "bg-lime-400 animate-pulse-glow" : "bg-elevated"}
 			`}
 			/>
 
 			{/* Content card */}
-			<div className="group relative bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-300">
+			<div className="group relative bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300">
 				{/* Header */}
 				<div className="flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-elevated/50">
 					<div className="flex items-center gap-4">
@@ -277,7 +278,7 @@ function TimelineEntry({
 										href={href}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="font-display text-xl text-cream hover:text-amber transition-colors"
+										className="font-display text-xl text-cream hover:text-lime-400 transition-colors"
 									>
 										{company}
 									</a>
@@ -287,7 +288,7 @@ function TimelineEntry({
 									</span>
 								)}
 								{badge && (
-									<span className="font-mono text-xs text-amber bg-amber/10 px-2 py-0.5 border border-amber/20">
+									<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-0.5 border border-lime-400/20">
 										{badge}
 									</span>
 								)}
@@ -300,7 +301,9 @@ function TimelineEntry({
 					<div className="mt-4 md:mt-0 text-right">
 						<div className="font-mono text-xs text-ash">{period}</div>
 						{outcome && (
-							<div className="font-mono text-xs text-amber mt-1">{outcome}</div>
+							<div className="font-mono text-xs text-lime-400 mt-1">
+								{outcome}
+							</div>
 						)}
 					</div>
 				</div>
@@ -309,7 +312,7 @@ function TimelineEntry({
 				<div className="p-6 text-stone leading-relaxed">{children}</div>
 
 				{/* Corner accent */}
-				<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+				<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
 			</div>
 		</div>
 	);

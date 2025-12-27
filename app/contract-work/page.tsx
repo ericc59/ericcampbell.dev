@@ -22,20 +22,21 @@ export default function ProjectPage() {
 			{/* Page header */}
 			<div className="space-y-6">
 				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-amber" />
-					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+					<div className="w-12 h-px bg-lime-400" />
+					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
 						Client Work
 					</span>
 				</div>
 				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Contract <span className="text-amber text-glow-subtle">Projects</span>
+					Contract{" "}
+					<span className="text-lime-400 text-glow-subtle">Projects</span>
 				</h1>
 				<p className="text-stone text-lg max-w-2xl leading-relaxed">
 					High-quality contract work I've done for clients. Looking for expert
 					engineering?{" "}
 					<a
 						href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
-						className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
+						className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 					>
 						Let's talk
 					</a>

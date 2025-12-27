@@ -16,7 +16,7 @@ export function Badge(props: {
 				inline-flex whitespace-nowrap items-center
 				border border-elevated bg-surface/50
 				leading-4 text-stone no-underline
-				hover:border-amber/50 hover:text-amber
+				hover:border-lime-400/50 hover:text-lime-400
 				transition-all duration-300
 				font-mono
 				${size === "lg" ? "p-2 text-xl font-semibold gap-1" : "px-2 py-1 text-xs"}

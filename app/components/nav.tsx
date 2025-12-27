@@ -1,80 +1,40 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-const navItems = {
-	"/": { name: "Home", code: "001" },
-	"/work": { name: "Work", code: "002" },
-	"/projects": { name: "Projects", code: "003" },
-	"/contract-work": { name: "Contract", code: "004" },
-	"/blog": { name: "Blog", code: "005" },
-	"/tools": { name: "Tools", code: "006" },
-};
+const navItems = [
+	{ href: "/#about", name: "About" },
+	{ href: "/#work", name: "Work" },
+	{ href: "/#projects", name: "Projects" },
+	{ href: "/#contract", name: "Contract" },
+	{ href: "/#tools", name: "Tools" },
+];
 
 export function Navbar() {
-	const pathname = usePathname();
-
 	return (
 		<header className="pt-8 pb-16 lg:pt-12 lg:pb-24">
-			{/* Top bar with identifier */}
-			<div className="flex items-center justify-between mb-8">
-				<div className="flex items-center gap-4">
-					<div className="w-3 h-3 rounded-full bg-amber animate-pulse-glow" />
-					<span className="font-mono text-xs text-ash tracking-widest uppercase">
-						Eric Campbell // Engineering
-					</span>
-				</div>
-				<div className="hidden md:flex items-center gap-4">
-					<span className="font-mono text-xs text-ash">
-						LAT 37.7749° N // LONG 122.4194° W
-					</span>
-				</div>
-			</div>
-
 			{/* Main navigation */}
 			<nav className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
 				{/* Nav links */}
 				<div className="flex flex-wrap items-center gap-1">
-					{Object.entries(navItems).map(([path, { name, code }]) => {
-						const isActive =
-							pathname === path ||
-							(path !== "/" && pathname.startsWith(path));
-
+					{navItems.map(({ href, name }) => {
 						return (
 							<Link
-								key={path}
-								href={path}
+								key={href}
+								href={href}
 								className={`
 									group relative px-4 py-2 font-mono text-sm transition-all duration-300
-									${isActive ? "text-amber" : "text-stone hover:text-cream"}
+									text-stone hover:text-cream
 								`}
 							>
 								{/* Active indicator line */}
 								<span
 									className={`
 									absolute bottom-0 left-4 right-4 h-px transition-all duration-300
-									${isActive ? "bg-amber" : "bg-transparent group-hover:bg-elevated"}
+									bg-transparent group-hover:bg-elevated
 								`}
 								/>
 
-								{/* Code prefix */}
-								<span
-									className={`
-									mr-2 transition-colors duration-300
-									${isActive ? "text-amber" : "text-ash group-hover:text-stone"}
-								`}
-								>
-									{code}
-								</span>
-
 								{/* Name */}
-								<span className="relative">
-									{name}
-									{isActive && (
-										<span className="absolute -right-2 top-0 w-1 h-full bg-amber animate-pulse" />
-									)}
-								</span>
+								<span className="relative">{name}</span>
 							</Link>
 						);
 					})}
@@ -82,10 +42,7 @@ export function Navbar() {
 
 				{/* Social links */}
 				<div className="flex items-center gap-3">
-					<SocialLink
-						href="https://twitter.com/ericcampbell59"
-						label="Twitter"
-					>
+					<SocialLink href="https://twitter.com/ericcampbell59" label="Twitter">
 						<svg
 							width="18"
 							height="18"
@@ -129,9 +86,9 @@ export function Navbar() {
 						href="https://cal.com/eric-campbell"
 						className="
 							ml-4 px-5 py-2
-							bg-amber text-void font-mono text-sm font-medium
-							border border-amber
-							hover:bg-transparent hover:text-amber
+							bg-lime-400 text-void font-mono text-sm font-medium
+							border border-lime-400
+							hover:bg-transparent hover:text-lime-400
 							transition-all duration-300
 							relative overflow-hidden
 							group
@@ -140,7 +97,7 @@ export function Navbar() {
 						<span className="relative z-10">HIRE ME</span>
 						<span
 							className="
-							absolute inset-0 bg-amber-bright
+							absolute inset-0 bg-lime-400
 							translate-y-full group-hover:translate-y-0
 							transition-transform duration-300
 						"
@@ -174,7 +131,7 @@ function SocialLink({
 				w-10 h-10
 				flex items-center justify-center
 				border border-elevated
-				text-stone hover:text-amber hover:border-amber
+				text-stone hover:text-lime-400 hover:border-lime-400
 				transition-all duration-300
 				relative
 				group
@@ -186,7 +143,7 @@ function SocialLink({
 				className="
 				absolute -top-px -right-px w-2 h-2
 				border-t border-r border-elevated
-				group-hover:border-amber
+				group-hover:border-lime-400
 				transition-colors duration-300
 			"
 			/>

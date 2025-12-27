@@ -10,7 +10,7 @@ export default function NotFound() {
 						404
 					</span>
 					<div className="absolute inset-0 flex items-center justify-center">
-						<span className="font-mono text-sm text-amber tracking-widest uppercase animate-pulse">
+						<span className="font-mono text-sm text-lime-400 tracking-widest uppercase animate-pulse">
 							Signal Lost
 						</span>
 					</div>
@@ -33,9 +33,9 @@ export default function NotFound() {
 						href="/"
 						className="
 							px-6 py-3
-							bg-amber text-void font-mono text-sm font-medium
-							border border-amber
-							hover:bg-transparent hover:text-amber
+							bg-lime-400 text-void font-mono text-sm font-medium
+							border border-lime-400
+							hover:bg-transparent hover:text-lime-400
 							transition-all duration-300
 						"
 					>
@@ -47,7 +47,7 @@ export default function NotFound() {
 							px-6 py-3
 							font-mono text-sm text-stone
 							border border-elevated
-							hover:border-amber/50 hover:text-cream
+							hover:border-lime-400/50 hover:text-cream
 							transition-all duration-300
 						"
 					>

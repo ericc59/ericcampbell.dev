@@ -7,13 +7,14 @@ export default function ToolsPage() {
 			{/* Page header */}
 			<div className="space-y-6">
 				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-amber" />
-					<span className="font-mono text-xs text-amber tracking-widest uppercase">
+					<div className="w-12 h-px bg-lime-400" />
+					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
 						Utilities
 					</span>
 				</div>
 				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Tools <span className="text-amber text-glow-subtle">&</span> Resources
+					Tools <span className="text-lime-400 text-glow-subtle">&</span>{" "}
+					Resources
 				</h1>
 				<p className="text-stone text-lg max-w-2xl leading-relaxed">
 					Free tools I've built to make life easier. Use them for your own
@@ -34,10 +35,10 @@ export default function ToolsPage() {
 					{/* Product Screenshot Tool */}
 					<Link
 						href="/tools/product-screenshot"
-						className="group relative block bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-300"
+						className="group relative block bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300"
 					>
 						{/* Corner accent */}
-						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
 
 						<div className="flex flex-col md:flex-row">
 							{/* Image */}
@@ -57,11 +58,11 @@ export default function ToolsPage() {
 								<div className="space-y-4">
 									<div className="flex items-center gap-3">
 										<span className="font-mono text-xs text-ash">01</span>
-										<span className="font-mono text-xs text-amber bg-amber/10 px-2 py-0.5 border border-amber/20">
+										<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-0.5 border border-lime-400/20">
 											FREE
 										</span>
 									</div>
-									<h2 className="font-display text-2xl text-cream group-hover:text-amber transition-colors">
+									<h2 className="font-display text-2xl text-cream group-hover:text-lime-400 transition-colors">
 										Product Screenshot
 									</h2>
 									<p className="text-stone leading-relaxed">
@@ -75,7 +76,7 @@ export default function ToolsPage() {
 										Launch tool
 									</span>
 									<svg
-										className="w-4 h-4 text-stone group-hover:text-amber group-hover:translate-x-1 transition-all duration-300"
+										className="w-4 h-4 text-stone group-hover:text-lime-400 group-hover:translate-x-1 transition-all duration-300"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -98,10 +99,10 @@ export default function ToolsPage() {
 					{/* App Store Assets Tool */}
 					<Link
 						href="/tools/app-store-assets"
-						className="group relative block bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-300"
+						className="group relative block bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300"
 					>
 						{/* Corner accent */}
-						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
 
 						<div className="flex flex-col md:flex-row">
 							{/* Placeholder Image */}
@@ -131,11 +132,11 @@ export default function ToolsPage() {
 								<div className="space-y-4">
 									<div className="flex items-center gap-3">
 										<span className="font-mono text-xs text-ash">02</span>
-										<span className="font-mono text-xs text-amber bg-amber/10 px-2 py-0.5 border border-amber/20">
+										<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-0.5 border border-lime-400/20">
 											FREE
 										</span>
 									</div>
-									<h2 className="font-display text-2xl text-cream group-hover:text-amber transition-colors">
+									<h2 className="font-display text-2xl text-cream group-hover:text-lime-400 transition-colors">
 										App Store Assets
 									</h2>
 									<p className="text-stone leading-relaxed">
@@ -149,7 +150,7 @@ export default function ToolsPage() {
 										Launch tool
 									</span>
 									<svg
-										className="w-4 h-4 text-stone group-hover:text-amber group-hover:translate-x-1 transition-all duration-300"
+										className="w-4 h-4 text-stone group-hover:text-lime-400 group-hover:translate-x-1 transition-all duration-300"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"

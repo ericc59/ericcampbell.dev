@@ -1,266 +1,238 @@
+/** biome-ignore-all lint/a11y/useValidAriaRole: <explanation> */
+import { getContracts } from "app/db/contract";
+import { getProjects } from "app/db/project";
 import Image from "next/image";
 import Link from "next/link";
-import chariotTeam from "public/images/home/chariot-team.webp";
-import chariotVan from "public/images/home/chariot-van.jpg";
-import chariot from "public/images/home/chariot-wsj.jpeg";
 import eric from "public/images/home/eric2.jpeg";
-import io from "public/images/home/io.jpeg";
-import scoot from "public/images/home/scoot.jpeg";
-import scootQuad from "public/images/home/scoot-quad.jpg";
-import tourwrist from "public/images/home/tourwrist.jpeg";
-
-import { PreloadResources } from "./preload";
 
 export default function Page() {
+	const allProjects = getProjects()
+		.sort((a, b) => {
+			if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+				return -1;
+			}
+			return 1;
+		})
+		.slice(0, 6);
+
+	const allContracts = getContracts()
+		.sort((a, b) => {
+			if (
+				new Date(a?.metadata.publishedAt ?? "") >
+				new Date(b?.metadata.publishedAt ?? "")
+			) {
+				return -1;
+			}
+			return 1;
+		})
+		.slice(0, 6);
+
 	return (
-		<section className="space-y-24">
-			<PreloadResources />
-
-			{/* Hero Section - Editorial asymmetric layout */}
+		<section className="space-y-20">
+			{/* Hero Section */}
 			<div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-				{/* Left column - Text content */}
-				<div className="lg:col-span-7 space-y-8">
-					{/* Designation label */}
-					<div className="flex items-center gap-4">
-						<div className="w-12 h-px bg-amber" />
-						<span className="font-mono text-xs text-amber tracking-widest uppercase">
-							Engineering Leadership
-						</span>
-					</div>
-
-					{/* Main headline */}
-					<h1 className="font-display text-5xl lg:text-7xl leading-[1.1] tracking-tight">
-						Building products
-						<br />
-						<span className="text-amber text-glow-subtle">people love</span>
+				<div className="lg:col-span-7 space-y-6">
+					<h1 className="font-display text-2xl lg:text-3xl leading-[1.1] tracking-tight">
+						I'm Eric Campbell
 					</h1>
 
-					{/* Description */}
-					<p className="text-stone text-xl leading-relaxed max-w-xl">
-						I'm Eric Campbell — an engineering leader, startup founder, and
-						builder of high-scale systems. Currently crafting the future of
-						auctions at{" "}
+					<p className="text-stone text-lg leading-relaxed max-w-xl">
+						— an engineering leader, startup founder, and builder of high-scale
+						systems. Currently crafting the future of auctions at{" "}
 						<a
 							href="https://flowauctions.com"
-							className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
+							className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 						>
 							Flow Auctions
 						</a>
 						.
 					</p>
-
-					{/* Stats row */}
-					<div className="flex flex-wrap gap-8 pt-4">
-						<Stat value="4" label="Exits" />
-						<Stat value="15+" label="Years" />
-						<Stat value="YC" label="W15" highlight />
-					</div>
-
-					{/* CTA */}
-					<div className="pt-4">
-						<Link
-							href="/work"
-							className="
-								group inline-flex items-center gap-3
-								font-mono text-sm text-cream
-								border border-elevated px-6 py-3
-								hover:border-amber hover:text-amber
-								transition-all duration-300
-							"
-						>
-							<span>View my work</span>
-							<svg
-								className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M17 8l4 4m0 0l-4 4m4-4H3"
-								/>
-							</svg>
-						</Link>
-					</div>
 				</div>
 
-				{/* Right column - Portrait */}
 				<div className="lg:col-span-5">
-					<div className="relative">
-						{/* Corner brackets decoration */}
-						<div className="absolute -inset-4 pointer-events-none">
-							<div className="absolute top-0 left-0 w-8 h-8 border-l border-t border-amber/30" />
-							<div className="absolute top-0 right-0 w-8 h-8 border-r border-t border-amber/30" />
-							<div className="absolute bottom-0 left-0 w-8 h-8 border-l border-b border-amber/30" />
-							<div className="absolute bottom-0 right-0 w-8 h-8 border-r border-b border-amber/30" />
-						</div>
-
-						{/* Image */}
-						<div className="relative aspect-[4/5] overflow-hidden">
-							<Image
-								alt="Eric Campbell"
-								src={eric}
-								fill
-								className="object-cover"
-								priority
-							/>
-							{/* Gradient overlay */}
-							<div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent opacity-60" />
-						</div>
-
-						{/* Caption */}
-						<div className="absolute bottom-4 left-4 right-4">
-							<div className="font-mono text-xs text-ash">
-								<span className="text-amber">▸</span> San Francisco, CA
-							</div>
-						</div>
+					<div className="relative aspect-square overflow-hidden rounded-full w-48">
+						<Image
+							alt="Eric Campbell"
+							src={eric}
+							fill
+							className="object-cover"
+							priority
+						/>
 					</div>
 				</div>
 			</div>
 
-			{/* About Section */}
-			<div className="relative">
-				{/* Section header */}
-				<div className="flex items-center gap-4 mb-8">
-					<span className="font-mono text-xs text-ash">001</span>
-					<div className="flex-1 h-px bg-elevated" />
-					<span className="font-mono text-xs text-amber uppercase tracking-widest">
-						About
-					</span>
+			{/* About */}
+			<Section id="about" code="001" title="About">
+				<div className="space-y-4 text-stone leading-relaxed max-w-2xl">
+					<p>
+						I'm a{" "}
+						<span className="text-cream">
+							product-focused engineering leader
+						</span>{" "}
+						who loves building tools to make engineering and product teams more
+						efficient.
+					</p>
+					<p>
+						Currently at{" "}
+						<a
+							href="https://flowauctions.com"
+							className="text-lime-400 hover:underline"
+						>
+							Flow Auctions
+						</a>
+						, building the world's first AI-Native Auction House Management
+						Platform.
+					</p>
+					<p>
+						Previously: co-founder, CTO at{" "}
+						<span className="text-lime-400">Y Combinator W15</span>, and
+						engineering leader at four VC-backed startups with exits.
+					</p>
 				</div>
+			</Section>
 
-				{/* Content card */}
-				<div className="relative bg-surface/50 border border-elevated p-8 lg:p-12">
-					{/* Corner accents */}
-					<div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-amber/20" />
-					<div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-amber/20" />
-
-					<div className="space-y-6 text-lg text-stone leading-relaxed max-w-3xl">
-						<p>
-							I'm a{" "}
-							<span className="text-amber font-semibold">
-								product-focused engineering leader
-							</span>{" "}
-							who loves building tools to make engineering and product teams
-							more efficient.
-						</p>
-						<p>
-							I currently work at{" "}
-							<a
-								href="https://flowauctions.com"
-								className="text-amber border-b border-amber/30 hover:border-amber transition-colors"
-							>
-								Flow Auctions
-							</a>
-							, where I work on the world's first AI-Native Auction House
-							Management Platform.
-						</p>
-						<p>
-							In the past, I've been a co-founder, CTO at{" "}
-							<span className="font-mono text-xs text-amber bg-amber/10 px-2 py-1">
-								Y Combinator W15
-							</span>
-							, and engineering leader at four VC-backed startups with exits.
-						</p>
-					</div>
-				</div>
-			</div>
-
-			{/* Image Gallery - Mosaic layout */}
-			<div className="relative">
-				{/* Section header */}
-				<div className="flex items-center gap-4 mb-8">
-					<span className="font-mono text-xs text-ash">002</span>
-					<div className="flex-1 h-px bg-elevated" />
-					<span className="font-mono text-xs text-amber uppercase tracking-widest">
-						Moments
-					</span>
-				</div>
-
-				{/* Gallery grid */}
-				<div className="grid grid-cols-6 gap-3 auto-rows-[120px] lg:auto-rows-[160px]">
-					{/* Large featured image */}
-					<GalleryImage
-						src={tourwrist}
-						alt="DEMO Conference 1st Place"
-						className="col-span-4 row-span-3"
-						label="DEMO 2012"
-						sublabel="1st Place"
+			{/* Work */}
+			<Section id="work" code="002" title="Work">
+				<div className="space-y-4">
+					<WorkItem
+						company="Flow Auctions"
+						role="Co-Founder"
+						period="2024 - Present"
+						href="https://flowauctions.com"
+						active
 					/>
-
-					{/* Stacked side images */}
-					<GalleryImage
-						src={chariotTeam}
-						alt="Chariot team"
-						className="col-span-2 row-span-2"
+					<WorkItem
+						company="Protocol"
+						role="Founder"
+						period="2022 - Present"
+						href="https://pxyz.dev"
 					/>
-
-					<GalleryImage
-						src={scoot}
-						alt="Scoot Network founders"
-						className="col-span-2 row-span-1"
+					<WorkItem
+						company="Zapier"
+						role="Principal Engineer"
+						period="2019 - 2022"
+						href="https://zapier.com"
 					/>
-
-					{/* Bottom row */}
-					<GalleryImage
-						src={chariot}
-						alt="Chariot WSJ feature"
-						className="col-span-2 row-span-2"
-						label="WSJ"
+					<WorkItem
+						company="New Wave Capital"
+						role="Co-Founder"
+						period="2016 - 2018"
+						href="#"
 					/>
-
-					<GalleryImage
-						src={io}
-						alt="Google IO"
-						className="col-span-2 row-span-2"
-						label="Google I/O"
-					/>
-
-					<GalleryImage
-						src={scootQuad}
-						alt="Scoot Quad"
-						className="col-span-2 row-span-2"
-					/>
-				</div>
-			</div>
-
-			{/* Companies/Exits Section */}
-			<div className="relative">
-				{/* Section header */}
-				<div className="flex items-center gap-4 mb-8">
-					<span className="font-mono text-xs text-ash">003</span>
-					<div className="flex-1 h-px bg-elevated" />
-					<span className="font-mono text-xs text-amber uppercase tracking-widest">
-						Track Record
-					</span>
-				</div>
-
-				{/* Companies grid */}
-				<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-					<ExitCard
-						company="Sphere"
-						outcome="Acquired by Google"
-						year="2013"
-					/>
-					<ExitCard
-						company="My Energy"
-						outcome="Acquired by Nest/Google"
-						year="2013"
-					/>
-					<ExitCard
-						company="Scoot"
-						outcome="Acquired by Bird"
-						year="2019"
-					/>
-					<ExitCard
+					<WorkItem
 						company="Chariot"
+						role="CTO"
+						period="2014 - 2016"
 						outcome="Acquired by Ford"
-						year="2016"
+						badge="YC W15"
+					/>
+					<WorkItem
+						company="Sphere"
+						role="CTO"
+						period="2012 - 2013"
+						outcome="Acquired by Google"
+					/>
+					<WorkItem
+						company="Scoot"
+						role="Founding Engineer"
+						period="2012 - 2013"
+						outcome="Acquired by Bird"
+					/>
+					<WorkItem
+						company="My Energy"
+						role="CTO"
+						period="2009 - 2012"
+						outcome="Acquired by Nest/Google"
 					/>
 				</div>
-			</div>
+			</Section>
+
+			{/* Projects */}
+			<Section id="projects" code="003" title="Projects">
+				<div className="space-y-3">
+					{allProjects.map((project) => (
+						<Link
+							key={project.slug}
+							href={`/projects/${project.slug}`}
+							className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
+						>
+							<span className="text-cream group-hover:text-lime-400 transition-colors">
+								{project.metadata.title}
+							</span>
+							<span className="font-mono text-xs text-ash">
+								{project.metadata.category}
+							</span>
+						</Link>
+					))}
+				</div>
+				<Link
+					href="/projects"
+					className="inline-block mt-6 font-mono text-xs text-stone hover:text-lime-400 transition-colors"
+				>
+					View all projects →
+				</Link>
+			</Section>
+
+			{/* Contract Work */}
+			<Section id="contract" code="004" title="Contract Work">
+				<p className="text-stone mb-6">
+					Looking for expert engineering?{" "}
+					<a
+						href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
+						className="text-lime-400 hover:underline"
+					>
+						Let's talk
+					</a>
+					.
+				</p>
+				<div className="space-y-3">
+					{allContracts.map((project) => (
+						<Link
+							key={project?.slug}
+							href={`/contract-work/${project?.slug}`}
+							className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
+						>
+							<span className="text-cream group-hover:text-lime-400 transition-colors">
+								{project?.metadata.title}
+							</span>
+							<span className="font-mono text-xs text-ash">
+								{project?.metadata.category}
+							</span>
+						</Link>
+					))}
+				</div>
+				<Link
+					href="/contract-work"
+					className="inline-block mt-6 font-mono text-xs text-stone hover:text-lime-400 transition-colors"
+				>
+					View all contract work →
+				</Link>
+			</Section>
+
+			{/* Tools */}
+			<Section id="tools" code="005" title="Tools">
+				<div className="space-y-3">
+					<Link
+						href="/tools/product-screenshot"
+						className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
+					>
+						<span className="text-cream group-hover:text-lime-400 transition-colors">
+							Product Screenshot
+						</span>
+						<span className="font-mono text-xs text-lime-400">FREE</span>
+					</Link>
+					<Link
+						href="/tools/app-store-assets"
+						className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
+					>
+						<span className="text-cream group-hover:text-lime-400 transition-colors">
+							App Store Assets
+						</span>
+						<span className="font-mono text-xs text-lime-400">FREE</span>
+					</Link>
+				</div>
+			</Section>
 		</section>
 	);
 }
@@ -277,7 +249,7 @@ function Stat({
 	return (
 		<div className="space-y-1">
 			<div
-				className={`font-mono text-3xl font-light ${highlight ? "text-amber text-glow-subtle" : "text-cream"}`}
+				className={`font-mono text-2xl font-light ${highlight ? "text-lime-400" : "text-cream"}`}
 			>
 				{value}
 			</div>
@@ -288,42 +260,80 @@ function Stat({
 	);
 }
 
-function GalleryImage({
-	src,
-	alt,
-	className,
-	label,
-	sublabel,
+function Section({
+	id,
+	code,
+	title,
+	children,
 }: {
-	src: any;
-	alt: string;
-	className?: string;
-	label?: string;
-	sublabel?: string;
+	id: string;
+	code: string;
+	title: string;
+	children: React.ReactNode;
 }) {
 	return (
-		<div className={`relative group overflow-hidden ${className}`}>
-			<Image
-				src={src}
-				alt={alt}
-				fill
-				className="object-cover transition-transform duration-700 group-hover:scale-105"
-			/>
-			{/* Overlay */}
-			<div className="absolute inset-0 bg-gradient-to-t from-void/80 via-void/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+		<div id={id} className="scroll-mt-24">
+			<div className="flex items-center gap-4 mb-6">
+				<span className="font-mono text-xs text-lime-400 uppercase tracking-widest">
+					{title}
+				</span>
+				<div className="flex-1 h-px bg-elevated" />
+			</div>
+			{children}
+		</div>
+	);
+}
 
-			{/* Label */}
-			{label && (
-				<div className="absolute bottom-3 left-3 right-3">
-					<div className="font-mono text-xs text-cream">{label}</div>
-					{sublabel && (
-						<div className="font-mono text-xs text-amber">{sublabel}</div>
-					)}
+function WorkItem({
+	company,
+	role,
+	period,
+	href,
+	outcome,
+	badge,
+	active,
+}: {
+	company: string;
+	role: string;
+	period: string;
+	href?: string;
+	outcome?: string;
+	badge?: string;
+	active?: boolean;
+}) {
+	return (
+		<div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-elevated">
+			<div className="flex items-center gap-3">
+				{active && (
+					<span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+				)}
+				<div>
+					<div className="flex items-center gap-2 flex-wrap">
+						{href ? (
+							<a
+								href={href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-cream hover:text-lime-400 transition-colors"
+							>
+								{company}
+							</a>
+						) : (
+							<span className="text-cream">{company}</span>
+						)}
+						{badge && (
+							<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-1.5 py-0.5">
+								{badge}
+							</span>
+						)}
+						{outcome && (
+							<span className="font-mono text-xs text-lime-400">{outcome}</span>
+						)}
+					</div>
+					<span className="font-mono text-xs text-stone">{role}</span>
 				</div>
-			)}
-
-			{/* Corner accent on hover */}
-			<div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-transparent group-hover:border-amber transition-colors duration-300" />
+			</div>
+			<span className="font-mono text-xs text-ash mt-1 sm:mt-0">{period}</span>
 		</div>
 	);
 }
@@ -338,24 +348,10 @@ function ExitCard({
 	year: string;
 }) {
 	return (
-		<div className="group relative bg-surface/30 border border-elevated p-6 hover:border-amber/50 transition-all duration-300">
-			{/* Year badge */}
-			<div className="absolute top-3 right-3 font-mono text-xs text-ash">
-				{year}
-			</div>
-
-			{/* Content */}
-			<div className="space-y-3 pt-4">
-				<h3 className="font-display text-xl text-cream group-hover:text-amber transition-colors">
-					{company}
-				</h3>
-				<p className="font-mono text-xs text-stone leading-relaxed">
-					{outcome}
-				</p>
-			</div>
-
-			{/* Bottom accent line */}
-			<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+		<div className="border border-elevated p-4 hover:border-lime-400/30 transition-colors">
+			<div className="font-mono text-xs text-ash mb-2">{year}</div>
+			<div className="text-cream font-display text-lg">{company}</div>
+			<div className="font-mono text-xs text-lime-400 mt-1">→ {outcome}</div>
 		</div>
 	);
 }

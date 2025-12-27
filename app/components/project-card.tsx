@@ -15,7 +15,7 @@ export function ProjectCard({
 	return (
 		<Link
 			href={href}
-			className="group relative block bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-500"
+			className="group relative block bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-500"
 		>
 			{/* Index number */}
 			<div className="absolute -top-3 -left-3 w-8 h-8 bg-void border border-elevated flex items-center justify-center">
@@ -25,7 +25,7 @@ export function ProjectCard({
 			</div>
 
 			{/* Corner accent */}
-			<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+			<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
 
 			{/* Content */}
 			<div className="flex flex-col h-full">
@@ -40,13 +40,13 @@ export function ProjectCard({
 								/>
 							</div>
 						)}
-						<span className="font-mono text-xs text-amber bg-amber/10 px-2 py-1 border border-amber/20 uppercase tracking-wider">
+						<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-1 border border-lime-400/20 uppercase tracking-wider">
 							{project.metadata.category}
 						</span>
 					</div>
 
 					<div>
-						<h3 className="font-display text-xl text-cream group-hover:text-amber transition-colors duration-300">
+						<h3 className="font-display text-xl text-cream group-hover:text-lime-400 transition-colors duration-300">
 							{project.metadata.title}
 						</h3>
 						<p className="font-mono text-xs text-ash mt-1">
@@ -78,7 +78,7 @@ export function ProjectCard({
 						View project
 					</span>
 					<svg
-						className="w-4 h-4 text-stone group-hover:text-amber group-hover:translate-x-1 transition-all duration-300"
+						className="w-4 h-4 text-stone group-hover:text-lime-400 group-hover:translate-x-1 transition-all duration-300"
 						fill="none"
 						viewBox="0 0 24 24"
 						stroke="currentColor"

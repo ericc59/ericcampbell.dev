@@ -1,9 +1,9 @@
 export function Card({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="group relative bg-surface/30 border border-elevated hover:border-amber/30 transition-all duration-300 p-6">
+		<div className="group relative bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300 p-6">
 			{/* Corner accents */}
-			<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-amber/30 transition-colors duration-300" />
-			<div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-transparent group-hover:border-amber/30 transition-colors duration-300" />
+			<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
+			<div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
 
 			{children}
 

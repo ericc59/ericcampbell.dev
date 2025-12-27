@@ -47,44 +47,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" className="bg-void text-cream antialiased">
+		<html lang="en" className=" text-cream antialiased">
 			<head>
 				<SandpackCSS />
 			</head>
 			<body className="antialiased min-h-screen relative">
-				{/* Ambient glow effect - top */}
-				<div
-					className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none opacity-30"
-					style={{
-						background:
-							"radial-gradient(ellipse at center, rgba(255, 155, 66, 0.15) 0%, transparent 70%)",
-					}}
-				/>
-
 				{/* Main content container */}
 				<div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
 					<Navbar />
 					<main className="pb-32">{children}</main>
-
-					{/* Footer */}
-					<footer className="border-t border-elevated py-12 mt-20">
-						<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-							<div className="space-y-2">
-								<p className="font-mono text-xs text-ash uppercase tracking-widest">
-									Signal Transmission
-								</p>
-								<p className="text-stone text-sm">
-									Building the future, one commit at a time.
-								</p>
-							</div>
-							<div className="flex items-center gap-2">
-								<span className="w-2 h-2 rounded-full bg-green-500 animate-pulse-glow" />
-								<span className="font-mono text-xs text-ash">
-									SYSTEM ONLINE
-								</span>
-							</div>
-						</div>
-					</footer>
 				</div>
 
 				<Analytics />

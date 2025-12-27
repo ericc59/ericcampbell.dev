@@ -638,7 +638,7 @@ export default function AppStoreAssetsPage() {
 													{presets.map((preset, index) => (
 														<button
 															key={index}
-															className="w-full aspect-square border border-gray-600 rounded hover:ring-2 hover:ring-blue-500 transition-all"
+															className="w-full aspect-square border border-gray-600 rounded hover:ring-2 hover:ring-lime-400 transition-all"
 															style={{
 																background: `linear-gradient(to right, ${preset.colors[0]}, ${preset.colors[1]})`,
 															}}
@@ -766,7 +766,7 @@ export default function AppStoreAssetsPage() {
 					{/* Export Button */}
 					<div className="space-y-2 p-4 bg-gray-800 rounded-lg">
 						<button
-							className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+							className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-lime-400 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 							disabled={!iconSource || screenshots.length === 0 || isLoading}
 							onClick={handleExport}
 						>
