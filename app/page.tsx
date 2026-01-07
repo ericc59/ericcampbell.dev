@@ -154,7 +154,7 @@ export default function Page() {
 					{allProjects.map((project) => (
 						<Link
 							key={project.slug}
-							href={`/projects/${project.slug}`}
+							href={project.metadata.link ?? `/projects/${project.slug}`}
 							className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
 						>
 							<span className="text-cream group-hover:text-lime-400 transition-colors">
