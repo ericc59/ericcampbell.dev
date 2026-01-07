@@ -155,6 +155,8 @@ export default function Page() {
 						<Link
 							key={project.slug}
 							href={project.metadata.link ?? `/projects/${project.slug}`}
+							target={project.metadata.link ? "_blank" : undefined}
+							rel={project.metadata.link ? "noopener noreferrer" : undefined}
 							className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
 						>
 							<span className="text-cream group-hover:text-lime-400 transition-colors">
