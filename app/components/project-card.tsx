@@ -82,6 +82,8 @@ export function ProjectCard({
 						fill="none"
 						viewBox="0 0 24 24"
 						stroke="currentColor"
+						aria-label="View project"
+						role="img"
 					>
 						<path
 							strokeLinecap="round"
