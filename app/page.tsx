@@ -40,7 +40,7 @@ export default function Page() {
 						— an engineering leader, startup founder, and builder of high-scale
 						systems. Currently crafting the future of auctions at{" "}
 						<a
-							href="https://flowauctions.com"
+							href="https://marketing.flowauctions.com/platform/sellers"
 							className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 						>
 							Flow Auctions
