@@ -47,19 +47,19 @@ export default function Page() {
 						</p>
 					</TimelineEntry>
 
-					{/* Protocol */}
+					{/* Stack0 */}
 					<TimelineEntry
-						company="Protocol"
+						company="Stack0"
 						role="Founder"
 						period="2022 - Present"
-						href="https://pxyz.dev"
+						href="https://www.stack0.dev"
 					>
 						<p>
-							I started Protocol in 2022 with a desire to build a better
-							developer experience for the web. I believe the Next.js and Node
-							ecosystems provide the best unified platform for building web
-							applications, but lack a lot of tools that older frameworks
-							provided out of the box. Protocol is changing that.
+							I started Stack0 in 2022 with a desire to build a better developer
+							experience for the web. I believe the Next.js and Node ecosystems
+							provide the best unified platform for building web applications,
+							but lack a lot of tools that older frameworks provided out of the
+							box. Stack0 is changing that.
 						</p>
 					</TimelineEntry>
 

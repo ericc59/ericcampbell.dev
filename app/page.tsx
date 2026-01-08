@@ -103,10 +103,10 @@ export default function Page() {
 						active
 					/>
 					<WorkItem
-						company="Protocol"
+						company="Stack0"
 						role="Founder"
 						period="2022 - Present"
-						href="https://pxyz.dev"
+						href="https://www.stack0.dev"
 					/>
 					<WorkItem
 						company="Zapier"
