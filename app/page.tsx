@@ -37,8 +37,8 @@ export default function Page() {
 					</h1>
 
 					<p className="text-stone text-lg leading-relaxed max-w-xl">
-						— an engineering leader, startup founder, and builder of high-scale
-						systems. Currently crafting the future of auctions at{" "}
+						— 4x founder with exits to Google, Ford & Nest. Building GenAI
+						platforms & developer tools. 15+ years shipping products at scale.
 						<a
 							href="https://marketing.flowauctions.com/platform/sellers"
 							className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
