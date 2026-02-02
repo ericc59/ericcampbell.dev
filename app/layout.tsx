@@ -11,10 +11,12 @@ export const metadata: Metadata = {
 		default: "Eric Campbell",
 		template: "%s | Eric Campbell",
 	},
-	description: "Software engineering leader and startup founder.",
+	description:
+		"Software engineering leader building AI infrastructure. Former Zapier Principal Engineer. Founder of 4 acquired startups.",
 	openGraph: {
 		title: "Eric Campbell",
-		description: "Software engineering leader and startup founder.",
+		description:
+			"Software engineering leader building AI infrastructure. Former Zapier Principal Engineer. Founder of 4 acquired startups.",
 		url: "https://www.ericcampbell.dev",
 		siteName: "Eric Campbell",
 		locale: "en_US",
@@ -34,10 +36,6 @@ export const metadata: Metadata = {
 	twitter: {
 		title: "Eric Campbell",
 		card: "summary_large_image",
-	},
-	verification: {
-		google: "",
-		yandex: "",
 	},
 };
 

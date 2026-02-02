@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+	title: "Free Developer Tools",
+	description:
+		"Free tools for developers: product screenshot generator, App Store asset creator. Create beautiful marketing assets for your apps.",
+};
 
 export default function ToolsPage() {
 	return (

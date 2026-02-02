@@ -1,16 +1,23 @@
 /** biome-ignore-all lint/a11y/useValidAriaRole: custom role usage */
 import { getBlogPosts } from "app/db/blog";
 import { getProjects } from "app/db/project";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import eric from "public/images/home/eric2.jpeg";
 
-const FEATURED_PROJECT_SLUGS = [
-	"stack0",
-	"pixelport",
-	"prankai",
-	"reelbear",
-];
+export const metadata: Metadata = {
+	title: "Eric Campbell - Software Engineer & Startup Founder",
+	description:
+		"Software engineering leader building Stack0 and Flow Auctions. Former Zapier Principal Engineer. Founding engineer at 4 acquired startups (Google, Ford, Nest, Bird). YC W15.",
+	openGraph: {
+		title: "Eric Campbell - Software Engineer & Startup Founder",
+		description:
+			"Software engineering leader building Stack0 and Flow Auctions. Former Zapier Principal Engineer. Founding engineer at 4 acquired startups.",
+	},
+};
+
+const FEATURED_PROJECT_SLUGS = ["pixelport", "prankai", "reelbear"];
 
 export default function Page() {
 	const allProjects = getProjects()
@@ -32,6 +39,47 @@ export default function Page() {
 
 	return (
 		<section className="space-y-20">
+			<script
+				type="application/ld+json"
+				suppressHydrationWarning
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "Person",
+						name: "Eric Campbell",
+						url: "https://www.ericcampbell.dev",
+						image: "https://www.ericcampbell.dev/images/home/eric2.jpeg",
+						jobTitle: "Software Engineer & Startup Founder",
+						worksFor: [
+							{
+								"@type": "Organization",
+								name: "Stack0",
+								url: "https://www.stack0.dev",
+							},
+							{
+								"@type": "Organization",
+								name: "Flow Auctions",
+								url: "https://marketing.flowauctions.com/platform/sellers",
+							},
+						],
+						alumniOf: [
+							{ "@type": "Organization", name: "Zapier" },
+							{ "@type": "Organization", name: "Y Combinator" },
+						],
+						sameAs: [
+							"https://twitter.com/ericcampbell59",
+							"https://www.linkedin.com/in/ericcampbell59/",
+							"https://github.com/ericc59",
+						],
+						knowsAbout: [
+							"Software Engineering",
+							"AI Infrastructure",
+							"Startups",
+							"Developer Tools",
+						],
+					}),
+				}}
+			/>
 			{/* Hero Section */}
 			<div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 				<div className="lg:col-span-7 space-y-6">

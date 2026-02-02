@@ -6,7 +6,8 @@ import ViewCounter from "./view-counter";
 
 export const metadata = {
 	title: "Blog",
-	description: "Read my thoughts on software development, design, and more.",
+	description:
+		"Writing on AI infrastructure, SDK design, startup engineering, and building developer tools. Lessons from 4 acquired startups.",
 };
 
 export default function BlogPage() {

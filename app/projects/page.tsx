@@ -3,7 +3,8 @@ import { getProjects } from "app/db/project";
 
 export const metadata = {
 	title: "Projects",
-	description: "View my projects",
+	description:
+		"Side projects and experiments: AI apps, developer tools, and startup MVPs. Built with Next.js, React, and modern AI infrastructure.",
 };
 
 export default function ProjectPage() {

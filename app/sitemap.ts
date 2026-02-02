@@ -18,12 +18,21 @@ export default async function sitemap() {
     lastModified: post.metadata.publishedAt,
   }));
 
-  let routes = ['', '/blog', '/work', '/projects', '/contract-work'].map(
-    (route) => ({
-      url: `https://www.ericcampbell.dev${route}`,
-      lastModified: new Date().toISOString().split('T')[0],
-    })
-  );
+  let routes = [
+    '',
+    '/blog',
+    '/work',
+    '/projects',
+    '/contract-work',
+    '/tools',
+    '/tools/product-screenshot',
+    '/tools/app-store-assets',
+    '/uses',
+    '/guestbook',
+  ].map((route) => ({
+    url: `https://www.ericcampbell.dev${route}`,
+    lastModified: new Date().toISOString().split('T')[0],
+  }));
 
   return [...routes, ...blogs, ...projects, ...contractWork];
 }

@@ -3,7 +3,8 @@ import { getContracts } from "app/db/contract";
 
 export const metadata = {
 	title: "Contract Work",
-	description: "View contract work I've done",
+	description:
+		"Contract engineering projects: full-stack development, AI integrations, and startup MVPs for funded companies.",
 };
 
 export default function ProjectPage() {

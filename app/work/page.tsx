@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 
 import chariot from "public/images/work/chariot.webp";
+
+export const metadata: Metadata = {
+	title: "Work Experience",
+	description:
+		"Career timeline: Zapier Principal Engineer, CTO at 4 acquired startups (Chariot→Ford, Sphere→Google, Scoot→Bird, My Energy→Nest). YC W15 alum.",
+};
 import myenergy from "public/images/work/myenergy.webp";
 import scoot from "public/images/work/scoot.png";
 import sphere from "public/images/work/sphere.png";
