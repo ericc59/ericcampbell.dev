@@ -7,7 +7,7 @@ import eric from "public/images/home/eric2.jpeg";
 
 const FEATURED_PROJECT_SLUGS = [
 	"stack0",
-	"flowauctions",
+	"pixelport",
 	"prankai",
 	"reelbear",
 ];
