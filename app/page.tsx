@@ -83,9 +83,9 @@ export default function Page() {
 						>
 							Stack0
 						</a>
-						, I'm building a TypeScript SDK with unified APIs for email, CDN,
-						video processing, and 20+ integrations — now expanding into AI agent
-						infrastructure.
+						, I'm building multi-language SDKs (TypeScript, Go, Ruby, Python,
+						PHP) with unified APIs for email, CDN, video processing, and 20+
+						integrations.
 					</p>
 					<p>
 						At{" "}
