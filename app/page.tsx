@@ -1,11 +1,16 @@
-/** biome-ignore-all lint/a11y/useValidAriaRole: <explanation> */
+/** biome-ignore-all lint/a11y/useValidAriaRole: custom role usage */
 import { getBlogPosts } from "app/db/blog";
 import { getProjects } from "app/db/project";
 import Image from "next/image";
 import Link from "next/link";
 import eric from "public/images/home/eric2.jpeg";
 
-const FEATURED_PROJECT_SLUGS = ["stack0", "flowauctions", "prankai", "reelbear"];
+const FEATURED_PROJECT_SLUGS = [
+	"stack0",
+	"flowauctions",
+	"prankai",
+	"reelbear",
+];
 
 export default function Page() {
 	const allProjects = getProjects()
@@ -68,7 +73,7 @@ export default function Page() {
 			</div>
 
 			{/* About */}
-			<Section id="about" code="001" title="About">
+			<Section id="about" title="About">
 				<div className="space-y-4 text-stone leading-relaxed max-w-2xl">
 					<p>
 						At{" "}
@@ -90,7 +95,8 @@ export default function Page() {
 						>
 							Zapier
 						</a>
-						, I led the launches of Tables and Interfaces as Principal Engineer.
+						, I led the launches of Maker and Forms, and contributed to Tables
+						and Interfaces as Principal Engineer.
 					</p>
 					<p>
 						At{" "}
@@ -111,7 +117,7 @@ export default function Page() {
 			</Section>
 
 			{/* Work */}
-			<Section id="work" code="002" title="Work">
+			<Section id="work" title="Work">
 				<div className="space-y-4">
 					<WorkItem
 						company="Stack0"
@@ -141,8 +147,8 @@ export default function Page() {
 						period="2019 - 2022"
 						href="https://zapier.com"
 						bullets={[
-							"Led Tables & Interfaces product launches",
-							"Platform infrastructure for automation at scale",
+							"Led Maker & Forms product launches",
+							"Contributed to Tables & Interfaces products",
 						]}
 					/>
 					<WorkItem
@@ -181,7 +187,7 @@ export default function Page() {
 			</Section>
 
 			{/* Projects */}
-			<Section id="projects" code="003" title="Projects">
+			<Section id="projects" title="Projects">
 				<div className="space-y-3">
 					{allProjects.map((project) => (
 						<Link
@@ -214,7 +220,7 @@ export default function Page() {
 			</Section>
 
 			{/* Writing */}
-			<Section id="writing" code="004" title="Writing">
+			<Section id="writing" title="Writing">
 				{recentPosts.length > 0 ? (
 					<div className="space-y-3">
 						{recentPosts.map((post) => (
@@ -258,12 +264,10 @@ export default function Page() {
 
 function Section({
 	id,
-	code,
 	title,
 	children,
 }: {
 	id: string;
-	code: string;
 	title: string;
 	children: React.ReactNode;
 }) {
@@ -326,13 +330,17 @@ function WorkItem({
 								</span>
 							)}
 							{outcome && (
-								<span className="font-mono text-xs text-lime-400">{outcome}</span>
+								<span className="font-mono text-xs text-lime-400">
+									{outcome}
+								</span>
 							)}
 						</div>
 						<span className="font-mono text-xs text-stone">{role}</span>
 					</div>
 				</div>
-				<span className="font-mono text-xs text-ash mt-1 sm:mt-0">{period}</span>
+				<span className="font-mono text-xs text-ash mt-1 sm:mt-0">
+					{period}
+				</span>
 			</div>
 			{bullets && bullets.length > 0 && (
 				<ul className="mt-2 ml-5 space-y-1">
