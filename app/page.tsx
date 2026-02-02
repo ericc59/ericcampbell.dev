@@ -1,31 +1,29 @@
 /** biome-ignore-all lint/a11y/useValidAriaRole: <explanation> */
-import { getContracts } from "app/db/contract";
+import { getBlogPosts } from "app/db/blog";
 import { getProjects } from "app/db/project";
 import Image from "next/image";
 import Link from "next/link";
 import eric from "public/images/home/eric2.jpeg";
 
+const FEATURED_PROJECT_SLUGS = ["stack0", "flowauctions", "prankai", "reelbear"];
+
 export default function Page() {
 	const allProjects = getProjects()
+		.filter((p) => FEATURED_PROJECT_SLUGS.includes(p.slug))
+		.sort(
+			(a, b) =>
+				FEATURED_PROJECT_SLUGS.indexOf(a.slug) -
+				FEATURED_PROJECT_SLUGS.indexOf(b.slug),
+		);
+
+	const recentPosts = getBlogPosts()
 		.sort((a, b) => {
 			if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
 				return -1;
 			}
 			return 1;
 		})
-		.slice(0, 6);
-
-	const allContracts = getContracts()
-		.sort((a, b) => {
-			if (
-				new Date(a?.metadata.publishedAt ?? "") >
-				new Date(b?.metadata.publishedAt ?? "")
-			) {
-				return -1;
-			}
-			return 1;
-		})
-		.slice(0, 6);
+		.slice(0, 3);
 
 	return (
 		<section className="space-y-20">
@@ -36,17 +34,24 @@ export default function Page() {
 						I'm Eric Campbell
 					</h1>
 
-					<p className="text-stone text-lg leading-relaxed max-w-xl">
-						— 4x founder with exits to Google, Ford & Nest. Building GenAI
-						platforms & developer tools. 15+ years shipping products at scale.
-						<a
-							href="https://marketing.flowauctions.com/platform/sellers"
-							className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
-						>
-							Flow Auctions
-						</a>
-						.
-					</p>
+					<div className="text-stone text-lg leading-relaxed max-w-xl space-y-4">
+						<p>I build developer platforms and infrastructure for AI.</p>
+						<p>
+							Currently building{" "}
+							<a
+								href="https://www.stack0.dev"
+								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
+							>
+								Stack0
+							</a>{" "}
+							— infrastructure for apps and AI agents.
+						</p>
+						<p className="text-stone/80">
+							Previously: 4 startups, 4 exits (Google, Ford, Nest, Bird).
+							<br />
+							Principal Engineer at Zapier. YC W15.
+						</p>
+					</div>
 				</div>
 
 				<div className="lg:col-span-5">
@@ -66,28 +71,41 @@ export default function Page() {
 			<Section id="about" code="001" title="About">
 				<div className="space-y-4 text-stone leading-relaxed max-w-2xl">
 					<p>
-						I'm a{" "}
-						<span className="text-cream">
-							product-focused engineering leader
-						</span>{" "}
-						who loves building tools to make engineering and product teams more
-						efficient.
+						At{" "}
+						<a
+							href="https://www.stack0.dev"
+							className="text-lime-400 hover:underline"
+						>
+							Stack0
+						</a>
+						, I'm building a TypeScript SDK with unified APIs for email, CDN,
+						video processing, and 20+ integrations — now expanding into AI agent
+						infrastructure.
 					</p>
 					<p>
-						Currently at{" "}
+						At{" "}
+						<a
+							href="https://zapier.com"
+							className="text-lime-400 hover:underline"
+						>
+							Zapier
+						</a>
+						, I led the launches of Tables and Interfaces as Principal Engineer.
+					</p>
+					<p>
+						At{" "}
 						<a
 							href="https://flowauctions.com"
 							className="text-lime-400 hover:underline"
 						>
 							Flow Auctions
 						</a>
-						, building the world's first AI-Native Auction House Management
-						Platform.
+						, I built GenAI pipelines integrating computer vision for
+						authentication and LLM-powered catalog generation.
 					</p>
 					<p>
-						Previously: co-founder, CTO at{" "}
-						<span className="text-lime-400">Y Combinator W15</span>, and
-						engineering leader at four VC-backed startups with exits.
+						Track record: founding engineer or CTO at 4 VC-backed startups, all
+						acquired.
 					</p>
 				</div>
 			</Section>
@@ -96,29 +114,36 @@ export default function Page() {
 			<Section id="work" code="002" title="Work">
 				<div className="space-y-4">
 					<WorkItem
+						company="Stack0"
+						role="Founder"
+						period="2022 - Present"
+						href="https://www.stack0.dev"
+						active
+						bullets={[
+							"TypeScript SDK with unified APIs for 20+ services",
+							"Expanding into AI agent infrastructure",
+						]}
+					/>
+					<WorkItem
 						company="Flow Auctions"
 						role="Co-Founder"
 						period="2024 - Present"
 						href="https://flowauctions.com"
 						active
-					/>
-					<WorkItem
-						company="Stack0"
-						role="Founder"
-						period="2022 - Present"
-						href="https://www.stack0.dev"
+						bullets={[
+							"GenAI pipelines: computer vision, LLM-powered cataloging",
+							"Real-time pricing intelligence for rare collectibles",
+						]}
 					/>
 					<WorkItem
 						company="Zapier"
 						role="Principal Engineer"
 						period="2019 - 2022"
 						href="https://zapier.com"
-					/>
-					<WorkItem
-						company="New Wave Capital"
-						role="Co-Founder"
-						period="2016 - 2018"
-						href="#"
+						bullets={[
+							"Led Tables & Interfaces product launches",
+							"Platform infrastructure for automation at scale",
+						]}
 					/>
 					<WorkItem
 						company="Chariot"
@@ -126,24 +151,31 @@ export default function Page() {
 						period="2014 - 2016"
 						outcome="Acquired by Ford"
 						badge="YC W15"
+						bullets={[
+							"Built commuter shuttle platform from 0 to acquisition",
+							"Real-time routing and demand prediction systems",
+						]}
 					/>
 					<WorkItem
 						company="Sphere"
 						role="CTO"
 						period="2012 - 2013"
 						outcome="Acquired by Google"
+						bullets={["Mobile-first social networking platform"]}
 					/>
 					<WorkItem
 						company="Scoot"
 						role="Founding Engineer"
 						period="2012 - 2013"
 						outcome="Acquired by Bird"
+						bullets={["Early electric scooter sharing infrastructure"]}
 					/>
 					<WorkItem
 						company="My Energy"
 						role="CTO"
 						period="2009 - 2012"
 						outcome="Acquired by Nest/Google"
+						bullets={["Home energy monitoring and analytics platform"]}
 					/>
 				</div>
 			</Section>
@@ -157,14 +189,19 @@ export default function Page() {
 							href={project.metadata.link ?? `/projects/${project.slug}`}
 							target={project.metadata.link ? "_blank" : undefined}
 							rel={project.metadata.link ? "noopener noreferrer" : undefined}
-							className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
+							className="group block py-3 border-b border-elevated hover:border-lime-400/30 transition-colors"
 						>
-							<span className="text-cream group-hover:text-lime-400 transition-colors">
-								{project.metadata.title}
-							</span>
-							<span className="font-mono text-xs text-ash">
-								{project.metadata.category}
-							</span>
+							<div className="flex items-baseline justify-between">
+								<span className="text-cream group-hover:text-lime-400 transition-colors">
+									{project.metadata.title}
+								</span>
+								<span className="font-mono text-xs text-ash">
+									{project.metadata.category}
+								</span>
+							</div>
+							<p className="text-stone text-sm mt-1 max-w-xl">
+								{project.metadata.summary}
+							</p>
 						</Link>
 					))}
 				</div>
@@ -176,89 +213,46 @@ export default function Page() {
 				</Link>
 			</Section>
 
-			{/* Contract Work */}
-			<Section id="contract" code="004" title="Contract Work">
-				<p className="text-stone mb-6">
-					Looking for expert engineering?{" "}
-					<a
-						href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
-						className="text-lime-400 hover:underline"
-					>
-						Let's talk
-					</a>
-					.
-				</p>
-				<div className="space-y-3">
-					{allContracts.map((project) => (
-						<Link
-							key={project?.slug}
-							href={`/contract-work/${project?.slug}`}
-							className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
-						>
-							<span className="text-cream group-hover:text-lime-400 transition-colors">
-								{project?.metadata.title}
-							</span>
-							<span className="font-mono text-xs text-ash">
-								{project?.metadata.category}
-							</span>
-						</Link>
-					))}
-				</div>
+			{/* Writing */}
+			<Section id="writing" code="004" title="Writing">
+				{recentPosts.length > 0 ? (
+					<div className="space-y-3">
+						{recentPosts.map((post) => (
+							<Link
+								key={post.slug}
+								href={`/blog/${post.slug}`}
+								className="group block py-3 border-b border-elevated hover:border-lime-400/30 transition-colors"
+							>
+								<div className="flex items-baseline justify-between">
+									<span className="text-cream group-hover:text-lime-400 transition-colors">
+										{post.metadata.title}
+									</span>
+									<span className="font-mono text-xs text-ash">
+										{new Date(post.metadata.publishedAt).toLocaleDateString(
+											"en-US",
+											{ month: "short", year: "numeric" },
+										)}
+									</span>
+								</div>
+								{post.metadata.summary && (
+									<p className="text-stone text-sm mt-1 max-w-xl line-clamp-1">
+										{post.metadata.summary}
+									</p>
+								)}
+							</Link>
+						))}
+					</div>
+				) : (
+					<p className="text-stone">Coming soon.</p>
+				)}
 				<Link
-					href="/contract-work"
+					href="/blog"
 					className="inline-block mt-6 font-mono text-xs text-stone hover:text-lime-400 transition-colors"
 				>
-					View all contract work →
+					View all posts →
 				</Link>
 			</Section>
-
-			{/* Tools */}
-			<Section id="tools" code="005" title="Tools">
-				<div className="space-y-3">
-					<Link
-						href="/tools/product-screenshot"
-						className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
-					>
-						<span className="text-cream group-hover:text-lime-400 transition-colors">
-							Product Screenshot
-						</span>
-						<span className="font-mono text-xs text-lime-400">FREE</span>
-					</Link>
-					<Link
-						href="/tools/app-store-assets"
-						className="group flex items-baseline justify-between py-2 border-b border-elevated hover:border-lime-400/30 transition-colors"
-					>
-						<span className="text-cream group-hover:text-lime-400 transition-colors">
-							App Store Assets
-						</span>
-						<span className="font-mono text-xs text-lime-400">FREE</span>
-					</Link>
-				</div>
-			</Section>
 		</section>
-	);
-}
-
-function Stat({
-	value,
-	label,
-	highlight,
-}: {
-	value: string;
-	label: string;
-	highlight?: boolean;
-}) {
-	return (
-		<div className="space-y-1">
-			<div
-				className={`font-mono text-2xl font-light ${highlight ? "text-lime-400" : "text-cream"}`}
-			>
-				{value}
-			</div>
-			<div className="font-mono text-xs text-ash uppercase tracking-wider">
-				{label}
-			</div>
-		</div>
 	);
 }
 
@@ -294,6 +288,7 @@ function WorkItem({
 	outcome,
 	badge,
 	active,
+	bullets,
 }: {
 	company: string;
 	role: string;
@@ -302,58 +297,52 @@ function WorkItem({
 	outcome?: string;
 	badge?: string;
 	active?: boolean;
+	bullets?: string[];
 }) {
 	return (
-		<div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 border-b border-elevated">
-			<div className="flex items-center gap-3">
-				{active && (
-					<span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
-				)}
-				<div>
-					<div className="flex items-center gap-2 flex-wrap">
-						{href ? (
-							<a
-								href={href}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-cream hover:text-lime-400 transition-colors"
-							>
-								{company}
-							</a>
-						) : (
-							<span className="text-cream">{company}</span>
-						)}
-						{badge && (
-							<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-1.5 py-0.5">
-								{badge}
-							</span>
-						)}
-						{outcome && (
-							<span className="font-mono text-xs text-lime-400">{outcome}</span>
-						)}
+		<div className="py-2 border-b border-elevated">
+			<div className="flex flex-col sm:flex-row sm:items-center justify-between">
+				<div className="flex items-center gap-3">
+					{active && (
+						<span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+					)}
+					<div>
+						<div className="flex items-center gap-2 flex-wrap">
+							{href ? (
+								<a
+									href={href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-cream hover:text-lime-400 transition-colors"
+								>
+									{company}
+								</a>
+							) : (
+								<span className="text-cream">{company}</span>
+							)}
+							{badge && (
+								<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-1.5 py-0.5">
+									{badge}
+								</span>
+							)}
+							{outcome && (
+								<span className="font-mono text-xs text-lime-400">{outcome}</span>
+							)}
+						</div>
+						<span className="font-mono text-xs text-stone">{role}</span>
 					</div>
-					<span className="font-mono text-xs text-stone">{role}</span>
 				</div>
+				<span className="font-mono text-xs text-ash mt-1 sm:mt-0">{period}</span>
 			</div>
-			<span className="font-mono text-xs text-ash mt-1 sm:mt-0">{period}</span>
-		</div>
-	);
-}
-
-function ExitCard({
-	company,
-	outcome,
-	year,
-}: {
-	company: string;
-	outcome: string;
-	year: string;
-}) {
-	return (
-		<div className="border border-elevated p-4 hover:border-lime-400/30 transition-colors">
-			<div className="font-mono text-xs text-ash mb-2">{year}</div>
-			<div className="text-cream font-display text-lg">{company}</div>
-			<div className="font-mono text-xs text-lime-400 mt-1">→ {outcome}</div>
+			{bullets && bullets.length > 0 && (
+				<ul className="mt-2 ml-5 space-y-1">
+					{bullets.map((bullet) => (
+						<li key={bullet} className="text-stone text-sm">
+							{bullet}
+						</li>
+					))}
+				</ul>
+			)}
 		</div>
 	);
 }
