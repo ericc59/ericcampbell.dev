@@ -192,6 +192,14 @@ body {
    PROSE & CONTENT STYLES
    ═══════════════════════════════════════════════════════════════ */
 
+.prose {
+  color: var(--text-primary);
+}
+
+.prose p, .prose li, .prose ol, .prose ul {
+  color: var(--text-primary);
+}
+
 .prose .anchor {
   @apply absolute invisible no-underline;
   margin-left: -1em;
