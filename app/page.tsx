@@ -45,6 +45,8 @@ export default function Page() {
 							Currently building{" "}
 							<a
 								href="https://www.stack0.dev"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
 							>
 								Stack0
@@ -79,6 +81,8 @@ export default function Page() {
 						At{" "}
 						<a
 							href="https://www.stack0.dev"
+							target="_blank"
+							rel="noopener noreferrer"
 							className="text-lime-400 hover:underline"
 						>
 							Stack0
@@ -91,6 +95,8 @@ export default function Page() {
 						At{" "}
 						<a
 							href="https://zapier.com"
+							target="_blank"
+							rel="noopener noreferrer"
 							className="text-lime-400 hover:underline"
 						>
 							Zapier
@@ -101,7 +107,9 @@ export default function Page() {
 					<p>
 						At{" "}
 						<a
-							href="https://flowauctions.com"
+							href="https://marketing.flowauctions.com/platform/sellers"
+							target="_blank"
+							rel="noopener noreferrer"
 							className="text-lime-400 hover:underline"
 						>
 							Flow Auctions
@@ -134,7 +142,7 @@ export default function Page() {
 						company="Flow Auctions"
 						role="Co-Founder"
 						period="2024 - Present"
-						href="https://flowauctions.com"
+						href="https://marketing.flowauctions.com/platform/sellers"
 						active
 						bullets={[
 							"AI-native auction house management (Shopify for auction houses)",
