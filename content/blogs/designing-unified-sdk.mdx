@@ -1,7 +1,156 @@
 ---
 title: Designing a Unified SDK for 20+ Services
 publishedAt: '2026-02-01'
-summary: What I learned building @stack0/sdk — API design decisions, TypeScript patterns, and the tradeoffs of unified vs service-specific interfaces.
+summary: What I learned building Stack0's SDKs — API design decisions, TypeScript patterns, and the tradeoffs of unified vs service-specific interfaces.
 ---
 
-Coming soon.
+When I started building Stack0, I had a simple goal: make it trivially easy to add email, file storage, video processing, and third-party integrations to any app. One import, one API key, done.
+
+What I didn't anticipate was how many design decisions that would require.
+
+## The Core Tension
+
+There's an inherent tension in unified SDKs. On one side: consistency. Users should be able to guess how `stack0.email.send()` works if they've used `stack0.cdn.upload()`. On the other: services are genuinely different. Email has recipients and subjects. CDN has mime types and transformations. Forcing them into identical shapes creates awkward abstractions.
+
+I landed on a principle: **consistent patterns, service-appropriate parameters**.
+
+Every service follows the same structure:
+
+```typescript
+const result = await stack0.service.action(params)
+```
+
+But the params object is typed specifically for that action. No generic `options` bags. No string unions where enums belong.
+
+## Resource Naming
+
+Early on I had to decide: `stack0.emails.send()` or `stack0.email.send()`? Plural feels RESTful. Singular feels like you're talking to a service.
+
+I went with singular. You're not sending multiple emails (even though you might be). You're using the email service to send a message. It reads better:
+
+```typescript
+// This
+await stack0.email.send({ to: 'user@example.com', subject: 'Hello' })
+
+// vs this
+await stack0.emails.send({ to: 'user@example.com', subject: 'Hello' })
+```
+
+Small thing. But SDK design is a thousand small things.
+
+## The Integrations Problem
+
+Stack0 connects to 20+ third-party services — HubSpot, Salesforce, Notion, Airtable, Google Drive, Dropbox, Slack. Each has its own API shape, auth model, and quirks.
+
+The obvious approach: normalize everything. Make HubSpot contacts look exactly like Salesforce contacts. Abstract away the differences.
+
+I tried this. It doesn't work.
+
+The problem is that normalization loses information. HubSpot has lifecycle stages. Salesforce has record types. Notion has blocks. If you flatten these into a generic "contact" or "item" type, power users can't access the features they need.
+
+Instead, I built a two-layer API:
+
+```typescript
+// Layer 1: Common operations with normalized types
+const contacts = await stack0.integrations.crm.listContacts()
+
+// Layer 2: Provider-specific access when you need it
+const hubspotContact = await stack0.integrations.hubspot.contacts.get(id)
+```
+
+Layer 1 handles 80% of use cases. Layer 2 is there when you need the full power of the underlying service.
+
+## Error Handling
+
+Every external service fails differently. Stripe returns structured error objects. Some APIs return HTML error pages. Others timeout silently.
+
+I standardized on a simple error type:
+
+```typescript
+type Stack0Error = {
+  code: string        // machine-readable: 'rate_limited', 'invalid_param', etc.
+  message: string     // human-readable explanation
+  service: string     // which service failed
+  retryable: boolean  // can this be retried?
+  cause?: unknown     // original error for debugging
+}
+```
+
+The `retryable` field matters. When you're building automation, you need to know: should I retry this? Or is it a permanent failure? Parsing error messages to figure this out sucks.
+
+## TypeScript Patterns That Worked
+
+**Branded types for IDs.** A contact ID is not interchangeable with an email ID, even though both are strings. TypeScript's branded types catch these bugs at compile time:
+
+```typescript
+type ContactId = string & { __brand: 'ContactId' }
+type EmailId = string & { __brand: 'EmailId' }
+
+// This is a type error:
+await stack0.email.get(contactId)
+```
+
+**Discriminated unions for responses.** Instead of nullable fields, use unions that make impossible states unrepresentable:
+
+```typescript
+type SendResult =
+  | { status: 'sent'; messageId: string }
+  | { status: 'queued'; queuedAt: Date }
+  | { status: 'failed'; error: Stack0Error }
+```
+
+**Builder patterns for complex operations.** Some operations have many optional parameters. Rather than a massive options object, builders provide discoverability:
+
+```typescript
+await stack0.cdn
+  .upload(file)
+  .resize({ width: 800 })
+  .format('webp')
+  .quality(80)
+  .execute()
+```
+
+## Multi-Language Support
+
+Stack0 ships SDKs in TypeScript, Go, Ruby, Python, and PHP. The temptation is to generate them all from an OpenAPI spec.
+
+I tried this. The generated code is correct but unidiomatic. Go code that looks like Java. Python that doesn't use context managers. Ruby without blocks.
+
+Instead, I write each SDK by hand, following the idioms of that language. It's more work, but the result is code that feels native:
+
+```go
+// Go: explicit error handling
+contact, err := stack0.Integrations.CRM.GetContact(ctx, id)
+if err != nil {
+    return err
+}
+```
+
+```python
+# Python: context managers for resources
+with stack0.cdn.upload(file) as upload:
+    upload.resize(width=800)
+    url = upload.execute()
+```
+
+```ruby
+# Ruby: blocks for transformations
+stack0.cdn.upload(file) do |img|
+  img.resize(width: 800)
+  img.format(:webp)
+end
+```
+
+## What I'd Do Differently
+
+**Version the SDK independently from the API.** I coupled them early on, which means SDK updates require API version bumps even for pure client-side improvements.
+
+**Start with fewer services.** I launched with 8 services. Should have launched with 3, polished them, then expanded. Breadth came at the cost of depth.
+
+**Build the CLI first.** A CLI forces you to think about the mental model before you think about the code. `stack0 email send --to user@example.com` has to make sense in a way that SDK code can hide behind types.
+
+## The Payoff
+
+Six months in, the unified approach is paying off. Users add multiple services without learning multiple APIs. The consistent patterns mean less documentation to read. And when something breaks, the standardized error handling means less time in the debugger.
+
+The best compliment I've gotten: "It just works like I expected it to."

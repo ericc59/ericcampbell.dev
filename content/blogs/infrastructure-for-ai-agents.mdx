@@ -4,4 +4,182 @@ publishedAt: '2026-01-01'
 summary: Agents can think but can't act. Here's what we need to build to give agents real-world capabilities — and why approval workflows are the key to trust.
 ---
 
-Coming soon.
+The discourse around AI agents is mostly about capabilities. Can they reason? Can they plan? Can they use tools?
+
+These are mostly solved problems. GPT-4 and Claude can reason through complex tasks. They can decompose problems into steps. They can call APIs.
+
+What's missing is infrastructure. The boring stuff that lets agents actually do things in the real world.
+
+## The Gap Between Demo and Production
+
+Every agent demo follows the same pattern:
+
+1. User asks agent to do something
+2. Agent reasons about the task
+3. Agent calls some tools
+4. Result appears
+
+This works great when the tools are "search the web" or "write a file." It falls apart when the tools are "send an email to the CEO" or "deploy to production" or "transfer $10,000."
+
+The demo assumes the agent should just... do things. Production requires gates, approvals, and audit trails.
+
+## What Agents Actually Need
+
+Having built AI workflows at Flow Auctions and infrastructure at Stack0, I keep running into the same gaps:
+
+### 1. Approval Workflows
+
+The simplest version: before an agent takes a high-stakes action, a human approves it.
+
+```typescript
+// The agent plans this action
+const action = {
+  type: 'send_email',
+  to: 'investor@example.com',
+  subject: 'Q4 Results',
+  body: generatedBody
+}
+
+// But it doesn't execute directly
+await agent.requestApproval(action, {
+  approvers: ['ceo@company.com'],
+  expiresIn: '24h',
+  context: 'Quarterly investor update email'
+})
+
+// Human reviews in a dashboard, approves or rejects
+// Only then does it execute
+```
+
+This seems obvious, but no agent framework has it built in. Everyone's building their own.
+
+### 2. Scoped Permissions
+
+Agents shouldn't have the same permissions as the user who invoked them. An agent helping me draft emails shouldn't be able to delete my entire inbox.
+
+We need capability-based permissions:
+
+```typescript
+const agent = createAgent({
+  permissions: {
+    email: ['draft', 'read'],        // can draft and read, not send
+    calendar: ['read', 'create'],    // can read and create, not delete
+    files: ['read']                  // read-only access
+  }
+})
+```
+
+The agent operates within these bounds. If it tries to exceed them, the action fails (or escalates to approval).
+
+### 3. Audit Logging
+
+When an agent does something, you need to know:
+
+- What action was taken
+- Why the agent decided to take it (the reasoning trace)
+- What context it had access to
+- Who approved it (if applicable)
+- What the outcome was
+
+This isn't just for debugging. It's for compliance, for trust, for "what happened at 3am last Tuesday?"
+
+```typescript
+{
+  "timestamp": "2026-01-01T03:42:17Z",
+  "agent_id": "agent_abc123",
+  "action": "create_calendar_event",
+  "reasoning": "User asked to schedule a meeting with the team. I found a 30-minute slot on Thursday that works for all participants.",
+  "inputs": {
+    "participants": ["alice@co.com", "bob@co.com"],
+    "duration": 30,
+    "preferred_times": ["Thursday afternoon"]
+  },
+  "output": {
+    "event_id": "evt_xyz789",
+    "scheduled_time": "2026-01-03T14:00:00Z"
+  },
+  "approval": {
+    "required": false,
+    "policy": "calendar_create_auto_approve"
+  }
+}
+```
+
+### 4. Rate Limiting and Cost Controls
+
+Agents can get into loops. They can make expensive API calls. They can spam external services.
+
+You need:
+
+- Per-agent rate limits
+- Cost budgets (stop after $X spent)
+- Action limits (max N actions per task)
+- Circuit breakers (stop if error rate exceeds threshold)
+
+```typescript
+const agent = createAgent({
+  limits: {
+    maxActionsPerTask: 50,
+    maxCostPerTask: 5.00,
+    maxExternalApiCalls: 100,
+    errorThreshold: 0.2  // stop if 20% of actions fail
+  }
+})
+```
+
+### 5. Rollback Capabilities
+
+When an agent makes a mistake, you need to undo it. Easy for some actions (delete the calendar event), impossible for others (unsend an email).
+
+The infrastructure should track which actions are reversible and provide rollback primitives:
+
+```typescript
+const task = await agent.run('Schedule meetings for next week')
+
+// Later, if something went wrong:
+const rollbackReport = await task.rollback({
+  dryRun: true  // show what would be undone
+})
+
+// Then actually do it:
+await task.rollback()
+```
+
+For irreversible actions, this is why approval workflows matter. You can't unsend the email, so make sure a human approved it first.
+
+## The Trust Hierarchy
+
+I think about agent permissions in layers:
+
+**Layer 1: Sandbox.** Agent can only affect its own state. Draft documents, create plans, simulate actions. Nothing leaves the sandbox without approval.
+
+**Layer 2: Low-stakes automation.** Agent can take actions that are easily reversible and low-cost. Create calendar events, send messages to a Slack channel, update a spreadsheet.
+
+**Layer 3: Supervised execution.** Agent can take higher-stakes actions, but with human approval. Send external emails, make purchases under $100, modify production data.
+
+**Layer 4: Autonomous operation.** Agent operates independently within defined bounds. This is rare and requires extensive testing, monitoring, and trust-building.
+
+Most agents should live in Layers 1-2. Layer 3 is for mature, well-tested workflows. Layer 4 is for very specific, well-bounded tasks.
+
+## Why This Matters Now
+
+The agent capabilities are improving fast. Claude and GPT-4 can already handle complex multi-step tasks. Tool use is reliable. Reasoning is getting better.
+
+The bottleneck is moving from "what can the agent do?" to "what should we let the agent do?"
+
+Without approval workflows, you can't deploy agents on anything important. Without audit logging, you can't debug or comply. Without permissions, you can't limit blast radius.
+
+This is the infrastructure gap. It's not glamorous, but it's what separates demos from production.
+
+## What I'm Building
+
+At Stack0, we're adding agent infrastructure to the platform. The same way we provide email and CDN and integrations, we'll provide:
+
+- Approval workflow primitives
+- Scoped permission grants
+- Audit logging as a service
+- Cost and rate limit controls
+
+The goal: make it as easy to deploy a production agent as it is to deploy a production API.
+
+The patterns are still emerging. Best solutions will come from people building real systems.

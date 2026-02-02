@@ -4,4 +4,193 @@ publishedAt: '2026-01-15'
 summary: How we integrated GPT-4, Claude, and computer vision at Flow Auctions. Prompt management, cost optimization, and why RAG isn't always the answer.
 ---
 
-Coming soon.
+At Flow Auctions, we use GenAI throughout the product — generating lot descriptions, auto-pricing items, creating marketing emails, producing listing images. These aren't demos. They run in production, processing thousands of items per week.
+
+Some notes from the trenches.
+
+## Start With the Workflow, Not the Model
+
+The first mistake I see teams make: starting with "let's use GPT-4" instead of "what's the workflow?"
+
+For lot descriptions, the workflow is:
+
+1. Seller uploads photos of an item
+2. We need a title, description, and category
+3. The description should mention condition, provenance, and key features
+4. Output goes directly into the listing
+
+Working backwards from this, the AI task becomes clear: given images and seller notes, produce structured listing data. The model choice is secondary.
+
+```typescript
+type LotDescriptionInput = {
+  images: string[]      // URLs
+  sellerNotes?: string
+  category?: string     // if seller provided one
+}
+
+type LotDescriptionOutput = {
+  title: string
+  description: string
+  category: string
+  condition: 'mint' | 'excellent' | 'good' | 'fair' | 'poor'
+  suggestedStartingBid: number
+}
+```
+
+This schema came from the workflow, not from what's easy to generate.
+
+## Structured Output
+
+The biggest improvement to our pipelines came from switching to structured output (JSON mode with schema enforcement).
+
+Before:
+
+```
+Generate a lot description for this coin. Include the title,
+description, and suggested price.
+```
+
+This returns prose. Sometimes with headers. Sometimes without. Parsing it is fragile.
+
+After:
+
+```typescript
+const result = await anthropic.messages.create({
+  model: 'claude-sonnet-4-20250514',
+  max_tokens: 1024,
+  messages: [{ role: 'user', content: prompt }],
+  tools: [{
+    name: 'create_listing',
+    input_schema: LotDescriptionOutputSchema
+  }],
+  tool_choice: { type: 'tool', name: 'create_listing' }
+})
+```
+
+Forcing the model to call a "tool" with a specific schema guarantees parseable output. Error handling drops from 30% of the code to near zero.
+
+## The Multi-Model Reality
+
+We use different models for different tasks:
+
+- **Claude Sonnet** for lot descriptions — best at nuanced writing and following complex instructions
+- **GPT-4o** for image analysis — slightly better at reading text in photos (mint marks, dates)
+- **GPT-4o mini** for classification — fast and cheap for "is this a coin or a bill?"
+
+This isn't about benchmarks. It's about testing each model on your actual data and seeing what works.
+
+We also use fallbacks. If Claude is slow (happens during high load), we fall back to GPT-4. The prompts are slightly different, but the output schema is identical. Users don't notice.
+
+```typescript
+async function generateDescription(input: LotDescriptionInput) {
+  try {
+    return await generateWithClaude(input, { timeout: 10000 })
+  } catch (err) {
+    if (err.code === 'timeout' || err.code === 'rate_limited') {
+      return await generateWithGPT4(input)
+    }
+    throw err
+  }
+}
+```
+
+## Prompt Management
+
+Prompts are code. They belong in version control, not in a database or a prompt management platform.
+
+Our prompts are TypeScript template literals:
+
+```typescript
+export const lotDescriptionPrompt = (input: LotDescriptionInput) => `
+You are an expert numismatist writing auction lot descriptions.
+
+Given the images and notes below, create a listing for this item.
+
+${input.sellerNotes ? `Seller notes: ${input.sellerNotes}` : ''}
+
+Guidelines:
+- Title should be under 80 characters
+- Description should be 2-3 paragraphs
+- Mention condition, date, mint mark if visible
+- Be accurate — don't invent provenance
+- Tone: professional but accessible
+
+Category hint: ${input.category ?? 'unknown'}
+`
+```
+
+This approach has several benefits:
+
+1. **Type safety** — the function signature documents what the prompt needs
+2. **Testability** — you can unit test prompt generation
+3. **Code review** — prompt changes go through PR review like any other code
+4. **Git history** — you can see exactly when and why a prompt changed
+
+## Cost Optimization
+
+AI costs add up fast. A naive implementation of our lot description feature would cost $0.15 per item. At 10,000 items per month, that's $1,500 — just for descriptions.
+
+We got it down to $0.02 per item:
+
+**1. Use the right model size.** Claude Haiku handles simple classification. Sonnet handles description generation. Don't use Opus for everything.
+
+**2. Batch when possible.** Instead of one API call per image, we batch 4-5 images in a single call for initial analysis.
+
+**3. Cache aggressively.** Same coin type with similar images? We cache at the category level and use the cached description as a starting point.
+
+**4. Truncate context.** Seller notes over 500 characters get summarized first (by a smaller model) before going into the main prompt.
+
+## Why RAG Wasn't the Answer
+
+Everyone's first instinct for domain-specific AI: build a RAG pipeline. Index your documents, retrieve relevant chunks, stuff them in the context.
+
+We tried this for coin grading guidelines. It didn't work well.
+
+The problem: coin grading is about visual assessment combined with encyclopedic knowledge. The model needs to know that a 1909-S VDB Lincoln cent in Good condition is worth 100x more than a 1909 Lincoln cent in Good condition. That's not something you retrieve — it's something you need to know.
+
+What worked better: fine-tuning examples in the prompt. We include 5-10 example listings for similar items directly in the context. The model pattern-matches effectively.
+
+```typescript
+const fewShotExamples = await getSimilarListings(input.category, 5)
+
+const prompt = `
+${systemPrompt}
+
+Here are examples of good listings for similar items:
+
+${fewShotExamples.map(ex => `
+Title: ${ex.title}
+Description: ${ex.description}
+---
+`).join('\n')}
+
+Now create a listing for the new item:
+`
+```
+
+This is retrieval, but it's not RAG in the traditional sense. We're retrieving examples, not knowledge chunks.
+
+## Human-in-the-Loop
+
+The biggest lesson: don't try to remove humans from the loop. Try to make their job easier.
+
+Our lot descriptions go into a review queue. Sellers can accept, edit, or regenerate. We track:
+
+- Acceptance rate (currently 73%)
+- Edit rate (19%)
+- Regeneration rate (8%)
+
+When regeneration rate spikes for a category, we investigate. Usually it means the prompt needs adjustment for that item type.
+
+This feedback loop is more valuable than any benchmark. Real users, real items, real acceptance criteria.
+
+## What's Next
+
+We're building multi-step workflows where the AI plans its own execution. For a coin collection intake:
+
+1. AI looks at the overview photo, counts items
+2. For each item, requests a detail photo
+3. Generates individual listings
+4. Suggests lot groupings for the auction
+
+The AI decides how many steps to take based on what it sees. That's where this is heading — agents that adapt their workflow to the input.
