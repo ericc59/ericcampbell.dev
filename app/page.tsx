@@ -106,8 +106,8 @@ export default function Page() {
 						>
 							Flow Auctions
 						</a>
-						, I built GenAI pipelines integrating computer vision for
-						authentication and LLM-powered catalog generation.
+						, I'm building an AI-native auction house management platform with
+						GenAI workflows for lot descriptions, auto-pricing, and marketing.
 					</p>
 					<p>
 						Track record: founding engineer or CTO at 4 VC-backed startups, all
@@ -137,8 +137,8 @@ export default function Page() {
 						href="https://flowauctions.com"
 						active
 						bullets={[
-							"GenAI pipelines: computer vision, LLM-powered cataloging",
-							"Real-time pricing intelligence for rare collectibles",
+							"AI-native auction house management (Shopify for auction houses)",
+							"GenAI workflows: lot descriptions, auto-pricing, marketing assets",
 						]}
 					/>
 					<WorkItem
