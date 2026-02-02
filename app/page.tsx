@@ -83,9 +83,9 @@ export default function Page() {
 						>
 							Stack0
 						</a>
-						, I'm building multi-language SDKs (TypeScript, Go, Ruby, Python,
-						PHP) with unified APIs for email, CDN, video processing, and 20+
-						integrations.
+						, I'm building an AI-native infrastructure platform — email, CDN,
+						video transcoding, AI workflows, and a unified integrations API
+						across 5 languages.
 					</p>
 					<p>
 						At{" "}
@@ -126,8 +126,8 @@ export default function Page() {
 						href="https://www.stack0.dev"
 						active
 						bullets={[
-							"TypeScript SDK with unified APIs for 20+ services",
-							"Expanding into AI agent infrastructure",
+							"AI-native infrastructure: email, CDN, video, AI workflows",
+							"Unified integrations API, SDKs in 5 languages, usage-based pricing",
 						]}
 					/>
 					<WorkItem
