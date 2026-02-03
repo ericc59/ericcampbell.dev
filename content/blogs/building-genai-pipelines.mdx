@@ -56,7 +56,7 @@ After:
 
 ```typescript
 const result = await anthropic.messages.create({
-  model: 'claude-sonnet-4-20250514',
+  model: 'claude-sonnet-4-5-20241022',
   max_tokens: 1024,
   messages: [{ role: 'user', content: prompt }],
   tools: [{
@@ -186,11 +186,11 @@ This feedback loop is more valuable than any benchmark. Real users, real items, 
 
 ## What's Next
 
-We're building multi-step workflows where the AI plans its own execution. For a coin collection intake:
+The next step is multi-step workflows where the AI plans its own execution. For a coin collection intake, I'm envisioning:
 
 1. AI looks at the overview photo, counts items
 2. For each item, requests a detail photo
 3. Generates individual listings
 4. Suggests lot groupings for the auction
 
-The AI decides how many steps to take based on what it sees. That's where this is heading — agents that adapt their workflow to the input.
+The AI would decide how many steps to take based on what it sees. That's where this is heading — agents that adapt their workflow to the input.

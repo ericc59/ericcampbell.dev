@@ -1,5 +1,5 @@
 ---
-title: Designing a Unified SDK for 20+ Services
+title: Designing a Unified SDK
 publishedAt: '2026-02-01'
 summary: What I learned building Stack0's SDKs — API design decisions, TypeScript patterns, and the tradeoffs of unified vs service-specific interfaces.
 ---
@@ -40,7 +40,7 @@ Small thing. But SDK design is a thousand small things.
 
 ## The Integrations Problem
 
-Stack0 connects to 20+ third-party services — HubSpot, Salesforce, Notion, Airtable, Google Drive, Dropbox, Slack. Each has its own API shape, auth model, and quirks.
+Stack0 connects to 350+ third-party services — HubSpot, Salesforce, Notion, Airtable, Google Drive, Dropbox, Slack. Each has its own API shape, auth model, and quirks.
 
 The obvious approach: normalize everything. Make HubSpot contacts look exactly like Salesforce contacts. Abstract away the differences.
 
@@ -112,33 +112,17 @@ await stack0.cdn
 
 ## Multi-Language Support
 
-Stack0 ships SDKs in TypeScript, Go, Ruby, Python, and PHP. The temptation is to generate them all from an OpenAPI spec.
+Stack0 ships SDKs in TypeScript and Python. The temptation is to generate them from an OpenAPI spec.
 
-I tried this. The generated code is correct but unidiomatic. Go code that looks like Java. Python that doesn't use context managers. Ruby without blocks.
+I tried this. The generated code is correct but unidiomatic. Python that doesn't use context managers. TypeScript without proper discriminated unions.
 
 Instead, I write each SDK by hand, following the idioms of that language. It's more work, but the result is code that feels native:
-
-```go
-// Go: explicit error handling
-contact, err := stack0.Integrations.CRM.GetContact(ctx, id)
-if err != nil {
-    return err
-}
-```
 
 ```python
 # Python: context managers for resources
 with stack0.cdn.upload(file) as upload:
     upload.resize(width=800)
     url = upload.execute()
-```
-
-```ruby
-# Ruby: blocks for transformations
-stack0.cdn.upload(file) do |img|
-  img.resize(width: 800)
-  img.format(:webp)
-end
 ```
 
 ## What I'd Do Differently
