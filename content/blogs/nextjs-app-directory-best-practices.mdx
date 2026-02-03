@@ -1,7 +1,260 @@
 ---
-title: Next.js App Directory Best Practices
-publishedAt: '2024-08-10'
-summary: A collection of best practices for using Next.js App Directory from several production apps.
+title: Next.js App Router Patterns That Actually Matter
+publishedAt: '2026-01-20'
+summary: The patterns I've found most impactful in production Next.js apps — eliminating waterfalls, reducing bundle size, and avoiding common RSC mistakes.
 ---
 
-## 1. Use the App Directory
+After shipping Stack0 and Flow Auctions on the App Router, I've developed opinions about what actually matters for performance. Here's what moved the needle.
+
+## Waterfalls Will Kill You
+
+The most common performance mistake: sequential awaits where parallel would work.
+
+```typescript
+// This is 3 round trips
+const auction = await getAuction(id)
+const bids = await getBids(id)
+const seller = await getSeller(auction.sellerId)
+```
+
+The fix depends on dependencies. If they're independent, parallelize:
+
+```typescript
+const [auction, bids] = await Promise.all([
+  getAuction(id),
+  getBids(id)
+])
+const seller = await getSeller(auction.sellerId)
+```
+
+If there's a chain, start what you can immediately:
+
+```typescript
+// In an API route or server action
+export async function GET(request: Request) {
+  // Start these immediately
+  const sessionPromise = auth()
+  const configPromise = getProjectConfig()
+
+  // Now await what we need
+  const session = await sessionPromise
+
+  // Parallelize the rest
+  const [config, usage] = await Promise.all([
+    configPromise,
+    getUsage(session.teamId)
+  ])
+
+  return Response.json({ config, usage })
+}
+```
+
+I found a 3x improvement on one of Stack0's dashboard endpoints just by reordering awaits.
+
+## Stream with Suspense
+
+Blocking the whole page on data is the old model. With RSC, you can stream:
+
+```tsx
+// Layout renders immediately, data streams in
+export default function DashboardPage() {
+  return (
+    <div>
+      <DashboardNav />
+      <Suspense fallback={<UsageChartSkeleton />}>
+        <UsageChart />
+      </Suspense>
+      <Suspense fallback={<ActivityFeedSkeleton />}>
+        <RecentActivity />
+      </Suspense>
+    </div>
+  )
+}
+
+async function UsageChart() {
+  const data = await getUsageMetrics() // Only this component waits
+  return <Chart data={data} />
+}
+```
+
+The nav renders instantly. Charts load independently. If one is slow, it doesn't block the other.
+
+When two components need the same data, share the promise:
+
+```tsx
+export default function AuctionPage({ params }: { params: { id: string } }) {
+  const auctionPromise = getAuction(params.id)
+
+  return (
+    <div>
+      <Suspense fallback={<HeaderSkeleton />}>
+        <AuctionHeader auctionPromise={auctionPromise} />
+      </Suspense>
+      <Suspense fallback={<BidsSkeleton />}>
+        <BidHistory auctionId={params.id} />
+      </Suspense>
+      <Suspense fallback={<DetailsSkeleton />}>
+        <AuctionDetails auctionPromise={auctionPromise} />
+      </Suspense>
+    </div>
+  )
+}
+
+function AuctionHeader({ auctionPromise }: { auctionPromise: Promise<Auction> }) {
+  const auction = use(auctionPromise)
+  return <h1>{auction.title}</h1>
+}
+```
+
+One fetch, multiple consumers.
+
+## Lazy Load Heavy Dependencies
+
+I was bundling a rich text editor on every page load. 180KB gzipped. Most users never opened it.
+
+```tsx
+// Before: always loaded
+import { RichTextEditor } from '@/components/rich-text-editor'
+
+// After: loaded on demand
+import dynamic from 'next/dynamic'
+
+const RichTextEditor = dynamic(
+  () => import('@/components/rich-text-editor'),
+  {
+    ssr: false,
+    loading: () => <div className="h-64 bg-gray-100 animate-pulse" />
+  }
+)
+```
+
+For things users are likely to need soon, preload on intent:
+
+```tsx
+function EditDescriptionButton({ lotId }: { lotId: string }) {
+  const [open, setOpen] = useState(false)
+
+  const preload = () => {
+    import('@/components/rich-text-editor')
+  }
+
+  return (
+    <>
+      <button
+        onMouseEnter={preload}
+        onFocus={preload}
+        onClick={() => setOpen(true)}
+      >
+        Edit Description
+      </button>
+      {open && <RichTextEditor lotId={lotId} onClose={() => setOpen(false)} />}
+    </>
+  )
+}
+```
+
+By the time they click, it's usually loaded.
+
+## Server Actions Are Public Endpoints
+
+This one bit me. Server Actions look like internal functions, but they're exposed HTTP endpoints. Anyone can call them.
+
+```typescript
+'use server'
+
+// WRONG: assumes caller is authenticated
+export async function updateLot(lotId: string, data: LotUpdate) {
+  await db.lot.update({ where: { id: lotId }, data })
+}
+
+// RIGHT: verify inside the action
+export async function updateLot(lotId: string, data: LotUpdate) {
+  const session = await auth()
+  if (!session) {
+    throw new Error('Unauthorized')
+  }
+
+  const lot = await db.lot.findUnique({ where: { id: lotId } })
+  if (lot?.sellerId !== session.user.id) {
+    throw new Error('Not your lot')
+  }
+
+  await db.lot.update({ where: { id: lotId }, data })
+}
+```
+
+Middleware doesn't protect you here. The action can be invoked directly via POST request.
+
+## Only Serialize What You Need
+
+Props crossing the Server → Client boundary get serialized into the HTML. Pass a 50-field user object when you need 3 fields? You're shipping all 50.
+
+```tsx
+// Sends everything
+async function Page() {
+  const lot = await getLot(id) // 30+ fields including seller details, bid history
+  return <LotCard lot={lot} />
+}
+
+// Sends what the card actually uses
+async function Page() {
+  const lot = await getLot(id)
+  return (
+    <LotCard
+      title={lot.title}
+      currentBid={lot.currentBid}
+      imageUrl={lot.images[0]?.url}
+      endTime={lot.endTime}
+    />
+  )
+}
+```
+
+This also makes your client components more focused. They don't need to know the full data model.
+
+## Deduplicate with React.cache()
+
+Multiple components need the same data? Wrap the fetch:
+
+```typescript
+import { cache } from 'react'
+
+export const getAuction = cache(async (id: string) => {
+  return db.auction.findUnique({
+    where: { id },
+    include: { lots: true, seller: true }
+  })
+})
+```
+
+Now `<AuctionHeader>`, `<AuctionDetails>`, and `<BidPanel>` can all call `getAuction(id)` and only one query runs.
+
+This is per-request. For caching across requests, I use a simple in-memory cache for hot data:
+
+```typescript
+import { LRUCache } from 'lru-cache'
+
+const auctionCache = new LRUCache<string, Auction>({
+  max: 500,
+  ttl: 60 * 1000 // 1 minute
+})
+
+export async function getAuction(id: string) {
+  const cached = auctionCache.get(id)
+  if (cached) return cached
+
+  const auction = await db.auction.findUnique({ where: { id } })
+  if (auction) auctionCache.set(id, auction)
+  return auction
+}
+```
+
+## What I Don't Bother With
+
+Some optimizations aren't worth the complexity for most apps:
+
+- **Obsessing over re-renders** — React is fast. Profile before optimizing.
+- **Memoizing everything** — `useMemo` and `useCallback` have overhead. Use them for expensive computations, not string concatenation.
+- **Over-granular Suspense boundaries** — One skeleton per section is usually fine. You don't need 20 loading states.
+
+The big wins are structural: eliminate waterfalls, stream content, lazy load heavy code. Get those right and the rest is polish.
