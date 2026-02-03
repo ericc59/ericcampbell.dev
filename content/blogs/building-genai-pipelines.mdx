@@ -1,7 +1,7 @@
 ---
 title: Building GenAI Pipelines That Actually Ship
 publishedAt: '2026-01-15'
-summary: How we integrated GPT-4, Claude, and computer vision at Flow Auctions. Prompt management, cost optimization, and why RAG isn't always the answer.
+summary: How we integrated Claude, GPT-5, and computer vision at Flow Auctions. Prompt management, cost optimization, and why RAG isn't always the answer.
 ---
 
 At Flow Auctions, we use GenAI throughout the product — generating lot descriptions, auto-pricing items, creating marketing emails, producing listing images. These aren't demos. They run in production, processing thousands of items per week.
@@ -10,7 +10,7 @@ Some notes from the trenches.
 
 ## Start With the Workflow, Not the Model
 
-The first mistake I see teams make: starting with "let's use GPT-4" instead of "what's the workflow?"
+The first mistake I see teams make: starting with "let's use GPT-5" instead of "what's the workflow?"
 
 For lot descriptions, the workflow is:
 
@@ -74,12 +74,12 @@ Forcing the model to call a "tool" with a specific schema guarantees parseable o
 We use different models for different tasks:
 
 - **Claude Sonnet** for lot descriptions — best at nuanced writing and following complex instructions
-- **GPT-4o** for image analysis — slightly better at reading text in photos (mint marks, dates)
-- **GPT-4o mini** for classification — fast and cheap for "is this a coin or a bill?"
+- **GPT-5.2** for image analysis — slightly better at reading text in photos (mint marks, dates)
+- **GPT-5 nano** for classification — fast and cheap for "is this a coin or a bill?"
 
 This isn't about benchmarks. It's about testing each model on your actual data and seeing what works.
 
-We also use fallbacks. If Claude is slow (happens during high load), we fall back to GPT-4. The prompts are slightly different, but the output schema is identical. Users don't notice.
+We also use fallbacks. If Claude is slow (happens during high load), we fall back to GPT-5. The prompts are slightly different, but the output schema is identical. Users don't notice.
 
 ```typescript
 async function generateDescription(input: LotDescriptionInput) {
@@ -87,7 +87,7 @@ async function generateDescription(input: LotDescriptionInput) {
     return await generateWithClaude(input, { timeout: 10000 })
   } catch (err) {
     if (err.code === 'timeout' || err.code === 'rate_limited') {
-      return await generateWithGPT4(input)
+      return await generateWithGPT5(input)
     }
     throw err
   }
