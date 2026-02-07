@@ -3,27 +3,26 @@ import Link from "next/link";
 export default function NotFound() {
 	return (
 		<section className="min-h-[60vh] flex items-center justify-center">
-			<div className="text-center space-y-8">
+			<div className="text-center space-y-10">
 				{/* Error code */}
 				<div className="relative">
-					<span className="font-mono text-[12rem] lg:text-[16rem] font-light text-elevated leading-none">
+					<span className="font-display text-[10rem] lg:text-[14rem] text-faint leading-none italic">
 						404
 					</span>
 					<div className="absolute inset-0 flex items-center justify-center">
-						<span className="font-mono text-sm text-lime-400 tracking-widest uppercase animate-pulse">
+						<span className="font-mono text-[10px] text-copper tracking-[0.3em] uppercase">
 							Signal Lost
 						</span>
 					</div>
 				</div>
 
 				{/* Message */}
-				<div className="space-y-4">
+				<div className="space-y-3">
 					<h1 className="font-display text-2xl text-cream">
 						This page doesn't exist
 					</h1>
-					<p className="text-stone max-w-md mx-auto">
-						The coordinates you're looking for aren't in our system. Perhaps the
-						signal was interrupted.
+					<p className="text-ash max-w-md mx-auto text-sm">
+						The coordinates you're looking for aren't in our system.
 					</p>
 				</div>
 
@@ -32,11 +31,10 @@ export default function NotFound() {
 					<Link
 						href="/"
 						className="
-							px-6 py-3
-							bg-lime-400 text-void font-mono text-sm font-medium
-							border border-lime-400
-							hover:bg-transparent hover:text-lime-400
-							transition-all duration-300
+							px-5 py-2.5
+							font-mono text-xs text-void
+							bg-copper hover:bg-copper-light
+							transition-colors duration-300
 						"
 					>
 						Return Home
@@ -44,23 +42,15 @@ export default function NotFound() {
 					<a
 						href="mailto:eric@campbell.ventures"
 						className="
-							px-6 py-3
-							font-mono text-sm text-stone
-							border border-elevated
-							hover:border-lime-400/50 hover:text-cream
+							px-5 py-2.5
+							font-mono text-xs text-ash
+							border border-faint
+							hover:border-copper/30 hover:text-cream
 							transition-all duration-300
 						"
 					>
 						Report Issue
 					</a>
-				</div>
-
-				{/* Decorative element */}
-				<div className="pt-8">
-					<div className="inline-flex items-center gap-2 text-ash">
-						<div className="w-2 h-2 rounded-full bg-alert animate-pulse" />
-						<span className="font-mono text-xs">ERROR_PAGE_NOT_FOUND</span>
-					</div>
 				</div>
 			</div>
 		</section>

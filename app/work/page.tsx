@@ -6,7 +6,7 @@ import chariot from "public/images/work/chariot.webp";
 export const metadata: Metadata = {
 	title: "Work Experience",
 	description:
-		"Career timeline: Zapier Principal Engineer, CTO at 4 acquired startups (Chariot→Ford, Sphere→Google, Scoot→Bird, My Energy→Nest). YC W15 alum.",
+		"Career timeline: Zapier Principal Engineer, CTO at 4 acquired startups (Chariot->Ford, Sphere->Google, Scoot->Bird, My Energy->Nest). YC W15 alum.",
 };
 import myenergy from "public/images/work/myenergy.webp";
 import scoot from "public/images/work/scoot.png";
@@ -15,31 +15,55 @@ import sphere from "public/images/work/sphere.png";
 export default function Page() {
 	return (
 		<section className="space-y-16">
-			{/* Page header */}
 			<div className="space-y-6">
 				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-lime-400" />
-					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
+					<span className="font-mono text-[10px] text-copper uppercase tracking-[0.2em]">
 						Career Timeline
 					</span>
+					<div className="flex-1 h-px bg-gradient-to-r from-copper/20 to-transparent" />
 				</div>
-				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Work <span className="text-lime-400 text-glow-subtle">&</span>{" "}
-					Experience
+				<h1 className="font-display text-4xl lg:text-5xl tracking-tight">
+					Work & Experience
 				</h1>
-				<p className="text-stone text-lg max-w-2xl leading-relaxed">
+				<p className="text-sand text-lg max-w-2xl leading-relaxed">
 					I'm on a mission to build products people love with high-performance
 					engineering and product teams. Here's a timeline of my journey.
 				</p>
 			</div>
 
-			{/* Timeline */}
 			<div className="relative">
 				{/* Vertical line */}
-				<div className="absolute left-4 lg:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-amber via-elevated to-elevated" />
+				<div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-copper/30 via-faint to-faint" />
 
-				<div className="space-y-8">
-					{/* Flow Auctions - Current */}
+				<div className="space-y-6">
+					<TimelineEntry
+						status="active"
+						company="LaunchKit Studios"
+						role="Founder"
+						period="2024 - Present"
+						href="https://www.launchkitstudios.com/"
+					>
+						<p>
+							LaunchKit Studios is an app studio focused on shipping AI-powered
+							products. We build and launch apps at high velocity, from concept
+							to market.
+						</p>
+					</TimelineEntry>
+
+					<TimelineEntry
+						status="active"
+						company="Campbell Ventures"
+						role="Founder"
+						period="2024 - Present"
+						href="https://campbell.ventures/"
+					>
+						<p>
+							Campbell Ventures is my consulting and holding company for
+							advisory work, investments, and strategic partnerships in the
+							AI and developer tools space.
+						</p>
+					</TimelineEntry>
+
 					<TimelineEntry
 						status="active"
 						company="Flow Auctions"
@@ -54,7 +78,6 @@ export default function Page() {
 						</p>
 					</TimelineEntry>
 
-					{/* Stack0 */}
 					<TimelineEntry
 						company="Stack0"
 						role="Founder"
@@ -70,7 +93,6 @@ export default function Page() {
 						</p>
 					</TimelineEntry>
 
-					{/* Zapier */}
 					<TimelineEntry
 						company="Zapier"
 						role="Principal Engineer"
@@ -82,14 +104,14 @@ export default function Page() {
 							new products for the company. I worked on the Maker, Forms,{" "}
 							<a
 								href="https://zapier.com/tables"
-								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
+								className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
 							>
 								Tables
 							</a>
 							, and{" "}
 							<a
 								href="https://zapier.com/interfaces"
-								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
+								className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
 							>
 								Interfaces
 							</a>{" "}
@@ -97,7 +119,6 @@ export default function Page() {
 						</p>
 					</TimelineEntry>
 
-					{/* New Wave Capital */}
 					<TimelineEntry
 						company="New Wave Capital"
 						role="Founder & CEO/CTO"
@@ -108,14 +129,14 @@ export default function Page() {
 								I co-founded New Wave Capital along with{" "}
 								<a
 									href="https://www.linkedin.com/in/stewarthauser"
-									className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
+									className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
 								>
 									Stewart Hauser
 								</a>{" "}
 								and{" "}
 								<a
 									href="https://www.linkedin.com/in/albertcheng1"
-									className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
+									className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
 								>
 									Albert Cheng
 								</a>{" "}
@@ -132,7 +153,6 @@ export default function Page() {
 						</div>
 					</TimelineEntry>
 
-					{/* Chariot */}
 					<TimelineEntry
 						company="Chariot"
 						role="CTO"
@@ -156,7 +176,6 @@ export default function Page() {
 						</div>
 					</TimelineEntry>
 
-					{/* Sphere */}
 					<TimelineEntry
 						company="Sphere"
 						role="CTO"
@@ -180,7 +199,6 @@ export default function Page() {
 						</div>
 					</TimelineEntry>
 
-					{/* Scoot */}
 					<TimelineEntry
 						company="Scoot"
 						role="Founding Engineer"
@@ -203,7 +221,6 @@ export default function Page() {
 						</div>
 					</TimelineEntry>
 
-					{/* My Energy */}
 					<TimelineEntry
 						company="My Energy"
 						role="CTO"
@@ -248,44 +265,42 @@ function TimelineEntry({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className="relative pl-12 lg:pl-20">
+		<div className="relative pl-10">
 			{/* Timeline dot */}
 			<div
 				className={`
-				absolute left-2 lg:left-6 top-2
-				w-4 h-4 rounded-full
-				border-4 border-void
-				${status === "active" ? "bg-lime-400 animate-pulse-glow" : "bg-elevated"}
+				absolute left-1.5 top-3
+				w-3 h-3 rounded-full
+				border-2 border-void
+				${status === "active" ? "bg-signal-green shadow-[0_0_8px_rgba(107,203,119,0.5)]" : "bg-elevated"}
 			`}
 			/>
 
-			{/* Content card */}
-			<div className="group relative bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300">
+			{/* Content */}
+			<div className="group border border-faint/30 hover:border-copper/15 transition-colors duration-300">
 				{/* Header */}
-				<div className="flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-elevated/50">
-					<div className="flex items-center gap-4">
-						{/* Logo */}
+				<div className="flex flex-col md:flex-row md:items-center justify-between p-5 border-b border-faint/30">
+					<div className="flex items-center gap-3">
 						{logo && (
-							<div className="w-10 h-10 rounded overflow-hidden bg-elevated flex items-center justify-center">
+							<div className="w-8 h-8 rounded overflow-hidden bg-elevated flex items-center justify-center">
 								<Image
 									src={logo}
 									alt={`${company} logo`}
-									width={40}
-									height={40}
+									width={32}
+									height={32}
 									className="object-cover"
 								/>
 							</div>
 						)}
 
-						{/* Company name & role */}
 						<div>
-							<div className="flex items-center gap-3">
+							<div className="flex items-center gap-2">
 								{href ? (
 									<a
 										href={href}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="font-display text-xl text-cream hover:text-lime-400 transition-colors"
+										className="font-display text-xl text-cream hover:text-copper transition-colors"
 									>
 										{company}
 									</a>
@@ -295,20 +310,19 @@ function TimelineEntry({
 									</span>
 								)}
 								{badge && (
-									<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-0.5 border border-lime-400/20">
+									<span className="font-mono text-[10px] text-copper bg-copper-muted px-1.5 py-0.5 rounded-sm">
 										{badge}
 									</span>
 								)}
 							</div>
-							<div className="font-mono text-xs text-stone mt-1">{role}</div>
+							<div className="font-mono text-xs text-ash mt-0.5">{role}</div>
 						</div>
 					</div>
 
-					{/* Period & outcome */}
-					<div className="mt-4 md:mt-0 text-right">
-						<div className="font-mono text-xs text-ash">{period}</div>
+					<div className="mt-3 md:mt-0 text-right">
+						<div className="font-mono text-[10px] text-ash">{period}</div>
 						{outcome && (
-							<div className="font-mono text-xs text-lime-400 mt-1">
+							<div className="font-mono text-[10px] text-copper mt-0.5">
 								{outcome}
 							</div>
 						)}
@@ -316,10 +330,9 @@ function TimelineEntry({
 				</div>
 
 				{/* Body */}
-				<div className="p-6 text-stone leading-relaxed">{children}</div>
-
-				{/* Corner accent */}
-				<div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
+				<div className="p-5 text-sand text-[15px] leading-relaxed">
+					{children}
+				</div>
 			</div>
 		</div>
 	);

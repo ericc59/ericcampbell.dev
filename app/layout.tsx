@@ -45,13 +45,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" className=" text-cream antialiased">
+		<html lang="en" className="text-cream antialiased">
 			<head>
 				<SandpackCSS />
 			</head>
 			<body className="antialiased min-h-screen relative">
-				{/* Main content container */}
-				<div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
+				<div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8">
 					<Navbar />
 					<main className="pb-32">{children}</main>
 				</div>

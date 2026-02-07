@@ -128,12 +128,12 @@ export default async function Blog({
           }),
         }}
       />
-      <h1 className="title font-display font-bold text-3xl tracking-tight text-cream max-w-[650px]">
+      <h1 className="title font-display text-3xl tracking-tight text-cream max-w-[650px]">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
         <Suspense fallback={<p className="h-5" />}>
-          <p className="text-sm text-stone">
+          <p className="text-sm text-ash font-mono text-xs">
             {formatDate(post.metadata.publishedAt)}
           </p>
         </Suspense>

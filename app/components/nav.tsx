@@ -9,42 +9,38 @@ const navItems = [
 
 export function Navbar() {
 	return (
-		<header className="pt-8 pb-16 lg:pt-12 lg:pb-24">
-			{/* Main navigation */}
-			<nav className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-				{/* Nav links */}
-				<div className="flex flex-wrap items-center gap-1">
-					{navItems.map(({ href, name }) => {
-						return (
-							<Link
-								key={href}
-								href={href}
-								className={`
-									group relative px-4 py-2 font-mono text-sm transition-all duration-300
-									text-stone hover:text-cream
-								`}
-							>
-								{/* Active indicator line */}
-								<span
-									className={`
-									absolute bottom-0 left-4 right-4 h-px transition-all duration-300
-									bg-transparent group-hover:bg-elevated
-								`}
-								/>
+		<header className="pt-10 pb-20 lg:pt-14 lg:pb-28">
+			<nav className="flex items-center justify-between">
+				{/* Name / home link */}
+				<Link
+					href="/"
+					className="font-display text-lg italic text-cream hover:text-copper transition-colors duration-300"
+				>
+					ec
+				</Link>
 
-								{/* Name */}
-								<span className="relative">{name}</span>
-							</Link>
-						);
-					})}
+				{/* Nav links */}
+				<div className="flex items-center gap-1">
+					{navItems.map(({ href, name }) => (
+						<Link
+							key={href}
+							href={href}
+							className="px-3 py-1.5 font-mono text-xs tracking-wide text-ash hover:text-cream transition-colors duration-300"
+						>
+							{name}
+						</Link>
+					))}
 				</div>
 
 				{/* Social links */}
-				<div className="flex items-center gap-3">
-					<SocialLink href="https://twitter.com/ericcampbell59" label="Twitter">
+				<div className="hidden sm:flex items-center gap-4">
+					<SocialLink
+						href="https://twitter.com/ericcampbell59"
+						label="Twitter"
+					>
 						<svg
-							width="18"
-							height="18"
+							width="14"
+							height="14"
 							viewBox="0 0 24 24"
 							fill="currentColor"
 							aria-hidden="true"
@@ -58,8 +54,8 @@ export function Navbar() {
 						label="LinkedIn"
 					>
 						<svg
-							width="18"
-							height="18"
+							width="14"
+							height="14"
 							viewBox="0 0 24 24"
 							fill="currentColor"
 							aria-hidden="true"
@@ -70,8 +66,8 @@ export function Navbar() {
 
 					<SocialLink href="https://github.com/ericc59" label="GitHub">
 						<svg
-							width="18"
-							height="18"
+							width="14"
+							height="14"
 							viewBox="0 0 24 24"
 							fill="currentColor"
 							aria-hidden="true"
@@ -82,7 +78,7 @@ export function Navbar() {
 				</div>
 			</nav>
 
-			{/* Decorative line */}
+			{/* Thin contour line */}
 			<div className="mt-8 h-px bg-gradient-to-r from-transparent via-elevated to-transparent" />
 		</header>
 	);
@@ -103,26 +99,9 @@ function SocialLink({
 			target="_blank"
 			rel="noopener noreferrer"
 			aria-label={label}
-			className="
-				w-10 h-10
-				flex items-center justify-center
-				border border-elevated
-				text-stone hover:text-lime-400 hover:border-lime-400
-				transition-all duration-300
-				relative
-				group
-			"
+			className="text-ash hover:text-copper transition-colors duration-300"
 		>
 			{children}
-			{/* Corner accent */}
-			<span
-				className="
-				absolute -top-px -right-px w-2 h-2
-				border-t border-r border-elevated
-				group-hover:border-lime-400
-				transition-colors duration-300
-			"
-			/>
 		</a>
 	);
 }

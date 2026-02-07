@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/a11y/useValidAriaRole: custom role usage */
 import { getBlogPosts } from "app/db/blog";
 import { getProjects } from "app/db/project";
 import type { Metadata } from "next";
@@ -38,7 +37,7 @@ export default function Page() {
 		.slice(0, 3);
 
 	return (
-		<section className="space-y-20">
+		<section className="space-y-24">
 			<script
 				type="application/ld+json"
 				suppressHydrationWarning
@@ -61,6 +60,16 @@ export default function Page() {
 								name: "Flow Auctions",
 								url: "https://marketing.flowauctions.com/platform/sellers",
 							},
+							{
+								"@type": "Organization",
+								name: "LaunchKit Studios",
+								url: "https://www.launchkitstudios.com/",
+							},
+							{
+								"@type": "Organization",
+								name: "Campbell Ventures",
+								url: "https://campbell.ventures/",
+							},
 						],
 						alumniOf: [
 							{ "@type": "Organization", name: "Zapier" },
@@ -80,37 +89,11 @@ export default function Page() {
 					}),
 				}}
 			/>
-			{/* Hero Section */}
-			<div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-				<div className="lg:col-span-7 space-y-6">
-					<h1 className="font-display text-2xl lg:text-3xl leading-[1.1] tracking-tight">
-						I'm Eric Campbell
-					</h1>
 
-					<div className="text-stone text-lg leading-relaxed max-w-xl space-y-4">
-						<p>I build developer platforms and infrastructure for AI.</p>
-						<p>
-							Currently building{" "}
-							<a
-								href="https://www.stack0.dev"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-lime-400 border-b border-lime-400/30 hover:border-lime-400 transition-colors"
-							>
-								Stack0
-							</a>{" "}
-							— infrastructure for apps and AI agents.
-						</p>
-						<p className="text-stone/80">
-							Previously: 4 startups, 4 exits (Google, Ford, Nest, Bird).
-							<br />
-							Principal Engineer at Zapier. YC W15.
-						</p>
-					</div>
-				</div>
-
-				<div className="lg:col-span-5">
-					<div className="relative aspect-square overflow-hidden rounded-full w-48">
+			{/* Hero */}
+			<div className="space-y-8">
+				<div className="flex items-start gap-6">
+					<div className="relative w-16 h-16 rounded-full overflow-hidden ring-1 ring-elevated shrink-0">
 						<Image
 							alt="Eric Campbell"
 							src={eric}
@@ -119,53 +102,66 @@ export default function Page() {
 							priority
 						/>
 					</div>
+					<div className="space-y-1 pt-1">
+						<h1 className="font-display text-3xl lg:text-4xl tracking-tight leading-none">
+							Eric Campbell
+						</h1>
+						<p className="font-mono text-xs text-ash tracking-wide">
+							Building infrastructure for AI agents
+						</p>
+					</div>
+				</div>
+
+				<div className="text-sand text-[17px] leading-relaxed max-w-xl space-y-4">
+					<p>
+						I build developer platforms and infrastructure for AI.
+						Currently building{" "}
+						<InlineLink href="https://www.stack0.dev">Stack0</InlineLink>
+						{" "}&mdash; infrastructure for apps and AI agents.
+					</p>
+					<p>
+						Running{" "}
+						<InlineLink href="https://www.launchkitstudios.com/">
+							LaunchKit Studios
+						</InlineLink>
+						{" "}&mdash; an app studio shipping AI-powered products, and{" "}
+						<InlineLink href="https://campbell.ventures/">
+							Campbell Ventures
+						</InlineLink>
+						{" "}&mdash; consulting & investments.
+					</p>
+					<p className="text-ash">
+						Previously: 4 startups, 4 exits (Google, Ford, Nest, Bird).
+						Principal Engineer at Zapier. YC W15.
+					</p>
 				</div>
 			</div>
 
 			{/* About */}
-			<Section id="about" title="About">
-				<div className="space-y-4 text-stone leading-relaxed max-w-2xl">
+			<Section id="about" label="About">
+				<div className="space-y-4 text-sand leading-relaxed">
 					<p>
 						At{" "}
-						<a
-							href="https://www.stack0.dev"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-lime-400 hover:underline"
-						>
-							Stack0
-						</a>
-						, I'm building an AI-native infrastructure platform — email, CDN,
+						<InlineLink href="https://www.stack0.dev">Stack0</InlineLink>,
+						I'm building an AI-native infrastructure platform &mdash; email, CDN,
 						video transcoding, AI workflows, and a unified integrations API
 						across 5 languages.
 					</p>
 					<p>
 						At{" "}
-						<a
-							href="https://zapier.com"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-lime-400 hover:underline"
-						>
-							Zapier
-						</a>
-						, I led the launches of Maker and Forms, and contributed to Tables
+						<InlineLink href="https://zapier.com">Zapier</InlineLink>,
+						I led the launches of Maker and Forms, and contributed to Tables
 						and Interfaces as Principal Engineer.
 					</p>
 					<p>
 						At{" "}
-						<a
-							href="https://marketing.flowauctions.com/platform/sellers"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-lime-400 hover:underline"
-						>
+						<InlineLink href="https://marketing.flowauctions.com/platform/sellers">
 							Flow Auctions
-						</a>
-						, I'm building an AI-native auction house management platform with
+						</InlineLink>,
+						I'm building an AI-native auction house management platform with
 						GenAI workflows for lot descriptions, auto-pricing, and marketing.
 					</p>
-					<p>
+					<p className="text-ash">
 						Track record: founding engineer or CTO at 4 VC-backed startups, all
 						acquired.
 					</p>
@@ -173,145 +169,133 @@ export default function Page() {
 			</Section>
 
 			{/* Work */}
-			<Section id="work" title="Work">
-				<div className="space-y-4">
+			<Section id="work" label="Work">
+				<div className="space-y-0">
+					<WorkItem
+						company="LaunchKit Studios"
+						role="Founder"
+						period="2024 &ndash; Present"
+						href="https://www.launchkitstudios.com/"
+						active
+					/>
+					<WorkItem
+						company="Campbell Ventures"
+						role="Founder"
+						period="2024 &ndash; Present"
+						href="https://campbell.ventures/"
+						active
+					/>
 					<WorkItem
 						company="Stack0"
 						role="Founder"
-						period="2022 - Present"
+						period="2022 &ndash; Present"
 						href="https://www.stack0.dev"
 						active
-						bullets={[
-							"AI-native infrastructure: email, CDN, video, AI workflows",
-							"Unified integrations API, SDKs in 5 languages, usage-based pricing",
-						]}
 					/>
 					<WorkItem
 						company="Flow Auctions"
 						role="Co-Founder"
-						period="2024 - Present"
+						period="2024 &ndash; Present"
 						href="https://marketing.flowauctions.com/platform/sellers"
 						active
-						bullets={[
-							"AI-native auction house management (Shopify for auction houses)",
-							"GenAI workflows: lot descriptions, auto-pricing, marketing assets",
-						]}
 					/>
 					<WorkItem
 						company="Zapier"
 						role="Principal Engineer"
-						period="2019 - 2022"
+						period="2019 &ndash; 2022"
 						href="https://zapier.com"
-						bullets={[
-							"Led Maker & Forms product launches",
-							"Contributed to Tables & Interfaces products",
-						]}
 					/>
 					<WorkItem
 						company="Chariot"
 						role="CTO"
-						period="2014 - 2016"
-						outcome="Acquired by Ford"
+						period="2014 &ndash; 2016"
+						outcome="Ford"
 						badge="YC W15"
-						bullets={[
-							"Built commuter shuttle platform from 0 to acquisition",
-							"Real-time routing and demand prediction systems",
-						]}
 					/>
 					<WorkItem
 						company="Sphere"
 						role="CTO"
-						period="2012 - 2013"
-						outcome="Acquired by Google"
-						bullets={["Mobile-first social networking platform"]}
+						period="2012 &ndash; 2013"
+						outcome="Google"
 					/>
 					<WorkItem
 						company="Scoot"
 						role="Founding Engineer"
-						period="2012 - 2013"
-						outcome="Acquired by Bird"
-						bullets={["Early electric scooter sharing infrastructure"]}
+						period="2012 &ndash; 2013"
+						outcome="Bird"
 					/>
 					<WorkItem
 						company="My Energy"
 						role="CTO"
-						period="2009 - 2012"
-						outcome="Acquired by Nest/Google"
-						bullets={["Home energy monitoring and analytics platform"]}
+						period="2009 &ndash; 2012"
+						outcome="Nest"
 					/>
 				</div>
 			</Section>
 
 			{/* Projects */}
-			<Section id="projects" title="Projects">
-				<div className="space-y-3">
+			<Section id="projects" label="Projects">
+				<div className="space-y-0">
 					{allProjects.map((project) => (
 						<Link
 							key={project.slug}
 							href={project.metadata.link ?? `/projects/${project.slug}`}
 							target={project.metadata.link ? "_blank" : undefined}
 							rel={project.metadata.link ? "noopener noreferrer" : undefined}
-							className="group block py-3 border-b border-elevated hover:border-lime-400/30 transition-colors"
+							className="group flex items-baseline justify-between py-4 border-b border-faint/50 hover:border-copper/20 transition-colors"
 						>
-							<div className="flex items-baseline justify-between">
-								<span className="text-cream group-hover:text-lime-400 transition-colors">
+							<div className="space-y-0.5">
+								<span className="text-cream group-hover:text-copper transition-colors">
 									{project.metadata.title}
 								</span>
-								<span className="font-mono text-xs text-ash">
-									{project.metadata.category}
-								</span>
+								<p className="font-mono text-xs text-ash max-w-md">
+									{project.metadata.summary}
+								</p>
 							</div>
-							<p className="text-stone text-sm mt-1 max-w-xl">
-								{project.metadata.summary}
-							</p>
+							<span className="font-mono text-[10px] text-ash uppercase tracking-widest shrink-0 ml-4">
+								{project.metadata.category}
+							</span>
 						</Link>
 					))}
 				</div>
 				<Link
 					href="/projects"
-					className="inline-block mt-6 font-mono text-xs text-stone hover:text-lime-400 transition-colors"
+					className="inline-block mt-6 font-mono text-xs text-ash hover:text-copper transition-colors"
 				>
-					View all projects →
+					All projects &rarr;
 				</Link>
 			</Section>
 
 			{/* Writing */}
-			<Section id="writing" title="Writing">
+			<Section id="writing" label="Writing">
 				{recentPosts.length > 0 ? (
-					<div className="space-y-3">
+					<div className="space-y-0">
 						{recentPosts.map((post) => (
 							<Link
 								key={post.slug}
 								href={`/blog/${post.slug}`}
-								className="group block py-3 border-b border-elevated hover:border-lime-400/30 transition-colors"
+								className="group flex items-baseline justify-between py-4 border-b border-faint/50 hover:border-copper/20 transition-colors"
 							>
-								<div className="flex items-baseline justify-between">
-									<span className="text-cream group-hover:text-lime-400 transition-colors">
-										{post.metadata.title}
-									</span>
-									<span className="font-mono text-xs text-ash">
-										{new Date(post.metadata.publishedAt).toLocaleDateString(
-											"en-US",
-											{ month: "short", year: "numeric" },
-										)}
-									</span>
-								</div>
-								{post.metadata.summary && (
-									<p className="text-stone text-sm mt-1 max-w-xl line-clamp-1">
-										{post.metadata.summary}
-									</p>
-								)}
+								<span className="text-cream group-hover:text-copper transition-colors">
+									{post.metadata.title}
+								</span>
+								<span className="font-mono text-[10px] text-ash shrink-0 ml-4">
+									{new Date(post.metadata.publishedAt).toLocaleDateString(
+										"en-US",
+										{ month: "short", year: "numeric" },
+									)}
+								</span>
 							</Link>
 						))}
 					</div>
 				) : (
-					<p className="text-stone">Coming soon.</p>
+					<p className="text-ash">Coming soon.</p>
 				)}
 				<Link
 					href="/blog"
-					className="inline-block mt-6 font-mono text-xs text-stone hover:text-lime-400 transition-colors"
+					className="inline-block mt-6 font-mono text-xs text-ash hover:text-copper transition-colors"
 				>
-					View all posts →
+					All posts &rarr;
 				</Link>
 			</Section>
 		</section>
@@ -320,23 +304,42 @@ export default function Page() {
 
 function Section({
 	id,
-	title,
+	label,
 	children,
 }: {
 	id: string;
-	title: string;
+	label: string;
 	children: React.ReactNode;
 }) {
 	return (
 		<div id={id} className="scroll-mt-24">
-			<div className="flex items-center gap-4 mb-6">
-				<span className="font-mono text-xs text-lime-400 uppercase tracking-widest">
-					{title}
+			<div className="flex items-center gap-4 mb-8">
+				<span className="font-mono text-[10px] text-copper uppercase tracking-[0.2em]">
+					{label}
 				</span>
-				<div className="flex-1 h-px bg-elevated" />
+				<div className="flex-1 h-px bg-gradient-to-r from-copper/20 to-transparent" />
 			</div>
 			{children}
 		</div>
+	);
+}
+
+function InlineLink({
+	href,
+	children,
+}: {
+	href: string;
+	children: React.ReactNode;
+}) {
+	return (
+		<a
+			href={href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
+		>
+			{children}
+		</a>
 	);
 }
 
@@ -348,7 +351,6 @@ function WorkItem({
 	outcome,
 	badge,
 	active,
-	bullets,
 }: {
 	company: string;
 	role: string;
@@ -357,56 +359,43 @@ function WorkItem({
 	outcome?: string;
 	badge?: string;
 	active?: boolean;
-	bullets?: string[];
 }) {
 	return (
-		<div className="py-2 border-b border-elevated">
-			<div className="flex flex-col sm:flex-row sm:items-center justify-between">
-				<div className="flex items-center gap-3">
-					{active && (
-						<span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
-					)}
-					<div>
-						<div className="flex items-center gap-2 flex-wrap">
-							{href ? (
-								<a
-									href={href}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-cream hover:text-lime-400 transition-colors"
-								>
-									{company}
-								</a>
-							) : (
-								<span className="text-cream">{company}</span>
-							)}
-							{badge && (
-								<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-1.5 py-0.5">
-									{badge}
-								</span>
-							)}
-							{outcome && (
-								<span className="font-mono text-xs text-lime-400">
-									{outcome}
-								</span>
-							)}
-						</div>
-						<span className="font-mono text-xs text-stone">{role}</span>
+		<div className="flex items-start justify-between py-4 border-b border-faint/50">
+			<div className="flex items-start gap-3">
+				{active && <div className="elevation-marker mt-2 shrink-0" />}
+				<div className="space-y-0.5">
+					<div className="flex items-center gap-2 flex-wrap">
+						{href ? (
+							<a
+								href={href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-cream hover:text-copper transition-colors"
+							>
+								{company}
+							</a>
+						) : (
+							<span className="text-cream">{company}</span>
+						)}
+						{badge && (
+							<span className="font-mono text-[10px] text-copper bg-copper-muted px-1.5 py-0.5 rounded-sm">
+								{badge}
+							</span>
+						)}
+						{outcome && (
+							<span className="font-mono text-[10px] text-ash">
+								&rarr; {outcome}
+							</span>
+						)}
 					</div>
+					<span className="font-mono text-xs text-ash">{role}</span>
 				</div>
-				<span className="font-mono text-xs text-ash mt-1 sm:mt-0">
-					{period}
-				</span>
 			</div>
-			{bullets && bullets.length > 0 && (
-				<ul className="mt-2 ml-5 space-y-1">
-					{bullets.map((bullet) => (
-						<li key={bullet} className="text-stone text-sm">
-							{bullet}
-						</li>
-					))}
-				</ul>
-			)}
+			<span
+				className="font-mono text-[10px] text-ash shrink-0 ml-4 pt-1"
+				dangerouslySetInnerHTML={{ __html: period }}
+			/>
 		</div>
 	);
 }
