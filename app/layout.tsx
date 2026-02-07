@@ -1,4 +1,5 @@
 import "./global.css";
+import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -45,14 +46,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" className="text-cream antialiased">
+		<html lang="en" className={`${GeistMono.variable} antialiased`}>
 			<head>
 				<SandpackCSS />
 			</head>
-			<body className="antialiased min-h-screen relative">
-				<div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8">
+			<body className="antialiased min-h-screen font-mono">
+				<div className="max-w-xl mx-auto px-6">
 					<Navbar />
-					<main className="pb-32">{children}</main>
+					<main className="pb-24">{children}</main>
 				</div>
 
 				<Analytics />

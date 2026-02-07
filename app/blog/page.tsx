@@ -7,90 +7,73 @@ import ViewCounter from "./view-counter";
 export const metadata = {
 	title: "Blog",
 	description:
-		"Writing on AI infrastructure, SDK design, startup engineering, and building developer tools. Lessons from 4 acquired startups.",
+		"Writing on AI infrastructure, SDK design, startup engineering, and building developer tools.",
 };
 
 export default function BlogPage() {
 	const allBlogs = getBlogPosts();
 
 	return (
-		<section className="space-y-16">
-			<div className="space-y-6">
-				<div className="flex items-center gap-4">
-					<span className="font-mono text-[10px] text-copper uppercase tracking-[0.2em]">
-						Writing
-					</span>
-					<div className="flex-1 h-px bg-gradient-to-r from-copper/20 to-transparent" />
-				</div>
-				<h1 className="font-display text-4xl lg:text-5xl tracking-tight">
+		<section className="space-y-12">
+			<div>
+				<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
+					Writing
+				</span>
+				<h1 className="text-zinc-200 text-lg font-medium mt-3">
 					Blog & Thoughts
 				</h1>
-				<p className="text-sand text-lg max-w-2xl leading-relaxed">
-					Observations on engineering, startups, and building products. Signal,
-					not noise.
+				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+					Signal, not noise.
 				</p>
 			</div>
 
-			<div className="relative">
-				<div className="flex items-center gap-4 mb-8">
-					<span className="font-mono text-[10px] text-ash">
-						{String(allBlogs.length).padStart(2, "0")} ENTRIES
-					</span>
-					<div className="flex-1 h-px bg-faint/50" />
+			<div>
+				<div className="text-[10px] text-zinc-700 mb-6">
+					{String(allBlogs.length).padStart(2, "0")} entries
 				</div>
-
 				<div className="space-y-0">
 					{allBlogs
 						.sort((a, b) => {
 							if (
 								new Date(a.metadata.publishedAt) >
 								new Date(b.metadata.publishedAt)
-							) {
+							)
 								return -1;
-							}
 							return 1;
 						})
 						.map((post, index) => (
 							<Link
 								key={post.slug}
 								href={`/blog/${post.slug}`}
-								className="group relative flex items-start justify-between py-5 border-b border-faint/50 hover:border-copper/20 transition-colors duration-300"
+								className="group flex items-start justify-between py-3 border-b border-zinc-900 hover:border-zinc-800 transition-colors"
 							>
-								{/* Index */}
-								<div className="font-mono text-[10px] text-ash opacity-40 group-hover:opacity-100 group-hover:text-copper transition-all duration-300 w-6 shrink-0 pt-0.5">
-									{String(index + 1).padStart(2, "0")}
+								<div className="flex items-baseline gap-3">
+									<span className="text-[10px] text-zinc-800 group-hover:text-zinc-600 transition-colors w-4 shrink-0">
+										{String(index + 1).padStart(2, "0")}
+									</span>
+									<div>
+										<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
+											{post.metadata.title}
+										</span>
+										{post.metadata.summary && (
+											<p className="text-xs text-zinc-700 mt-0.5 line-clamp-1 max-w-sm">
+												{post.metadata.summary}
+											</p>
+										)}
+									</div>
 								</div>
-
-								{/* Content */}
-								<div className="flex-1 ml-4 space-y-1">
-									<h2 className="font-display text-lg text-cream group-hover:text-copper transition-colors duration-300">
-										{post.metadata.title}
-									</h2>
-									{post.metadata.summary && (
-										<p className="text-ash text-sm line-clamp-1 max-w-xl">
-											{post.metadata.summary}
-										</p>
-									)}
-								</div>
-
-								{/* Meta */}
-								<div className="flex items-center gap-4 shrink-0 ml-4 pt-1">
+								<div className="flex items-center gap-4 shrink-0 ml-4 pt-0.5">
 									<Suspense
 										fallback={
-											<span className="font-mono text-[10px] text-ash">
-												&mdash;
-											</span>
+											<span className="text-[10px] text-zinc-800">&mdash;</span>
 										}
 									>
 										<Views slug={post.slug} />
 									</Suspense>
-									<span className="font-mono text-[10px] text-ash">
+									<span className="text-[10px] text-zinc-700">
 										{new Date(post.metadata.publishedAt).toLocaleDateString(
 											"en-US",
-											{
-												month: "short",
-												year: "numeric",
-											},
+											{ month: "short", year: "2-digit" },
 										)}
 									</span>
 								</div>
@@ -104,9 +87,8 @@ export default function BlogPage() {
 
 async function Views({ slug }: { slug: string }) {
 	const views = await getBlogViewsCount();
-
 	return (
-		<span className="font-mono text-[10px] text-ash">
+		<span className="text-[10px] text-zinc-700">
 			<ViewCounter allViews={views} slug={slug} />
 		</span>
 	);

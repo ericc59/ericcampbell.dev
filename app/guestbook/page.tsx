@@ -11,15 +11,12 @@ export const metadata = {
 
 export default function GuestbookPage() {
   return (
-    <section className="space-y-16">
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-[10px] text-copper uppercase tracking-[0.2em]">
-            Guestbook
-          </span>
-          <div className="flex-1 h-px bg-gradient-to-r from-copper/20 to-transparent" />
-        </div>
-        <h1 className="font-display text-4xl lg:text-5xl tracking-tight">
+    <section className="space-y-12">
+      <div>
+        <span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
+          Guestbook
+        </span>
+        <h1 className="text-zinc-200 text-lg font-medium mt-3">
           Sign the Guestbook
         </h1>
       </div>
@@ -53,11 +50,11 @@ async function GuestbookEntries() {
 
   return entries.map((entry) => (
     <div key={entry.id} className="flex flex-col space-y-1 mb-4">
-      <div className="w-full text-sm break-words">
-        <span className="text-ash mr-1">
+      <div className="w-full text-xs break-words">
+        <span className="text-zinc-600 mr-1">
           {entry.createdBy}:
         </span>
-        <span className="text-sand">{entry.body}</span>
+        <span className="text-zinc-400">{entry.body}</span>
       </div>
     </div>
   ));

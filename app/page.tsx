@@ -3,7 +3,14 @@ import { getProjects } from "app/db/project";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import eric from "public/images/home/eric2.jpeg";
+import ProjectLogo from "./components/project-logo";
+
+import stack0Logo from "public/images/projects/stack0/logo.png";
+import flowLogo from "public/images/projects/flowauctions/flowauctions-logo.png";
+import chariotLogo from "public/images/work/chariot.webp";
+import sphereLogo from "public/images/work/sphere.png";
+import scootLogo from "public/images/work/scoot.png";
+import myenergyLogo from "public/images/work/myenergy.webp";
 
 export const metadata: Metadata = {
 	title: "Eric Campbell - Software Engineer & Startup Founder",
@@ -29,15 +36,14 @@ export default function Page() {
 
 	const recentPosts = getBlogPosts()
 		.sort((a, b) => {
-			if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+			if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt))
 				return -1;
-			}
 			return 1;
 		})
 		.slice(0, 3);
 
 	return (
-		<section className="space-y-24">
+		<section className="space-y-20">
 			<script
 				type="application/ld+json"
 				suppressHydrationWarning
@@ -90,169 +96,138 @@ export default function Page() {
 				}}
 			/>
 
-			{/* Hero */}
-			<div className="space-y-8">
-				<div className="flex items-start gap-6">
-					<div className="relative w-16 h-16 rounded-full overflow-hidden ring-1 ring-elevated shrink-0">
-						<Image
-							alt="Eric Campbell"
-							src={eric}
-							fill
-							className="object-cover"
-							priority
-						/>
-					</div>
-					<div className="space-y-1 pt-1">
-						<h1 className="font-display text-3xl lg:text-4xl tracking-tight leading-none">
-							Eric Campbell
-						</h1>
-						<p className="font-mono text-xs text-ash tracking-wide">
-							Building infrastructure for AI agents
-						</p>
-					</div>
+			{/* Identity */}
+			<div className="space-y-6">
+				<div>
+					<h1 className="text-zinc-200 text-lg font-medium">Eric Campbell</h1>
+					<p className="text-zinc-600 text-xs mt-1">
+						Building infrastructure for AI agents
+						<span className="inline-block w-[5px] h-[13px] bg-zinc-600 ml-0.5 -mb-[1px] animate-blink" />
+					</p>
 				</div>
 
-				<div className="text-sand text-[17px] leading-relaxed max-w-xl space-y-4">
+				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
 					<p>
-						I build developer platforms and infrastructure for AI.
-						Currently building{" "}
-						<InlineLink href="https://www.stack0.dev">Stack0</InlineLink>
-						{" "}&mdash; infrastructure for apps and AI agents.
-					</p>
-					<p>
-						Running{" "}
-						<InlineLink href="https://www.launchkitstudios.com/">
+						I build developer platforms and infrastructure for AI. Currently
+						building{" "}
+						<Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
+						<Anchor href="https://www.launchkitstudios.com/">
 							LaunchKit Studios
-						</InlineLink>
-						{" "}&mdash; an app studio shipping AI-powered products, and{" "}
-						<InlineLink href="https://campbell.ventures/">
-							Campbell Ventures
-						</InlineLink>
-						{" "}&mdash; consulting & investments.
+						</Anchor>
+						.
 					</p>
-					<p className="text-ash">
-						Previously: 4 startups, 4 exits (Google, Ford, Nest, Bird).
-						Principal Engineer at Zapier. YC W15.
+					<p className="text-zinc-600">
+						4 startups, 4 exits (Google, Ford, Nest, Bird). Principal at Zapier.
+						YC W15.
 					</p>
 				</div>
 			</div>
 
-			{/* About */}
-			<Section id="about" label="About">
-				<div className="space-y-4 text-sand leading-relaxed">
-					<p>
-						At{" "}
-						<InlineLink href="https://www.stack0.dev">Stack0</InlineLink>,
-						I'm building an AI-native infrastructure platform &mdash; email, CDN,
-						video transcoding, AI workflows, and a unified integrations API
-						across 5 languages.
-					</p>
-					<p>
-						At{" "}
-						<InlineLink href="https://zapier.com">Zapier</InlineLink>,
-						I led the launches of Maker and Forms, and contributed to Tables
-						and Interfaces as Principal Engineer.
-					</p>
-					<p>
-						At{" "}
-						<InlineLink href="https://marketing.flowauctions.com/platform/sellers">
-							Flow Auctions
-						</InlineLink>,
-						I'm building an AI-native auction house management platform with
-						GenAI workflows for lot descriptions, auto-pricing, and marketing.
-					</p>
-					<p className="text-ash">
-						Track record: founding engineer or CTO at 4 VC-backed startups, all
-						acquired.
-					</p>
+			{/* Now */}
+			<div id="work" className="scroll-mt-24 space-y-16">
+				<div>
+					<Label>Now</Label>
+					<div className="mt-4 space-y-0">
+						<WorkRow
+							company="LaunchKit Studios"
+							role="Founder"
+							period="2024 –"
+							href="https://www.launchkitstudios.com/"
+							active
+						/>
+						<WorkRow
+							company="Campbell Ventures"
+							role="Founder"
+							period="2024 –"
+							href="https://campbell.ventures/"
+							active
+						/>
+						<WorkRow
+							company="Stack0"
+							role="Founder"
+							period="2022 –"
+							href="https://www.stack0.dev"
+							logo={stack0Logo}
+							active
+						/>
+						<WorkRow
+							company="Flow Auctions"
+							role="Co-Founder"
+							period="2024 –"
+							href="https://marketing.flowauctions.com/platform/sellers"
+							logo={flowLogo}
+							active
+						/>
+					</div>
 				</div>
-			</Section>
 
-			{/* Work */}
-			<Section id="work" label="Work">
-				<div className="space-y-0">
-					<WorkItem
-						company="LaunchKit Studios"
-						role="Founder"
-						period="2024 &ndash; Present"
-						href="https://www.launchkitstudios.com/"
-						active
-					/>
-					<WorkItem
-						company="Campbell Ventures"
-						role="Founder"
-						period="2024 &ndash; Present"
-						href="https://campbell.ventures/"
-						active
-					/>
-					<WorkItem
-						company="Stack0"
-						role="Founder"
-						period="2022 &ndash; Present"
-						href="https://www.stack0.dev"
-						active
-					/>
-					<WorkItem
-						company="Flow Auctions"
-						role="Co-Founder"
-						period="2024 &ndash; Present"
-						href="https://marketing.flowauctions.com/platform/sellers"
-						active
-					/>
-					<WorkItem
-						company="Zapier"
-						role="Principal Engineer"
-						period="2019 &ndash; 2022"
-						href="https://zapier.com"
-					/>
-					<WorkItem
-						company="Chariot"
-						role="CTO"
-						period="2014 &ndash; 2016"
-						outcome="Ford"
-						badge="YC W15"
-					/>
-					<WorkItem
-						company="Sphere"
-						role="CTO"
-						period="2012 &ndash; 2013"
-						outcome="Google"
-					/>
-					<WorkItem
-						company="Scoot"
-						role="Founding Engineer"
-						period="2012 &ndash; 2013"
-						outcome="Bird"
-					/>
-					<WorkItem
-						company="My Energy"
-						role="CTO"
-						period="2009 &ndash; 2012"
-						outcome="Nest"
-					/>
+				<div>
+					<Label>Previously</Label>
+					<div className="mt-4 space-y-0">
+						<WorkRow
+							company="Zapier"
+							role="Principal Eng"
+							period="2019 – 22"
+						/>
+						<WorkRow
+							company="Chariot"
+							role="CTO"
+							period="2014 – 16"
+							exit="Ford"
+							badge="YC W15"
+							logo={chariotLogo}
+						/>
+						<WorkRow
+							company="Sphere"
+							role="CTO"
+							period="2012 – 13"
+							exit="Google"
+							logo={sphereLogo}
+						/>
+						<WorkRow
+							company="Scoot"
+							role="Founding Eng"
+							period="2012 – 13"
+							exit="Bird"
+							logo={scootLogo}
+						/>
+						<WorkRow
+							company="My Energy"
+							role="CTO"
+							period="2009 – 12"
+							exit="Nest"
+							logo={myenergyLogo}
+						/>
+					</div>
 				</div>
-			</Section>
+			</div>
 
 			{/* Projects */}
-			<Section id="projects" label="Projects">
-				<div className="space-y-0">
+			<div id="projects" className="scroll-mt-24">
+				<Label>Projects</Label>
+				<div className="mt-4 space-y-0">
 					{allProjects.map((project) => (
 						<Link
 							key={project.slug}
 							href={project.metadata.link ?? `/projects/${project.slug}`}
 							target={project.metadata.link ? "_blank" : undefined}
 							rel={project.metadata.link ? "noopener noreferrer" : undefined}
-							className="group flex items-baseline justify-between py-4 border-b border-faint/50 hover:border-copper/20 transition-colors"
+							className="group flex items-center justify-between py-2.5 border-b border-zinc-900 hover:border-zinc-800 transition-colors"
 						>
-							<div className="space-y-0.5">
-								<span className="text-cream group-hover:text-copper transition-colors">
+							<div className="flex items-center gap-2.5">
+								{project.metadata.logo && (
+									<div className="w-5 h-5 rounded-sm overflow-hidden bg-zinc-900 flex items-center justify-center shrink-0">
+										<ProjectLogo
+											src={project.metadata.logo}
+											alt={project.metadata.title}
+										/>
+									</div>
+								)}
+								<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
 									{project.metadata.title}
 								</span>
-								<p className="font-mono text-xs text-ash max-w-md">
-									{project.metadata.summary}
-								</p>
 							</div>
-							<span className="font-mono text-[10px] text-ash uppercase tracking-widest shrink-0 ml-4">
+							<span className="text-[10px] text-zinc-700 uppercase tracking-wider shrink-0 ml-4">
 								{project.metadata.category}
 							</span>
 						</Link>
@@ -260,71 +235,92 @@ export default function Page() {
 				</div>
 				<Link
 					href="/projects"
-					className="inline-block mt-6 font-mono text-xs text-ash hover:text-copper transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors"
 				>
-					All projects &rarr;
+					all projects →
 				</Link>
-			</Section>
+			</div>
 
 			{/* Writing */}
-			<Section id="writing" label="Writing">
+			<div id="writing" className="scroll-mt-24">
+				<Label>Writing</Label>
 				{recentPosts.length > 0 ? (
-					<div className="space-y-0">
+					<div className="mt-4 space-y-0">
 						{recentPosts.map((post) => (
 							<Link
 								key={post.slug}
 								href={`/blog/${post.slug}`}
-								className="group flex items-baseline justify-between py-4 border-b border-faint/50 hover:border-copper/20 transition-colors"
+								className="group flex items-baseline justify-between py-2.5 border-b border-zinc-900 hover:border-zinc-800 transition-colors"
 							>
-								<span className="text-cream group-hover:text-copper transition-colors">
+								<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
 									{post.metadata.title}
 								</span>
-								<span className="font-mono text-[10px] text-ash shrink-0 ml-4">
+								<span className="text-[10px] text-zinc-700 shrink-0 ml-4">
 									{new Date(post.metadata.publishedAt).toLocaleDateString(
 										"en-US",
-										{ month: "short", year: "numeric" },
+										{ month: "short", year: "2-digit" },
 									)}
 								</span>
 							</Link>
 						))}
 					</div>
 				) : (
-					<p className="text-ash">Coming soon.</p>
+					<p className="mt-4 text-sm text-zinc-700">Coming soon.</p>
 				)}
 				<Link
 					href="/blog"
-					className="inline-block mt-6 font-mono text-xs text-ash hover:text-copper transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors"
 				>
-					All posts &rarr;
+					all posts →
 				</Link>
-			</Section>
+			</div>
+
+			{/* Contact */}
+			<div className="flex items-center gap-5 text-[10px] text-zinc-700 pt-4">
+				<a
+					href="https://twitter.com/ericcampbell59"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="hover:text-zinc-400 transition-colors"
+				>
+					twitter
+				</a>
+				<a
+					href="https://www.linkedin.com/in/ericcampbell59/"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="hover:text-zinc-400 transition-colors"
+				>
+					linkedin
+				</a>
+				<a
+					href="https://github.com/ericc59"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="hover:text-zinc-400 transition-colors"
+				>
+					github
+				</a>
+				<a
+					href="mailto:eric@campbell.ventures"
+					className="hover:text-zinc-400 transition-colors"
+				>
+					email
+				</a>
+			</div>
 		</section>
 	);
 }
 
-function Section({
-	id,
-	label,
-	children,
-}: {
-	id: string;
-	label: string;
-	children: React.ReactNode;
-}) {
+function Label({ children }: { children: React.ReactNode }) {
 	return (
-		<div id={id} className="scroll-mt-24">
-			<div className="flex items-center gap-4 mb-8">
-				<span className="font-mono text-[10px] text-copper uppercase tracking-[0.2em]">
-					{label}
-				</span>
-				<div className="flex-1 h-px bg-gradient-to-r from-copper/20 to-transparent" />
-			</div>
+		<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
 			{children}
-		</div>
+		</span>
 	);
 }
 
-function InlineLink({
+function Anchor({
 	href,
 	children,
 }: {
@@ -336,66 +332,78 @@ function InlineLink({
 			href={href}
 			target="_blank"
 			rel="noopener noreferrer"
-			className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
+			className="text-zinc-300 hover:text-zinc-100 transition-colors"
 		>
 			{children}
 		</a>
 	);
 }
 
-function WorkItem({
+function WorkRow({
 	company,
 	role,
 	period,
 	href,
-	outcome,
+	exit,
 	badge,
 	active,
+	logo,
 }: {
 	company: string;
 	role: string;
 	period: string;
 	href?: string;
-	outcome?: string;
+	exit?: string;
 	badge?: string;
 	active?: boolean;
+	logo?: any;
 }) {
 	return (
-		<div className="flex items-start justify-between py-4 border-b border-faint/50">
-			<div className="flex items-start gap-3">
-				{active && <div className="elevation-marker mt-2 shrink-0" />}
-				<div className="space-y-0.5">
-					<div className="flex items-center gap-2 flex-wrap">
-						{href ? (
-							<a
-								href={href}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-cream hover:text-copper transition-colors"
-							>
-								{company}
-							</a>
-						) : (
-							<span className="text-cream">{company}</span>
-						)}
-						{badge && (
-							<span className="font-mono text-[10px] text-copper bg-copper-muted px-1.5 py-0.5 rounded-sm">
-								{badge}
-							</span>
-						)}
-						{outcome && (
-							<span className="font-mono text-[10px] text-ash">
-								&rarr; {outcome}
-							</span>
+		<div className="flex items-center justify-between py-2.5 border-b border-zinc-900 text-sm">
+			<div className="flex items-center gap-2">
+				{active && !logo && (
+					<span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+				)}
+				{logo && (
+					<div className="relative w-5 h-5 rounded-sm overflow-hidden bg-zinc-900 shrink-0">
+						<Image
+							src={logo}
+							alt={company}
+							fill
+							className="object-cover"
+						/>
+						{active && (
+							<span className="absolute -top-px -right-px w-1.5 h-1.5 rounded-full bg-emerald-400 border border-zinc-950" />
 						)}
 					</div>
-					<span className="font-mono text-xs text-ash">{role}</span>
+				)}
+				<div className="flex items-baseline gap-2 flex-wrap">
+					{href ? (
+						<a
+							href={href}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-zinc-300 hover:text-zinc-100 transition-colors"
+						>
+							{company}
+						</a>
+					) : (
+						<span className="text-zinc-400">{company}</span>
+					)}
+					<span className="text-zinc-700 text-xs">{role}</span>
+					{badge && (
+						<span className="text-[9px] text-zinc-600 border border-zinc-800 px-1 py-px">
+							{badge}
+						</span>
+					)}
+					{exit && (
+						<span className="text-[10px] text-zinc-700">→ {exit}</span>
+					)}
 				</div>
 			</div>
-			<span
-				className="font-mono text-[10px] text-ash shrink-0 ml-4 pt-1"
-				dangerouslySetInnerHTML={{ __html: period }}
-			/>
+			<span className="text-[10px] text-zinc-700 shrink-0 ml-4">
+				{period}
+			</span>
 		</div>
 	);
 }

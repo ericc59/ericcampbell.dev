@@ -4,7 +4,7 @@ import { getContracts } from "app/db/contract";
 export const metadata = {
 	title: "Contract Work",
 	description:
-		"Contract engineering projects: full-stack development, AI integrations, and startup MVPs for funded companies.",
+		"Contract engineering projects: full-stack development, AI integrations, and startup MVPs.",
 };
 
 export default function ProjectPage() {
@@ -12,30 +12,25 @@ export default function ProjectPage() {
 		if (
 			new Date(a?.metadata.publishedAt ?? "") >
 			new Date(b?.metadata.publishedAt ?? "")
-		) {
+		)
 			return -1;
-		}
 		return 1;
 	});
 
 	return (
-		<section className="space-y-16">
-			<div className="space-y-6">
-				<div className="flex items-center gap-4">
-					<span className="font-mono text-[10px] text-copper uppercase tracking-[0.2em]">
-						Client Work
-					</span>
-					<div className="flex-1 h-px bg-gradient-to-r from-copper/20 to-transparent" />
-				</div>
-				<h1 className="font-display text-4xl lg:text-5xl tracking-tight">
+		<section className="space-y-12">
+			<div>
+				<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
+					Client Work
+				</span>
+				<h1 className="text-zinc-200 text-lg font-medium mt-3">
 					Contract Projects
 				</h1>
-				<p className="text-sand text-lg max-w-2xl leading-relaxed">
-					High-quality contract work I've done for clients. Looking for expert
-					engineering?{" "}
+				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+					Engineering work for clients.{" "}
 					<a
 						href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
-						className="text-copper border-b border-copper/30 hover:border-copper transition-colors"
+						className="text-zinc-400 hover:text-zinc-200 transition-colors"
 					>
 						Let's talk
 					</a>
@@ -43,15 +38,11 @@ export default function ProjectPage() {
 				</p>
 			</div>
 
-			<div className="relative">
-				<div className="flex items-center gap-4 mb-8">
-					<span className="font-mono text-[10px] text-ash">
-						{String(allProjects.length).padStart(2, "0")} PROJECTS
-					</span>
-					<div className="flex-1 h-px bg-faint/50" />
+			<div>
+				<div className="text-[10px] text-zinc-700 mb-6">
+					{String(allProjects.length).padStart(2, "0")} projects
 				</div>
-
-				<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+				<div className="grid grid-cols-1 gap-4">
 					{allProjects.map((project, index) => (
 						<ProjectCard
 							key={project?.slug}

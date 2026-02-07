@@ -128,12 +128,12 @@ export default async function Blog({
           }),
         }}
       />
-      <h1 className="title font-display text-3xl tracking-tight text-cream max-w-[650px]">
+      <h1 className="title text-zinc-200 text-lg font-medium max-w-[650px]">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
+      <div className="flex justify-between items-center mt-2 mb-10 max-w-[650px]">
         <Suspense fallback={<p className="h-5" />}>
-          <p className="text-sm text-ash font-mono text-xs">
+          <p className="text-[10px] text-zinc-600">
             {formatDate(post.metadata.publishedAt)}
           </p>
         </Suspense>
@@ -141,7 +141,7 @@ export default async function Blog({
           <Views slug={post.slug} />
         </Suspense>
       </div>
-      <article className="prose prose-quoteless prose-lg max-w-none">
+      <article className="prose prose-quoteless prose-sm max-w-none">
         <CustomMDX source={post.content} />
       </article>
     </section>
