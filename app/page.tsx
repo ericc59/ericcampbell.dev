@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProjectLogo from "./components/project-logo";
 
+import profilePhoto from "public/images/home/eric2.jpeg";
 import stack0Logo from "public/images/projects/stack0/logo.png";
 import flowLogo from "public/images/projects/flowauctions/flowauctions-logo.png";
 import chariotLogo from "public/images/work/chariot.webp";
@@ -98,12 +99,24 @@ export default function Page() {
 
 			{/* Identity */}
 			<div className="space-y-6">
-				<div>
-					<h1 className="text-zinc-200 text-lg font-medium">Eric Campbell</h1>
-					<p className="text-zinc-600 text-xs mt-1">
-						Building infrastructure for AI agents
-						<span className="inline-block w-[5px] h-[13px] bg-zinc-600 ml-0.5 -mb-[1px] animate-blink" />
-					</p>
+				<div className="flex items-center gap-4">
+					<div className="w-12 h-12 rounded-full overflow-hidden shrink-0 ring-1 ring-zinc-800">
+						<Image
+							src={profilePhoto}
+							alt="Eric Campbell"
+							width={48}
+							height={48}
+							className="object-cover w-full h-full"
+							priority
+						/>
+					</div>
+					<div>
+						<h1 className="text-zinc-200 text-lg font-medium">Eric Campbell</h1>
+						<p className="text-zinc-600 text-xs mt-0.5">
+							Building infrastructure for AI agents
+							<span className="inline-block w-[5px] h-[13px] bg-zinc-600 ml-0.5 -mb-[1px] animate-blink" />
+						</p>
+					</div>
 				</div>
 
 				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
