@@ -112,9 +112,9 @@ export default function Page() {
 					</div>
 					<div>
 						<h1 className="text-zinc-200 text-lg font-medium">Eric Campbell</h1>
-						<p className="text-zinc-600 text-xs mt-0.5">
+						<p className="text-zinc-500 text-xs mt-0.5">
 							Building infrastructure for AI agents
-							<span className="inline-block w-[5px] h-[13px] bg-zinc-600 ml-0.5 -mb-[1px] animate-blink" />
+							<span className="inline-block w-[5px] h-[13px] bg-zinc-500 ml-0.5 -mb-[1px] animate-blink" />
 						</p>
 					</div>
 				</div>
@@ -129,7 +129,7 @@ export default function Page() {
 						</Anchor>
 						.
 					</p>
-					<p className="text-zinc-600">
+					<p className="text-zinc-500">
 						4 startups, 4 exits (Google, Ford, Nest, Bird). Principal at Zapier.
 						YC W15.
 					</p>
@@ -240,7 +240,7 @@ export default function Page() {
 									{project.metadata.title}
 								</span>
 							</div>
-							<span className="text-[10px] text-zinc-700 uppercase tracking-wider shrink-0 ml-4">
+							<span className="text-[10px] text-zinc-600 uppercase tracking-wider shrink-0 ml-4">
 								{project.metadata.category}
 							</span>
 						</Link>
@@ -248,7 +248,7 @@ export default function Page() {
 				</div>
 				<Link
 					href="/projects"
-					className="inline-block mt-4 text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-500 hover:text-zinc-400 transition-colors"
 				>
 					all projects →
 				</Link>
@@ -268,7 +268,7 @@ export default function Page() {
 								<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
 									{post.metadata.title}
 								</span>
-								<span className="text-[10px] text-zinc-700 shrink-0 ml-4">
+								<span className="text-[10px] text-zinc-600 shrink-0 ml-4">
 									{new Date(post.metadata.publishedAt).toLocaleDateString(
 										"en-US",
 										{ month: "short", year: "2-digit" },
@@ -278,18 +278,18 @@ export default function Page() {
 						))}
 					</div>
 				) : (
-					<p className="mt-4 text-sm text-zinc-700">Coming soon.</p>
+					<p className="mt-4 text-sm text-zinc-600">Coming soon.</p>
 				)}
 				<Link
 					href="/blog"
-					className="inline-block mt-4 text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-500 hover:text-zinc-400 transition-colors"
 				>
 					all posts →
 				</Link>
 			</div>
 
 			{/* Contact */}
-			<div className="flex items-center gap-5 text-[10px] text-zinc-700 pt-4">
+			<div className="flex items-center gap-5 text-[10px] text-zinc-600 pt-4">
 				<a
 					href="https://twitter.com/ericcampbell59"
 					target="_blank"
@@ -327,7 +327,7 @@ export default function Page() {
 
 function Label({ children }: { children: React.ReactNode }) {
 	return (
-		<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
+		<span className="text-[10px] text-zinc-500 uppercase tracking-[0.15em]">
 			{children}
 		</span>
 	);
@@ -403,18 +403,18 @@ function WorkRow({
 					) : (
 						<span className="text-zinc-400">{company}</span>
 					)}
-					<span className="text-zinc-700 text-xs">{role}</span>
+					<span className="text-zinc-600 text-xs">{role}</span>
 					{badge && (
-						<span className="text-[9px] text-zinc-600 border border-zinc-800 px-1 py-px">
+						<span className="text-[9px] text-zinc-500 border border-zinc-800 px-1 py-px">
 							{badge}
 						</span>
 					)}
 					{exit && (
-						<span className="text-[10px] text-zinc-700">→ {exit}</span>
+						<span className="text-[10px] text-zinc-600">→ {exit}</span>
 					)}
 				</div>
 			</div>
-			<span className="text-[10px] text-zinc-700 shrink-0 ml-4">
+			<span className="text-[10px] text-zinc-600 shrink-0 ml-4">
 				{period}
 			</span>
 		</div>
