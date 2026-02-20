@@ -306,7 +306,7 @@ export default function ArcAgiPage() {
 					/>
 					<ChangelogEntry
 						date="2026-02-20"
-						title="Sprint 4: Cross-Dataset Improvements"
+						title="Cross-Dataset Improvements"
 						changes={[
 							"Enclosed region fill engine: detects border-enclosed areas and fills with learned color (00d62c1b task class)",
 							"Extended pixel rules: position-aware features (border distance, parity, diagonal neighbors) for spatial-context transforms",
