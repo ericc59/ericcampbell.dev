@@ -16,7 +16,7 @@ export default function ArcAgiPage() {
 		<section className="space-y-16">
 			{/* Header */}
 			<div>
-				<span className="text-[10px] text-zinc-500 uppercase tracking-[0.15em]">
+				<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
 					Research
 				</span>
 				<h1 className="text-zinc-100 text-lg font-medium mt-3">
@@ -131,14 +131,16 @@ export default function ArcAgiPage() {
 								key={label}
 								className="flex-1 flex flex-col items-center gap-1.5"
 							>
-								<span className={`text-[10px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-400"}`}>
+								<span
+									className={`text-[10px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-400"}`}
+								>
 									{score}
 								</span>
 								<div
 									className={`w-full rounded-sm ${i === arr.length - 1 ? "bg-emerald-500/40" : "bg-zinc-700"}`}
 									style={{ height: `${(score / 400) * 120}px` }}
 								/>
-								<span className="text-[10px] text-zinc-500">{label}</span>
+								<span className="text-[10px] text-zinc-400">{label}</span>
 							</div>
 						))}
 					</div>
@@ -147,7 +149,7 @@ export default function ArcAgiPage() {
 						<span className="text-[10px] text-zinc-300">
 							130/400 solved (32.5%)
 						</span>
-						<div className="flex items-center gap-4 text-[10px] text-zinc-500">
+						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>1,192 tests</span>
 							<span>100% coverage</span>
 							<span>4,525 stmts</span>
@@ -272,7 +274,7 @@ export default function ArcAgiPage() {
 			{/* Tech Stack */}
 			<div className="space-y-4">
 				<Label>Stack</Label>
-				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-500">
+				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-400">
 					<span>Python 3.12</span>
 					<span>NumPy</span>
 					<span>PyTorch (optional)</span>
@@ -282,7 +284,7 @@ export default function ArcAgiPage() {
 			</div>
 
 			{/* Links */}
-			<div className="flex items-center gap-5 text-[10px] text-zinc-500 pt-4">
+			<div className="flex items-center gap-5 text-[10px] text-zinc-400 pt-4">
 				<a
 					href="https://arcprize.org/"
 					target="_blank"
@@ -333,7 +335,7 @@ function SolverRow({
 		<div className="py-3 border-b border-zinc-800 group">
 			<div className="flex items-baseline justify-between">
 				<div className="flex items-baseline gap-2">
-					<span className="text-[10px] text-zinc-500 w-6 shrink-0">
+					<span className="text-[10px] text-zinc-400 w-6 shrink-0">
 						L{layer}
 					</span>
 					<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
@@ -344,7 +346,7 @@ function SolverRow({
 					{type}
 				</span>
 			</div>
-			<p className="text-xs text-zinc-500 mt-1 ml-8 leading-relaxed">
+			<p className="text-xs text-zinc-400 mt-1 ml-8 leading-relaxed">
 				{description}
 			</p>
 		</div>
@@ -370,9 +372,7 @@ function InsightRow({
 				</span>
 				<div>
 					<span className="text-sm text-zinc-300">{title}</span>
-					<p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-						{detail}
-					</p>
+					<p className="text-xs text-zinc-400 mt-1 leading-relaxed">{detail}</p>
 				</div>
 			</div>
 		</div>
@@ -383,12 +383,10 @@ function NextRow({ title, detail }: { title: string; detail: string }) {
 	return (
 		<div className="py-3 border-b border-zinc-800">
 			<div className="flex items-baseline gap-2">
-				<span className="text-[10px] text-zinc-500 shrink-0">&rarr;</span>
+				<span className="text-[10px] text-zinc-400 shrink-0">&rarr;</span>
 				<div>
 					<span className="text-sm text-zinc-300">{title}</span>
-					<p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-						{detail}
-					</p>
+					<p className="text-xs text-zinc-400 mt-1 leading-relaxed">{detail}</p>
 				</div>
 			</div>
 		</div>

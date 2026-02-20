@@ -23,7 +23,7 @@ export default function ProjectPage() {
 				<h1 className="text-zinc-200 text-lg font-medium mt-3">
 					Projects & Experiments
 				</h1>
-				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
 					Things I've made trying to put a dent in the universe.
 				</p>
 			</div>

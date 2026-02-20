@@ -22,7 +22,7 @@ export default function Page() {
 				<h1 className="text-zinc-200 text-lg font-medium mt-3">
 					Work & Experience
 				</h1>
-				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
 					Building products people love with high-performance engineering teams.
 				</p>
 			</div>
@@ -132,8 +132,8 @@ export default function Page() {
 					logo={scoot}
 				>
 					<p>
-						First electric scooter rental company. Built backend, frontend, admin
-						dashboard, and cross-platform mobile app.
+						First electric scooter rental company. Built backend, frontend,
+						admin dashboard, and cross-platform mobile app.
 					</p>
 				</Entry>
 
@@ -224,7 +224,7 @@ function Entry({
 					{period}
 				</span>
 			</div>
-			<div className="text-sm text-zinc-500 leading-relaxed mt-3">
+			<div className="text-sm text-zinc-400 leading-relaxed mt-3">
 				{children}
 			</div>
 		</div>

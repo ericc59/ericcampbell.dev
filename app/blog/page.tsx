@@ -22,7 +22,7 @@ export default function BlogPage() {
 				<h1 className="text-zinc-200 text-lg font-medium mt-3">
 					Blog & Thoughts
 				</h1>
-				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
 					Signal, not noise.
 				</p>
 			</div>

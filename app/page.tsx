@@ -240,7 +240,7 @@ export default function Page() {
 									{project.metadata.title}
 								</span>
 							</div>
-							<span className="text-[10px] text-zinc-500 uppercase tracking-wider shrink-0 ml-4">
+							<span className="text-[10px] text-zinc-400 uppercase tracking-wider shrink-0 ml-4">
 								{project.metadata.category}
 							</span>
 						</Link>
@@ -248,7 +248,7 @@ export default function Page() {
 				</div>
 				<Link
 					href="/projects"
-					className="inline-block mt-4 text-[10px] text-zinc-500 hover:text-zinc-400 transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-400 hover:text-zinc-400 transition-colors"
 				>
 					all projects →
 				</Link>
@@ -268,7 +268,7 @@ export default function Page() {
 								<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
 									{post.metadata.title}
 								</span>
-								<span className="text-[10px] text-zinc-500 shrink-0 ml-4">
+								<span className="text-[10px] text-zinc-400 shrink-0 ml-4">
 									{new Date(post.metadata.publishedAt).toLocaleDateString(
 										"en-US",
 										{ month: "short", year: "2-digit" },
@@ -282,14 +282,14 @@ export default function Page() {
 				)}
 				<Link
 					href="/blog"
-					className="inline-block mt-4 text-[10px] text-zinc-500 hover:text-zinc-400 transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-400 hover:text-zinc-400 transition-colors"
 				>
 					all posts →
 				</Link>
 			</div>
 
 			{/* Contact */}
-			<div className="flex items-center gap-5 text-[10px] text-zinc-500 pt-4">
+			<div className="flex items-center gap-5 text-[10px] text-zinc-400 pt-4">
 				<a
 					href="https://twitter.com/ericcampbell59"
 					target="_blank"
@@ -398,16 +398,16 @@ function WorkRow({
 					) : (
 						<span className="text-zinc-300">{company}</span>
 					)}
-					<span className="text-zinc-500 text-xs">{role}</span>
+					<span className="text-zinc-400 text-xs">{role}</span>
 					{badge && (
-						<span className="text-[9px] text-zinc-500 border border-zinc-800 px-1 py-px">
+						<span className="text-[9px] text-zinc-400 border border-zinc-800 px-1 py-px">
 							{badge}
 						</span>
 					)}
-					{exit && <span className="text-[10px] text-zinc-500">→ {exit}</span>}
+					{exit && <span className="text-[10px] text-zinc-400">→ {exit}</span>}
 				</div>
 			</div>
-			<span className="text-[10px] text-zinc-500 shrink-0 ml-4">{period}</span>
+			<span className="text-[10px] text-zinc-400 shrink-0 ml-4">{period}</span>
 		</div>
 	);
 }

@@ -26,7 +26,7 @@ export default function ProjectPage() {
 				<h1 className="text-zinc-200 text-lg font-medium mt-3">
 					Contract Projects
 				</h1>
-				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
 					Engineering work for clients.{" "}
 					<a
 						href="mailto:ericc@campbell.ventures?subject=I've got a project for you"
