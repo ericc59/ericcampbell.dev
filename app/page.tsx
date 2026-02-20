@@ -3,15 +3,14 @@ import { getProjects } from "app/db/project";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import ProjectLogo from "./components/project-logo";
-
 import profilePhoto from "public/images/home/eric2.jpeg";
-import stack0Logo from "public/images/projects/stack0/logo.png";
 import flowLogo from "public/images/projects/flowauctions/flowauctions-logo.png";
+import stack0Logo from "public/images/projects/stack0/logo.png";
 import chariotLogo from "public/images/work/chariot.webp";
-import sphereLogo from "public/images/work/sphere.png";
-import scootLogo from "public/images/work/scoot.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
+import scootLogo from "public/images/work/scoot.png";
+import sphereLogo from "public/images/work/sphere.png";
+import ProjectLogo from "./components/project-logo";
 
 export const metadata: Metadata = {
 	title: "Eric Campbell - Software Engineer & Startup Founder",
@@ -122,16 +121,15 @@ export default function Page() {
 				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
 					<p>
 						I build developer platforms and infrastructure for AI. Currently
-						building{" "}
-						<Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
+						building <Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
 						<Anchor href="https://www.launchkitstudios.com/">
 							LaunchKit Studios
 						</Anchor>
 						.
 					</p>
 					<p className="text-zinc-500">
-						4 startups, 4 exits (Google, Ford, Nest, Bird). Principal at Zapier.
-						YC W15.
+						4 startups, 4 exits (Google, Ford, Nest, Bird). Prev Zapier Labs.
+						CTO at YC W15.
 					</p>
 				</div>
 			</div>
@@ -177,11 +175,7 @@ export default function Page() {
 				<div>
 					<Label>Previously</Label>
 					<div className="mt-4 space-y-0">
-						<WorkRow
-							company="Zapier"
-							role="Principal Eng"
-							period="2019 – 22"
-						/>
+						<WorkRow company="Zapier" role="Principal Eng" period="2019 – 22" />
 						<WorkRow
 							company="Chariot"
 							role="CTO"
@@ -379,12 +373,7 @@ function WorkRow({
 				)}
 				{logo && (
 					<div className="relative w-5 h-5 rounded-sm overflow-hidden bg-zinc-900 shrink-0">
-						<Image
-							src={logo}
-							alt={company}
-							fill
-							className="object-cover"
-						/>
+						<Image src={logo} alt={company} fill className="object-cover" />
 						{active && (
 							<span className="absolute -top-px -right-px w-1.5 h-1.5 rounded-full bg-emerald-400 border border-zinc-950" />
 						)}
@@ -409,14 +398,10 @@ function WorkRow({
 							{badge}
 						</span>
 					)}
-					{exit && (
-						<span className="text-[10px] text-zinc-600">→ {exit}</span>
-					)}
+					{exit && <span className="text-[10px] text-zinc-600">→ {exit}</span>}
 				</div>
 			</div>
-			<span className="text-[10px] text-zinc-600 shrink-0 ml-4">
-				{period}
-			</span>
+			<span className="text-[10px] text-zinc-600 shrink-0 ml-4">{period}</span>
 		</div>
 	);
 }
