@@ -78,7 +78,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.5"
 						name="Grid Decomposition"
-						description="Detect separator lines dividing grids into cells, solve overlay/boolean/stamp relationships between cells"
+						description="Detect separator lines dividing grids into cells, solve overlay/boolean/stamp relationships between cells. Meta-grid mode: summarize cells as colors, run inference engines at cell level, reconstruct"
 						type="analytical"
 					/>
 					<SolverRow
@@ -150,9 +150,9 @@ export default function ArcAgiPage() {
 							130/400 solved (32.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,192 tests</span>
+							<span>1,214 tests</span>
 							<span>100% coverage</span>
-							<span>4,525 stmts</span>
+							<span>4,584 stmts</span>
 						</div>
 					</div>
 				</div>
