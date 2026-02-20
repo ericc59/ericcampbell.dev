@@ -16,31 +16,31 @@ export default function ArcAgiPage() {
 		<section className="space-y-16">
 			{/* Header */}
 			<div>
-				<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
+				<span className="text-[10px] text-zinc-500 uppercase tracking-[0.15em]">
 					Research
 				</span>
-				<h1 className="text-zinc-200 text-lg font-medium mt-3">
+				<h1 className="text-zinc-100 text-lg font-medium mt-3">
 					ARC-AGI Solver
 				</h1>
-				<p className="text-sm text-zinc-500 mt-2 max-w-lg leading-relaxed">
+				<p className="text-sm text-zinc-400 mt-2 leading-relaxed">
 					A hybrid program synthesis system for solving{" "}
 					<a
 						href="https://arcprize.org/"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-zinc-400 hover:text-zinc-200 transition-colors"
+						className="text-zinc-300 hover:text-zinc-100 transition-colors"
 					>
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-200">130/400</span> on ARC-1.
+					<span className="text-zinc-100">130/400</span> on ARC-1.
 				</p>
 			</div>
 
 			{/* What is ARC */}
 			<div className="space-y-4">
 				<Label>The Problem</Label>
-				<div className="text-sm text-zinc-500 leading-relaxed space-y-3 max-w-lg">
+				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
 						ARC (Abstraction and Reasoning Corpus) is a benchmark for measuring
 						general intelligence. Each task shows 2-3 input/output grid examples
@@ -63,7 +63,7 @@ export default function ArcAgiPage() {
 			{/* Architecture */}
 			<div className="space-y-4">
 				<Label>Architecture</Label>
-				<p className="text-sm text-zinc-500 leading-relaxed max-w-lg">
+				<p className="text-sm text-zinc-400 leading-relaxed">
 					Six solver layers, tried in priority order. Each layer is a different
 					strategy. The first one that succeeds wins.
 				</p>
@@ -111,7 +111,7 @@ export default function ArcAgiPage() {
 			{/* Progress */}
 			<div className="space-y-4">
 				<Label>Progress</Label>
-				<p className="text-sm text-zinc-500 leading-relaxed max-w-lg">
+				<p className="text-sm text-zinc-400 leading-relaxed">
 					ARC-1 benchmark (400 tasks), depth 3 search, 10s timeout per task. No
 					LLM.
 				</p>
@@ -127,25 +127,25 @@ export default function ArcAgiPage() {
 						{ score: 130, label: "v7" },
 					].map(({ score, label }) => (
 						<div key={label} className="flex flex-col items-center gap-1">
-							<span className="text-[9px] text-zinc-500">{score}</span>
+							<span className="text-[9px] text-zinc-400">{score}</span>
 							<div
-								className="w-8 bg-zinc-800 rounded-sm"
+								className="w-8 bg-zinc-700 rounded-sm"
 								style={{ height: `${(score / 400) * 80}px` }}
 							/>
-							<span className="text-[9px] text-zinc-600">{label}</span>
+							<span className="text-[9px] text-zinc-500">{label}</span>
 						</div>
 					))}
 					<div className="flex flex-col items-center gap-1 ml-4 opacity-30">
-						<span className="text-[9px] text-zinc-600">400</span>
+						<span className="text-[9px] text-zinc-500">400</span>
 						<div
-							className="w-8 border border-dashed border-zinc-700 rounded-sm"
+							className="w-8 border border-dashed border-zinc-600 rounded-sm"
 							style={{ height: `${(400 / 400) * 80}px` }}
 						/>
-						<span className="text-[9px] text-zinc-600">max</span>
+						<span className="text-[9px] text-zinc-500">max</span>
 					</div>
 				</div>
 
-				<div className="text-[10px] text-zinc-600 mt-1">
+				<div className="text-[10px] text-zinc-500 mt-1">
 					32.5% solve rate &middot; 1,192 tests &middot; 100% coverage &middot;
 					4,525 statements
 				</div>
@@ -239,7 +239,7 @@ export default function ArcAgiPage() {
 			{/* What's Next */}
 			<div className="space-y-4">
 				<Label>What's Next</Label>
-				<div className="text-sm text-zinc-500 leading-relaxed space-y-3 max-w-lg">
+				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
 						The remaining 270 unsolved tasks fall into a few categories:
 						multi-step reasoning that exceeds depth 3, spatial relationships the
@@ -267,7 +267,7 @@ export default function ArcAgiPage() {
 			{/* Tech Stack */}
 			<div className="space-y-4">
 				<Label>Stack</Label>
-				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-600">
+				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-500">
 					<span>Python 3.12</span>
 					<span>NumPy</span>
 					<span>PyTorch (optional)</span>
@@ -277,12 +277,12 @@ export default function ArcAgiPage() {
 			</div>
 
 			{/* Links */}
-			<div className="flex items-center gap-5 text-[10px] text-zinc-600 pt-4">
+			<div className="flex items-center gap-5 text-[10px] text-zinc-500 pt-4">
 				<a
 					href="https://arcprize.org/"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="hover:text-zinc-400 transition-colors"
+					className="hover:text-zinc-300 transition-colors"
 				>
 					ARC Prize
 				</a>
@@ -290,7 +290,7 @@ export default function ArcAgiPage() {
 					href="https://github.com/ericc59"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="hover:text-zinc-400 transition-colors"
+					className="hover:text-zinc-300 transition-colors"
 				>
 					github
 				</a>
@@ -301,7 +301,7 @@ export default function ArcAgiPage() {
 
 function Label({ children }: { children: React.ReactNode }) {
 	return (
-		<span className="text-[10px] text-zinc-500 uppercase tracking-[0.15em]">
+		<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
 			{children}
 		</span>
 	);
@@ -319,19 +319,19 @@ function SolverRow({
 	type: "analytical" | "search" | "llm";
 }) {
 	const typeColor = {
-		analytical: "text-emerald-500/60",
-		search: "text-amber-500/60",
-		llm: "text-violet-500/60",
+		analytical: "text-emerald-400/70",
+		search: "text-amber-400/70",
+		llm: "text-violet-400/70",
 	}[type];
 
 	return (
-		<div className="py-3 border-b border-zinc-900 group">
+		<div className="py-3 border-b border-zinc-800 group">
 			<div className="flex items-baseline justify-between">
 				<div className="flex items-baseline gap-2">
-					<span className="text-[10px] text-zinc-700 w-6 shrink-0">
+					<span className="text-[10px] text-zinc-500 w-6 shrink-0">
 						L{layer}
 					</span>
-					<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
+					<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
 						{name}
 					</span>
 				</div>
@@ -339,7 +339,7 @@ function SolverRow({
 					{type}
 				</span>
 			</div>
-			<p className="text-xs text-zinc-600 mt-1 ml-8 max-w-md leading-relaxed">
+			<p className="text-xs text-zinc-500 mt-1 ml-8 leading-relaxed">
 				{description}
 			</p>
 		</div>
@@ -356,16 +356,16 @@ function InsightRow({
 	negative?: boolean;
 }) {
 	return (
-		<div className="py-3 border-b border-zinc-900">
+		<div className="py-3 border-b border-zinc-800">
 			<div className="flex items-baseline gap-2">
 				<span
-					className={`text-[10px] shrink-0 ${negative ? "text-red-500/40" : "text-emerald-500/40"}`}
+					className={`text-[10px] shrink-0 ${negative ? "text-red-400/60" : "text-emerald-400/60"}`}
 				>
 					{negative ? "-" : "+"}
 				</span>
 				<div>
-					<span className="text-sm text-zinc-400">{title}</span>
-					<p className="text-xs text-zinc-600 mt-1 max-w-md leading-relaxed">
+					<span className="text-sm text-zinc-300">{title}</span>
+					<p className="text-xs text-zinc-500 mt-1 leading-relaxed">
 						{detail}
 					</p>
 				</div>
@@ -376,12 +376,12 @@ function InsightRow({
 
 function NextRow({ title, detail }: { title: string; detail: string }) {
 	return (
-		<div className="py-3 border-b border-zinc-900">
+		<div className="py-3 border-b border-zinc-800">
 			<div className="flex items-baseline gap-2">
-				<span className="text-[10px] text-zinc-700 shrink-0">&rarr;</span>
+				<span className="text-[10px] text-zinc-500 shrink-0">&rarr;</span>
 				<div>
-					<span className="text-sm text-zinc-400">{title}</span>
-					<p className="text-xs text-zinc-600 mt-1 max-w-md leading-relaxed">
+					<span className="text-sm text-zinc-300">{title}</span>
+					<p className="text-xs text-zinc-500 mt-1 leading-relaxed">
 						{detail}
 					</p>
 				</div>

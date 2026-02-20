@@ -10,6 +10,7 @@ import chariotLogo from "public/images/work/chariot.webp";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import scootLogo from "public/images/work/scoot.png";
 import sphereLogo from "public/images/work/sphere.png";
+import zapierLogo from "public/images/work/zapier.png";
 import ProjectLogo from "./components/project-logo";
 
 export const metadata: Metadata = {
@@ -175,7 +176,12 @@ export default function Page() {
 				<div>
 					<Label>Previously</Label>
 					<div className="mt-4 space-y-0">
-						<WorkRow company="Zapier" role="Principal Eng" period="2019 – 22" />
+						<WorkRow
+							company="Zapier"
+							role="Principal Engineer (Labs)"
+							period="2019 – 22"
+							logo={zapierLogo}
+						/>
 						<WorkRow
 							company="Chariot"
 							role="CTO"
@@ -321,7 +327,7 @@ export default function Page() {
 
 function Label({ children }: { children: React.ReactNode }) {
 	return (
-		<span className="text-[10px] text-zinc-500 uppercase tracking-[0.15em]">
+		<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
 			{children}
 		</span>
 	);
