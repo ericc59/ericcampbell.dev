@@ -4,6 +4,7 @@ const navItems = [
 	{ href: "/#work", name: "work" },
 	{ href: "/#projects", name: "projects" },
 	{ href: "/blog", name: "writing" },
+	{ href: "/arc-agi", name: "arc agi solver" },
 ];
 
 export function Navbar() {
@@ -12,7 +13,7 @@ export function Navbar() {
 			<nav className="flex items-center justify-between text-xs">
 				<Link
 					href="/"
-					className="text-zinc-500 hover:text-zinc-200 transition-colors"
+					className="text-zinc-400 hover:text-zinc-200 transition-colors"
 				>
 					eric campbell
 				</Link>
@@ -22,7 +23,7 @@ export function Navbar() {
 						<Link
 							key={href}
 							href={href}
-							className="text-zinc-600 hover:text-zinc-300 transition-colors"
+							className="text-zinc-400 hover:text-zinc-300 transition-colors"
 						>
 							{name}
 						</Link>
