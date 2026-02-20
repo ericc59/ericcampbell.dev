@@ -289,6 +289,23 @@ export default function ArcAgiPage() {
 				<div className="space-y-0">
 					<ChangelogEntry
 						date="2026-02-20"
+						title="Eval Benchmarking + Marker Rectangle Fill"
+						changes={[
+							"Benchmark --split flag: run on evaluation splits (arc-1 eval 400 tasks, arc-2 eval 120 tasks) to measure generalization",
+							"Marker rectangle fill engine: detects isolated same-color corner markers forming axis-aligned rectangles, fills interior with learned color (af902bf9 task class)",
+							"26 inference engines (was 25), 1,264 tests (was 1,242), 4,794 statements (was 4,713), 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-20"
+						title="Verbose Solver Tracing"
+						changes={[
+							"3-level verbose benchmark: -v per-task, -vv layer trace (obj/grid/inf/dsl), -vvv per-engine trace (25 inference engines individually)",
+							"Engine-level tracing iterates inference engines one-by-one via solve_inference(engines=[name]) for precise debugging",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-20"
 						title="Sprint 4: Cross-Dataset Improvements"
 						changes={[
 							"Enclosed region fill engine: detects border-enclosed areas and fills with learned color (00d62c1b task class)",
