@@ -116,38 +116,43 @@ export default function ArcAgiPage() {
 					LLM.
 				</p>
 
-				<div className="mt-2 flex items-end gap-1.5 h-24">
-					{[
-						{ score: 76, label: "v1" },
-						{ score: 103, label: "v2" },
-						{ score: 108, label: "v3" },
-						{ score: 110, label: "v4" },
-						{ score: 118, label: "v5" },
-						{ score: 125, label: "v6" },
-						{ score: 130, label: "v7" },
-					].map(({ score, label }) => (
-						<div key={label} className="flex flex-col items-center gap-1">
-							<span className="text-[9px] text-zinc-400">{score}</span>
+				<div className="mt-2 rounded border border-zinc-800 bg-zinc-900/50 p-5">
+					<div className="flex items-end gap-0 h-32">
+						{[
+							{ score: 76, label: "v1" },
+							{ score: 103, label: "v2" },
+							{ score: 108, label: "v3" },
+							{ score: 110, label: "v4" },
+							{ score: 118, label: "v5" },
+							{ score: 125, label: "v6" },
+							{ score: 130, label: "v7" },
+						].map(({ score, label }, i, arr) => (
 							<div
-								className="w-8 bg-zinc-700 rounded-sm"
-								style={{ height: `${(score / 400) * 80}px` }}
-							/>
-							<span className="text-[9px] text-zinc-500">{label}</span>
-						</div>
-					))}
-					<div className="flex flex-col items-center gap-1 ml-4 opacity-30">
-						<span className="text-[9px] text-zinc-500">400</span>
-						<div
-							className="w-8 border border-dashed border-zinc-600 rounded-sm"
-							style={{ height: `${(400 / 400) * 80}px` }}
-						/>
-						<span className="text-[9px] text-zinc-500">max</span>
+								key={label}
+								className="flex-1 flex flex-col items-center gap-1.5"
+							>
+								<span className={`text-[10px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-400"}`}>
+									{score}
+								</span>
+								<div
+									className={`w-full rounded-sm ${i === arr.length - 1 ? "bg-emerald-500/40" : "bg-zinc-700"}`}
+									style={{ height: `${(score / 400) * 120}px` }}
+								/>
+								<span className="text-[10px] text-zinc-500">{label}</span>
+							</div>
+						))}
 					</div>
-				</div>
 
-				<div className="text-[10px] text-zinc-500 mt-1">
-					32.5% solve rate &middot; 1,192 tests &middot; 100% coverage &middot;
-					4,525 statements
+					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
+						<span className="text-[10px] text-zinc-300">
+							130/400 solved (32.5%)
+						</span>
+						<div className="flex items-center gap-4 text-[10px] text-zinc-500">
+							<span>1,192 tests</span>
+							<span>100% coverage</span>
+							<span>4,525 stmts</span>
+						</div>
+					</div>
 				</div>
 			</div>
 
