@@ -84,7 +84,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="23 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, etc."
+						description="25 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, position-aware pixel rules, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -150,9 +150,9 @@ export default function ArcAgiPage() {
 							130/400 solved (32.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,214 tests</span>
+							<span>1,242 tests</span>
 							<span>100% coverage</span>
-							<span>4,584 stmts</span>
+							<span>4,713 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -179,8 +179,8 @@ export default function ArcAgiPage() {
 						detail="When a program matches the first training pair but fails multi-pair verification, remove its hash from the visited set. Prevents one false positive from blocking all programs that produce the same intermediate grid."
 					/>
 					<InsightRow
-						title="23 inference sub-engines"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, etc.). Individually narrow, collectively powerful."
+						title="25 inference sub-engines"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, etc.). Individually narrow, collectively powerful."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -250,7 +250,7 @@ export default function ArcAgiPage() {
 					<p>
 						The remaining 270 unsolved tasks fall into a few categories:
 						multi-step reasoning that exceeds depth 3, spatial relationships the
-						DSL can't express, and pattern types none of the 23 inference
+						DSL can't express, and pattern types none of the 25 inference
 						engines recognize.
 					</p>
 					<p>The plan:</p>
@@ -280,6 +280,23 @@ export default function ArcAgiPage() {
 					<span>PyTorch (optional)</span>
 					<span>pytest</span>
 					<span>uv</span>
+				</div>
+			</div>
+
+			{/* Changelog */}
+			<div className="space-y-4">
+				<Label>Changelog</Label>
+				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-20"
+						title="Sprint 4: Cross-Dataset Improvements"
+						changes={[
+							"Enclosed region fill engine: detects border-enclosed areas and fills with learned color (00d62c1b task class)",
+							"Extended pixel rules: position-aware features (border distance, parity, diagonal neighbors) for spatial-context transforms",
+							"Grid cell majority fill: meta-grid summarizer picks most common non-bg color per cell, handles noisy/mixed cells",
+							"25 inference engines (was 23), 1,242 tests (was 1,214), 4,713 statements (was 4,584), 100% coverage maintained",
+						]}
+					/>
 				</div>
 			</div>
 
@@ -373,6 +390,34 @@ function InsightRow({
 				<div>
 					<span className="text-sm text-zinc-300">{title}</span>
 					<p className="text-xs text-zinc-400 mt-1 leading-relaxed">{detail}</p>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function ChangelogEntry({
+	date,
+	title,
+	changes,
+}: {
+	date: string;
+	title: string;
+	changes: string[];
+}) {
+	return (
+		<div className="py-3 border-b border-zinc-800">
+			<div className="flex items-baseline gap-2">
+				<span className="text-[10px] text-zinc-400 shrink-0 w-20">{date}</span>
+				<div>
+					<span className="text-sm text-zinc-300">{title}</span>
+					<ul className="mt-1 space-y-1">
+						{changes.map((change, i) => (
+							<li key={i} className="text-xs text-zinc-400 leading-relaxed">
+								&bull; {change}
+							</li>
+						))}
+					</ul>
 				</div>
 			</div>
 		</div>
