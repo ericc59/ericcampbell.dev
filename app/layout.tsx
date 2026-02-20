@@ -51,7 +51,7 @@ export default function RootLayout({
 				<SandpackCSS />
 			</head>
 			<body className="antialiased min-h-screen font-mono">
-				<div className="max-w-xl mx-auto px-6">
+				<div className="max-w-2xl mx-auto px-6">
 					<Navbar />
 					<main className="pb-24">{children}</main>
 				</div>

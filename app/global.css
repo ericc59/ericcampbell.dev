@@ -22,7 +22,7 @@ html {
 
 body {
   background-color: #09090b;
-  color: #a1a1aa;
+  color: #d4d4d8;
   font-family: var(--font-geist-mono), monospace;
   position: relative;
   overflow-x: hidden;
@@ -41,12 +41,12 @@ body {
 
 /* Prose */
 .prose {
-  color: #a1a1aa;
+  color: #d4d4d8;
   font-family: var(--font-geist-mono), monospace;
 }
 
 .prose p, .prose li, .prose ol, .prose ul {
-  color: #a1a1aa;
+  color: #d4d4d8;
 }
 
 .prose .anchor {

@@ -111,9 +111,9 @@ export default function Page() {
 					</div>
 					<div>
 						<h1 className="text-zinc-200 text-lg font-medium">Eric Campbell</h1>
-						<p className="text-zinc-500 text-xs mt-0.5">
+						<p className="text-zinc-400 text-xs mt-0.5">
 							Building infrastructure for AI agents
-							<span className="inline-block w-[5px] h-[13px] bg-zinc-500 ml-0.5 -mb-[1px] animate-blink" />
+							<span className="inline-block w-[5px] h-[13px] bg-zinc-400 ml-0.5 -mb-[1px] animate-blink" />
 						</p>
 					</div>
 				</div>
@@ -127,7 +127,7 @@ export default function Page() {
 						</Anchor>
 						.
 					</p>
-					<p className="text-zinc-500">
+					<p className="text-zinc-400">
 						4 startups, 4 exits (Google, Ford, Nest, Bird). Prev Zapier Labs.
 						CTO at YC W15.
 					</p>
@@ -230,11 +230,11 @@ export default function Page() {
 										/>
 									</div>
 								)}
-								<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
+								<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
 									{project.metadata.title}
 								</span>
 							</div>
-							<span className="text-[10px] text-zinc-600 uppercase tracking-wider shrink-0 ml-4">
+							<span className="text-[10px] text-zinc-500 uppercase tracking-wider shrink-0 ml-4">
 								{project.metadata.category}
 							</span>
 						</Link>
@@ -259,10 +259,10 @@ export default function Page() {
 								href={`/blog/${post.slug}`}
 								className="group flex items-baseline justify-between py-2.5 border-b border-zinc-900 hover:border-zinc-800 transition-colors"
 							>
-								<span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
+								<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
 									{post.metadata.title}
 								</span>
-								<span className="text-[10px] text-zinc-600 shrink-0 ml-4">
+								<span className="text-[10px] text-zinc-500 shrink-0 ml-4">
 									{new Date(post.metadata.publishedAt).toLocaleDateString(
 										"en-US",
 										{ month: "short", year: "2-digit" },
@@ -283,7 +283,7 @@ export default function Page() {
 			</div>
 
 			{/* Contact */}
-			<div className="flex items-center gap-5 text-[10px] text-zinc-600 pt-4">
+			<div className="flex items-center gap-5 text-[10px] text-zinc-500 pt-4">
 				<a
 					href="https://twitter.com/ericcampbell59"
 					target="_blank"
@@ -390,18 +390,18 @@ function WorkRow({
 							{company}
 						</a>
 					) : (
-						<span className="text-zinc-400">{company}</span>
+						<span className="text-zinc-300">{company}</span>
 					)}
-					<span className="text-zinc-600 text-xs">{role}</span>
+					<span className="text-zinc-500 text-xs">{role}</span>
 					{badge && (
 						<span className="text-[9px] text-zinc-500 border border-zinc-800 px-1 py-px">
 							{badge}
 						</span>
 					)}
-					{exit && <span className="text-[10px] text-zinc-600">→ {exit}</span>}
+					{exit && <span className="text-[10px] text-zinc-500">→ {exit}</span>}
 				</div>
 			</div>
-			<span className="text-[10px] text-zinc-600 shrink-0 ml-4">{period}</span>
+			<span className="text-[10px] text-zinc-500 shrink-0 ml-4">{period}</span>
 		</div>
 	);
 }
