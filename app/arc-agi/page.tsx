@@ -84,7 +84,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.6"
 						name="Relational Perception"
-						description="Build scene graphs from grids (objects, relations, symmetries), compute structural diffs between input/output scenes, match 6 composable meta-rules: marker stamp, fill-between, extension, template clone, relational recolor, containment fill"
+						description="Build scene graphs from grids (objects, relations, symmetries), compute structural diffs between input/output scenes, match 6 composable meta-rules: marker stamp, fill-between, extension, template clone, relational recolor (5 strategies: contained/adjacent/same_shape/same_col/size_rank), containment fill"
 						type="analytical"
 					/>
 					<SolverRow
@@ -156,9 +156,9 @@ export default function ArcAgiPage() {
 							130/400 solved (32.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,482 tests</span>
+							<span>1,500 tests</span>
 							<span>100% coverage</span>
-							<span>5,632 stmts</span>
+							<span>5,701 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -297,6 +297,17 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-21"
+						title="Recolor Engine Improvements + Benchmark Pipeline Fix"
+						changes={[
+							"Added solve_relational to benchmark.py pipeline (was missing between grid decomposition and inference layers, unlocking Phase A rule solves)",
+							"Fixed relational recolor: added from_color filter to prevent bidirectional recoloring (e.g. nearest_same_shape no longer swaps both objects)",
+							"New same_col_marker strategy: recolor objects based on SAME_COL relation to differently-colored objects",
+							"New size_rank strategy: recolor all same-colored objects by size-based ranking with learned size-to-color mapping",
+							"1,500 tests (was 1,482), 5,701 statements (was 5,632), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-21"
 						title="Phase B: 3 New Relational Meta-Rules"
