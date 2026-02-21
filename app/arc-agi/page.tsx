@@ -291,6 +291,18 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-22 04:30"
+						title="Parallel Beam Search"
+						changes={[
+							"Extracted _expand_node and _expand_node_policy pure helpers for thread-safe beam node expansion",
+							"Parallelized _beam_search_fallback and _policy_beam_search via ThreadPoolExecutor",
+							"Snapshot-based dedup: threads read frozenset(visited), main thread does post-merge global dedup",
+							"parallel_workers param threaded: search_program -> hybrid_solver -> specialists -> benchmark.py --search-workers N",
+							"Default parallel_workers=1 preserves exact sequential behavior (zero overhead)",
+							"NumPy releases GIL for array ops, enabling real thread parallelism for primitive execution",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-22 03:30"
 						title="Phase A Batch 1: +4 tasks (169/400, 42.2%)"
 						changes={[
