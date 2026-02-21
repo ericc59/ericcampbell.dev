@@ -91,7 +91,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="27 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, position-aware pixel rules, etc."
+						description="29 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, diagonal stamp, row period extension, position-aware pixel rules, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -146,9 +146,9 @@ export default function ArcAgiPage() {
 							165/400 solved (41.2%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,500 tests</span>
+							<span>1,427 tests</span>
 							<span>100% coverage</span>
-							<span>5,701 stmts</span>
+							<span>5,651 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -179,8 +179,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="27 inference sub-engines"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, etc.). Individually narrow, collectively powerful."
+						title="29 inference sub-engines"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, diagonal stamp, row period extension, etc.). Individually narrow, collectively powerful."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -290,6 +290,72 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-22 02:00"
+						title="Phase A Batch 1: +3 Inference Engines"
+						changes={[
+							"Fixed _try_tile_transform to try all reference pairs (pair 0 can be symmetric, hiding the true layout). Targets: 46442a0e, 8d5021e8",
+							"New engine: _try_diagonal_stamp — non-bg pixels stamped diagonally across larger output with learned step size. Target: d13f3404",
+							"New engine: _try_row_period_extend — extend each row by repeating its smallest period to output width. Target: 963e52fc",
+							"Router hardened: model loading catches RuntimeError for checkpoint shape mismatches (graceful fallback to rules), DEFAULT_ORDER now includes all 29 inference engines",
+							"DiagonalStamp guards against all-bg input in dynamic mode (n=0 → return identity)",
+							"29 inference engines, 35 router classes, 1,427 tests, 5,651 statements",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-22 00:45"
+						title="PATTERNS.md Weekly Ops Snapshot Added"
+						changes={[
+							"Added a lightweight weekly sprint-board header to PATTERNS.md with current focus, owner, last benchmark, last updated date, and next checkpoint",
+							"Added update cadence notes so the pattern document doubles as a live execution tracker rather than static analysis",
+							"Aligned current focus to mirror_concat implementation for immediate Phase A work tracking",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-22 00:35"
+						title="PATTERNS.md Refactored Into Execution Board"
+						changes={[
+							"Converted unsolved-pattern notes into an execution backlog table with status, confidence, effort, acceptance criteria, and regression risk per engine/fix",
+							"Promoted mirror_concat as an explicit in-progress top-priority candidate in the composition cluster",
+							"Kept all existing task-level analysis while making the document trackable for weekly implementation planning and benchmark attribution",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-22 00:20"
+						title="Specialist Path Set As Default"
+						changes={[
+							"Updated hybrid solver default to use specialist-wrapper dispatch path (use_specialists=True by default)",
+							"Kept legacy direct dispatch path available via use_specialists=False for parity checks and safe rollback",
+							"Updated hybrid solver tests so legacy assertions explicitly opt out while specialist tests now validate default behavior",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-22 00:10"
+						title="Phase B Started: Specialist Wrappers (Thin, Opt-In)"
+						changes={[
+							"Added src/reasoning/specialists/ contracts and static wrappers (identity, object, grid, relational, inference, dsl) around existing solver functions",
+							"Added optional solve(..., use_specialists=True) protocol runner path in hybrid solver while preserving default fixed-priority behavior",
+							"Added specialist-path tests for fixed and router-driven execution to ensure low-risk parity scaffolding",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-21 23:55"
+						title="SPEC Updated: Solve-First Sequencing"
+						changes={[
+							"Revised SPEC.md roadmap to prioritize immediate pattern-engine wins before orchestration-heavy architecture work",
+							"Set active sequence: mirror_concat/damage_repair/diagonal_trace engines first, then thin specialist wrappers, then counterexample learning",
+							"Deferred full blackboard/controller/memory/ARC-3 work behind explicit plateau gates (or ARC-1 > 200 solved)",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-21 23:45"
+						title="Dynamic Reasoning Engine SPEC Authored"
+						changes={[
+							"Added implementation-ready SPEC.md defining unified IR, blackboard controller, specialist protocol, verifier loop, memory architecture, and ARC-3 causal planning design",
+							"Added concrete module contracts and interfaces to guide refactor from fixed solver pipeline to adaptive orchestration",
+							"Added roadmap with acceptance gates, deterministic evaluation protocol, and ticketized immediate next steps",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-21 23:30"
 						title="Unsolved Task Analysis + ARC-2 Benchmark"
