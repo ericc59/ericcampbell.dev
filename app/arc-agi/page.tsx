@@ -288,6 +288,15 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-21"
+						title="Symmetry Completion Engine"
+						changes={[
+							"Symmetry completion inference engine: additive fill from mirror positions (h/v/both/transpose/rot180), unlike DSL primitives which overwrite one half",
+							"Fixed missing marker_rectangle_fill in ML router SOLVER_CLASSES (32→34 output classes)",
+							"27 inference engines (was 26), 1,289 tests (was 1,264), 4,847 statements (was 4,794), 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-20"
 						title="Eval Benchmarking + Marker Rectangle Fill"
 						changes={[
