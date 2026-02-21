@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 41.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 42.2% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">165/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">169/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -143,12 +143,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							165/400 solved (41.2%)
+							169/400 solved (42.2%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,427 tests</span>
+							<span>1,431 tests</span>
 							<span>100% coverage</span>
-							<span>5,651 stmts</span>
+							<span>5,660 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -291,15 +291,16 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
-						date="2026-02-22 02:00"
-						title="Phase A Batch 1: +3 Inference Engines"
+						date="2026-02-22 03:30"
+						title="Phase A Batch 1: +4 tasks (169/400, 42.2%)"
 						changes={[
-							"Fixed _try_tile_transform to try all reference pairs (pair 0 can be symmetric, hiding the true layout). Targets: 46442a0e, 8d5021e8",
-							"New engine: _try_diagonal_stamp — non-bg pixels stamped diagonally across larger output with learned step size. Target: d13f3404",
-							"New engine: _try_row_period_extend — extend each row by repeating its smallest period to output width. Target: 963e52fc",
-							"Router hardened: model loading catches RuntimeError for checkpoint shape mismatches (graceful fallback to rules), DEFAULT_ORDER now includes all 29 inference engines",
-							"DiagonalStamp guards against all-bg input in dynamic mode (n=0 → return identity)",
-							"29 inference engines, 35 router classes, 1,427 tests, 5,651 statements",
+							"Fixed _try_tile_transform: try all reference pairs (pair 0 can be symmetric). +2: 46442a0e, 8d5021e8",
+							"New engine: _try_diagonal_stamp — partial-stamp clipping, output size as ratio/fixed/dynamic. +1: d13f3404",
+							"New engine: _try_row_period_extend — truncated period support (row length not divisible by period). +1: 963e52fc",
+							"_apply_diagonal_stamp clips OOB pixels, max n_copies formula for partial stamps",
+							"_find_row_period handles truncated tiles where row[:p] tiled+truncated reproduces row",
+							"Router: RuntimeError catch on load_state_dict, negative caching, full DEFAULT_ORDER",
+							"29 inference engines, 35 router classes, 1,431 tests, 5,660 statements",
 						]}
 					/>
 					<ChangelogEntry
