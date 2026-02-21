@@ -33,7 +33,8 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">165/400</span> on ARC-1.
+					<span className="text-zinc-100">165/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
 
@@ -64,7 +65,7 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Architecture</Label>
 				<p className="text-sm text-zinc-400 leading-relaxed">
-					Six solver layers, tried in priority order. Each layer is a different
+					Five solver layers, tried in priority order. Each layer is a different
 					strategy. The first one that succeeds wins.
 				</p>
 
@@ -98,18 +99,6 @@ export default function ArcAgiPage() {
 						name="DSL Search"
 						description="Weighted A* over a space of 50 primitives. Composes multi-step programs (depth 3-4) mapping input to output"
 						type="search"
-					/>
-					<SolverRow
-						layer="2"
-						name="LLM DSL"
-						description="Ask an LLM to generate DSL programs, verify against training pairs"
-						type="llm"
-					/>
-					<SolverRow
-						layer="3"
-						name="LLM Python"
-						description="Last resort: LLM writes arbitrary Python, executed in a sandboxed subprocess"
-						type="llm"
 					/>
 				</div>
 			</div>
@@ -240,8 +229,8 @@ export default function ArcAgiPage() {
 						detail="Programs are tuples of (primitive, params) applied sequentially. No branching, no data flow graphs. Simpler search space, sufficient for depth 3-4."
 					/>
 					<InsightRow
-						title="LLM-free first"
-						detail="Every component works without API calls. The LLM layers are optional amplifiers, not crutches. The core 41.2% solve rate is pure compute."
+						title="LLM-free solver"
+						detail="Removed LLM layers from runtime and routing. The stack is now fully deterministic: analytical solvers + DSL search only."
 					/>
 					<InsightRow
 						title="50 primitives, not 200"
@@ -259,25 +248,28 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						The remaining 235 unsolved tasks fall into a few categories:
-						multi-step reasoning that exceeds depth 3, spatial relationships the
-						DSL can't express, and pattern types none of the 25 inference
-						engines recognize.
+						Analyzed 90 of the 235 unsolved ARC-1 tasks. The largest clusters:
+						pattern continuation (21%), composition/mirror concat (17%),
+						conditional fill (14%), shape construction (11%).
 					</p>
-					<p>The plan:</p>
+					<p>Priority engines to build:</p>
 				</div>
 				<div className="space-y-0">
 					<NextRow
-						title="More inference engines"
-						detail="Analyze unsolved tasks, identify common pattern families, build targeted sub-engines. Each new engine is cheap to add and can unlock 5-15 tasks."
+						title="Mirror/flip concatenation (~10-15 solves)"
+						detail="Output is input mirrored and concatenated (horizontal, vertical, or 4-fold). Detect when output dims are 2x input, try all flip+concat combos."
 					/>
 					<NextRow
-						title="Policy network refinement"
-						detail="The CNN policy (~60K params) guides beam search by predicting which primitive to try next. Training on more solved programs and better synthetic data."
+						title="Damage repair (~5-8 solves)"
+						detail="Periodic or symmetric pattern with a rectangular region overwritten by a uniform color. Detect the intact structure, restore the damaged area."
 					/>
 					<NextRow
-						title="ARC-AGI-3 (interactive games)"
-						detail="Turn-based grid games launching March 2026. Requires a fundamentally different approach: exploration, causal discovery, and planning on 64x64 grids."
+						title="Diagonal trace / ray casting (~5-7 solves)"
+						detail="Objects emit rays from corners or edges (diagonal, orthogonal) until hitting walls or grid boundaries. Bouncing variants."
+					/>
+					<NextRow
+						title="Marker template stamp with rotation (~4-6 solves)"
+						detail="Find a template shape, stamp rotated copies at marker positions. Extends existing stamp_template engine with D4 rotation support."
 					/>
 				</div>
 			</div>
@@ -298,6 +290,25 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-21 23:30"
+						title="Unsolved Task Analysis + ARC-2 Benchmark"
+						changes={[
+							"ARC-2 training benchmark: 260/1000 (26.0%), up from 177/1000 (17.7%) after pipeline fix + recolor improvements",
+							"Analyzed 90 of 235 unsolved ARC-1 tasks: top clusters are pattern continuation (21%), mirror concat (17%), conditional fill (14%)",
+							"Identified 4 priority engines: mirror concat (~10-15), damage repair (~5-8), diagonal trace (~5-7), rotated stamp (~4-6)",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-21 21:15"
+						title="Removed LLM Layers From Solver Pipeline"
+						changes={[
+							"Deleted src/llm package and all LLM-only tests (generator, prompts, sandbox, scorer, refiner, grid_format)",
+							"Removed llm_dsl and llm_python from router classes/default order and from hybrid solver dispatch",
+							"SolveResult no longer carries python_code; runtime now returns Program-only solve results",
+							"Added explicit identity dispatch path and empty-train-pair guard in hybrid solver",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-21"
 						title="Recolor Engine Improvements + Benchmark Pipeline Fix"
@@ -409,12 +420,11 @@ function SolverRow({
 	layer: string;
 	name: string;
 	description: string;
-	type: "analytical" | "search" | "llm";
+	type: "analytical" | "search";
 }) {
 	const typeColor = {
 		analytical: "text-emerald-400/70",
 		search: "text-amber-400/70",
-		llm: "text-violet-400/70",
 	}[type];
 
 	return (
