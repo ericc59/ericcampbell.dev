@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 42.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 45.2% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">169/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">181/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -290,6 +290,16 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-22 05:15"
+						title="Phase A Batch 2: +12 tasks (181/400, 45.2%)"
+						changes={[
+							"4 new inference engines bringing total to 33",
+							"Parallel beam search infrastructure (ThreadPoolExecutor, --search-workers N)",
+							"181/400 ARC-1 (45.2%), depth 3, 10s timeout, wall time 2.0m",
+							"170 depth-1, 9 depth-2, 2 depth-3",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-22 04:30"
 						title="Parallel Beam Search"
