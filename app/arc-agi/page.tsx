@@ -82,9 +82,15 @@ export default function ArcAgiPage() {
 						type="analytical"
 					/>
 					<SolverRow
+						layer="0.6"
+						name="Relational Perception"
+						description="Build scene graphs from grids (objects, relations, symmetries), compute structural diffs between input/output scenes, match 6 composable meta-rules: marker stamp, fill-between, extension, template clone, relational recolor, containment fill"
+						type="analytical"
+					/>
+					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="25 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, position-aware pixel rules, etc."
+						description="27 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, position-aware pixel rules, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -150,9 +156,9 @@ export default function ArcAgiPage() {
 							130/400 solved (32.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,242 tests</span>
+							<span>1,482 tests</span>
 							<span>100% coverage</span>
-							<span>4,713 stmts</span>
+							<span>5,632 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -179,7 +185,11 @@ export default function ArcAgiPage() {
 						detail="When a program matches the first training pair but fails multi-pair verification, remove its hash from the visited set. Prevents one false positive from blocking all programs that produce the same intermediate grid."
 					/>
 					<InsightRow
-						title="25 inference sub-engines"
+						title="Relational perception"
+						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
+					/>
+					<InsightRow
+						title="27 inference sub-engines"
 						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, etc.). Individually narrow, collectively powerful."
 					/>
 					<InsightRow
@@ -287,6 +297,27 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-21"
+						title="Phase B: 3 New Relational Meta-Rules"
+						changes={[
+							"TemplateCloneRule: copy template objects to marker positions with anchor modes (top_left/center) and color modes (preserve/marker)",
+							"RelationalRecolorRule: recolor objects based on scene relations (contained_marker, adjacent_marker, nearest_same_shape)",
+							"ContainmentFillRule: detect enclosed bg regions via BFS, fill with border_color/fixed/marker_inside strategies",
+							"6 total meta-rules in relational perception (was 3), 1,482 tests (was 1,423), 5,632 statements (was 5,358), 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-21"
+						title="Relational Perception System"
+						changes={[
+							"New src/perception/ package: scene graph builder, structural diff engine, composable meta-rules (MarkerStamp, FillBetween, Extension)",
+							"Layer 0.6 in hybrid solver: relational perception slots between grid decomposition and inference engines",
+							"Separates perception from reasoning: build rich scene graph once, match relational patterns across training pairs",
+							"ML router updated: 35 output classes (was 34), new 'relational' solver class",
+							"1,423 tests (was 1,289), 5,358 statements (was 4,847), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-21"
 						title="Symmetry Completion Engine"
