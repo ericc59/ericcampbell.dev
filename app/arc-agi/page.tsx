@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 32.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 41.2% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">130/400</span> on ARC-1.
+					<span className="text-zinc-100">165/400</span> on ARC-1.
 				</p>
 			</div>
 
@@ -132,6 +132,7 @@ export default function ArcAgiPage() {
 							{ score: 118, label: "v5" },
 							{ score: 125, label: "v6" },
 							{ score: 130, label: "v7" },
+							{ score: 165, label: "v8" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -153,7 +154,7 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							130/400 solved (32.5%)
+							165/400 solved (41.2%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>1,500 tests</span>
@@ -240,7 +241,7 @@ export default function ArcAgiPage() {
 					/>
 					<InsightRow
 						title="LLM-free first"
-						detail="Every component works without API calls. The LLM layers are optional amplifiers, not crutches. The core 32.5% solve rate is pure compute."
+						detail="Every component works without API calls. The LLM layers are optional amplifiers, not crutches. The core 41.2% solve rate is pure compute."
 					/>
 					<InsightRow
 						title="50 primitives, not 200"
@@ -258,7 +259,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						The remaining 270 unsolved tasks fall into a few categories:
+						The remaining 235 unsolved tasks fall into a few categories:
 						multi-step reasoning that exceeds depth 3, spatial relationships the
 						DSL can't express, and pattern types none of the 25 inference
 						engines recognize.
