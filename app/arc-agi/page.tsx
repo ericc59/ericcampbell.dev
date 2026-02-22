@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 45.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 42.2% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">181/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">169/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -291,25 +291,15 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
-						date="2026-02-22 05:15"
-						title="Phase A Batch 2: +12 tasks (181/400, 45.2%)"
-						changes={[
-							"4 new inference engines bringing total to 33",
-							"Parallel beam search infrastructure (ThreadPoolExecutor, --search-workers N)",
-							"181/400 ARC-1 (45.2%), depth 3, 10s timeout, wall time 2.0m",
-							"170 depth-1, 9 depth-2, 2 depth-3",
-						]}
-					/>
-					<ChangelogEntry
 						date="2026-02-22 04:30"
-						title="Parallel Beam Search"
+						title="Parallel Beam Search + 6 New Inference Engines"
 						changes={[
 							"Extracted _expand_node and _expand_node_policy pure helpers for thread-safe beam node expansion",
-							"Parallelized _beam_search_fallback and _policy_beam_search via ThreadPoolExecutor",
-							"Snapshot-based dedup: threads read frozenset(visited), main thread does post-merge global dedup",
+							"Parallelized _beam_search_fallback and _policy_beam_search via ThreadPoolExecutor with snapshot-based dedup",
 							"parallel_workers param threaded: search_program -> hybrid_solver -> specialists -> benchmark.py --search-workers N",
-							"Default parallel_workers=1 preserves exact sequential behavior (zero overhead)",
-							"NumPy releases GIL for array ops, enabling real thread parallelism for primitive execution",
+							"6 new inference engines: diagonal_stamp, row_period_extend, object_outline, translate_to_target, pattern_substitution, raycast_from_marker",
+							"169/400 ARC-1 (42.2%), depth 3, 10s timeout",
+							"157 depth-1, 10 depth-2, 2 depth-3",
 						]}
 					/>
 					<ChangelogEntry
