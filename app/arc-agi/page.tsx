@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 42.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 42.8% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">169/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">171/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -91,7 +91,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="29 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, diagonal stamp, row period extension, position-aware pixel rules, etc."
+						description="36 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, position-aware pixel rules, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -179,8 +179,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="29 inference sub-engines"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, diagonal stamp, row period extension, etc.). Individually narrow, collectively powerful."
+						title="36 inference sub-engines"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, etc.). Individually narrow, collectively powerful."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -290,6 +290,17 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-23 12:00"
+						title="3 New Inference Engines (+2 tasks, 171/400)"
+						changes={[
+							"bbox_complement_fill: fill bg cells within each object's bounding box with a learned color",
+							"col_period_extend: extend columns by repeating their smallest period, with optional global color remapping",
+							"rigid_shift: translate all non-bg content by a fixed (dr, dc) offset",
+							"171/400 ARC-1 (42.8%), 36 inference engines total",
+							"1,548 tests, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-22 11:00"
 						title="DSL Search Pruning Improvements"
