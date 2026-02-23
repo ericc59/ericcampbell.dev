@@ -146,9 +146,9 @@ export default function ArcAgiPage() {
 							169/400 solved (42.2%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,431 tests</span>
+							<span>1,505 tests</span>
 							<span>100% coverage</span>
-							<span>5,660 stmts</span>
+							<span>6,031 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -290,6 +290,17 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-22 11:00"
+						title="DSL Search Pruning Improvements"
+						changes={[
+							"BUG FIX: Added filter_params to A* inner loop (was only applied in beam search helpers). Eliminates ~25-30% of param combos per A* node expansion",
+							"Multi-pair early rejection in A* and regular beam search at depth >= 2: rejects candidates whose secondary pair diff worsens vs parent, with visited hash unblocking",
+							"Target-dimension pruning: filter_params now prunes overlay_subgrids (189->1-3 params), tile (8->0-1), upscale (2->0-1) by output dimensions",
+							"Extended pruning constants: gravity primitives added to idempotent set, flip_h+flip_v added to cancel pairs (= rotate_180)",
+							"1,505 tests, 6,031 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-22 04:30"
 						title="Parallel Beam Search + 6 New Inference Engines"
