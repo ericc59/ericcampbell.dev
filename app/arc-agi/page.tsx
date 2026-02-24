@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 44.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 56.8% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">178/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">227/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -73,7 +73,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0"
 						name="Object-Centric"
-						description="Decompose grid into connected components, match input objects to output objects, learn per-object transforms"
+						description="Decompose grid into connected components, match input objects to output objects, learn per-object transforms (translate, recolor, rotate, slide-to-obstacle, per-object inference fallback)"
 						type="analytical"
 					/>
 					<SolverRow
@@ -124,6 +124,7 @@ export default function ArcAgiPage() {
 							{ score: 165, label: "v8" },
 							{ score: 175, label: "v9" },
 							{ score: 178, label: "v10" },
+							{ score: 227, label: "v11" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -145,12 +146,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							178/400 solved (44.5%)
+							227/400 solved (56.8%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,622 tests</span>
+							<span>1,679 tests</span>
 							<span>100% coverage</span>
-							<span>6,546 stmts</span>
+							<span>6,897 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -292,6 +293,18 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-24 22:00"
+						title="Object Solver: SLIDE Transform + Compositional Solver (+49 tasks, 227/400)"
+						changes={[
+							"SLIDE transform in object solver: objects slide in a cardinal direction until hitting an obstacle or grid edge. Handles 'walls + movers' patterns where each mover stops at a different distance. 3-phase apply_rules: non-SLIDE rules first, copy static walls, then SLIDE rules sorted by proximity to wall",
+							"Per-object inference fallback: when check_consistency fails, groups objects by selector and runs mini inference solver per group. Falls back to infer_transform for single-step transforms",
+							"Compositional solver: combines inference + DSL search for multi-step compositional solutions",
+							"Specialist wrappers: thin protocol-based dispatch (identity, object, grid, relational, inference, compositional, DSL) replaces fixed priority list as default solver path",
+							"227/400 ARC-1 (56.8%), 166 depth-1, 61 depth-2",
+							"1,679 tests, 6,897 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-24 17:00"
 						title="Tile Recolor + Upscale Extension (+3 tasks, 178/400)"
