@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 43.8% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 44.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">175/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">178/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -91,7 +91,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="40 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, etc."
+						description="42 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -123,6 +123,7 @@ export default function ArcAgiPage() {
 							{ score: 130, label: "v7" },
 							{ score: 165, label: "v8" },
 							{ score: 175, label: "v9" },
+							{ score: 178, label: "v10" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -144,12 +145,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							175/400 solved (43.8%)
+							178/400 solved (44.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,594 tests</span>
+							<span>1,622 tests</span>
 							<span>100% coverage</span>
-							<span>6,423 stmts</span>
+							<span>6,546 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -180,8 +181,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="40 inference sub-engines"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, color ranking, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, etc.). Individually narrow, collectively powerful."
+						title="42 inference sub-engines"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, tile recolor, gap fill, color ranking, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, etc.). Individually narrow, collectively powerful."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -249,7 +250,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						Analyzed 90 of the 235 unsolved ARC-1 tasks. The largest clusters:
+						Analyzed 90 of the 222 unsolved ARC-1 tasks. The largest clusters:
 						pattern continuation (21%), composition/mirror concat (17%),
 						conditional fill (14%), shape construction (11%).
 					</p>
@@ -291,6 +292,17 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-24 17:00"
+						title="Tile Recolor + Upscale Extension (+3 tasks, 178/400)"
+						changes={[
+							"tile_recolor: tile input 2x2, conditionally recolor bg cells via column_aware/diagonal_adjacency/row_aware strategies (+2: f5b8619d, 10fcaaa3)",
+							"Upscale color_count rule: scale factor = number of distinct non-bg colors per pair (+1: b91ae062)",
+							"gap_fill: fill bg gaps between same-color cells on same row/column with learned fill color (a699fb00 already solved by relational perception)",
+							"178/400 ARC-1 (44.5%), 42 inference engines, 48 router classes",
+							"1,622 tests, 6,546 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-24 10:00"
 						title="4 New Inference Engines (+4 tasks, 175/400)"
