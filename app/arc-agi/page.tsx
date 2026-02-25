@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 57.8% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 58.0% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">231/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">232/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -91,7 +91,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="44 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, etc."
+						description="49 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -183,7 +183,7 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="44 inference sub-engines"
+						title="49 inference sub-engines"
 						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, tile recolor, gap fill, color ranking, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, pattern continuation, connect over background, etc.). Individually narrow, collectively powerful."
 					/>
 					<InsightRow
@@ -294,6 +294,19 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-25 22:00"
+						title="4 New Inference Engines (+1 task, 232/400)"
+						changes={[
+							"mirror_concat: detect output as concatenation of flipped/rotated input copies (vertical, horizontal, 2x2 grid layouts with 7 transform types)",
+							"grid_cell_rule: separator-based grid detection with per-cell coloring via position mapping or content classification strategies",
+							"seed_broadcast: sparse seed pixels (<=8 non-bg) broadcast to fill entire rows, columns, or crosses",
+							"damage_repair: detect rectangular 'damaged' regions and reconstruct using symmetry (h/v/rot180) or tile-based pattern repair",
+							"Fixed pair_period_broadcast to determine axis at runtime per pair instead of fixed axis from first pair",
+							"232/400 ARC-1 (58.0%), 172 depth-1, 60 depth-2",
+							"1,749 tests, 7,524 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-25 12:00"
 						title="2 New Inference Engines (+4 tasks, 231/400)"
