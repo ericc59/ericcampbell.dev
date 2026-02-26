@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 59.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 60.2% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">238/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">241/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -91,7 +91,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.65"
 						name="Rule Induction"
-						description="Search for transformation rules over SceneGraphs. Computes 17 object properties (intrinsic, relational, ranking), classifies change patterns, generates ~190 candidate rules per action kind (filter_keep, filter_remove, extract, recolor_to, classify), verifies against all training pairs."
+						description="Search for transformation rules over SceneGraphs. Computes 25 object properties (intrinsic, relational, ranking, shape), classifies change patterns (filter/extract/recolor/classify/sort/move/fill), generates candidate rules per action kind, verifies against all training pairs. 8 action kinds: filter_keep, filter_remove, extract, recolor_to, classify, sort_by, move_by_property, fill_by_property."
 						type="analytical"
 					/>
 					<SolverRow
@@ -134,6 +134,8 @@ export default function ArcAgiPage() {
 							{ score: 232, label: "v12" },
 							{ score: 233, label: "v13" },
 							{ score: 236, label: "v14" },
+							{ score: 238, label: "v15" },
+							{ score: 241, label: "v16" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -155,12 +157,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							236/400 solved (59.0%)
+							241/400 solved (60.2%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,058 tests</span>
+							<span>2,132 tests</span>
 							<span>100% coverage</span>
-							<span>8,819 stmts</span>
+							<span>9,097 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -260,7 +262,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						164 unsolved ARC-1 tasks remain. 55 inference engines, 6 relational meta-rules,
+						159 unsolved ARC-1 tasks remain. 55 inference engines, 6 relational meta-rules,
 						and DSL search cover the most common patterns. Remaining tasks skew toward
 						multi-step reasoning, conditional transforms, and novel compositions.
 					</p>
@@ -302,6 +304,19 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-26 23:30"
+						title="Phase 2b: Extended Rule Induction (+3 tasks, 241/400)"
+						changes={[
+							"8 new shape properties: is_unique_shape, shape_frequency, shape_complexity, bbox_height, bbox_width, elongation, is_symmetric_h, is_symmetric_v (25 total, was 17)",
+							"sort_by action: reorder objects spatially by a property (e.g., sort by color, size_rank). Detects MOVED patterns in scene diffs",
+							"move_by_property action: displace objects by property-dependent offsets (e.g., color 1 → shift right 2). Learns displacement_map from diffs",
+							"fill_by_property action: seed objects broadcast color to fill rows/cols/crosses. Detects additive patterns with added_pixels",
+							"8 action kinds total (was 5): filter_keep, filter_remove, extract, recolor_to, classify, sort_by, move_by_property, fill_by_property",
+							"241/400 ARC-1 (60.2%, +3 from 238), 184 depth-1, 57 depth-2",
+							"2,132 tests (+74), 9,097 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-26 21:00"
 						title="Phase 2: Relational Rule Induction"
