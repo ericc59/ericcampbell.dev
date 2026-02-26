@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 58.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 59.0% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">233/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">236/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -91,7 +91,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="53 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, etc."
+						description="55 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -127,6 +127,7 @@ export default function ArcAgiPage() {
 							{ score: 227, label: "v11" },
 							{ score: 232, label: "v12" },
 							{ score: 233, label: "v13" },
+							{ score: 236, label: "v14" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -148,12 +149,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							233/400 solved (58.2%)
+							236/400 solved (59.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,834 tests</span>
+							<span>1,867 tests</span>
 							<span>100% coverage</span>
-							<span>7,965 stmts</span>
+							<span>8,176 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -184,8 +185,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="53 inference sub-engines"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family (gravity fill, stamp templates, diagonal tiling, tile recolor, gap fill, color ranking, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, etc.). Individually narrow, collectively powerful."
+						title="55 inference sub-engines + compositional chaining"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -253,7 +254,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						167 unsolved ARC-1 tasks remain. 53 inference engines, 6 relational meta-rules,
+						164 unsolved ARC-1 tasks remain. 55 inference engines, 6 relational meta-rules,
 						and DSL search cover the most common patterns. Remaining tasks skew toward
 						multi-step reasoning, conditional transforms, and novel compositions.
 					</p>
@@ -265,8 +266,8 @@ export default function ArcAgiPage() {
 						detail="Pixels change color based on complex spatial context (enclosure depth, region membership, distance to boundary). Current neighbor_recolor handles simple adjacency; need more expressive condition language."
 					/>
 					<NextRow
-						title="Multi-step compositional inference"
-						detail="Tasks requiring 2+ inference steps (e.g., extract object then tile, or recolor then reflect). Current compositional solver is limited to inference+DSL; need inference+inference chains."
+						title="3+ step compositional inference"
+						detail="Inference-to-inference chaining (2-step) now works. Tasks requiring 3+ analytical steps or more complex conditional composition remain unsolved."
 					/>
 					<NextRow
 						title="Shape construction / drawing"
@@ -295,6 +296,20 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-26 14:30"
+						title="Inference Chain Solver + 2 New Engines (+3 tasks, 236/400)"
+						changes={[
+							"Inference-to-inference compositional chaining: try all 55 engines as step1, run remaining 54 as step2 on intermediate result. Enables two-step analytical transforms without DSL search (+3 tasks)",
+							"InferenceChainProgram: duck-types Program, chains step1.execute -> step2.execute with full verify",
+							"solve_inference exclude parameter: prevents identity loops (engine A -> engine A) in chain search",
+							"recolor_to_closest: recolor target-color pixels to nearest non-target anchor by Manhattan distance",
+							"drag_from_marker: 2-color multicolor objects with directional marker, drag/trace to grid boundary",
+							"New InferenceChainSpecialist in specialist dispatch, added to fixed solver priority order",
+							"236/400 ARC-1 (59.0%), 176 depth-1, 60 depth-2",
+							"1,867 tests, 8,176 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-25 15:22"
 						title="4 More Inference Engines (+1 task, 233/400)"
