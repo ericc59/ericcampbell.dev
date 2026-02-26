@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 60.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 60.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">241/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">242/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -97,7 +97,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.67"
 						name="Transform DSL"
-						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 4 selector types (ByProperty, ByRelation, All, Complement), 6 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox). 2-step composition from partial matches. Gravity displacement, property-based color/offset resolution."
+						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 4 selector types (ByProperty, ByRelation, All, Complement), 7 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract). Move candidates: literal/property-based/gravity displacement. Extract candidates: crop to object bbox. 2-step composition with brute-force completion fallback."
 						type="search"
 					/>
 					<SolverRow
@@ -142,6 +142,7 @@ export default function ArcAgiPage() {
 							{ score: 236, label: "v14" },
 							{ score: 238, label: "v15" },
 							{ score: 241, label: "v16" },
+							{ score: 242, label: "v17" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -163,12 +164,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							241/400 solved (60.2%)
+							242/400 solved (60.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,263 tests</span>
+							<span>2,286 tests</span>
 							<span>100% coverage</span>
-							<span>9,825 stmts</span>
+							<span>9,994 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -268,7 +269,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						159 unsolved ARC-1 tasks remain. The system has excellent perception
+						158 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
 						hardcoded: 55 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
@@ -313,6 +314,20 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-26 19:30"
+						title="Phase 3a.1: Move/Extract/Completion (+1 task, 242/400)"
+						changes={[
+							"ExtractAction: crop grid to union bbox of selected objects, zeroing non-selected cells. Enables shape-changing transforms in the DSL",
+							"Move candidate generation: literal displacement (all objects same offset), property-based displacement (different offsets per property value), gravity displacement (cardinal direction slide). Parallel to _gen_copy_candidates",
+							"Extract candidate generation: match output shape to single-object bbox crops, verify across all training pairs",
+							"move_pattern + extract_pattern classification in _classify_transform_patterns",
+							"Completion improvements: brute-force fallback with AllSelector + RecolorAction/FillBBoxAction for residual colors",
+							"Shape mismatch guard in _generate_completions prevents crash on extract partial steps",
+							"242/400 ARC-1 (60.5%, +1 from 241), 186 depth-1, 56 depth-2",
+							"2,286 tests (+23), 9,994 statements (+169), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-26 16:00"
 						title="Phase 3a: Scene Transform DSL"
