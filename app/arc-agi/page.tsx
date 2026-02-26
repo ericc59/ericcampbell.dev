@@ -65,7 +65,7 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Architecture</Label>
 				<p className="text-sm text-zinc-400 leading-relaxed">
-					Six solver layers, tried in priority order. Each layer is a different
+					Seven solver layers, tried in priority order. Each layer is a different
 					strategy. The first one that succeeds wins.
 				</p>
 
@@ -93,6 +93,12 @@ export default function ArcAgiPage() {
 						name="Rule Induction"
 						description="Search for transformation rules over SceneGraphs. Computes 25 object properties (intrinsic, relational, ranking, shape), classifies change patterns (filter/extract/recolor/classify/sort/move/fill), generates candidate rules per action kind, verifies against all training pairs. 8 action kinds: filter_keep, filter_remove, extract, recolor_to, classify, sort_by, move_by_property, fill_by_property."
 						type="analytical"
+					/>
+					<SolverRow
+						layer="0.67"
+						name="Transform DSL"
+						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 4 selector types (ByProperty, ByRelation, All, Complement), 6 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox). 2-step composition from partial matches. Gravity displacement, property-based color/offset resolution."
+						type="search"
 					/>
 					<SolverRow
 						layer="0.75"
@@ -160,9 +166,9 @@ export default function ArcAgiPage() {
 							241/400 solved (60.2%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,132 tests</span>
+							<span>2,263 tests</span>
 							<span>100% coverage</span>
-							<span>9,097 stmts</span>
+							<span>9,825 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -273,8 +279,8 @@ export default function ArcAgiPage() {
 				</div>
 				<div className="space-y-0">
 					<NextRow
-						title="Phase 3: Scene Transform DSL"
-						detail="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) with diff-driven candidate generation. 200-800 candidates/task, depth-2 composition. Existing engines remain as fast-path shortcuts. (+15-30 tasks)"
+						title="Phase 3b: Transform DSL Extensions"
+						detail="Phase 3a complete (core DSL). Next: conditional actions, union/intersection selectors, global grid ops, connect/extend/stamp actions. Extend search depth to 3. (+10-20 tasks beyond 3a)"
 					/>
 					<NextRow
 						title="Phase 4: Hypothesis-Refine Loop"
@@ -307,6 +313,20 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-26 16:00"
+						title="Phase 3a: Scene Transform DSL"
+						changes={[
+							"New Layer 0.67: general transformation language over SceneGraphs, between rule induction and inference engines",
+							"transform_dsl.py: frozen dataclass grammar — Step, Selector (All/ByProperty/ByRelation/Complement), Action (Recolor/Move/Remove/Copy/FillEnclosed/FillBBox), ColorFn, DisplacementFn, TransformProgram",
+							"transform_selectors.py: evaluate_selector dispatches ByProperty (reuses rule_search predicates), ByRelation (traverse scene graph), Complement (invert)",
+							"transform_actions.py: apply_action with gravity displacement (4 dirs + obstacle stopping), property-based color/offset resolution via scene relations, FillEnclosed (BFS), FillBBox",
+							"transform_search.py: diff-driven candidate generation (recolor/move/remove/copy/fill patterns), partial match ranking, 2-step composition from top-25 partials",
+							"TransformDslProgram duck-types Program (execute/verify), TransformDslSpecialist in specialist pipeline",
+							"63 router classes (was 62): 55 inference + 6 analytical + 2 special",
+							"2,263 tests (+131), 9,825 statements (+728), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-27 00:30"
 						title="Generalization Plan Rewrite: Phases 3-8"
