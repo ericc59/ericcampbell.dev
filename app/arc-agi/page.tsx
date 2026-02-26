@@ -152,9 +152,9 @@ export default function ArcAgiPage() {
 							236/400 solved (59.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,867 tests</span>
+							<span>1,932 tests</span>
 							<span>100% coverage</span>
-							<span>8,176 stmts</span>
+							<span>8,349 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -296,6 +296,19 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-26 19:30"
+						title="Constraint Pruning Phase 1.5: Enforce OutputColorsSubset + Additive"
+						changes={[
+							"OutputColorsSubset enforcement in _violates_constraints: prunes intermediate grids with colors not in any training input",
+							"Additive constraint in select_primitives: excludes destructive primitives (remove_color, remove_smallest, remove_largest, fill_background, most_common_fill, keep_color)",
+							"OutputColorsSubset in select_primitives: excludes color-introducing primitives (outline_objects, outline_objects_diagonal, expand_pixels, draw_border, fill_enclosed, fill_background)",
+							"all_input_colors field on ConstraintSet populated from training input color union",
+							"Constraints threaded to solve_compositional and solve_inference_chain via specialist wrappers",
+							"236/400 ARC-1 (59.0%) — search pruning only, no new solves but faster convergence",
+							"1,932 tests, 8,349 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-26 18:45"
 						title="Constraint Extraction & Counterexample Learning (Phase 1)"
