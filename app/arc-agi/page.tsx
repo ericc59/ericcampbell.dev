@@ -65,7 +65,7 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Architecture</Label>
 				<p className="text-sm text-zinc-400 leading-relaxed">
-					Five solver layers, tried in priority order. Each layer is a different
+					Six solver layers, tried in priority order. Each layer is a different
 					strategy. The first one that succeeds wins.
 				</p>
 
@@ -86,6 +86,12 @@ export default function ArcAgiPage() {
 						layer="0.6"
 						name="Relational Perception"
 						description="Build scene graphs from grids (objects, relations, symmetries), compute structural diffs between input/output scenes, match 6 composable meta-rules: marker stamp, fill-between, extension, template clone, relational recolor (5 strategies: contained/adjacent/same_shape/same_col/size_rank), containment fill"
+						type="analytical"
+					/>
+					<SolverRow
+						layer="0.65"
+						name="Rule Induction"
+						description="Search for transformation rules over SceneGraphs. Computes 17 object properties (intrinsic, relational, ranking), classifies change patterns, generates ~190 candidate rules per action kind (filter_keep, filter_remove, extract, recolor_to, classify), verifies against all training pairs."
 						type="analytical"
 					/>
 					<SolverRow
@@ -152,9 +158,9 @@ export default function ArcAgiPage() {
 							236/400 solved (59.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>1,932 tests</span>
+							<span>2,056 tests</span>
 							<span>100% coverage</span>
-							<span>8,349 stmts</span>
+							<span>8,814 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -296,6 +302,20 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-26 21:00"
+						title="Phase 2: Relational Rule Induction"
+						changes={[
+							"New Layer 0.65: Rule induction between relational perception and inference engines",
+							"src/reasoning/properties.py: 17 object properties (intrinsic/relational/ranking)",
+							"src/reasoning/rule_grammar.py: Predicate + Action + RelationalRule frozen dataclasses",
+							"src/reasoning/rule_search.py: Change pattern classification, ~190 candidate rules, verify against all pairs",
+							"5 action kinds: filter_keep, filter_remove, extract, recolor_to, classify",
+							"RuleInductionSpecialist in specialist pipeline, added to hybrid solver + router",
+							"62 router classes (was 61): 55 inference + 5 analytical + 2 special",
+							"2,056 tests (+124), 8,814 statements, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-26 19:30"
 						title="Constraint Pruning Phase 1.5: Enforce OutputColorsSubset + Additive"
