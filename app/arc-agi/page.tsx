@@ -297,6 +297,20 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-26 18:45"
+						title="Constraint Extraction & Counterexample Learning (Phase 1)"
+						changes={[
+							"New src/reasoning/constraints.py: extract 9 constraint types from task pairs (SameShape, FixedOutputShape, ColorPreserved, ColorAbsent, ColorIntroduced, Additive, BgPreserved, ObjectCountPreserved, OutputColorsSubset)",
+							"ConstraintSet with has()/get() for fast lookup, frozen/hashable for caching",
+							"New src/reasoning/counterexamples.py: structured failure analysis (shape mismatch, pixel diffs, excess/missing colors, position-vs-color error rates)",
+							"Constraints extracted once at solve() top, threaded through SpecialistContext to all solver layers",
+							"_violates_constraints() in A* search, beam search, and policy beam: prunes intermediate grids containing absent colors",
+							"constraints param added to search_program(), solve_inference(), _expand_node(), _expand_node_policy()",
+							"All params None-defaulted: zero behavior change when absent, fully backward compatible",
+							"1,922 tests, 8,341 statements, 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-26 14:30"
 						title="Inference Chain Solver + 2 New Engines (+3 tasks, 236/400)"
 						changes={[
