@@ -5,6 +5,7 @@ const navItems = [
 	{ href: "/#projects", name: "projects" },
 	{ href: "/blog", name: "writing" },
 	{ href: "/arc-agi", name: "arc agi solver" },
+	{ href: "/mast", name: "mast" },
 ];
 
 export function Navbar() {
