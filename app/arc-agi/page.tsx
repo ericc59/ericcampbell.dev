@@ -262,28 +262,31 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						159 unsolved ARC-1 tasks remain. 55 inference engines, 6 relational meta-rules,
-						and DSL search cover the most common patterns. Remaining tasks skew toward
-						multi-step reasoning, conditional transforms, and novel compositions.
+						159 unsolved ARC-1 tasks remain. The system has excellent perception
+						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
+						hardcoded: 55 inference engines, 8 rule induction action kinds, 6
+						relational meta-rules. Each new engine adds ~1-3 solves.
+						To generalize, the system must search for transformation programs
+						dynamically rather than matching pre-written patterns.
 					</p>
-					<p>Priority areas:</p>
+					<p>New architecture: 6 phases (3-8), targeting 280/400 (70%).</p>
 				</div>
 				<div className="space-y-0">
 					<NextRow
-						title="Conditional / context-dependent recolor"
-						detail="Pixels change color based on complex spatial context (enclosure depth, region membership, distance to boundary). Current neighbor_recolor handles simple adjacency; need more expressive condition language."
+						title="Phase 3: Scene Transform DSL"
+						detail="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) with diff-driven candidate generation. 200-800 candidates/task, depth-2 composition. Existing engines remain as fast-path shortcuts. (+15-30 tasks)"
 					/>
 					<NextRow
-						title="3+ step compositional inference"
-						detail="Inference-to-inference chaining (2-step) now works. Tasks requiring 3+ analytical steps or more complex conditional composition remain unsolved."
+						title="Phase 4: Hypothesis-Refine Loop"
+						detail="Structured failure analysis feeds back into search. Color correction, position correction, partial match extension, shape correction. Not binary pass/fail — 'almost right, refine this way.' (+5-10 tasks)"
 					/>
 					<NextRow
-						title="Shape construction / drawing"
-						detail="Output contains shapes (rectangles, lines, spirals) not present in input, constructed from learned rules about seed positions and colors."
+						title="Phase 5: MAST-Backed Strategy Memory"
+						detail="Store successful strategies, recall for similar tasks via 64-dim engineered feature vectors. Re-parameterize recalled programs. Compaction tiers: active logs -> clustered patterns -> fundamental heuristics. (+5-10 tasks)"
 					/>
 					<NextRow
-						title="Abstract counting / arithmetic"
-						detail="Output grid size or content depends on counting objects, colors, or regions in the input. Requires numerical reasoning beyond pattern matching."
+						title="Phases 6-8: Transfer, Multi-Scale, ARC-3 Agent"
+						detail="Abstract strategies into parameterized templates. Hierarchical scene decomposition (objects -> groups -> meta-grid). Interactive agent with Bayesian hypothesis search for ARC-3 environments."
 					/>
 				</div>
 			</div>
@@ -304,6 +307,18 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-27 00:30"
+						title="Generalization Plan Rewrite: Phases 3-8"
+						changes={[
+							"Replaced incremental Phase 3-4 plan (template cache + adaptive controller) with 6-phase learning-based architecture",
+							"Phase 3: Scene Transform DSL — general transformation language over SceneGraphs with diff-driven program synthesis (+15-30 tasks)",
+							"Phase 4: Hypothesis-Refine Loop — structured failure analysis feeds back into search (+5-10 tasks)",
+							"Phase 5: MAST-backed strategy memory — store/recall via 64-dim engineered features, compaction tiers (+5-10 tasks)",
+							"Phases 6-8: Transfer abstraction, multi-scale perception, ARC-3 interactive agent",
+							"Conservative target: 280/400 (70%) after Phase 5",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-26 23:30"
 						title="Phase 2b: Extended Rule Induction (+3 tasks, 241/400)"
