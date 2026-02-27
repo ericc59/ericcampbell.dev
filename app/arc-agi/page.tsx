@@ -65,11 +65,17 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Architecture</Label>
 				<p className="text-sm text-zinc-400 leading-relaxed">
-					Seven solver layers, tried in priority order. Each layer is a different
+					Eight solver layers, tried in priority order. Each layer is a different
 					strategy. The first one that succeeds wins.
 				</p>
 
 				<div className="space-y-0 mt-2">
+					<SolverRow
+						layer="-1"
+						name="Strategy Memory"
+						description="Recall solved program templates from similar tasks via 64-dim feature vectors (cosine similarity). Re-parameterize stored DSL sequences, rule structures, and transform programs for the new task. Leave-one-out by task_id prevents overfitting."
+						type="analytical"
+					/>
 					<SolverRow
 						layer="0"
 						name="Object-Centric"
@@ -167,9 +173,9 @@ export default function ArcAgiPage() {
 							242/400 solved (60.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,354 tests</span>
+							<span>2,446 tests</span>
 							<span>100% coverage</span>
-							<span>10,408 stmts</span>
+							<span>10,896 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -288,8 +294,8 @@ export default function ArcAgiPage() {
 						detail="Structured failure analysis feeds back into search. Color correction, position correction, partial match extension, shape correction. Not binary pass/fail — 'almost right, refine this way.' (+5-10 tasks)"
 					/>
 					<NextRow
-						title="Phase 5: MAST-Backed Strategy Memory"
-						detail="Store successful strategies, recall for similar tasks via 64-dim engineered feature vectors. Re-parameterize recalled programs. Compaction tiers: active logs -> clustered patterns -> fundamental heuristics. (+5-10 tasks)"
+						title="Phase 5: Strategy Memory (Complete)"
+						detail="64-dim feature vectors, cosine similarity recall, template re-parameterization (DSL/rule/transform). JSONL persistence, leave-one-out evaluation, --store/use-strategies CLI. Benchmark pending."
 					/>
 					<NextRow
 						title="Phases 6-8: Transfer, Multi-Scale, ARC-3 Agent"
@@ -315,6 +321,20 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-27 18:00"
+						title="Phase 5: Strategy Memory (242/400)"
+						changes={[
+							"New src/memory/ package: strategy store for recalling solved program templates on similar tasks",
+							"64-dim feature vectors: grid stats (dims, colors, objects, symmetry, constraints, diffs, shape, histogram) for cosine similarity matching",
+							"Template extraction: abstract DSL programs, rule programs, and transform DSL programs into re-parameterizable templates",
+							"Re-parameterization: enumerate param combos for DSL steps, predicate values for rules, dispatch for method hints. Max 200 verify calls per template, 5 templates recalled",
+							"StrategyStore: JSONL persistence, cosine similarity recall with top_k and min_sim thresholds, leave-one-out by task_id",
+							"Layer -1 in hybrid solver: strategy memory recall before all other solver layers",
+							"benchmark.py: --store-strategies and --use-strategies CLI flags for populating and recalling strategies",
+							"2,446 tests (+92), 10,896 statements (+488), 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-27 14:00"
 						title="Phase 4: Hypothesis-Refine Loop (242/400)"
 						changes={[
@@ -323,7 +343,7 @@ export default function ArcAgiPage() {
 							"_refine_color: generates targeted color-fix completions from failure analysis — consistent missing colors produce RecolorAction/FillBBoxAction/ConnectAction steps",
 							"Integrated into _try_config after 2-step composition: selector tightening + color fix on top-10 partials scoring >= 0.95",
 							"242/400 ARC-1 (60.5%, no regression), infrastructure for converting near-misses to solves",
-							"2,354 tests (+18), 10,408 statements (+130), 100% coverage maintained",
+							"2,446 tests (+18), 10,408 statements (+130), 100% coverage maintained",
 						]}
 					/>
 					<ChangelogEntry
