@@ -97,7 +97,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.67"
 						name="Transform DSL"
-						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 6 selector types (ByProperty, ByRelation, All, Complement, Intersection, Union), 10 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract, Connect, FillRowCol). gt/lt threshold ops for fine-grained selection. PropertyColor for relational recoloring. Move candidates: literal/property-based/gravity displacement. Extract candidates: crop to object bbox. Connect: fill bg between same-color objects along axes. FillRowCol: broadcast seed objects to fill rows/cols/crosses. 2-step composition with brute-force completion fallback."
+						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 6 selector types (ByProperty, ByRelation, All, Complement, Intersection, Union), 10 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract, Connect, FillRowCol). gt/lt threshold ops for fine-grained selection. PropertyColor for relational recoloring. Move candidates: literal/property-based/gravity displacement. Extract candidates: crop to object bbox. Connect: fill bg between same-color objects along axes. FillRowCol: broadcast seed objects to fill rows/cols/crosses. 2-step composition with brute-force completion fallback. Hypothesis-refine loop: selector tightening via exclusion predicates on near-miss candidates (95%+), color fix completions from failure analysis."
 						type="search"
 					/>
 					<SolverRow
@@ -167,9 +167,9 @@ export default function ArcAgiPage() {
 							242/400 solved (60.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,336 tests</span>
+							<span>2,354 tests</span>
 							<span>100% coverage</span>
-							<span>10,278 stmts</span>
+							<span>10,408 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -314,6 +314,18 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-27 14:00"
+						title="Phase 4: Hypothesis-Refine Loop (242/400)"
+						changes={[
+							"suggest_selector_fix: identifies over-selected objects by reverting modifications and measuring pixel improvement",
+							"_refine_selector: tightens selectors on near-perfect candidates (95%+) via IntersectionSelector(original, Complement(exclusion_pred)) from property analysis",
+							"_refine_color: generates targeted color-fix completions from failure analysis — consistent missing colors produce RecolorAction/FillBBoxAction/ConnectAction steps",
+							"Integrated into _try_config after 2-step composition: selector tightening + color fix on top-10 partials scoring >= 0.95",
+							"242/400 ARC-1 (60.5%, no regression), infrastructure for converting near-misses to solves",
+							"2,354 tests (+18), 10,408 statements (+130), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-27 10:00"
 						title="Phase 3c: UnionSelector + ConnectAction + FillRowColAction (242/400)"
