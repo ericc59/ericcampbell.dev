@@ -65,7 +65,7 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Architecture</Label>
 				<p className="text-sm text-zinc-400 leading-relaxed">
-					Eight solver layers, tried in priority order. Each layer is a different
+					Nine solver layers, tried in priority order. Each layer is a different
 					strategy. The first one that succeeds wins.
 				</p>
 
@@ -86,6 +86,12 @@ export default function ArcAgiPage() {
 						layer="0.5"
 						name="Grid Decomposition"
 						description="Detect separator lines dividing grids into cells, solve overlay/boolean/stamp relationships between cells. Meta-grid mode: summarize cells as colors, run inference engines at cell level, reconstruct"
+						type="analytical"
+					/>
+					<SolverRow
+						layer="0.55"
+						name="Hierarchical Grouping"
+						description="Group objects by containment, same color, same shape, alignment (row/col), or proximity. 5 group operations: extract group, filter keep/remove groups, per-group inference (run inference solver on each group's sub-grid independently), group recolor. Bridges individual objects and full grid analysis."
 						type="analytical"
 					/>
 					<SolverRow
@@ -177,9 +183,9 @@ export default function ArcAgiPage() {
 							256/400 solved (64.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,594 tests</span>
+							<span>2,821 tests</span>
 							<span>100% coverage</span>
-							<span>11,719 stmts</span>
+							<span>12,576 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -294,16 +300,20 @@ export default function ArcAgiPage() {
 						detail="Phase 3c complete (UnionSelector, ConnectAction, FillRowColAction). Next: conditional branching, FOR_EACH iteration, extend/stamp actions. (+5-15 tasks beyond 3c)"
 					/>
 					<NextRow
-						title="Phase 4: Hypothesis-Refine Loop"
-						detail="Structured failure analysis feeds back into search. Color correction, position correction, partial match extension, shape correction. Not binary pass/fail — 'almost right, refine this way.' (+5-10 tasks)"
+						title="Phase 4: Hypothesis-Refine Loop (Complete)"
+						detail="Near-miss tracking (>= 75% pixel accuracy), 5 refinement strategies: color remap, inference post-compose, DSL post-step, pixel correction, transform re-search. Activates after all solver layers fail."
 					/>
 					<NextRow
 						title="Phase 5: Strategy Memory (Complete)"
 						detail="64-dim feature vectors, cosine similarity recall, template re-parameterization (DSL/rule/transform). JSONL persistence, leave-one-out evaluation, --store/use-strategies CLI. Benchmark pending."
 					/>
 					<NextRow
-						title="Phases 6-8: Transfer, Multi-Scale, ARC-3 Agent"
-						detail="Abstract strategies into parameterized templates. Hierarchical scene decomposition (objects -> groups -> meta-grid). Interactive agent with Bayesian hypothesis search for ARC-3 environments."
+						title="Phase 7: Multi-Scale Perception (Complete)"
+						detail="Hierarchical grouping layer (L0.55): 5 strategies (containment, same_color, same_shape, alignment, proximity), 5 operations (extract, filter_keep, filter_remove, per_group_inference, recolor). Bridges objects and full grid."
+					/>
+					<NextRow
+						title="Phases 6, 8: Transfer Abstraction, ARC-3 Agent"
+						detail="Abstract strategies into parameterized templates. Interactive agent with Bayesian hypothesis search for ARC-3 environments."
 					/>
 				</div>
 			</div>
@@ -324,6 +334,16 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-28 08:00"
+						title="Phase 4 + Phase 7: Hypothesis Refinement + Hierarchical Grouping"
+						changes={[
+							"Phase 7: Multi-Scale Perception — new Layer 0.55 in solver pipeline. ObjectGroup/HierarchicalScene types. 5 grouping strategies (containment, same_color, same_shape, alignment, proximity). 5 group operations (extract, filter_keep, filter_remove, per_group_inference, recolor). GroupProgram duck-types Program.",
+							"Phase 4: Hypothesis-Refine Loop — HypothesisPool tracks near-miss candidates (>= 75% pixel accuracy). 5 refinement strategies: color remap (ColorRemapProgram), inference post-compose (ComposedRefinedProgram), DSL post-step, pixel correction (PixelCorrectionProgram), transform re-search. Activates after all solver layers fail.",
+							"Pipeline integration: HierarchicalSpecialist added to specialist dispatch, solve() creates HypothesisPool and calls refine_hypotheses() as final fallback, 75 router classes (was 74)",
+							"2,821 tests (+227), 12,576 statements (+857), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-28 04:30"
 						title="Directional Stamp Engine (+1 task, 256/400)"
