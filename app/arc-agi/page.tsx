@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">242/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">243/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">260/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -149,6 +149,7 @@ export default function ArcAgiPage() {
 							{ score: 238, label: "v15" },
 							{ score: 241, label: "v16" },
 							{ score: 242, label: "v17" },
+							{ score: 243, label: "v18" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -170,7 +171,7 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							242/400 solved (60.5%)
+							243/400 solved (60.8%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>2,446 tests</span>
