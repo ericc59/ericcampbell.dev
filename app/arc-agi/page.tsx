@@ -34,7 +34,7 @@ export default function ArcAgiPage() {
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
 					<span className="text-zinc-100">243/400</span> on ARC-1,{" "}
-					<span className="text-zinc-100">260/1000</span> on ARC-2.
+					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
 
