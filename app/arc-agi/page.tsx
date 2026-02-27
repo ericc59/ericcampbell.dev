@@ -97,7 +97,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.67"
 						name="Transform DSL"
-						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 5 selector types (ByProperty, ByRelation, All, Complement, Intersection), 7 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract). gt/lt threshold ops for fine-grained selection. PropertyColor for relational recoloring. Move candidates: literal/property-based/gravity displacement. Extract candidates: crop to object bbox. 2-step composition with brute-force completion fallback."
+						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 6 selector types (ByProperty, ByRelation, All, Complement, Intersection, Union), 10 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract, Connect, FillRowCol). gt/lt threshold ops for fine-grained selection. PropertyColor for relational recoloring. Move candidates: literal/property-based/gravity displacement. Extract candidates: crop to object bbox. Connect: fill bg between same-color objects along axes. FillRowCol: broadcast seed objects to fill rows/cols/crosses. 2-step composition with brute-force completion fallback."
 						type="search"
 					/>
 					<SolverRow
@@ -167,9 +167,9 @@ export default function ArcAgiPage() {
 							242/400 solved (60.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,300 tests</span>
+							<span>2,336 tests</span>
 							<span>100% coverage</span>
-							<span>10,086 stmts</span>
+							<span>10,278 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -280,8 +280,8 @@ export default function ArcAgiPage() {
 				</div>
 				<div className="space-y-0">
 					<NextRow
-						title="Phase 3c: Conditional + ForEach + Connect/Extend Actions"
-						detail="Phase 3b complete (IntersectionSelector, gt/lt ops, PropertyColor). Next: conditional branching, FOR_EACH iteration, connect/extend/stamp actions, region-based fill. (+5-15 tasks beyond 3b)"
+						title="Phase 3d: Conditional + ForEach + Extend/Stamp Actions"
+						detail="Phase 3c complete (UnionSelector, ConnectAction, FillRowColAction). Next: conditional branching, FOR_EACH iteration, extend/stamp actions. (+5-15 tasks beyond 3c)"
 					/>
 					<NextRow
 						title="Phase 4: Hypothesis-Refine Loop"
@@ -314,6 +314,18 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-27 10:00"
+						title="Phase 3c: UnionSelector + ConnectAction + FillRowColAction (242/400)"
+						changes={[
+							"UnionSelector: OR-combine multiple ByPropertySelectors for broader object selection. Pairwise union from subset selectors (strict subset of targets). 6 selector types total (was 5)",
+							"ConnectAction: fill bg cells between same-color objects along horizontal/vertical/both axes. Pattern detection for additive + same_dims tasks",
+							"FillRowColAction: broadcast seed objects to fill entire rows/cols/crosses with resolved color. Seed detection via row/col overlap with added pixels",
+							"Pattern classification: connect_pattern and fill_row_col_pattern added under additive + same_dims condition",
+							"242/400 ARC-1 (60.5%, no regression), 9 tdsl-solved tasks",
+							"2,336 tests (+36), 10,278 statements (+192), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-26 21:00"
 						title="Phase 3b: IntersectionSelector + gt/lt Ops + PropertyColor (242/400)"
