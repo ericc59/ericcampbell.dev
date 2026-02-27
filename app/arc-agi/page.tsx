@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 60.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 62.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">243/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">250/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -109,7 +109,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="55 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, etc."
+						description="61 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -150,6 +150,7 @@ export default function ArcAgiPage() {
 							{ score: 241, label: "v16" },
 							{ score: 242, label: "v17" },
 							{ score: 243, label: "v18" },
+							{ score: 250, label: "v19" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -171,12 +172,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							243/400 solved (60.8%)
+							250/400 solved (62.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,446 tests</span>
+							<span>2,526 tests</span>
 							<span>100% coverage</span>
-							<span>10,896 stmts</span>
+							<span>11,317 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -208,7 +209,7 @@ export default function ArcAgiPage() {
 					/>
 					<InsightRow
 						title="55 inference sub-engines + compositional chaining"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 61 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -276,9 +277,9 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						158 unsolved ARC-1 tasks remain. The system has excellent perception
+						150 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
-						hardcoded: 55 inference engines, 8 rule induction action kinds, 6
+						hardcoded: 61 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
 						To generalize, the system must search for transformation programs
 						dynamically rather than matching pre-written patterns.
@@ -321,6 +322,20 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-27 22:00"
+						title="6 New Inference Engines (+7 tasks, 250/400)"
+						changes={[
+							"midpoint_cross: two same-color isolated pixels with even Manhattan distance, draw cross at midpoint with learned color (+1: e9614598)",
+							"pixel_count_output: count non-bg pixels, output 1-row grid of that width filled with the input's single non-bg color (+1: d631b094)",
+							"spiral_fill: all-zero NxN input → clockwise spiral with learned color. Segment-length algorithm [N, N-1, N-1, N-3, N-3, ...] (+1: 28e73c20)",
+							"object_diagonal_extend: L-shapes (3 in 2x2) or 2x2 core + protrusions trace diagonals from missing corners. 8-connectivity detection (+2: 7ddcd7ec, 6e19193c)",
+							"enclosure_project: wall/content color auto-detection via bbox sparsity heuristic, corner-bend detection for diagonal projection (+1: ec883f72)",
+							"block_diagonal_pair: two different-color 2x2 blocks extend diagonal traces from corners, learns color→direction mapping (+1: 5c0a986e)",
+							"61 inference engines (was 55), 69 router classes (was 63), 250/400 ARC-1 (62.5%), 194 depth-1, 56 depth-2",
+							"2,526 tests (+80), 11,317 statements (+421), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-27 18:00"
 						title="Phase 5: Strategy Memory (242/400)"
