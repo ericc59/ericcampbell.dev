@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 62.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 63.8% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">250/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">255/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -151,6 +151,7 @@ export default function ArcAgiPage() {
 							{ score: 242, label: "v17" },
 							{ score: 243, label: "v18" },
 							{ score: 250, label: "v19" },
+							{ score: 255, label: "v20" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -172,12 +173,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							250/400 solved (62.5%)
+							255/400 solved (63.8%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,526 tests</span>
+							<span>2,578 tests</span>
 							<span>100% coverage</span>
-							<span>11,317 stmts</span>
+							<span>11,636 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -277,9 +278,9 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						150 unsolved ARC-1 tasks remain. The system has excellent perception
+						145 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
-						hardcoded: 61 inference engines, 8 rule induction action kinds, 6
+						hardcoded: 65 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
 						To generalize, the system must search for transformation programs
 						dynamically rather than matching pre-written patterns.
@@ -322,6 +323,18 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-28 01:00"
+						title="4 New Marker-Rectangle Engines (+5 tasks, 255/400)"
+						changes={[
+							"marker_rect_line: markers sharing row/col range with rectangle draw lines from rect edge to marker position (+2: 2c608aff, d43fd935)",
+							"marker_rect_color: markers project to nearest rectangle boundary cell, coloring it with marker color (+1: 1f642eb9)",
+							"rect_stretch: bordered rectangle (border + interior colors) stretches toward isolated marker, maintaining border/interior pattern (+1: b548a754)",
+							"staircase_triangle: horizontal bar generates growing triangle above and shrinking triangle below (+1: a65b410d)",
+							"65 inference engines (was 61), 73 router classes (was 69), 255/400 ARC-1 (63.8%), 199 depth-1, 56 depth-2",
+							"2,578 tests (+52), 11,636 statements (+319), 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-27 22:00"
 						title="6 New Inference Engines (+7 tasks, 250/400)"
