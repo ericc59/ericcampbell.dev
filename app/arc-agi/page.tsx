@@ -186,9 +186,9 @@ export default function ArcAgiPage() {
 							260/400 solved (65.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>3,165 tests</span>
+							<span>3,188 tests</span>
 							<span>100% coverage</span>
-							<span>14,007 stmts</span>
+							<span>14,101 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -219,8 +219,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="80 inference sub-engines + compositional chaining"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 80 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
+						title="81 inference sub-engines + compositional chaining"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 81 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -290,11 +290,11 @@ export default function ArcAgiPage() {
 					<p>
 						140 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
-						hardcoded: 80 inference engines, 8 rule induction action kinds, 6
+						hardcoded: 81 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
 						Near-miss feeding from transform DSL into the hypothesis refinement
-						loop is now wired. Router retrained with all 80 engines + 4 new
-						analytical solvers.
+						loop is now wired. Router retrained with all 81 engines + 4 new
+						analytical solvers (val_acc=96.8%).
 					</p>
 					<p>New architecture: 6 phases (3-8), targeting 280/400 (70%).</p>
 				</div>
@@ -378,8 +378,8 @@ export default function ArcAgiPage() {
 							"Wired HypothesisPool near-miss feeding: transform DSL partials (top-10 from _rank_partial_matches) now fed into the hypothesis pool for refinement after all solver layers fail",
 							"Pool threaded through SpecialistContext -> TransformDslSpecialist -> solve_by_transform_dsl -> _try_config. Both specialist and non-specialist paths receive the pool",
 							"Router datagen updated: INFERENCE_ENGINES expanded from 23 to 80 engines (matching _ALL_STRATEGIES), 4 new solver functions added (hierarchical, relational, rule_induction, transform_dsl)",
-							"Router retrained with complete solver coverage — previously ~57 engines were labeled 'unsolvable' due to missing INFERENCE_ENGINES entries",
-							"89 router classes (80 inference + 7 analytical + 2 special), 3,165 tests, 14,007 stmts, 100% coverage",
+							"Router retrained with complete solver coverage: 233/400 solvable, 50 epochs, val_acc=96.8% (best val_loss=0.0215). Previously ~57 engines were labeled 'unsolvable' due to missing INFERENCE_ENGINES entries",
+							"90 router classes (81 inference + 7 analytical + 2 special), 3,188 tests, 14,101 stmts, 100% coverage",
 						]}
 					/>
 					<ChangelogEntry
