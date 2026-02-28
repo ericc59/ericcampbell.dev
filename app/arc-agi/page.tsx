@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 65.0% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 67.2% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">260/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">269/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -337,6 +337,15 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-27 17:30"
+						title="New Inference Engine: cross_product_projection"
+						changes={[
+							"cross_product_projection: markers on one row define column positions, markers on a perpendicular column define row positions. Fill the cross-product of bg positions with a learned color. Solves 2281f1f4",
+							"77 inference engines total, 86 router classes",
+							"3,051 tests, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-27 16:00"
 						title="New Inference Engine: diagonal_corner_marks"
