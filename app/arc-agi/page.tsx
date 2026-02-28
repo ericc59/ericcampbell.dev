@@ -338,6 +338,15 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-27 16:00"
+						title="New Inference Engine: diagonal_corner_marks"
+						changes={[
+							"diagonal_corner_marks: two sub-patterns for corner/diagonal marker placement. (A) Pair anti-diagonal — pairs of same-shape blocks on a diagonal get anti-diagonal marker copies at 3x perpendicular displacement. (B) Per-block corners — each rectangular block gets up to 4 single-pixel markers at diagonal corners. Solves 22233c11 and 95990924",
+							"76 inference engines total, 85 router classes",
+							"3,040 tests, 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-27 14:30"
 						title="Object Count Encode + Color Band Order Engines"
 						changes={[
