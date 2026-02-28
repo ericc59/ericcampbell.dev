@@ -339,11 +339,19 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 23:45"
+						title="Shape Template Transfer Engine (Inference #83)"
+						changes={[
+							"New inference engine shape_template_transfer (#83) — generalized D4-symmetric shape template transfer. Detects backbone shapes shared across connected components, identifies the fully-decorated template vs marker-only targets, and transfers decorations using dihedral group alignment. Supports 4-conn and 8-conn",
+							"Solves task 36d67576. 83 inference engines, 269/400 ARC-1 (67.2%) — includes uncommitted work",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 22:30"
 						title="Separator Template Stamp Engine (+1 ARC-1)"
 						changes={[
 							"New inference engine separator_template_stamp (#82) — detects a single separator (uniform-color row or column) dividing a grid into a template region and a canvas region. The canvas is implicitly divided into cells matching template dimensions; cells containing a marker color get the template stamped in. Supports vertical/horizontal separators with template on either side",
-							"Solves task 363442ee. 82 inference engines, 91 router classes, 3,253 tests, 14,425 stmts, 100% coverage",
+							"Solves task 363442ee. 83 inference engines, 91 router classes, 3,253 tests, 14,425 stmts, 100% coverage",
 						]}
 					/>
 					<ChangelogEntry
