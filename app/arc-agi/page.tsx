@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 67.2% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 67.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">269/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">270/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -338,6 +338,15 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-28 24:01"
+						title="Anchor Template Clone (Engine #87)"
+						changes={[
+							"New _try_anchor_template_clone inference engine. Multicolor template objects with a minority-color anchor pixel are cloned to isolated marker positions with learned D8 transforms (identity, flip, rotation). Per-anchor-color transform consistency enforced across all training pairs via set intersection",
+							"Solves ARC-1 task 3e980e27 (templates stamped with flip_v for color 2, identity for color 3)",
+							"87 inference engines, 96 router classes, 3,485 tests, 100% coverage. 269→270/400 ARC-1 training (67.5%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-28 24:00"
 						title="Positional Formula Engine (Engine #85)"
