@@ -339,6 +339,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 17:00"
+						title="Marker L-Connector Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine marker_l_connector (#81) — detects two marker pairs (each 2 adjacent same-colored pixels) and draws an L-shaped path connecting them. The extending marker shoots along its axis until hitting a non-bg obstacle, turns 90 degrees, and meets the target marker. Supports both vertical-vertical and horizontal-horizontal orientations",
+							"Solves task 2dd70a9a. 81 inference engines, 3,188 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 14:00"
 						title="Significant Line Fill Engine (+2 ARC-1)"
 						changes={[
