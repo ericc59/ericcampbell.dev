@@ -73,7 +73,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="-1"
 						name="Strategy Memory"
-						description="Recall solved program templates from similar tasks via 64-dim feature vectors (cosine similarity). Re-parameterize stored DSL sequences, rule structures, and transform programs for the new task. Leave-one-out by task_id prevents overfitting."
+						description="Recall solved program templates from similar tasks via 64-dim feature vectors (cosine similarity). Re-parameterize stored DSL sequences, rule structures, and transform DSL programs for new tasks. Failure tracking: records (task_id, template_hash) pairs to skip known-bad templates. Method hint promotion: when reparameterization fails, collect solver methods from similar tasks and promote them in the solver order. Leave-one-out by task_id prevents overfitting."
 						type="analytical"
 					/>
 					<SolverRow
@@ -109,7 +109,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.67"
 						name="Transform DSL"
-						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 6 selector types (ByProperty, ByRelation, All, Complement, Intersection, Union), 10 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract, Connect, FillRowCol). gt/lt threshold ops for fine-grained selection. PropertyColor for relational recoloring. Move candidates: literal/property-based/gravity displacement. Extract candidates: crop to object bbox. Connect: fill bg between same-color objects along axes. FillRowCol: broadcast seed objects to fill rows/cols/crosses. 2-step composition with brute-force completion fallback. Hypothesis-refine loop: selector tightening via exclusion predicates on near-miss candidates (95%+), color fix completions from failure analysis."
+						description="General transformation language over SceneGraphs. SELECT(selector) -> ACTION(params) programs with diff-driven candidate generation. 6 selector types (ByProperty, ByRelation, All, Complement, Intersection, Union), 13 action types (Recolor, Move, Remove, Copy, FillEnclosed, FillBBox, Extract, Connect, FillRowCol, Conditional, Scale, Overlay, ResizeOutput). 5 color functions (Literal, Own, Property, MajorityNeighbor, CountBased). 3 displacement types (Literal, Gravity, PropertyBased). 3-step composition: top-10 2-step partials extended with a 3rd step when score >= 80%. Pattern-driven generation: conditional (group by ChangeType + separating predicate), scale (integer output/input ratio), overlay (additive changes). Hypothesis-refine loop: selector tightening via exclusion predicates on near-miss candidates (95%+), color fix completions from failure analysis."
 						type="search"
 					/>
 					<SolverRow
@@ -186,9 +186,9 @@ export default function ArcAgiPage() {
 							260/400 solved (65.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>3,188 tests</span>
+							<span>3,413 tests</span>
 							<span>100% coverage</span>
-							<span>14,101 stmts</span>
+							<span>15,086 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -300,8 +300,8 @@ export default function ArcAgiPage() {
 				</div>
 				<div className="space-y-0">
 					<NextRow
-						title="Phase 3d: Conditional + ForEach + Extend/Stamp Actions"
-						detail="Phase 3c complete (UnionSelector, ConnectAction, FillRowColAction). Next: conditional branching, FOR_EACH iteration, extend/stamp actions. (+5-15 tasks beyond 3c)"
+						title="Phase 3: Transform DSL Extensions (Complete)"
+						detail="4 new actions (Conditional, Scale, Overlay, ResizeOutput), 2 new color fns (MajorityNeighbor, CountBased), 3-step composition, 3 new pattern generators (conditional/scale/overlay). Template extraction for all new types."
 					/>
 					<NextRow
 						title="Phase 4: Hypothesis-Refine Loop (Complete)"
@@ -309,7 +309,7 @@ export default function ArcAgiPage() {
 					/>
 					<NextRow
 						title="Phase 5: Strategy Memory (Complete)"
-						detail="64-dim feature vectors, cosine similarity recall, template re-parameterization (DSL/rule/transform). JSONL persistence, leave-one-out evaluation, --store/use-strategies CLI. Benchmark pending."
+						detail="64-dim feature vectors, cosine similarity recall, proper transform DSL re-parameterization (enumerate selectors × actions × colors/displacements), failure tracking with JSONL persistence, method hint promotion (reorder solver priority from similar solved tasks)."
 					/>
 					<NextRow
 						title="Phase 7: Multi-Scale Perception (Complete)"
@@ -338,6 +338,19 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-28 12:27"
+						title="Phase 3 + 5 Complete: Transform DSL Extensions + Strategy Memory Improvements"
+						changes={[
+							"Transform DSL: 4 new action types (ConditionalAction, ScaleAction, OverlayAction, ResizeOutputAction), 2 new color functions (MajorityNeighborColor, CountBasedColor), 3-step composition (top-10 2-step partials extended when score >= 80%)",
+							"3 new pattern generators: conditional (group objects by ChangeType, find separating predicate), scale (detect integer output/input ratio), overlay (additive changes from appeared objects)",
+							"Strategy memory failure tracking: record_failure(task_id, template) skips known-bad templates on future recalls, persisted via JSONL with F: prefix",
+							"Transform DSL reparameterization: proper _reparam_transform_dsl enumerates selectors (AllSelector + ByPropertySelector per pred value) × actions (remove/recolor/move) × parameter combos instead of falling through to method_hint dispatch",
+							"Method hint promotion: when recalled templates fail reparameterization, collect their solver methods and promote them in the fixed solver order",
+							"Template extraction extended for all new action/color types",
+							"3,413 tests, 15,086 stmts, 100% coverage",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-28 23:45"
 						title="Shape Template Transfer Engine (Inference #83)"
