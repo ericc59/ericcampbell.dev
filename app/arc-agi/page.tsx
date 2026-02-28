@@ -339,6 +339,15 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 24:00"
+						title="Positional Formula Engine (Engine #85)"
+						changes={[
+							"New _try_positional_formula inference engine learns output colors from grid-size-invariant positional features (border flags, diagonal flags, region flags). Supports KEEP_OWN sentinel for positions where output always equals input color (varying across pairs)",
+							"Solves task 3bd67248 (anti-diagonal + bottom row fill with column color preservation)",
+							"Router updated to 94 total classes (85 inference + 7 analytical + 2 special). 3,433 tests, 100% coverage. 269/400 ARC-1 training (67.2%)",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 23:59"
 						title="Per-Pair Grid Structure + Kernel Stamp Engine (#84)"
 						changes={[
