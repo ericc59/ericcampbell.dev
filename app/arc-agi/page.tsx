@@ -339,6 +339,24 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 24:03"
+						title="Parallel Lines Crop (Engine #89)"
+						changes={[
+							"New _try_parallel_lines_crop inference engine. Detects a non-bg color forming exactly 2 parallel aligned lines (vertical or horizontal) that define the sides of a rectangular frame, expands by 1 row/col to include cap pixels, and crops the bounded region",
+							"Helpers: _find_parallel_lines (structural anchor detection), _frame_bbox_from_lines (bbox expansion with bounds checking)",
+							"Solves ARC-1 task 3f7978a0. 89 inference engines, 98 router classes",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-28 24:02"
+						title="Largest Rectangle Fill (Engine #88)"
+						changes={[
+							"New _try_largest_rect_fill inference engine. Detects and fills the largest axis-aligned rectangle of a uniform color with a new color. Uses O(h*w) histogram-based maximal rectangle algorithm",
+							"Solves ARC-1 task 3eda0437",
+							"88 inference engines, 97 router classes",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 24:01"
 						title="Anchor Template Clone (Engine #87)"
 						changes={[
