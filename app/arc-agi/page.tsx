@@ -339,6 +339,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 14:00"
+						title="Significant Line Fill Engine (+2 ARC-1)"
+						changes={[
+							"New inference engine significant_line_fill with two strategies: (1) Uniform line fill — detects rows/columns entirely of one color and recolors them; (2) Extremal line fill — finds rows/columns with maximum count of a target color and fills the cross pattern",
+							"Solves 2bee17df and c1d99e64",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 10:00"
 						title="Near-Miss Feeding + Router Retrained"
 						changes={[
