@@ -339,6 +339,23 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 22:30"
+						title="Separator Template Stamp Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine separator_template_stamp (#82) — detects a single separator (uniform-color row or column) dividing a grid into a template region and a canvas region. The canvas is implicitly divided into cells matching template dimensions; cells containing a marker color get the template stamped in. Supports vertical/horizontal separators with template on either side",
+							"Solves task 363442ee. 82 inference engines, 91 router classes, 3,253 tests, 14,425 stmts, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-28 21:00"
+						title="Multi-Symmetry Scattered Damage Repair Engine"
+						changes={[
+							"New inference engine multi_symmetry_damage_repair — detects latent symmetries (transpose, horizontal, vertical, rot180, anti-transpose, and offset mirrors) in grids with scattered damage and uses iterative multi-symmetry fill to repair them",
+							"For transpose grids with self-overlap damage, a context fill fallback auto-detects diagonal and border values per grid",
+							"Solves tasks 3631a71a and 73251a56",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 17:00"
 						title="Marker L-Connector Engine (+1 ARC-1)"
 						changes={[
