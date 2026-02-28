@@ -115,7 +115,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="80 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, etc."
+						description="84 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, kernel stamp, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -188,7 +188,7 @@ export default function ArcAgiPage() {
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>3,413 tests</span>
 							<span>100% coverage</span>
-							<span>15,086 stmts</span>
+							<span>15,087 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -339,16 +339,12 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
-						date="2026-02-28 12:27"
-						title="Phase 3 + 5 Complete: Transform DSL Extensions + Strategy Memory Improvements"
+						date="2026-02-28 23:59"
+						title="Per-Pair Grid Structure + Kernel Stamp Engine (#84)"
 						changes={[
-							"Transform DSL: 4 new action types (ConditionalAction, ScaleAction, OverlayAction, ResizeOutputAction), 2 new color functions (MajorityNeighborColor, CountBasedColor), 3-step composition (top-10 2-step partials extended when score >= 80%)",
-							"3 new pattern generators: conditional (group objects by ChangeType, find separating predicate), scale (detect integer output/input ratio), overlay (additive changes from appeared objects)",
-							"Strategy memory failure tracking: record_failure(task_id, template) skips known-bad templates on future recalls, persisted via JSONL with F: prefix",
-							"Transform DSL reparameterization: proper _reparam_transform_dsl enumerates selectors (AllSelector + ByPropertySelector per pred value) × actions (remove/recolor/move) × parameter combos instead of falling through to method_hint dispatch",
-							"Method hint promotion: when recalled templates fail reparameterization, collect their solver methods and promote them in the fixed solver order",
-							"Template extraction extended for all new action/color types",
-							"3,413 tests, 15,086 stmts, 100% coverage",
+							"Extended meta-grid solver to support per-pair grid structure detection — previously required all training pairs to share the same grid dimensions and cell sizes. Now each pair's separator structure is detected independently, enabling tasks with varying grid layouts (e.g., 5x5 meta in pair 0, 7x7 meta in pairs 1-2)",
+							"New inference engine kernel_stamp (#84) — detects a connected multi-color 'kernel' pattern (minority center color + surrounding colors), finds isolated seed pixels matching the center color, and stamps the kernel shape around each seed. Fully dynamic: kernel shape, colors, and seed positions detected at runtime per input, no fixed parameters learned across pairs",
+							"Solves task 39e1d7f9. 84 inference engines, 93 router classes, 3,413 tests, 100% coverage",
 						]}
 					/>
 					<ChangelogEntry
