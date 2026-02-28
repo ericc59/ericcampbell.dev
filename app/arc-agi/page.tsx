@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 64.8% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 65.0% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">259/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">260/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -161,6 +161,7 @@ export default function ArcAgiPage() {
 							{ score: 256, label: "v21" },
 							{ score: 258, label: "v22" },
 							{ score: 259, label: "v23" },
+							{ score: 260, label: "v24" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -182,10 +183,10 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							259/400 solved (64.8%)
+							260/400 solved (65.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>2,869 tests</span>
+							<span>2,928 tests</span>
 							<span>100% coverage</span>
 							<span>12,756 stmts</span>
 						</div>
@@ -336,6 +337,34 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-02-27 14:30"
+						title="Object Count Encode + Color Band Order Engines"
+						changes={[
+							"object_count_encode: count connected components by (shape, color), encode count as left-justified fill in 1D output. Solves 1fad071e and similar count-to-binary-row tasks",
+							"color_band_order: detect horizontal/vertical uniform color bands, output colors in spatial order. Three strategies: fixed-horizontal, fixed-vertical, auto-axis. Solves 4be741c5",
+							"75 inference engines total, 84 router classes",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-28 00:30"
+						title="Frame Extract + Nested Concentric Engines (+2 tasks, 260/400)"
+						changes={[
+							"frame_extract: rectangular frame detection + interior extraction. Detects uniform-color rectangular frame border and extracts the enclosed interior content. Targets: 1c786137",
+							"nested_concentric: concentric rectangular band detection, miniaturized output. Identifies nested concentric color bands and produces a compact representation. Targets: eb5a1d5d",
+							"71 inference engines (was 70), 80 router classes (was 79), 260/400 ARC-1 (65.0%)",
+							"2,928 tests, 100% coverage maintained",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-27 23:45"
+						title="Shape-Centered rot180 Symmetry Completion Engine"
+						changes={[
+							"symmetry_completion_centered: new inference engine that finds the optimal 180-degree rotation center for a shape and fills missing symmetric pixels with a new color. Unlike the existing symmetry_completion engine (which only uses the grid center), this dynamically finds the best rotation center per input by minimizing required additions. Solves task 1b60fb0c and similar tasks where shapes need rotational symmetry completion about a non-grid-center point.",
+							"70 inference engines (was 69), 79 router classes (was 78)",
+							"2,894 tests, 100% coverage maintained",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-27 22:30"
 						title="Snap to Line + Bug Fixes (+3 tasks, 259/400)"
