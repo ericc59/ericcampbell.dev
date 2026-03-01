@@ -339,6 +339,26 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 20:00"
+						title="Wall Bounce Trace Engine"
+						changes={[
+							"Wall bounce trace engine (inference #104): diagonal ray traces that bounce off wall regions/edges",
+							"Solves 508bd3b6",
+							"104 inference engines, 113 solver classes total. 3,889 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-02-28 19:00"
+						title="Quadrant Reflection Engine"
+						changes={[
+							"New inference engine: quadrant_reflection with two sub-strategies (cross_separator and nucleus)",
+							"Cross separator: detects full-row + full-column separator, extracts 4 quadrants, reflects content into all quadrants with recoloring",
+							"Nucleus: detects small D2-symmetric block (2x2 or X-shape), reflects pattern around center point",
+							"Solves 3 previously failing tasks: 47c1f68c, 4938f0c2, 4c5c2cf0",
+							"3,828 tests, 100% coverage. 102 inference engines, 111 router classes total",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 18:00"
 						title="Frame Border Complete (Engine #98)"
 						changes={[
