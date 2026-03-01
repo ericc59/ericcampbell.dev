@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 67.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 68.25% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">270/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">273/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -115,7 +115,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="84 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, kernel stamp, etc."
+						description="110 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, kernel stamp, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -162,6 +162,7 @@ export default function ArcAgiPage() {
 							{ score: 258, label: "v22" },
 							{ score: 259, label: "v23" },
 							{ score: 260, label: "v24" },
+							{ score: 273, label: "v25" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -183,12 +184,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							260/400 solved (65.0%)
+							273/400 solved (68.25%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>3,413 tests</span>
+							<span>4,049 tests</span>
 							<span>100% coverage</span>
-							<span>15,087 stmts</span>
+							<span>18,164 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -219,8 +220,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="81 inference sub-engines + compositional chaining"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 81 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
+						title="110 inference sub-engines + compositional chaining"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 110 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -288,12 +289,12 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						140 unsolved ARC-1 tasks remain. The system has excellent perception
+						127 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
-						hardcoded: 81 inference engines, 8 rule induction action kinds, 6
+						hardcoded: 110 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
 						Near-miss feeding from transform DSL into the hypothesis refinement
-						loop is now wired. Router retrained with all 81 engines + 4 new
+						loop is now wired. Router retrained with all 110 engines + 4 new
 						analytical solvers (val_acc=96.8%).
 					</p>
 					<p>New architecture: 6 phases (3-8), targeting 280/400 (70%).</p>
@@ -338,6 +339,15 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-01 01:00"
+						title="Separator Waterfall Inference Engine"
+						changes={[
+							"New inference engine: separator_waterfall — detects cross-shaped separator grids (2 vertical + 2 horizontal separator lines), identifies marker colors matching separator colors, determines gravity direction toward matching separator, applies waterfall fill to extract inner region",
+							"Solves ARC-1 task 5daaa586. 110 inference engines, 119 router classes",
+							"4,049 tests, 100% coverage",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-02-28 23:00"
 						title="Diagonal Seed Rectangles + Corner Seed Spirals Engines"
