@@ -351,6 +351,14 @@ export default function ArcAgiPage() {
 						]}
 					/>
 					<ChangelogEntry
+						date="2026-03-01 23:30"
+						title="3 Cross-Separator Inference Engines (+3 ARC-1)"
+						changes={[
+							"3 new inference engines: cross_quadrant_reflect (cross separator with one populated quadrant, 4-fold D4 reflection, removes separator), cross_shift_by_marker (cross separator + marker pixels, shifts position by marker count in learned direction), corner_framed_recolor (2-row + 2-col separator frame with 4 unique corner colors, inner pattern recolored by quadrant)",
+							"Solves tasks 47c1f68c, e48d4e1a, 77fdfe62. 100 inference engines, 109 router classes total",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 23:00"
 						title="Upscale With Diagonal + Self Tile Count Engines"
 						changes={[
