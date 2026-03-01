@@ -341,6 +341,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 03:00"
+						title="Corner Marker Extract Engine"
+						changes={[
+							"New inference engine: corner_marker_extract — detects 4 corner markers of one color forming a rectangle, extracts the bounded region (interior or inclusive), with optional recolor of content to marker color. Solves task 3de23699",
+							"85 inference engines total, 94 router classes. 3,441 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 02:00"
 						title="Block Grid Mask Inference Engine"
 						changes={[
