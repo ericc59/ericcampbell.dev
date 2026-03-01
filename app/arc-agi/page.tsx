@@ -339,6 +339,17 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 21:00"
+						title="Row Sequence Extend Engine"
+						changes={[
+							"New inference engine _try_row_sequence_extend with two sub-strategies for vertical pattern continuation",
+							"Diagonal period continuation: detects translational shift (pr, pc) in non-bg pixels and extends the pattern to fill the output grid (solves 53b68214)",
+							"Zigzag bounce continuation: bounces input rows back and forth to fill the output (solves eb281b96)",
+							"Supports 3 output height prediction rules: fixed, width-based, and zigzag-formula",
+							"+2 ARC-1 tasks (271 to 273/400, 68.25%)",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 20:00"
 						title="Wall Bounce Trace Engine"
 						changes={[
