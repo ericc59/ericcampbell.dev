@@ -341,6 +341,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 23:00"
+						title="Upscale With Diagonal + Self Tile Count Engines"
+						changes={[
+							"2 new inference engines: upscale_with_diagonal (upscale by color count + corner diagonal decoration) and self_tile_count (tile input N times in bg-count grid)",
+							"97 inference engines, 106 router classes total. Solves tasks 469497ad and 91413438",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 21:00"
 						title="Conditional Hole Fill Engine"
 						changes={[
