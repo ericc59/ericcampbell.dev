@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 68.25% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 68.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">273/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">274/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -163,6 +163,7 @@ export default function ArcAgiPage() {
 							{ score: 259, label: "v23" },
 							{ score: 260, label: "v24" },
 							{ score: 273, label: "v25" },
+							{ score: 274, label: "v26" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -184,7 +185,7 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							273/400 solved (68.25%)
+							274/400 solved (68.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>4,049 tests</span>
@@ -339,6 +340,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-01 01:15"
+						title="Separator Waterfall Auto-Direction"
+						changes={[
+							"Extended the separator_waterfall inference engine to auto-detect marker color and gravity direction per input grid. Previously assumed all training pairs used the same marker/direction; now handles tasks where each pair has a different marker color matching a different separator, with gravity toward that separator",
+							"Solves task 5daaa586. 274/400 ARC-1 (68.5%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-01 01:00"
 						title="Separator Waterfall Inference Engine"
