@@ -341,6 +341,22 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 21:00"
+						title="Conditional Hole Fill Engine"
+						changes={[
+							"New inference engine: conditional_hole_fill — detects connected components of a border color, classifies interior bg holes by geometry (square vs rectangular vs irregular), and conditionally fills only holes matching a learned predicate (3 predicates: square, non_square_rect, rectangular). Generalizes per-object classification based on hole shape",
+							"Solves ARC-1 task 44d8ac46. 93 inference engines, 102 router classes, 3,698 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-03-01 16:00"
+						title="Hollow Rect Ops Engine"
+						changes={[
+							"New inference engine: hollow_rect_ops — detects hollow rectangular frames and performs 4 sub-strategies: cross_hair (draws cross-hair lines through frame center), gap_spill (fills interior through gap in border row), gap_spill_col (fills interior through gap in border column), size_fill (colors frames based on size-based rules)",
+							"Solves 5 new ARC-1 tasks: 41e4d17e, 444801d8, d4f3cd78, c0f76784, 868de0fa. Router updated from 98 to 99 classes (90 inference engines). 3,608 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 14:00"
 						title="Separator Marker Projection Engine"
 						changes={[
