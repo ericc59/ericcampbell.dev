@@ -339,6 +339,16 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 22:00"
+						title="Template Match Expand Engine (Inference #107)"
+						changes={[
+							"New inference engine template_match_expand — template-directed block expansion. Detects multicolor template objects that define spatial patterns, identifies same-colored target objects with block structure, and applies the template pattern at the target's block scale",
+							"Supports per-pair auto-detection of template vs targets (template = object with most unique colors, targets = 2-color objects sharing a color with template)",
+							"Block size detection iterates largest-to-smallest for uniform rectangular tiling in 2-color patches. Normalized templates (body=1, ref=2, bg=0) enable scale-independent pattern matching",
+							"Solves ARC-1 task 57aa92db. 107 inference engines, 116 router classes, 4,000 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 21:00"
 						title="Row Sequence Extend Engine"
 						changes={[
