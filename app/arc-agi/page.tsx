@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 68.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 75.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">274/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">302/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">420/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -185,12 +185,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							274/400 solved (68.5%)
+							302/400 solved (75.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,049 tests</span>
+							<span>3,763 tests</span>
 							<span>100% coverage</span>
-							<span>18,164 stmts</span>
+							<span>16,565 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -340,6 +340,16 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 00:30"
+						title="Router + Policy Retrained on ARC-1 + ARC-2"
+						changes={[
+							"Retrained ML router on 1,400 tasks (ARC-1 + ARC-2), 30,651 examples, val_acc=92.3%. Retrained policy network on 205K examples from both datasets",
+							"Training scripts now support --extra-data flag for multi-dataset training",
+							"Baseline (no router): 302/400 ARC-1 (75.5%), up from 282 (70.5%) due to Phase 3+5 code improvements (transform DSL extensions, strategy memory)",
+							"Router routing accuracy dropped from 96.8% to 92.3% with mixed data — fixed-order solver outperforms router on ARC-1",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-01 23:00"
 						title="Upscale With Diagonal + Self Tile Count Engines"
