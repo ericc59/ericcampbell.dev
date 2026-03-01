@@ -341,6 +341,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 02:00"
+						title="Block Grid Mask Inference Engine"
+						changes={[
+							"New inference engine: block_grid_mask — shape made of uniform-color rectangular blocks arranged in a grid encodes a binary mask; each block is fully present or absent. Mask applied to a separate multicolor key grid to produce output (key values where blocks present, 0 where absent)",
+							"Solves ARC-1 task 6ecd11f4. 120 inference engines, 4,294 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 01:15"
 						title="Separator Waterfall Auto-Direction"
 						changes={[
