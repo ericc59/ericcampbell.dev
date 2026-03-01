@@ -339,6 +339,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 23:00"
+						title="Diagonal Seed Rectangles + Corner Seed Spirals Engines"
+						changes={[
+							"Two new inference engines: diagonal_seed_rectangles (collinear same-color diagonal seeds → nested concentric rectangle outlines from center, solves 5c2c9af4) and corner_seed_spirals (corner/edge seeds → nested L-shapes with Manhattan Voronoi, solves d22278a0)",
+							"109 inference engines, 118 router classes, 4,023 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 22:00"
 						title="Template Match Expand Engine (Inference #107)"
 						changes={[
