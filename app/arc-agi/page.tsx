@@ -341,6 +341,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 14:00"
+						title="Separator Marker Projection Engine"
+						changes={[
+							"New inference engine: separator_marker_projection — thick separator bars (2+ contiguous rows/cols of uniform color) grow by N pixels toward scattered markers, where N = count of markers per perpendicular line. Markers removed, separator extended. Handles varying separator position/axis/thickness and different marker colors across pairs",
+							"Solves ARC-1 task 4093f84a. 89 inference engines, 98 router classes, 3,533 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 05:00"
 						title="Structural Crop Engine"
 						changes={[
