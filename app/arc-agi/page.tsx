@@ -339,6 +339,15 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-02-28 18:00"
+						title="Frame Border Complete (Engine #98)"
+						changes={[
+							"New _try_frame_border_complete inference engine (engine #98). Detects rectangular frame structures from scattered pixels and fills border gaps with a second color",
+							"Solves ARC-1 task 4612dd53 and similar frame-gap-fill tasks",
+							"107 router classes (98 inference + 7 analytical + 2 special), 3,761 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-02-28 24:03"
 						title="Parallel Lines Crop (Engine #89)"
 						changes={[
