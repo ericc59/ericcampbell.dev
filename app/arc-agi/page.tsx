@@ -341,6 +341,22 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 05:00"
+						title="Structural Crop Engine"
+						changes={[
+							"New inference engine: structural_crop — crops input grid to bounding box of a structural marker color. Two strategies: (1) parallel-walls crop finds a color forming two parallel lines (vertical columns or horizontal rows) with cap pixels and crops to the wall region, (2) color-bbox crop with fixed per-direction padding (0-3) learned across all training pairs",
+							"Solves ARC-1 task 3f7978a0. 88 inference engines, 97 router classes, 3,510 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-03-01 04:00"
+						title="Maximal Rectangle Fill Engine"
+						changes={[
+							"New inference engine: maximal_rect_fill — detects the largest axis-aligned rectangle of a uniform color (typically background) and fills it with a learned fill color. Uses O(h*w) histogram-stack algorithm with configurable minimum dimension constraints (min_h, min_w) learned from training pairs",
+							"Solves ARC-1 task 3eda0437. 87 inference engines, 96 router classes, 3,490 tests, 100% coverage",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-01 03:00"
 						title="Corner Marker Extract Engine"
 						changes={[
