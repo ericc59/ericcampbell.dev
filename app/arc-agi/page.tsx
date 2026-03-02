@@ -207,6 +207,14 @@ export default function ArcAgiPage() {
 				<Label>What Worked</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-02 23:30"
+						title="Border Rect D8 Stamp Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #134: border_rect_d8_stamp — bordered rectangle with marker holes serves as template. External markers form clusters matching D8 transforms of interior marker positions; D8-transformed copies stamped around each cluster. Per-pair independent templates with grid boundary clipping. Fixed anti-diagonal transpose bug in D8 transforms.",
+							"Solves 7df24a62. 134 inference engines, 143 router classes, 4,629 tests, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-03 02:00"
 						title="Grid Intersection Window + 10 New Inference Engines (+12 ARC-1)"
 						changes={[
@@ -403,6 +411,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 23:30"
+						title="Border Rect D8 Stamp Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #134: border_rect_d8_stamp — detects bordered rectangles with marker holes as templates. External marker clusters match D8 transforms (identity, rot90/180/270, flip_h/v, transpose, anti-transpose) of interior marker positions. D8-transformed template copies stamped around each external cluster. Each training pair has its own independent template; supports grid boundary clipping. Fixed anti-diagonal transpose bug in D8 transforms.",
+							"Solves task 7df24a62. 134 inference engines, 143 router classes, 4,629 tests, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-03 02:00"
 						title="Grid Intersection Window + 10 New Inference Engines (+12 ARC-1)"
