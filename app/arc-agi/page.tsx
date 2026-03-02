@@ -191,9 +191,9 @@ export default function ArcAgiPage() {
 							326/400 solved (81.50%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,303 tests</span>
+							<span>4,389 tests</span>
 							<span>100% coverage</span>
-							<span>18,037 stmts</span>
+							<span>19,364 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -203,6 +203,13 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 23:00"
+						title="Generalization System Improvements"
+						changes={[
+							"5 system-wide improvements: (1) Constraint enforcement — BgPreserved/ObjectCountPreserved prune destructive primitives from DSL search. (2) Relaxed multi-pair search — threshold 0.01→0.05, beam width 100→150, allows more intermediate exploration. (3) Object-aware pixel rules engine #120 — extends pixel rules with per-object features (size, rank, edge, color count, distance). (4) Reverse composition — new Inference→DSL solver layer tries analytical step first, then depth 1-2 DSL search. (5) 3-step inference chains — extends 2-step chains with top-5×top-5×full budget. 120 inference engines, 129 router classes, 4,389 tests, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 21:00"
 						title="Funnel Projection Engine (+1 ARC-1)"
@@ -375,6 +382,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 23:00"
+						title="Generalization System Improvements"
+						changes={[
+							"5 cross-cutting improvements to general solving capability: constraint enforcement (BgPreserved, ObjectCountPreserved prune destructive primitives), relaxed multi-pair search (threshold 0.05, beam 150), object-aware pixel rules engine #120, reverse composition solver (Inference→DSL), and 3-step inference chains (top-5×top-5×full budget).",
+							"120 inference engines, 129 router classes, 4,389 tests, 19,364 stmts, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-01 23:55"
 						title="Separator Gravity Histogram Engine (+1 ARC-1)"
