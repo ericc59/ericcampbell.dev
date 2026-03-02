@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 79.25% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 81.50% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">317/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">326/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -115,7 +115,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="110 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, kernel stamp, etc."
+						description="118 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, kernel stamp, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -166,6 +166,7 @@ export default function ArcAgiPage() {
 							{ score: 274, label: "v26" },
 							{ score: 315, label: "v27" },
 							{ score: 317, label: "v28" },
+							{ score: 326, label: "v29" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -187,10 +188,10 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							317/400 solved (79.25%)
+							326/400 solved (81.50%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,067 tests</span>
+							<span>4,303 tests</span>
 							<span>100% coverage</span>
 							<span>18,037 stmts</span>
 						</div>
@@ -202,6 +203,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 21:00"
+						title="Funnel Projection Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #118: funnel_projection — detects V/funnel-shaped objects with scattered marker pixels. Markers below the funnel opening project column fills through the opening to the grid edge. Supports all 4 directions.",
+							"Solves task 6d58a25d. 118 inference engines, 4,303 tests, 100% coverage. Score: 326/400 ARC-1 (81.50%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 18:30"
 						title="Frame Content Fill Engine (+1 ARC-1)"
@@ -247,8 +256,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="110 inference sub-engines + compositional chaining"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 110 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
+						title="118 inference sub-engines + compositional chaining"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 118 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
