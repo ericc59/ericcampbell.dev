@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 84.00% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 87.0% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">336/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">348/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -115,7 +115,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="118 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, kernel stamp, etc."
+						description="133 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, etc."
 						type="analytical"
 					/>
 					<SolverRow
@@ -168,6 +168,8 @@ export default function ArcAgiPage() {
 							{ score: 317, label: "v28" },
 							{ score: 326, label: "v29" },
 							{ score: 336, label: "v30" },
+							{ score: 337, label: "v31" },
+							{ score: 348, label: "v32" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -189,12 +191,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							336/400 solved (84.00%)
+							348/400 solved (87.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,389 tests</span>
+							<span>4,599 tests</span>
 							<span>100% coverage</span>
-							<span>19,364 stmts</span>
+							<span>20,374 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -204,6 +206,23 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-03 02:00"
+						title="Grid Intersection Window + 10 New Inference Engines (+12 ARC-1)"
+						changes={[
+							"New inference engine #122: grid_intersection_window — detects separator-based grids, extracts non-separator colors at grid line intersections to build a meta-grid, applies uniform window pooling (WxW: if all same then that value, else 0), crops to non-zero bounding box.",
+							"10 additional engines (#123-132): l_path_connector (L-shaped path between marker pairs), quadrant_marker_block (marker determines which grid quadrant to fill), rectangle_gap_fill (fill bg gaps inside rectangular color groups), band_defect_column (defect pixels in uniform bands extend through band), core_diagonal_expand (2x2 core radiates to diagonal quadrants), zone_presence (block counting in checkerboard positions), object_count_diagonal (count objects and encode as diagonal pattern), largest_zero_rect_fill (fill largest all-zero rectangle), shape_propagation (stamp shape at displacement multiples to boundary), vertical_pattern_tile (detect repeating vertical tile and extend).",
+							"133 inference engines, 142 router classes, 4,599 tests, 20,374 stmts, 100% coverage. Score: 348/400 ARC-1 (87.0%)",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-03-02 11:10"
+						title="Line Deduplication Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #121: line_dedup — collapses duplicate rows/columns. Two modes: RLE (consecutive) and unique (all duplicates). Solves 746b3537 (ARC-1) + 2 ARC-2 tasks.",
+							"121 inference engines, 130 router classes, 4,413 tests, 100% coverage. Score: 337/400 ARC-1 (84.25%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 23:00"
 						title="Generalization System Improvements (+10 ARC-1)"
@@ -265,8 +284,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="118 inference sub-engines + compositional chaining"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 118 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
+						title="133 inference sub-engines + compositional chaining"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 133 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -334,13 +353,13 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						83 unsolved ARC-1 tasks remain. The system has excellent perception
+						52 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
-						hardcoded: 110 inference engines, 8 rule induction action kinds, 6
+						hardcoded: 133 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
 						Near-miss feeding from transform DSL into the hypothesis refinement
-						loop is now wired. Router retrained with all 110 engines + 4 new
-						analytical solvers (val_acc=96.8%).
+						loop is now wired. Router retrained with all 133 engines + 7
+						analytical solvers.
 					</p>
 					<p>New architecture: 6 phases (3-8), targeting 280/400 (70%).</p>
 				</div>
@@ -384,6 +403,23 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-03 02:00"
+						title="Grid Intersection Window + 10 New Inference Engines (+12 ARC-1)"
+						changes={[
+							"New inference engine #122: grid_intersection_window — detects separator-based grids, extracts non-separator colors at grid line intersections to build a meta-grid, applies uniform window pooling.",
+							"10 additional engines (#123-132): l_path_connector, quadrant_marker_block, rectangle_gap_fill, band_defect_column, core_diagonal_expand, zone_presence, object_count_diagonal, largest_zero_rect_fill, shape_propagation, vertical_pattern_tile.",
+							"133 inference engines, 142 router classes, 4,599 tests, 20,374 stmts, 100% coverage. Score: 348/400 ARC-1 (87.0%)",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-03-02 11:10"
+						title="Line Deduplication Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #121: line_dedup — collapses duplicate rows and/or columns in grids. Two modes: RLE (consecutive identical rows/cols) and unique (all duplicate rows/cols, keeping first occurrence). Tries row-only, col-only, and row+col for each mode. Solves tasks with repeated stripe/block structure that compresses to a summary grid.",
+							"Solves 746b3537 (ARC-1) + ce8d95cc, e1baa8a4 (ARC-2). 121 inference engines, 130 router classes, 4,413 tests, 19,414 stmts, 100% coverage. Score: 337/400 ARC-1 (84.25%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 23:00"
 						title="Generalization System Improvements (+10 ARC-1)"
