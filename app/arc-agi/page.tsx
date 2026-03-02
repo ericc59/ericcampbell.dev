@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 81.50% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 84.00% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">326/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">336/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -167,6 +167,7 @@ export default function ArcAgiPage() {
 							{ score: 315, label: "v27" },
 							{ score: 317, label: "v28" },
 							{ score: 326, label: "v29" },
+							{ score: 336, label: "v30" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -188,7 +189,7 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							326/400 solved (81.50%)
+							336/400 solved (84.00%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>4,389 tests</span>
@@ -205,9 +206,10 @@ export default function ArcAgiPage() {
 				<div className="space-y-0">
 					<ChangelogEntry
 						date="2026-03-02 23:00"
-						title="Generalization System Improvements"
+						title="Generalization System Improvements (+10 ARC-1)"
 						changes={[
-							"5 system-wide improvements: (1) Constraint enforcement — BgPreserved/ObjectCountPreserved prune destructive primitives from DSL search. (2) Relaxed multi-pair search — threshold 0.01→0.05, beam width 100→150, allows more intermediate exploration. (3) Object-aware pixel rules engine #120 — extends pixel rules with per-object features (size, rank, edge, color count, distance). (4) Reverse composition — new Inference→DSL solver layer tries analytical step first, then depth 1-2 DSL search. (5) 3-step inference chains — extends 2-step chains with top-5×top-5×full budget. 120 inference engines, 129 router classes, 4,389 tests, 100% coverage.",
+							"5 system-wide improvements: (1) Constraint enforcement — BgPreserved/ObjectCountPreserved prune destructive primitives from DSL search. (2) Relaxed multi-pair search — threshold 0.01→0.05, beam width 100→150, allows more intermediate exploration. (3) Object-aware pixel rules engine #120 — extends pixel rules with per-object features (size, rank, edge, color count, distance). (4) Reverse composition — new Inference→DSL solver layer tries analytical step first, then depth 1-2 DSL search. (5) 3-step inference chains — extends 2-step chains with top-5×top-5×full budget.",
+							"120 inference engines, 129 router classes, 4,389 tests, 100% coverage. Score: 336/400 ARC-1 (84.00%)",
 						]}
 					/>
 					<ChangelogEntry
@@ -384,10 +386,10 @@ export default function ArcAgiPage() {
 				<div className="space-y-0">
 					<ChangelogEntry
 						date="2026-03-02 23:00"
-						title="Generalization System Improvements"
+						title="Generalization System Improvements (+10 ARC-1)"
 						changes={[
 							"5 cross-cutting improvements to general solving capability: constraint enforcement (BgPreserved, ObjectCountPreserved prune destructive primitives), relaxed multi-pair search (threshold 0.05, beam 150), object-aware pixel rules engine #120, reverse composition solver (Inference→DSL), and 3-step inference chains (top-5×top-5×full budget).",
-							"120 inference engines, 129 router classes, 4,389 tests, 19,364 stmts, 100% coverage.",
+							"120 inference engines, 129 router classes, 4,389 tests, 19,364 stmts, 100% coverage. Score: 336/400 ARC-1 (84.00%)",
 						]}
 					/>
 					<ChangelogEntry
