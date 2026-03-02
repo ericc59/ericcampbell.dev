@@ -341,6 +341,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-01 03:00"
+						title="Diagonal Wall Bounce Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #104: diagonal_wall_bounce — ray-traces from diagonal marker lines, bouncing off rectangular walls and stopping at grid edges. Detects wall regions, marker line direction, and applies billiard-ball-style reflection",
+							"Solves task 508bd3b6. Score: 287/400 ARC-1 (71.75%)",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-02 00:30"
 						title="Router + Policy Retrained on ARC-1 + ARC-2"
 						changes={[
