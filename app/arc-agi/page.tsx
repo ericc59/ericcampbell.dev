@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 78.75% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 79.25% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">315/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">317/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -165,6 +165,7 @@ export default function ArcAgiPage() {
 							{ score: 273, label: "v25" },
 							{ score: 274, label: "v26" },
 							{ score: 315, label: "v27" },
+							{ score: 317, label: "v28" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -186,12 +187,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							315/400 solved (78.75%)
+							317/400 solved (79.25%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,025 tests</span>
+							<span>4,067 tests</span>
 							<span>100% coverage</span>
-							<span>17,850 stmts</span>
+							<span>18,037 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -201,6 +202,22 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 14:00"
+						title="Region Size Fill Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #111: region_size_fill — flood-fill bg regions bounded by separator color, classify by size, fill with learned colors. Two strategies: min_max (smallest→color A, largest→color B, mid untouched) and standard_vs_large (mode-sized→color A, non-mode→color B).",
+							"Solves task 6455b5f5. 111 inference engines, 120 router classes, 4,100 tests, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-03-01 23:30"
+						title="Separator Gravity Histogram Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #110: separator_gravity_histogram — 4 separator lines form a cross pattern dividing grid into 9 regions. Detects marker color in center matching one separator, applies gravity fill toward that separator. Per-grid detection (colors/direction vary per pair).",
+							"Solves task 5daaa586. 110 inference engines, 119 router classes, 4,067 tests, 100% coverage. Score: 317/400 ARC-1 (79.25%)",
+						]}
+					/>
 					<InsightRow
 						title="Analytical solvers before search"
 						detail="Object-centric, grid decomposition, and inference engines are fast (< 100ms) and handle tasks that would take the DSL search minutes to find. They now account for the majority of solves."
@@ -291,7 +308,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						127 unsolved ARC-1 tasks remain. The system has excellent perception
+						83 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
 						hardcoded: 110 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
@@ -341,6 +358,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-01 23:55"
+						title="Separator Gravity Histogram Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #110: separator_gravity_histogram — 4 separator lines form a cross pattern dividing grid into 9 regions. Marker color in center matches one separator; gravity fill applied toward that separator. Fully per-grid detection (colors and gravity direction vary per pair).",
+							"Solves task 5daaa586. 110 inference engines, 119 router classes, 4,067 tests, 100% coverage. Score: 317/400 ARC-1 (79.25%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-01 18:00"
 						title="Template Scale Instantiation Engine (+1 ARC-1)"
