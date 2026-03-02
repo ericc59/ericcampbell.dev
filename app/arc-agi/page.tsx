@@ -203,6 +203,14 @@ export default function ArcAgiPage() {
 				<Label>What Worked</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-02 18:30"
+						title="Frame Content Fill Engine (+1 ARC-1)"
+						changes={[
+							"New inference engine #115: frame_content_fill — detects rectangular frames with separate pattern objects in input, upscales the pattern by integer factor to fill the frame's interior. Output = frame border + upscaled pattern.",
+							"Solves task 6b9890af. 115 inference engines, 124 router classes, 4,230 tests, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-02 14:00"
 						title="Region Size Fill Engine (+1 ARC-1)"
 						changes={[
