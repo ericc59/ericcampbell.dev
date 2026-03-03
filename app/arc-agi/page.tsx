@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 89.0% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 89.5% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">356/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">358/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -171,6 +171,8 @@ export default function ArcAgiPage() {
 							{ score: 337, label: "v31" },
 							{ score: 348, label: "v32" },
 							{ score: 351, label: "v33" },
+							{ score: 356, label: "v34" },
+							{ score: 358, label: "v35" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -192,12 +194,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							356/400 solved (89.0%)
+							358/400 solved (89.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,826 tests</span>
+							<span>4,881 tests</span>
 							<span>100% coverage</span>
-							<span>21,764 stmts</span>
+							<span>22,268 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -207,6 +209,15 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-03 16:00"
+						title="Object Assembly, Block Defect Grid, Dual Zone Stamp (+2 ARC-1)"
+						changes={[
+							"3 new inference engines: object_assembly (scatter small objects → compact grid by position ordering), block_defect_grid (find uniform rectangular block with defect pixels, extend defects into cross pattern), dual_zone_stamp (detect 2-zone grids split by bg color, match templates to markers by spatial pattern, stamp at marker positions).",
+							"Dual zone stamp: per-pair auto-detection of template/marker sides, spatial pattern matching of marker groups against template marker offsets, templates sorted by marker count for greedy priority.",
+							"Solves a61ba2ce, a8c38be5, 8731374e, e6721834. 144 inference engines, 153 router classes, 4,881 tests, 22,268 stmts, 100% coverage. Score: 356 to 358/400 ARC-1 (89.5%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 22:00"
 						title="Damage Extract Engine (+5 ARC-1)"
@@ -437,6 +448,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-03 16:00"
+						title="Object Assembly, Block Defect Grid, Dual Zone Stamp (+2 ARC-1)"
+						changes={[
+							"3 new inference engines: object_assembly (scatter small objects → compact grid by position ordering), block_defect_grid (find uniform rectangular block with defect pixels, extend defects into cross pattern), dual_zone_stamp (detect 2-zone grids split by bg color, match templates to markers by spatial pattern, stamp at marker positions).",
+							"Solves a61ba2ce, a8c38be5, 8731374e, e6721834. 144 inference engines, 153 router classes, 4,881 tests, 22,268 stmts, 100% coverage. Score: 356 to 358/400 ARC-1 (89.5%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 22:00"
 						title="Damage Extract Engine (+5 ARC-1)"
