@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">358/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">359/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -449,11 +449,12 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
-						date="2026-03-03 11:57"
-						title="Unify Benchmark on hybrid_solver.solve() for Eval Generalization"
+						date="2026-03-03 14:14"
+						title="Unify Benchmark on hybrid_solver.solve() (+12 ARC-1 Eval)"
 						changes={[
 							"Replaced benchmark.py's inline non-router solver (missing 3 entire layers + no constraints) with hybrid_solver.solve(). Non-router path was missing: hierarchical grouping, reverse compositional, inference chain, constraint-guided pruning, and near-miss hypothesis refinement.",
-							"Threaded policy_model_path through hybrid_solver.solve() → SpecialistContext → DslSearchSpecialist for policy network support in all code paths. Kept verbose-3 per-engine diagnostic tracing as separate path.",
+							"Added global deadline enforcement to hybrid_solver.solve() — timed methods (compositional, reverse, chain, DSL search) share remaining budget instead of each getting full timeout. Hard SIGALRM timeout at 3x budget in benchmark workers catches infinite loops.",
+							"Threaded policy_model_path through hybrid_solver.solve() → SpecialistContext → DslSearchSpecialist. Score: 359/400 training (89.8%), 155 to 167/400 eval (41.8%).",
 						]}
 					/>
 					<ChangelogEntry
