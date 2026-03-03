@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 87.0% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 87.8% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">348/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">351/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -170,6 +170,7 @@ export default function ArcAgiPage() {
 							{ score: 336, label: "v30" },
 							{ score: 337, label: "v31" },
 							{ score: 348, label: "v32" },
+							{ score: 351, label: "v33" },
 						].map(({ score, label }, i, arr) => (
 							<div
 								key={label}
@@ -191,7 +192,7 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							348/400 solved (87.0%)
+							351/400 solved (87.8%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
 							<span>4,599 tests</span>
@@ -206,6 +207,22 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 14:30"
+						title="Per-Pair Separator Detection for region_size_fill (+3 ARC-1)"
+						changes={[
+							"Extended _try_region_size_fill inference engine with auto-separator detection via _detect_grid_sep_color(). Previously required same separator color across all training pairs; now detects separator per pair independently.",
+							"Solves task 83302e8f (grid with varying separator colors, classify cells by boundary gap count). Benchmark: 348 to 351/400 ARC-1 (87.8%)",
+						]}
+					/>
+					<ChangelogEntry
+						date="2026-03-02 03:30"
+						title="Kronecker Self-Tile Engine (+2 ARC-1)"
+						changes={[
+							"New inference engine #135: kronecker_self_tile — fractal/Kronecker self-substitution patterns. Detects NxN binary masks from block-grid inputs or cell-pattern inputs and outputs the Kronecker product (mask ⊗ mask). Two strategies: block_grid (rectangular blocks on regular grid) and cell_pattern (N²×N² input with pattern in one NxN cell).",
+							"Solves 80af3007 and 8f2ea7aa. 138 inference engines, 4,729 tests, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 23:30"
 						title="Border Rect D8 Stamp Engine (+1 ARC-1)"
@@ -361,7 +378,7 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						52 unsolved ARC-1 tasks remain. The system has excellent perception
+						49 unsolved ARC-1 tasks remain. The system has excellent perception
 						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
 						hardcoded: 133 inference engines, 8 rule induction action kinds, 6
 						relational meta-rules. Each new engine adds ~1-3 solves.
@@ -411,6 +428,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 14:30"
+						title="Per-Pair Separator Detection for region_size_fill (+3 ARC-1)"
+						changes={[
+							"Extended _try_region_size_fill inference engine with auto-separator detection via _detect_grid_sep_color(). Previously required same separator color across all training pairs; now detects separator per pair independently.",
+							"Solves task 83302e8f (grid with varying separator colors, classify cells by boundary gap count). Benchmark: 348 to 351/400 ARC-1 (87.8%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 23:30"
 						title="Border Rect D8 Stamp Engine (+1 ARC-1)"
