@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 87.8% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 89.0% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,7 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">351/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">356/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -192,12 +192,12 @@ export default function ArcAgiPage() {
 
 					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
 						<span className="text-[10px] text-zinc-300">
-							351/400 solved (87.8%)
+							356/400 solved (89.0%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,599 tests</span>
+							<span>4,826 tests</span>
 							<span>100% coverage</span>
-							<span>20,374 stmts</span>
+							<span>21,764 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -207,6 +207,15 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 22:00"
+						title="Damage Extract Engine (+5 ARC-1)"
+						changes={[
+							"New inference engine #141: damage_extract — finds uniform-color rectangular 'damage' regions in input grids, reconstructs original content using symmetry (rot180/flipLR/flipUD/transpose) or auto-detected tile period, outputs just the reconstructed patch.",
+							"Two strategies: symmetry-based (fixed input+output dims, tries 4 symmetry transforms) and tile-period auto-detection (variable output dims, finds smallest period per grid, reconstructs from non-damaged equivalent positions).",
+							"Solves ff805c23, f9012d9b, dc0a314f and 5 more tasks. 141 inference engines, 150 router classes, 4,826 tests, 21,764 stmts, 100% coverage. Score: 351 to 356/400 ARC-1 (89.0%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 14:30"
 						title="Per-Pair Separator Detection for region_size_fill (+3 ARC-1)"
@@ -428,6 +437,14 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-02 22:00"
+						title="Damage Extract Engine (+5 ARC-1)"
+						changes={[
+							"New inference engine #141: damage_extract — finds uniform-color rectangular 'damage' in input, reconstructs using symmetry or tile period, outputs the reconstructed patch. Two strategies: symmetry (rot180/flipLR/flipUD/transpose) and tile-period auto-detection.",
+							"Solves ff805c23, f9012d9b, dc0a314f and 5 more. 141 inference engines, 150 router classes, 4,826 tests, 21,764 stmts, 100% coverage. Score: 351 to 356/400 ARC-1 (89.0%)",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-02 14:30"
 						title="Per-Pair Separator Detection for region_size_fill (+3 ARC-1)"
