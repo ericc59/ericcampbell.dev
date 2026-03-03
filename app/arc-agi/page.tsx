@@ -449,6 +449,16 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-03 14:37"
+						title="Near-Miss Feeding + Iterative Refinement"
+						changes={[
+							"Lowered HypothesisPool min_accuracy from 0.75 to 0.50 — programs with 50%+ accuracy now enter the refinement pipeline (pool caps at 20, sorted by accuracy).",
+							"Added near-miss sweep to inference solver: after all 144 engines fail on the full task, runs leave-one-out on N-1 pair subsets (1s budget). Partial programs fed to HypothesisPool for refinement. Previously only Transform DSL fed the pool.",
+							"Made refine_hypotheses iterative: up to 3 passes through 5 refinement strategies (color remap, pixel correction, inference post-compose, transform re-search, DSL post-step). Refined-but-imperfect programs re-enter the pool.",
+							"Threaded near_miss_pool through InferenceSpecialist and non-specialist hybrid solver path. 4,894 tests, 22,307 stmts, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-03 14:14"
 						title="Unify Benchmark on hybrid_solver.solve() (+12 ARC-1 Eval)"
 						changes={[
