@@ -449,6 +449,14 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-03 11:57"
+						title="Unify Benchmark on hybrid_solver.solve() for Eval Generalization"
+						changes={[
+							"Replaced benchmark.py's inline non-router solver (missing 3 entire layers + no constraints) with hybrid_solver.solve(). Non-router path was missing: hierarchical grouping, reverse compositional, inference chain, constraint-guided pruning, and near-miss hypothesis refinement.",
+							"Threaded policy_model_path through hybrid_solver.solve() → SpecialistContext → DslSearchSpecialist for policy network support in all code paths. Kept verbose-3 per-engine diagnostic tracing as separate path.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-03 16:00"
 						title="Object Assembly, Block Defect Grid, Dual Zone Stamp (+2 ARC-1)"
 						changes={[
