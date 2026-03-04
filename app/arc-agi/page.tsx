@@ -116,7 +116,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="145 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules (base + extended + structural ray-cast), pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains."
+						description="147 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules (base + extended + structural ray-cast + combined + hierarchical), pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains."
 						type="analytical"
 					/>
 					<SolverRow
@@ -266,9 +266,9 @@ export default function ArcAgiPage() {
 				</div>
 
 				<div className="flex items-center justify-end gap-4 text-[10px] text-zinc-500">
-					<span>4,950 tests</span>
+					<span>5,000 tests</span>
 					<span>100% coverage</span>
-					<span>22,547 stmts</span>
+					<span>22,838 stmts</span>
 				</div>
 			</div>
 
@@ -276,6 +276,16 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-04 17:52"
+						title="Pixel Rules: Fallback + Hierarchical Tolerance"
+						changes={[
+							"Per-pixel passthrough fallback in all 5 pixel rules variants (basic, extended, structural, combined, object_aware): unseen features at test time now preserve original pixel instead of bailing on entire grid. Training still requires exact consistency.",
+							"New pixel_rules_hierarchical inference engine (#147): tries combined features first, falls back to extended (first 11 elements), then basic (first 5 elements). Exploits nested feature tuple structure for graceful degradation when object config differs.",
+							"Updated router: 147 inference engines, 156 router classes. DEFAULT_ORDER and datagen synchronized.",
+							"12 new tests, 5,000 total tests, 22,838 stmts, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-04 13:37"
 						title="Unified Pixel Rules + Engine Reordering (+38 eval)"
