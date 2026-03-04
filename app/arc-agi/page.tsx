@@ -277,6 +277,16 @@ export default function ArcAgiPage() {
 				<Label>What Worked</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-04 11:30"
+						title="Verbose Reasoning Output for Benchmark"
+						changes={[
+							"New describe_program() function in src/utils/describe.py — generates human-readable reasoning step descriptions for all 16 program types (DSL, Inference, Object, Grid, FullGrid, Relational, Rule, TransformDsl, Group, Composite, InferenceChain, InferenceChain3, ReverseComposite, ColorRemap, ComposedRefined, PixelCorrection).",
+							"Recursive type dispatch handles nested/composed programs. Each step numbered sequentially.",
+							"New -V 4 (or -vvvv) benchmark verbosity level prints reasoning steps after each solved task. Also added -V flag for direct numeric verbosity (e.g. -V 4).",
+							"26 new tests, 4,976 total tests, 22,649 stmts, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-03 16:00"
 						title="Object Assembly, Block Defect Grid, Dual Zone Stamp (+2 ARC-1)"
 						changes={[
