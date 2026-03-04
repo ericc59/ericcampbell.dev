@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 90.8% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 92.0% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,8 +33,8 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">363/400</span> on ARC-1,{" "}
-					<span className="text-zinc-100">199/400</span> eval,{" "}
+					<span className="text-zinc-100">368/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">237/400</span> eval,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -278,11 +278,12 @@ export default function ArcAgiPage() {
 				<div className="space-y-0">
 					<ChangelogEntry
 						date="2026-03-04 13:37"
-						title="Unified Pixel Rules + Engine Reordering"
+						title="Unified Pixel Rules + Engine Reordering (+38 eval)"
 						changes={[
 							"New pixel_rules_combined inference engine: merges structural (cardinal ray-cast), object-aware (size bucket, edge detection, rank), and extended (position/parity/diagonal) features into single unified feature vector (~32 elements). Adds 4 diagonal ray-cast features and 2 ray-interaction symmetry flags (up==down, left==right). 600 rule limit.",
 							"Reordered _ALL_STRATEGIES: pixel_rules_combined at position 8 (right after basic pixel_rules), pixel_rules_object_aware and pixel_rules_structural moved from positions 157-158 to 27-28 (after pixel_rules_extended). General engines now tried before 100+ task-specific engines.",
 							"Updated router: 146 inference engines, 155 router classes. DEFAULT_ORDER and datagen synchronized.",
+							"ARC-1 training: 368/400 (92.0%, +9). Eval: 237/400 (59.2%, +38). Biggest single-change eval gain yet.",
 							"14 new tests, 4,988 total tests, 22,783 stmts, 100% coverage.",
 						]}
 					/>
