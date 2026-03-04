@@ -115,7 +115,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="133 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, etc."
+						description="144 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains."
 						type="analytical"
 					/>
 					<SolverRow
@@ -197,9 +197,9 @@ export default function ArcAgiPage() {
 							358/400 solved (89.5%)
 						</span>
 						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,881 tests</span>
+							<span>4,933 tests</span>
 							<span>100% coverage</span>
-							<span>22,268 stmts</span>
+							<span>22,450 stmts</span>
 						</div>
 					</div>
 				</div>
@@ -329,8 +329,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="133 inference sub-engines + compositional chaining"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 133 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms (e.g., extract + tile, recolor + symmetry completion) without DSL search."
+						title="144 inference sub-engines + sketch-guided composition"
+						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 144 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms. Task sketches (structural property detection) filter engine pools in composition, making deeper chains tractable."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -398,13 +398,12 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						49 unsolved ARC-1 tasks remain. The system has excellent perception
-						(SceneGraph, SceneDiff, 25 object properties) but all reasoning is
-						hardcoded: 133 inference engines, 8 rule induction action kinds, 6
-						relational meta-rules. Each new engine adds ~1-3 solves.
-						Near-miss feeding from transform DSL into the hypothesis refinement
-						loop is now wired. Router retrained with all 133 engines + 7
-						analytical solvers.
+						41 unsolved ARC-1 tasks remain. 144 inference engines, 8 rule
+						induction action kinds, 6 relational meta-rules. Task sketch module
+						detects structural properties and filters engine pools for
+						composition. Near-miss feeding from all solver layers into the
+						hypothesis refinement loop (3-pass iterative). Sketch-guided
+						inference chains make deeper composition tractable.
 					</p>
 					<p>New architecture: 6 phases (3-8), targeting 280/400 (70%).</p>
 				</div>
@@ -448,6 +447,16 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-03 17:30"
+						title="Task Sketch Module — Chollet's Program Sketch for Composition"
+						changes={[
+							"New module src/search/sketch.py: implements Chollet's 'program sketch' concept — detect high-level structural properties of a task (same_dims, output_larger/smaller, additive, recolor_only, 1x1 output, integer upscale/downscale) before engine search. TaskSketch dataclass with 15 properties and derived categories.",
+							"6 engine category frozensets (_ENGINES_CROP, _ENGINES_GROW, _ENGINES_SAME_DIMS, _ENGINES_ADDITIVE, _ENGINES_1x1, _ENGINES_RECOLOR) classifying all 144 inference engines by structural requirements. filter_engines() removes incompatible engines based on dimension properties.",
+							"Integrated into compositional solvers only (NOT main inference path — too aggressive for edge cases). solve_inference_chain() and solve_compositional() now use sketch filtering for step2/step3, narrowing engine pools. Increased chain candidates from 5→8 (tractable with filtered pools).",
+							"Key finding: sketch filtering works for COMPOSITION (narrowing multi-step search space) but regresses on main path (engines have complex edge cases crossing dimension categories). 4,933 tests, 22,450 stmts, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-03 14:37"
 						title="Near-Miss Feeding + Iterative Refinement"
