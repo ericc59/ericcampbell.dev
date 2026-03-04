@@ -277,6 +277,16 @@ export default function ArcAgiPage() {
 				<Label>What Worked</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-04 13:37"
+						title="Unified Pixel Rules + Engine Reordering"
+						changes={[
+							"New pixel_rules_combined inference engine: merges structural (cardinal ray-cast), object-aware (size bucket, edge detection, rank), and extended (position/parity/diagonal) features into single unified feature vector (~32 elements). Adds 4 diagonal ray-cast features and 2 ray-interaction symmetry flags (up==down, left==right). 600 rule limit.",
+							"Reordered _ALL_STRATEGIES: pixel_rules_combined at position 8 (right after basic pixel_rules), pixel_rules_object_aware and pixel_rules_structural moved from positions 157-158 to 27-28 (after pixel_rules_extended). General engines now tried before 100+ task-specific engines.",
+							"Updated router: 146 inference engines, 155 router classes. DEFAULT_ORDER and datagen synchronized.",
+							"14 new tests, 4,988 total tests, 22,783 stmts, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-04 11:30"
 						title="Verbose Reasoning Output for Benchmark"
 						changes={[
