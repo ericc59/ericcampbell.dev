@@ -515,6 +515,16 @@ export default function ArcAgiPage() {
 				<Label>Changelog</Label>
 				<div className="space-y-0">
 					<ChangelogEntry
+						date="2026-03-04 12:00"
+						title="Verbose Reasoning Output for Benchmark (-V 4)"
+						changes={[
+							"New module src/utils/describe.py: describe_program() generates human-readable numbered reasoning steps for all 16 program types. Recursive type dispatch handles nested programs (chains, refinements, compositions).",
+							"Benchmark integration: -V 4 (or -vvvv) prints reasoning steps after each solved task. Example: '1. Detect separator grid (color=5, 2x2 cells)' → '2. Apply grid operation: boolean_compare({mode: intersect, color: 2})'.",
+							"Covers DSL Program, InferenceProgram, ObjectProgram, GridProgram, FullGridProgram, RelationalProgram, RuleProgram, TransformDslProgram, GroupProgram, CompositeProgram, InferenceChainProgram, InferenceChain3Program, ReverseCompositeProgram, ColorRemapProgram, ComposedRefinedProgram, PixelCorrectionProgram.",
+							"26 new tests, 4,976 tests total, 22,649 stmts, 100% coverage.",
+						]}
+					/>
+					<ChangelogEntry
 						date="2026-03-03 21:00"
 						title="Structural Pixel Rules with Ray-Cast Features (+4 ARC-1, +25 Eval)"
 						changes={[
