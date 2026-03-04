@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "ARC-AGI Solver",
 	description:
-		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 89.5% of ARC-1.",
+		"Building an ARC-AGI solver from scratch: DSL search, analytical inference, and ML-guided program synthesis. Currently solving 90.8% of ARC-1.",
 	openGraph: {
 		title: "ARC-AGI Solver",
 		description:
@@ -33,7 +33,8 @@ export default function ArcAgiPage() {
 						ARC-AGI
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
-					<span className="text-zinc-100">359/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">363/400</span> on ARC-1,{" "}
+					<span className="text-zinc-100">199/400</span> eval,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2.
 				</p>
 			</div>
@@ -115,7 +116,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="144 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules, pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains."
+						description="145 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules (base + extended + structural ray-cast), pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains."
 						type="analytical"
 					/>
 					<SolverRow
@@ -131,77 +132,143 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Progress</Label>
 				<p className="text-sm text-zinc-400 leading-relaxed">
-					ARC-1 benchmark (400 tasks), depth 3 search, 10s timeout per task. No
-					LLM.
+					Depth 3 search, 10s timeout per task. No LLM. All benchmarks
+					deterministic (no randomness, no retries).
 				</p>
 
+				{/* ARC-1 Training */}
 				<div className="mt-2 rounded border border-zinc-800 bg-zinc-900/50 p-5">
-					<div className="flex items-end gap-0 h-32">
+					<div className="flex items-center justify-between mb-3">
+						<span className="text-[11px] text-zinc-300 font-medium">
+							ARC-1 Training (400 tasks)
+						</span>
+						<span className="text-[11px] text-emerald-400 font-medium">
+							363/400 (90.8%)
+						</span>
+					</div>
+					<div className="flex items-end gap-[2px] h-28">
 						{[
 							{ score: 76, label: "v1" },
-							{ score: 103, label: "v2" },
-							{ score: 108, label: "v3" },
-							{ score: 110, label: "v4" },
-							{ score: 118, label: "v5" },
-							{ score: 125, label: "v6" },
+							{ score: 103, label: "" },
+							{ score: 110, label: "" },
+							{ score: 125, label: "" },
 							{ score: 130, label: "v7" },
-							{ score: 165, label: "v8" },
-							{ score: 175, label: "v9" },
-							{ score: 178, label: "v10" },
+							{ score: 165, label: "" },
+							{ score: 178, label: "" },
 							{ score: 227, label: "v11" },
-							{ score: 232, label: "v12" },
-							{ score: 233, label: "v13" },
-							{ score: 236, label: "v14" },
-							{ score: 238, label: "v15" },
-							{ score: 241, label: "v16" },
-							{ score: 242, label: "v17" },
-							{ score: 243, label: "v18" },
-							{ score: 250, label: "v19" },
-							{ score: 255, label: "v20" },
-							{ score: 256, label: "v21" },
-							{ score: 258, label: "v22" },
-							{ score: 259, label: "v23" },
-							{ score: 260, label: "v24" },
-							{ score: 273, label: "v25" },
+							{ score: 233, label: "" },
+							{ score: 241, label: "" },
+							{ score: 250, label: "" },
+							{ score: 258, label: "" },
 							{ score: 274, label: "v26" },
-							{ score: 315, label: "v27" },
-							{ score: 317, label: "v28" },
-							{ score: 326, label: "v29" },
-							{ score: 336, label: "v30" },
-							{ score: 337, label: "v31" },
-							{ score: 348, label: "v32" },
-							{ score: 351, label: "v33" },
-							{ score: 356, label: "v34" },
-							{ score: 358, label: "v35" },
+							{ score: 315, label: "" },
+							{ score: 326, label: "" },
+							{ score: 337, label: "" },
+							{ score: 351, label: "" },
+							{ score: 358, label: "" },
+							{ score: 363, label: "v36" },
 						].map(({ score, label }, i, arr) => (
 							<div
-								key={label}
-								className="flex-1 flex flex-col items-center gap-1.5"
+								key={i}
+								className="flex-1 flex flex-col items-center gap-1"
 							>
 								<span
-									className={`text-[10px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-400"}`}
+									className={`text-[9px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-500"}`}
+								>
+									{i === 0 || i === arr.length - 1 || score === 227 || score === 315 ? score : ""}
+								</span>
+								<div
+									className={`w-full rounded-sm ${i === arr.length - 1 ? "bg-emerald-500/40" : "bg-zinc-700"}`}
+									style={{ height: `${(score / 400) * 100}px` }}
+								/>
+								<span className="text-[8px] text-zinc-500">
+									{label}
+								</span>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* ARC-1 Eval */}
+				<div className="mt-2 rounded border border-zinc-800 bg-zinc-900/50 p-5">
+					<div className="flex items-center justify-between mb-3">
+						<span className="text-[11px] text-zinc-300 font-medium">
+							ARC-1 Evaluation (400 tasks)
+						</span>
+						<span className="text-[11px] text-blue-400 font-medium">
+							199/400 (49.8%)
+						</span>
+					</div>
+					<div className="flex items-end gap-[2px] h-28">
+						{[
+							{ score: 174, label: "v35" },
+							{ score: 199, label: "v36" },
+						].map(({ score, label }, i, arr) => (
+							<div
+								key={i}
+								className="flex-1 flex flex-col items-center gap-1"
+							>
+								<span
+									className={`text-[9px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-500"}`}
 								>
 									{score}
 								</span>
 								<div
-									className={`w-full rounded-sm ${i === arr.length - 1 ? "bg-emerald-500/40" : "bg-zinc-700"}`}
-									style={{ height: `${(score / 400) * 120}px` }}
+									className={`w-full max-w-16 rounded-sm ${i === arr.length - 1 ? "bg-blue-500/40" : "bg-zinc-700"}`}
+									style={{ height: `${(score / 400) * 100}px` }}
 								/>
-								<span className="text-[10px] text-zinc-400">{label}</span>
+								<span className="text-[8px] text-zinc-500">
+									{label}
+								</span>
 							</div>
 						))}
 					</div>
+					<p className="text-[10px] text-zinc-500 mt-2">
+						+25 eval tasks from structural pixel rules (ray-cast features).
+						General engines generalize; task-specific engines don't.
+					</p>
+				</div>
 
-					<div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
-						<span className="text-[10px] text-zinc-300">
-							358/400 solved (89.5%)
+				{/* ARC-2 */}
+				<div className="mt-2 rounded border border-zinc-800 bg-zinc-900/50 p-5">
+					<div className="flex items-center justify-between mb-3">
+						<span className="text-[11px] text-zinc-300 font-medium">
+							ARC-2 Training (1000 tasks)
 						</span>
-						<div className="flex items-center gap-4 text-[10px] text-zinc-400">
-							<span>4,933 tests</span>
-							<span>100% coverage</span>
-							<span>22,450 stmts</span>
-						</div>
+						<span className="text-[11px] text-amber-400 font-medium">
+							469/1000 (46.9%)
+						</span>
 					</div>
+					<div className="flex items-end gap-[2px] h-20">
+						{[
+							{ score: 177, label: "baseline" },
+							{ score: 469, label: "v34" },
+						].map(({ score, label }, i, arr) => (
+							<div
+								key={i}
+								className="flex-1 flex flex-col items-center gap-1"
+							>
+								<span
+									className={`text-[9px] ${i === arr.length - 1 ? "text-zinc-200 font-medium" : "text-zinc-500"}`}
+								>
+									{score}
+								</span>
+								<div
+									className={`w-full max-w-16 rounded-sm ${i === arr.length - 1 ? "bg-amber-500/30" : "bg-zinc-700"}`}
+									style={{ height: `${(score / 1000) * 70}px` }}
+								/>
+								<span className="text-[8px] text-zinc-500">
+									{label}
+								</span>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div className="flex items-center justify-end gap-4 text-[10px] text-zinc-500">
+					<span>4,950 tests</span>
+					<span>100% coverage</span>
+					<span>22,547 stmts</span>
 				</div>
 			</div>
 
@@ -329,8 +396,8 @@ export default function ArcAgiPage() {
 						detail="Separate perception from reasoning: build scene graphs (objects, relations, symmetries), compute structural diffs, then match 6 composable meta-rules. Template clone copies objects to marker positions; relational recolor uses containment/adjacency/shape relations; containment fill detects enclosed regions."
 					/>
 					<InsightRow
-						title="144 inference sub-engines + sketch-guided composition"
-						detail="Each one is a hand-crafted detector for a specific ARC pattern family. Individually narrow, collectively powerful. 144 engines and growing. Inference-to-inference chaining enables multi-step analytical transforms. Task sketches (structural property detection) filter engine pools in composition, making deeper chains tractable."
+						title="145 inference sub-engines + sketch-guided composition"
+						detail="Mix of task-specific detectors and general-purpose learners (pixel rules with ray-cast structural features). General engines generalize far better to eval (+25 eval from ray-cast alone). Inference-to-inference chaining enables multi-step analytical transforms. Task sketches (structural property detection) filter engine pools in composition, making deeper chains tractable."
 					/>
 					<InsightRow
 						title="Feature-based pruning"
@@ -398,12 +465,12 @@ export default function ArcAgiPage() {
 				<Label>What's Next</Label>
 				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
 					<p>
-						41 unsolved ARC-1 tasks remain. 144 inference engines, 8 rule
-						induction action kinds, 6 relational meta-rules. Task sketch module
-						detects structural properties and filters engine pools for
-						composition. Near-miss feeding from all solver layers into the
-						hypothesis refinement loop (3-pass iterative). Sketch-guided
-						inference chains make deeper composition tractable.
+						37 unsolved ARC-1 tasks remain. 145 inference engines, 8 rule
+						induction action kinds, 6 relational meta-rules. Key insight:
+						general-purpose learners (pixel rules with ray-cast features)
+						generalize to eval far better than task-specific engines (+25 eval
+						from one engine vs +4 training). Next focus: more general
+						capabilities over task-specific memorization.
 					</p>
 					<p>New architecture: 6 phases (3-8), targeting 280/400 (70%).</p>
 				</div>
@@ -447,6 +514,15 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-03 21:00"
+						title="Structural Pixel Rules with Ray-Cast Features (+4 ARC-1, +25 Eval)"
+						changes={[
+							"New general-purpose inference engine: pixel_rules_structural — extends pixel features with ray-cast in 4 cardinal directions (first non-bg color + distance, capped at 4). Captures boundaries, containment, and directional structure. A single general engine, not task-specific.",
+							"Key result: +4 training tasks (359→363) but +25 eval tasks (174→199). General engines generalize; task-specific engines don't. This validates Chollet's principle — skill acquisition over memorization.",
+							"145 inference engines, 154 router classes, 4,950 tests, 22,547 stmts, 100% coverage. Score: 363/400 ARC-1 training (90.8%), 199/400 eval (49.8%).",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-03 17:30"
 						title="Task Sketch Module — Chollet's Program Sketch for Composition"
