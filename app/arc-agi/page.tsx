@@ -35,7 +35,8 @@ export default function ArcAgiPage() {
 					puzzles. No LLM required for core solving. Currently at{" "}
 					<span className="text-zinc-100">368/400</span> on ARC-1,{" "}
 					<span className="text-zinc-100">237/400</span> eval,{" "}
-					<span className="text-zinc-100">469/1000</span> on ARC-2.
+					<span className="text-zinc-100">469/1000</span> on ARC-2 training,{" "}
+					<span className="text-zinc-100">20/120</span> ARC-2 eval.
 				</p>
 			</div>
 
@@ -229,7 +230,7 @@ export default function ArcAgiPage() {
 					</p>
 				</div>
 
-				{/* ARC-2 */}
+				{/* ARC-2 Training */}
 				<div className="mt-2 rounded border border-zinc-800 bg-zinc-900/50 p-5">
 					<div className="flex items-center justify-between mb-3">
 						<span className="text-[11px] text-zinc-300 font-medium">
@@ -263,6 +264,45 @@ export default function ArcAgiPage() {
 							</div>
 						))}
 					</div>
+				</div>
+
+				{/* ARC-2 Eval */}
+				<div className="mt-2 rounded border border-zinc-800 bg-zinc-900/50 p-5">
+					<div className="flex items-center justify-between mb-3">
+						<span className="text-[11px] text-zinc-300 font-medium">
+							ARC-2 Evaluation (120 tasks)
+						</span>
+						<span className="text-[11px] text-rose-400 font-medium">
+							20/120 (16.7%)
+						</span>
+					</div>
+					<div className="flex items-end gap-[2px] h-20">
+						{[
+							{ score: 20, label: "v37" },
+						].map(({ score, label }, i, arr) => (
+							<div
+								key={i}
+								className="flex-1 flex flex-col items-center gap-1"
+							>
+								<span
+									className={`text-[9px] text-zinc-200 font-medium`}
+								>
+									{score}
+								</span>
+								<div
+									className="w-full max-w-16 rounded-sm bg-rose-500/30"
+									style={{ height: `${(score / 120) * 70}px` }}
+								/>
+								<span className="text-[8px] text-zinc-500">
+									{label}
+								</span>
+							</div>
+						))}
+					</div>
+					<p className="text-[10px] text-zinc-500 mt-2">
+						First ARC-2 eval measurement. Hardest split — novel task
+						structures not seen in training.
+					</p>
 				</div>
 
 				<div className="flex items-center justify-end gap-4 text-[10px] text-zinc-500">
