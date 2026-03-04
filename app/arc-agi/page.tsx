@@ -116,7 +116,7 @@ export default function ArcAgiPage() {
 					<SolverRow
 						layer="0.75"
 						name="Inference Engine"
-						description="146 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules (base + extended + structural ray-cast + combined), pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains."
+						description="146 specialized sub-engines for specific pattern families: color mapping, gravity, tiling, tile recolor, gap fill, object extraction, enclosed fill, diagonal stamp, row/col period extension, bbox complement fill, rigid shift, pair rectangle fill, diagonal zigzag, staircase fill, position-aware pixel rules (base + extended + structural ray-cast + combined), pattern continuation, connect over background, diagonal trace, rotated stamp, neighbor recolor, legend substitution, recolor-to-closest, drag-from-marker, midpoint cross, pixel count output, spiral fill, object diagonal extend, enclosure project, block diagonal pair, cross product projection, L-path connector, band defect column, zone presence, shape propagation, object assembly, block defect grid, dual zone stamp, damage extract, etc. Sketch-guided composition: structural task properties (dims, colors, additive) filter engines in multi-step chains. Inference→Inference→DSL chains: 2-step inference partial solve + shallow DSL cleanup."
 						type="analytical"
 					/>
 					<SolverRow
@@ -266,9 +266,9 @@ export default function ArcAgiPage() {
 				</div>
 
 				<div className="flex items-center justify-end gap-4 text-[10px] text-zinc-500">
-					<span>4,990 tests</span>
+					<span>5,025 tests</span>
 					<span>100% coverage</span>
-					<span>22,773 stmts</span>
+					<span>22,882 stmts</span>
 				</div>
 			</div>
 
@@ -276,6 +276,18 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-04 15:35"
+						title="Conservative Sketch Filtering + Inference→Inference→DSL Chains"
+						changes={[
+							"Conservative sketch filter_engines(): GROW engines excluded only on strict shrink, CROP only on strict grow, SAME_DIMS only on consistent dimension change. Mixed-dims tasks now keep all engines. Added pixel_rules_combined/structural to _ENGINES_SAME_DIMS.",
+							"Enabled use_sketch=True in InferenceSpecialist for engine filtering during non-engine path.",
+							"New InferenceInferenceDslProgram: 2-step inference partial solve then shallow DSL(depth=1) cleanup. Sketch filtering on intermediate tasks narrows step2 pool.",
+							"Increased chain caps: step1 candidates 8→16, step2 per step1 8→12. First-pair early rejection for 3-step and Inf→Inf→DSL chains.",
+							"New InferenceInferenceDslSpecialist in specialist dispatch, added to hybrid solver fixed_order. 156 router classes (was 155).",
+							"35 new tests, 5,025 total tests, 22,882 stmts, 100% coverage.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-04 17:52"
 						title="Pixel Rules: Per-Pixel Passthrough Fallback"
