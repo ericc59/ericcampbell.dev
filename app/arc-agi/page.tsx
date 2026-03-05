@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { ProgressChart } from './progress-chart';
 
-const lastUpdated = 'March 4, 2026';
+const lastUpdated = 'March 5, 2026';
 
 const metrics = [
   {
@@ -14,16 +14,17 @@ const metrics = [
   },
   {
     label: 'ARC-1 Router + Policy',
-    train: '363/400 (90.8%)',
-    test: '209/400 (52.3%)',
-    joint: '208/400 (52.0%)',
-    source: 'reports/arc1_rule_router_both.jsonl (repeat=3)',
+    train: '327/400 (81.8%)',
+    test: '238/400 (59.5%)',
+    joint: '237/400 (59.2%)',
+    source:
+      'local benchmark: arc-1 training, depth=3, timeout=10s, workers=8, metric=both, router + policy',
   },
 ];
 
 const heroStats = [
-  { label: 'Best ARC-1 joint', value: '208/400', note: 'router + policy' },
-  { label: 'Best ARC-1 test', value: '209/400', note: 'split-aware' },
+  { label: 'Best ARC-1 joint', value: '237/400', note: 'router + policy' },
+  { label: 'Best ARC-1 test', value: '238/400', note: 'split-aware' },
   { label: 'Inference engines', value: '147', note: 'deterministic library' },
   { label: 'Router classes', value: '160', note: 'current stack' },
 ];
@@ -36,7 +37,7 @@ const progressData = [
   { checkpoint: 'v35', train: 89.5, test: 43.5 },
   { checkpoint: 'v36', train: 90.8, test: 49.8 },
   { checkpoint: 'v38', train: 91.5, test: 50.8 },
-  { checkpoint: 'current', train: 90.8, test: 52.3 },
+  { checkpoint: 'current', train: 81.8, test: 59.5 },
 ];
 
 const architectureSteps = [
@@ -141,7 +142,7 @@ const architectureSteps = [
 export const metadata: Metadata = {
   title: 'ARC Solver Build Log',
   description:
-    'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 208/400 (router + policy).',
+    'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 237/400 (router + policy).',
   openGraph: {
     title: 'ARC Solver Build Log',
     description:
