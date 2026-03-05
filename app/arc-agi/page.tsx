@@ -48,6 +48,7 @@ const architectureSteps = [
     summary: 'Connected-component object solver',
     detail:
       'Runs first in the fixed-order stack. Works over extracted objects and object matches, and tries to solve the task with direct object-level transforms.',
+    coverage: { arc1: '5.0%', arc2: '2.0%' },
   },
   {
     step: '02',
@@ -56,6 +57,7 @@ const architectureSteps = [
     summary: 'Separator-aware grid solver',
     detail:
       'Detects row and column separators, converts the task into cell-level structure, and solves regular grid compositions before broader search runs.',
+    coverage: { arc1: '3.8%', arc2: '2.2%' },
   },
   {
     step: '03',
@@ -64,6 +66,7 @@ const architectureSteps = [
     summary: 'Grouped-object solver',
     detail:
       'Builds hierarchical scenes by grouping objects through containment, color, shape, alignment, and proximity, then applies per-group operations and inference.',
+    coverage: { arc1: '0.8%', arc2: '0.3%' },
   },
   {
     step: '04',
@@ -72,6 +75,7 @@ const architectureSteps = [
     summary: 'Scene-graph relational solver',
     detail:
       'Builds scene relations and structural diffs, then applies relational rules over objects and layouts instead of enumerating raw pixel programs.',
+    coverage: { arc1: '3.3%', arc2: '1.6%' },
   },
   {
     step: '05',
@@ -80,6 +84,7 @@ const architectureSteps = [
     summary: 'Rule search over object properties',
     detail:
       'Induces rules over object properties and relations, then verifies them across training pairs. Used for tasks that can be expressed as consistent object-level rules.',
+    coverage: { arc1: '1.5%', arc2: '0.9%' },
   },
   {
     step: '06',
@@ -88,6 +93,7 @@ const architectureSteps = [
     summary: 'Scene-graph transformation DSL',
     detail:
       'Searches a higher-level transformation language over selectors and actions on scene structure before falling back to lower-level program search.',
+    coverage: { arc1: '1.2%', arc2: '0.7%' },
   },
   {
     step: '07',
@@ -96,6 +102,7 @@ const architectureSteps = [
     summary: '150 deterministic inference engines',
     detail:
       'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, and pixel-rule systems. This is the largest single execution layer in the stack.',
+    coverage: { arc1: '40.0%', arc2: '17.8%' },
   },
   {
     step: '08',
@@ -104,6 +111,7 @@ const architectureSteps = [
     summary: 'Inference + search composition',
     detail:
       'Tries a direct inference step followed by a cleanup search when a single solver is close but not exact.',
+    coverage: { arc1: '2.5%', arc2: '1.8%' },
   },
   {
     step: '09',
@@ -112,6 +120,7 @@ const architectureSteps = [
     summary: 'Reverse composition path',
     detail:
       'Runs an analytical step first and then composes it with search in reverse order when that ordering is a better fit for the task.',
+    coverage: { arc1: '0.0%', arc2: '0.0%' },
   },
   {
     step: '10',
@@ -120,6 +129,7 @@ const architectureSteps = [
     summary: 'Inference -> inference chaining',
     detail:
       'Allows multi-step analytical transformations without dropping immediately into full DSL search.',
+    coverage: { arc1: '0.0%', arc2: '0.0%' },
   },
   {
     step: '11',
@@ -128,6 +138,7 @@ const architectureSteps = [
     summary: 'Inference -> inference -> DSL',
     detail:
       'Uses two inference stages to build an intermediate state, then a shallow DSL cleanup pass to finish the task.',
+    coverage: { arc1: '0.0%', arc2: '0.0%' },
   },
   {
     step: '12',
@@ -136,17 +147,18 @@ const architectureSteps = [
     summary: 'Weighted A* over the DSL',
     detail:
       'Final fallback. Depth-3 search with aggressive pruning, target-consistency checks, and shared per-task deadlines to keep the search space bounded.',
+    coverage: { arc1: '1.5%', arc2: '0.7%' },
   },
 ];
 
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
-    'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 239/400 (router + policy).',
+    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, with small neural router and policy models used only to prioritize search. Current ARC-1 joint exact: 239/400; ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'EricAGI',
     description:
-      'Architecture and current benchmark status for an ARC solver built as a product engineering project.',
+      'Architecture and current benchmark status for EricAGI, a deterministic hybrid ARC solver with symbolic search and small neural guidance.',
   },
 };
 
@@ -161,7 +173,7 @@ export default function ArcAgiPage() {
           EricAGI
         </h1>
         <p className="max-w-2xl text-sm text-zinc-400 leading-relaxed">
-          I&apos;m building a deterministic solver for{' '}
+          EricAGI is a deterministic hybrid solver for{' '}
           <a
             href="https://arcprize.org/"
             target="_blank"
@@ -170,8 +182,10 @@ export default function ArcAgiPage() {
           >
             ARC
           </a>{' '}
-          tasks. This is the current product-engineering snapshot: what the
-          stack actually is and how performance is moving.
+          tasks: explicit symbolic program synthesis and reasoning, with small
+          neural router and policy models that only prioritize search. This page
+          is the current product-engineering snapshot of the stack and the real
+          metrics.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {heroStats.map((stat) => (
@@ -253,6 +267,16 @@ export default function ArcAgiPage() {
                   <p className="mt-1 text-sm leading-relaxed text-zinc-400">
                     {item.detail}
                   </p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    <MetricCell
+                      label="ARC-1 solved"
+                      value={item.coverage.arc1}
+                    />
+                    <MetricCell
+                      label="ARC-2 solved"
+                      value={item.coverage.arc2}
+                    />
+                  </div>
                 </div>
               </div>
               {index < architectureSteps.length - 1 ? (
@@ -270,7 +294,9 @@ export default function ArcAgiPage() {
             reverse_compositional -&gt; inference_chain -&gt;
             inference_inference_dsl -&gt; dsl_search
           </code>
-          .
+          . Percentages above are current joint-exact solves attributed to the
+          top-level layer that ultimately solved each task under the router +
+          policy stack.
         </p>
       </section>
     </section>
