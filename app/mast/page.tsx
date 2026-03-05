@@ -1,610 +1,429 @@
-import type { Metadata } from "next";
-import { highlight } from "sugar-high";
+import Link from 'next/link';
+import type { Metadata } from 'next';
+
+import { CodeTabs } from './code-tabs';
+
+const heroStats = [
+  {
+    label: 'Storage',
+    value: 'Single file',
+    note: 'one .mast database on disk',
+  },
+  {
+    label: 'Recall',
+    value: 'Hybrid',
+    note: 'vector + BM25 + metadata + graph',
+  },
+  {
+    label: 'Bindings',
+    value: 'Rust, Python, Node, CLI',
+    note: 'native interfaces',
+  },
+  { label: 'Core model', value: 'Embeddable', note: 'library, not a server' },
+];
+
+const problemCards = [
+  {
+    title: 'One memory stack instead of four',
+    detail:
+      'Most agent memory systems glue together a vector store, metadata DB, graph layer, and compaction job. MAST collapses that into one embeddable engine.',
+  },
+  {
+    title: 'No daemon, no network hop',
+    detail:
+      'It opens like SQLite. Give it a file path, run queries in-process, and keep the latency and operational footprint low.',
+  },
+  {
+    title: 'Memory-specific primitives',
+    detail:
+      'Hybrid recall, graph traversal, TTL cleanup, snapshots, and time-tiered compaction are first-class operations instead of add-ons.',
+  },
+  {
+    title: 'Pluggable models, stable storage',
+    detail:
+      'Core stays vendor-neutral. Embedders and compactors are traits, so you can swap model providers without changing the storage layer.',
+  },
+];
+
+const operations = [
+  {
+    name: 'STORE',
+    description:
+      'Write content, metadata, embedding, timestamps, and graph links in one atomic transaction.',
+  },
+  {
+    name: 'RECALL',
+    description:
+      'Run vector similarity, BM25 text search, metadata filtering, and graph-aware retrieval in one ranked result set.',
+  },
+  {
+    name: 'RELATE',
+    description:
+      'Attach entity-to-entity and memory-to-entity edges so recall can follow relationships instead of only matching text.',
+  },
+  {
+    name: 'COMPACT',
+    description:
+      'Promote raw memories into summaries, patterns, and core facts over time without pushing that logic into a separate system.',
+  },
+];
+
+const architectureLayers = [
+  {
+    name: 'Storage',
+    detail:
+      'Single-file ACID storage via redb. Crash-safe copy-on-write B-trees. The file is the database.',
+  },
+  {
+    name: 'Indexing',
+    detail:
+      'HNSW vector search, BM25 full-text, metadata indexes, and graph traversal primitives in the same engine.',
+  },
+  {
+    name: 'Application',
+    detail:
+      'Pluggable embedders and compactors, four memory tiers, snapshots, restore, and tier-aware recall weighting.',
+  },
+];
+
+const keyDecisions = [
+  {
+    title: 'Single file, not client-server',
+    detail:
+      'You link it into the agent process and open a path. That cuts deployment complexity and keeps recall local.',
+  },
+  {
+    title: 'Compaction as synthesis',
+    detail:
+      'The goal is not just shorter text. The goal is promoting durable patterns and relationships into higher-value memory.',
+  },
+  {
+    title: 'Core stays vendor-neutral',
+    detail:
+      'No cloud SDKs or runtime services in the core engine. Model dependencies stay at the edge.',
+  },
+  {
+    title: 'Graph is built in',
+    detail:
+      'Relationships are not bolted on afterward. They are part of the recall model and storage format.',
+  },
+];
+
+const installTabs = [
+  {
+    id: 'rust',
+    label: 'Rust',
+    lang: 'Cargo.toml',
+    blurb: 'Native crate with optional embedders.',
+    code: `# Cargo.toml\n[dependencies]\nmast-core = { git = "https://github.com/ericc59/mast" }\nmast-embed-openai = { git = "https://github.com/ericc59/mast" }  # optional\nmast-embed-local = { git = "https://github.com/ericc59/mast" }   # optional`,
+  },
+  {
+    id: 'python',
+    label: 'Python',
+    lang: 'bash',
+    blurb: 'PyO3 bindings via maturin.',
+    code: `pip install maturin\ngit clone https://github.com/ericc59/mast && cd mast/crates/mast-py\nmaturin develop --release`,
+  },
+  {
+    id: 'node',
+    label: 'Node',
+    lang: 'bash',
+    blurb: 'napi-rs bindings for local Node agents.',
+    code: `git clone https://github.com/ericc59/mast && cd mast/crates/mast-node\nnpm install\nnpm run build`,
+  },
+  {
+    id: 'cli',
+    label: 'CLI',
+    lang: 'bash',
+    blurb: 'Useful for inspection, snapshots, and batch workflows.',
+    code: `cargo install --git https://github.com/ericc59/mast mast-cli`,
+  },
+];
+
+const usageTabs = [
+  {
+    id: 'rust',
+    label: 'Rust',
+    lang: 'rust',
+    blurb: 'Full native flow: store, hybrid recall, and graph traversal.',
+    code: `use std::collections::HashMap;\n\nuse mast_core::{config::MastConfig, Mast, types::*};\nuse mast_embed_openai::OpenAIEmbedder;\n\nlet mut mast = Mast::open(MastConfig::default().with_db_path("agent.mast"))?;\nlet embedder = OpenAIEmbedder::new("text-embedding-3-small");\n\nlet mem = mast.store(StoreRequest {\n    collection: "user:alice".into(),\n    content: "Alice prefers dark mode and monospace fonts".into(),\n    metadata: HashMap::from([("source".into(), "onboarding".into())]),\n    tier: Tier::Active,\n    ..Default::default()\n}, &embedder).await?;\n\nlet results = mast.recall(RecallRequest {\n    collection: "user:alice".into(),\n    query: Some("ui preferences".into()),\n    text_query: Some("dark mode".into()),\n    search_mode: SearchMode::Hybrid { vector_weight: 0.6, text_weight: 0.4 },\n    filter: Some(MetadataFilter::Eq("source".into(), "onboarding".into())),\n    limit: 10,\n    ..Default::default()\n}, &embedder).await?;\n\nmast.relate(RelateRequest {\n    collection: "user:alice".into(),\n    source: "alice".into(),\n    target: "dark_mode".into(),\n    relation: "prefers".into(),\n    weight: 0.9,\n})?;\n\nlet edges = mast.traverse(TraverseRequest {\n    collection: "user:alice".into(),\n    start: "alice".into(),\n    max_depth: 3,\n    ..Default::default()\n})?;\n\nmast.close()?;`,
+  },
+  {
+    id: 'python',
+    label: 'Python',
+    lang: 'python',
+    blurb: 'Simple local agent memory from Python.',
+    code: `from mast import Mast\n\ndb = Mast("agent.mast")\n\nmemory = db.store(\n    "user:alice",\n    "Alice prefers dark mode",\n    embedder,\n    metadata={"source": "onboarding"},\n    tier="active",\n)\n\nresults = db.recall(\n    "user:alice",\n    embedder,\n    query="ui preferences",\n    text_query="dark mode",\n    search_mode="hybrid",\n    limit=10,\n)\n\ndb.relate("user:alice", "alice", "dark_mode", "prefers", weight=0.9)\nedges = db.traverse("user:alice", "alice", max_depth=3)\n\ndb.snapshot("user:alice", "backup.jsonl")\ndb.close()`,
+  },
+  {
+    id: 'node',
+    label: 'Node',
+    lang: 'javascript',
+    blurb: 'napi bindings for agent runtimes in Node.',
+    code: `const { MastDb } = require('mast-memory');\n\nconst db = new MastDb('agent.mast');\n\nconst memory = db.store(\n  'user:alice',\n  'Alice prefers dark mode',\n  embed,\n  384,\n  { source: 'onboarding' },\n  'active'\n);\n\nconst results = db.recall(\n  'user:alice',\n  embed,\n  384,\n  'ui preferences',\n  'dark mode',\n  'hybrid',\n  10\n);\n\ndb.relate('user:alice', 'alice', 'dark_mode', 'prefers', 0.9);\nconst edges = db.traverse('user:alice', 'alice', 3);\n\ndb.close();`,
+  },
+  {
+    id: 'cli',
+    label: 'CLI',
+    lang: 'bash',
+    blurb: 'Debugging, snapshots, and ops from the shell.',
+    code: `mast store --db agent.mast -c "user:alice" \\\n  --content "Alice prefers dark mode" \\\n  --metadata source=onboarding --tier active\n\nmast recall --db agent.mast -c "user:alice" \\\n  --query "preferences" --text-query "dark mode" \\\n  --search-mode hybrid --limit 10\n\nmast relate --db agent.mast -c "user:alice" \\\n  --source alice --target dark_mode --relation prefers --weight 0.9\n\nmast snapshot --db agent.mast -c "user:alice" --output backup.jsonl`,
+  },
+];
+
+const benchmarkRows = [
+  'store_single: single memory store with embedding generation and index update',
+  'store_batch: one transaction with batch embedding and index updates',
+  'recall_vector: vector similarity over HNSW',
+  'recall_bm25: full-text BM25 with Porter2 stemming',
+  'recall_hybrid: blended vector + BM25 ranking',
+  'vacuum: bulk TTL expiration cleanup',
+  'compact: tier promotion with synthesis and re-embedding',
+];
+
+const stack = [
+  'Rust',
+  'redb',
+  'usearch',
+  'fastembed',
+  'PyO3',
+  'napi-rs',
+  'cbindgen',
+];
 
 export const metadata: Metadata = {
-	title: "MAST",
-	description:
-		"The SQLite of agent memory. Embeddable storage engine with vector search, full-text, graph, and time-tiered compaction in a single file.",
-	openGraph: {
-		title: "MAST",
-		description:
-			"The SQLite of agent memory. Embeddable storage engine with vector search, full-text, graph, and time-tiered compaction in a single file.",
-	},
+  title: 'MAST',
+  description:
+    'MAST is an embeddable agent-memory engine: single-file storage, hybrid recall, graph traversal, and time-tiered compaction in one local database.',
+  openGraph: {
+    title: 'MAST',
+    description:
+      'The SQLite of agent memory: single-file storage plus vector, text, graph, and compaction primitives for local agents.',
+  },
 };
 
 export default function MastPage() {
-	return (
-		<section className="space-y-16">
-			{/* Header */}
-			<div>
-				<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-					Open Source
-				</span>
-				<h1 className="text-zinc-100 text-lg font-medium mt-3">MAST</h1>
-				<p className="text-sm text-zinc-400 mt-2 leading-relaxed">
-					The SQLite of agent memory. An embeddable storage engine
-					with vector search, full-text search, entity graph, and
-					time-tiered compaction &mdash; in a single file.
-				</p>
-			</div>
+  return (
+    <section className="space-y-12">
+      <header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
+        <span className="text-[10px] uppercase tracking-[0.15em] text-zinc-400">
+          Open Source
+        </span>
+        <div className="space-y-3">
+          <h1 className="text-lg font-medium text-zinc-100">MAST</h1>
+          <p className="max-w-3xl text-sm leading-relaxed text-zinc-400">
+            The SQLite of agent memory. MAST is an embeddable storage engine for
+            local agents: vector search, full-text search, metadata filters,
+            graph traversal, snapshots, and time-tiered compaction in one file.
+          </p>
+          <p className="max-w-3xl text-sm leading-relaxed text-zinc-500">
+            We use it in{' '}
+            <Link
+              href="/arc-agi"
+              className="text-zinc-300 transition-colors hover:text-zinc-100"
+            >
+              EricAGI
+            </Link>{' '}
+            to keep long-running experiment memory local: benchmark histories,
+            failure clusters, solver traces, regression notes, and retrieval of
+            prior hypotheses while iterating on the architecture.
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {heroStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4"
+            >
+              <p className="text-[11px] uppercase tracking-[0.12em] text-zinc-500">
+                {stat.label}
+              </p>
+              <p className="mt-2 text-xl font-medium text-zinc-100">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-xs text-zinc-500">{stat.note}</p>
+            </div>
+          ))}
+        </div>
+      </header>
 
-			{/* The Problem */}
-			<div className="space-y-4">
-				<Label>The Problem</Label>
-				<div className="text-sm text-zinc-400 leading-relaxed space-y-3">
-					<p>
-						Agent memory is fragmented. Vector databases for
-						embeddings. Relational stores for metadata. Graph
-						databases for entity relationships. Separate compaction
-						logic bolted on top. Developers end up cobbling 3-4
-						systems together just to give an agent persistent
-						context.
-					</p>
-					<p>
-						MAST unifies all of this in one embeddable library. No
-						servers. No network hops. One file on disk. Open the
-						file, store memories, recall them &mdash; with the full
-						power of vector search, keyword matching, graph
-						traversal, and temporal compaction available in every
-						query.
-					</p>
-				</div>
-			</div>
+      <section className="space-y-3">
+        <Label>Why It Exists</Label>
+        <div className="grid gap-3 md:grid-cols-2">
+          {problemCards.map((card) => (
+            <InfoCard
+              key={card.title}
+              title={card.title}
+              detail={card.detail}
+            />
+          ))}
+        </div>
+      </section>
 
-			{/* How It Works */}
-			<div className="space-y-4">
-				<Label>How It Works</Label>
-				<p className="text-sm text-zinc-400 leading-relaxed">
-					Four core operations. Each one atomic.
-				</p>
-				<div className="space-y-0 mt-2">
-					<OperationRow
-						name="STORE"
-						description="Write a memory, generate its embedding, and update all indexes in one atomic transaction. Content, metadata, timestamps, and entity links all land together."
-					/>
-					<OperationRow
-						name="RECALL"
-						description="Hybrid query combining vector similarity, BM25 keyword matching, metadata filters, and tier blending. One call, one ranked result set."
-					/>
-					<OperationRow
-						name="COMPACT"
-						description="Promote memories up the tier hierarchy: raw events become summaries, summaries become patterns, patterns become core identity. Synthesis, not summarization."
-					/>
-					<OperationRow
-						name="RELATE"
-						description="First-class entity graph. Link memories to entities, entities to each other. Traverse relationships during recall to surface contextually relevant memories."
-					/>
-				</div>
-			</div>
+      <section className="space-y-3">
+        <Label>Core Operations</Label>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {operations.map((item) => (
+            <InfoCard
+              key={item.name}
+              title={item.name}
+              detail={item.description}
+              mono
+            />
+          ))}
+        </div>
+      </section>
 
-			{/* Install */}
-			<div className="space-y-4">
-				<Label>Install</Label>
-				<div className="space-y-3">
-					<CodeBlock
-						lang="rust"
-						code={`# Cargo.toml
-[dependencies]
-mast-core = { git = "https://github.com/ericc59/mast" }
-mast-embed-openai = { git = "https://github.com/ericc59/mast" }  # optional
-mast-embed-local = { git = "https://github.com/ericc59/mast" }   # optional, on-device`}
-					/>
-					<CodeBlock
-						lang="python"
-						code={`pip install maturin
-git clone https://github.com/ericc59/mast && cd mast/crates/mast-py
-maturin develop --release`}
-					/>
-					<CodeBlock
-						lang="node.js"
-						code={`git clone https://github.com/ericc59/mast && cd mast/crates/mast-node
-npm install && npm run build`}
-					/>
-					<CodeBlock
-						lang="cli"
-						code={`cargo install --git https://github.com/ericc59/mast mast-cli`}
-					/>
-				</div>
-			</div>
+      <section className="space-y-3">
+        <Label>Install</Label>
+        <CodeTabs tabs={installTabs} defaultTab="rust" />
+      </section>
 
-			{/* Usage — Rust */}
-			<div className="space-y-4">
-				<Label>Usage</Label>
-				<CodeBlock
-					lang="rust"
-					code={`use mast_core::{Mast, config::MastConfig, types::*};
-use mast_embed_openai::OpenAIEmbedder;
+      <section className="space-y-3">
+        <Label>Usage</Label>
+        <CodeTabs tabs={usageTabs} defaultTab="rust" />
+      </section>
 
-let mut mast = Mast::open(MastConfig::default().with_db_path("agent.mast"))?;
-let embedder = OpenAIEmbedder::new("text-embedding-3-small");
+      <section className="space-y-3">
+        <Label>Architecture</Label>
+        <div className="grid gap-3 md:grid-cols-3">
+          {architectureLayers.map((layer) => (
+            <InfoCard
+              key={layer.name}
+              title={layer.name}
+              detail={layer.detail}
+            />
+          ))}
+        </div>
+      </section>
 
-// store a memory
-let mem = mast.store(StoreRequest {
-    collection: "user:alice".into(),
-    content: "Alice prefers dark mode and monospace fonts".into(),
-    metadata: HashMap::from([("source".into(), "onboarding".into())]),
-    tier: Tier::Active,
-    ..Default::default()
-}, &embedder).await?;
+      <section className="space-y-3">
+        <Label>Why EricAGI Uses It</Label>
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+          <p className="text-sm leading-relaxed text-zinc-300">
+            EricAGI is a deterministic solver, but the engineering loop around
+            it produces a lot of memory: which task families failed, what traces
+            overfit, which heuristics helped, which regressions came back, and
+            what experiments are worth revisiting. MAST gives that loop a local
+            memory layer instead of another hosted service.
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            <InfoCard
+              title="Experiment memory"
+              detail="Store benchmark outputs, ablation summaries, and regression notes so the next run can retrieve relevant context instead of starting cold."
+            />
+            <InfoCard
+              title="Trace retrieval"
+              detail="Keep solver traces, task clusters, and failure patterns searchable with vector, text, metadata, and graph retrieval in one place."
+            />
+            <InfoCard
+              title="Portable local state"
+              detail="Everything lives in a file alongside the project, which fits the same deterministic, local-first mindset as the solver itself."
+            />
+          </div>
+        </div>
+      </section>
 
-// vector recall
-let results = mast.recall(RecallRequest {
-    collection: "user:alice".into(),
-    query: Some("ui preferences".into()),
-    limit: 5,
-    ..Default::default()
-}, &embedder).await?;
+      <section className="space-y-3">
+        <Label>Key Decisions</Label>
+        <div className="grid gap-3 md:grid-cols-2">
+          {keyDecisions.map((item) => (
+            <InfoCard
+              key={item.title}
+              title={item.title}
+              detail={item.detail}
+            />
+          ))}
+        </div>
+      </section>
 
-// hybrid recall — vector + BM25 full-text
-let results = mast.recall(RecallRequest {
-    collection: "user:alice".into(),
-    query: Some("ui preferences".into()),
-    text_query: Some("dark mode".into()),
-    search_mode: SearchMode::Hybrid { vector_weight: 0.6, text_weight: 0.4 },
-    filter: Some(MetadataFilter::Eq("source".into(), "onboarding".into())),
-    limit: 10,
-    ..Default::default()
-}, &embedder).await?;
+      <section className="space-y-3">
+        <Label>Benchmarks</Label>
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+          <p className="text-sm leading-relaxed text-zinc-400">
+            Criterion coverage across store, recall, delete, vacuum, and
+            compaction. Run with{' '}
+            <InlineCode>cargo bench -p mast-core</InlineCode>.
+          </p>
+          <div className="mt-4 grid gap-2 md:grid-cols-2">
+            {benchmarkRows.map((row) => (
+              <div
+                key={row}
+                className="rounded-lg border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-xs text-zinc-400"
+              >
+                {row}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-// entity graph
-mast.relate(RelateRequest {
-    collection: "user:alice".into(),
-    source: "alice".into(),
-    target: "dark_mode".into(),
-    relation: "prefers".into(),
-    weight: 0.9,
-})?;
+      <section className="space-y-3">
+        <Label>Stack</Label>
+        <div className="flex flex-wrap gap-2 text-xs text-zinc-400">
+          {stack.map((item) => (
+            <span
+              key={item}
+              className="rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1.5"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      </section>
 
-let edges = mast.traverse(TraverseRequest {
-    collection: "user:alice".into(),
-    start: "alice".into(),
-    max_depth: 3,
-    ..Default::default()
-})?;
-
-mast.close()?;`}
-				/>
-				<CodeBlock
-					lang="python"
-					code={`from mast import Mast
-
-db = Mast("agent.mast")
-
-# store
-memory = db.store("user:alice", "Alice prefers dark mode", embedder,
-                   metadata={"source": "onboarding"}, tier="active")
-
-# vector recall
-results = db.recall("user:alice", embedder, query="ui preferences", limit=5)
-
-# hybrid recall
-results = db.recall("user:alice", embedder,
-                    query="ui preferences", text_query="dark mode",
-                    search_mode="hybrid")
-
-# graph
-db.relate("user:alice", "alice", "dark_mode", "prefers", weight=0.9)
-edges = db.traverse("user:alice", "alice", max_depth=3)
-
-# snapshots
-db.snapshot("user:alice", "backup.jsonl")
-db.restore("backup.jsonl", merge=True)
-
-db.close()`}
-				/>
-				<CodeBlock
-					lang="node.js"
-					code={`const { MastDb } = require('mast-memory');
-
-const db = new MastDb('agent.mast');
-
-// store
-const mem = db.store('user:alice', 'Alice prefers dark mode', embed, 384,
-                     { source: 'onboarding' }, 'active');
-
-// recall
-const results = db.recall('user:alice', embed, 384, 'ui preferences',
-                          null, 'vector', 5);
-
-// hybrid recall
-const hybrid = db.recall('user:alice', embed, 384, 'ui preferences',
-                         'dark mode', 'hybrid', 10);
-
-// graph
-db.relate('user:alice', 'alice', 'dark_mode', 'prefers', 0.9);
-const edges = db.traverse('user:alice', 'alice', 3);
-
-db.close();`}
-				/>
-			</div>
-
-			{/* CLI */}
-			<div className="space-y-4">
-				<Label>CLI</Label>
-				<CodeBlock
-					lang="bash"
-					code={`# store a memory
-mast store --db agent.mast -c "user:alice" \\
-  --content "Alice prefers dark mode" \\
-  --metadata source=onboarding --tier active
-
-# vector recall
-mast recall --db agent.mast -c "user:alice" \\
-  --query-vec 0.1,0.2,0.3 --limit 5
-
-# full-text search
-mast recall --db agent.mast -c "user:alice" \\
-  --text-query "dark mode" --search-mode fulltext
-
-# hybrid search
-mast recall --db agent.mast -c "user:alice" \\
-  --query "preferences" --text-query "dark mode" \\
-  --search-mode hybrid --limit 10
-
-# entity graph
-mast relate --db agent.mast -c "user:alice" \\
-  --source alice --target dark_mode --relation prefers --weight 0.9
-mast traverse --db agent.mast -c "user:alice" \\
-  --start alice --max-depth 3
-
-# collection management
-mast info --db agent.mast
-mast list --db agent.mast -c "user:alice"
-mast vacuum --db agent.mast -c "user:alice"
-
-# snapshot & restore
-mast snapshot --db agent.mast -c "user:alice" --output backup.jsonl
-mast restore --db agent.mast --input backup.jsonl --merge`}
-				/>
-			</div>
-
-			{/* Architecture */}
-			<div className="space-y-4">
-				<Label>Architecture</Label>
-				<p className="text-sm text-zinc-400 leading-relaxed">
-					Three layers, bottom to top. Everything lives in a single
-					file.
-				</p>
-				<div className="space-y-0 mt-2">
-					<ArchRow
-						name="Storage"
-						description="Single-file ACID storage via redb. Copy-on-write B-trees for crash safety. No WAL, no journal, no compaction pauses. The file is the database."
-					/>
-					<ArchRow
-						name="Indexing"
-						description="HNSW vector index (usearch) for approximate nearest neighbors. BM25 full-text index with Porter2 stemming. Inverted metadata index for fast filtered queries."
-					/>
-					<ArchRow
-						name="Application"
-						description="Pluggable Embedder and Compactor traits. Four memory tiers: raw, summary, pattern, core. Tier-aware recall blends across levels with configurable weighting."
-					/>
-				</div>
-			</div>
-
-			{/* Key Decisions */}
-			<div className="space-y-4">
-				<Label>Key Decisions</Label>
-				<div className="space-y-0">
-					<InsightRow
-						title="Single file, not client-server"
-						detail="Like SQLite, MAST is a library you link into your process. No daemon, no port, no connection string. Open a file path, get a database. Deploy anywhere you can write to disk."
-					/>
-					<InsightRow
-						title="Compaction as synthesis, not summarization"
-						detail="Summarization loses signal. Compaction in MAST promotes memories through tiers by extracting patterns and relationships, preserving the important structure while reducing volume."
-					/>
-					<InsightRow
-						title="Zero vendor deps in core"
-						detail="The core library depends only on redb and usearch. No cloud SDKs, no API keys, no runtime services. Embedders and compactors are pluggable traits &mdash; bring your own model or use the defaults."
-					/>
-					<InsightRow
-						title="Graph as first-class citizen"
-						detail="Entity relationships aren't an afterthought. Every memory can link to entities, and entity-entity edges carry typed relations. Graph traversal is integrated into the recall query planner."
-					/>
-					<InsightRow
-						title="Hybrid search in one query"
-						detail="Vector similarity and BM25 keyword matching run in the same query, with min-max normalization and configurable weighting. No separate index calls, no manual result merging."
-					/>
-					<InsightRow
-						title="Versioned serialization"
-						detail="On-disk format is versioned from day one. Schema migrations are handled transparently on open. Old files always work with new code."
-					/>
-				</div>
-			</div>
-
-			{/* Embedder Trait */}
-			<div className="space-y-4">
-				<Label>Pluggable Embedders</Label>
-				<p className="text-sm text-zinc-400 leading-relaxed">
-					Core has zero vendor dependencies. Bring any embedding
-					provider via the Embedder trait.
-				</p>
-				<CodeBlock
-					lang="rust"
-					code={`#[async_trait]
-pub trait Embedder: Send + Sync {
-    async fn embed(&self, text: &str) -> Result<Vec<f32>, MastError>;
-    async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>, MastError>;
-    fn dimensions(&self) -> usize;
-}`}
-				/>
-				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-400 mt-2">
-					<span>
-						OpenAI{" "}
-						<span className="text-zinc-500">
-							text-embedding-3-small
-						</span>
-					</span>
-					<span>
-						Voyage AI{" "}
-						<span className="text-zinc-500">
-							voyage-3
-						</span>
-					</span>
-					<span>
-						Local{" "}
-						<span className="text-zinc-500">
-							AllMiniLM-L6-v2, 384d, ~23MB
-						</span>
-					</span>
-					<span>
-						Mock{" "}
-						<span className="text-zinc-500">
-							deterministic, for tests
-						</span>
-					</span>
-				</div>
-			</div>
-
-			{/* Performance */}
-			<div className="space-y-4">
-				<Label>Benchmarks</Label>
-				<p className="text-sm text-zinc-400 leading-relaxed">
-					13 criterion benchmarks across store, recall, delete,
-					vacuum, and compaction. Run with{" "}
-					<code className="text-xs bg-zinc-800/60 px-1.5 py-0.5 text-zinc-300">
-						cargo bench -p mast-core
-					</code>
-				</p>
-				<div className="space-y-0 mt-2">
-					<BenchRow
-						name="store_single"
-						params="128d, 768d, 1536d"
-						description="Single memory store with embedding generation and index update"
-					/>
-					<BenchRow
-						name="store_batch"
-						params="100&times;128d, 1000&times;128d, 100&times;768d, 1000&times;768d"
-						description="Batch store — single embed_batch call, one transaction"
-					/>
-					<BenchRow
-						name="recall_vector"
-						params="100@128d, 1000@128d, 100@768d, 1000@768d"
-						description="Vector similarity search over HNSW index"
-					/>
-					<BenchRow
-						name="recall_filtered"
-						params="1000@128d"
-						description="Vector search with metadata filter predicate"
-					/>
-					<BenchRow
-						name="recall_bm25"
-						params="1000 memories"
-						description="Full-text BM25 keyword search with Porter2 stemming"
-					/>
-					<BenchRow
-						name="recall_hybrid"
-						params="1000@128d"
-						description="Combined vector + BM25 with min-max normalization"
-					/>
-					<BenchRow
-						name="delete_single"
-						params="1000 baseline"
-						description="Single memory deletion with index cleanup"
-					/>
-					<BenchRow
-						name="vacuum"
-						params="500 expired"
-						description="Bulk TTL expiration cleanup"
-					/>
-					<BenchRow
-						name="compact"
-						params="100 memories"
-						description="Tier promotion with synthesis and re-embedding"
-					/>
-				</div>
-			</div>
-
-			{/* Tests */}
-			<div className="space-y-4">
-				<Label>Test Coverage</Label>
-				<div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs">
-					<span className="text-zinc-400">
-						Core unit{" "}
-						<span className="text-zinc-500">109</span>
-					</span>
-					<span className="text-zinc-400">
-						Integration{" "}
-						<span className="text-zinc-500">64</span>
-					</span>
-					<span className="text-zinc-400">
-						Embedder{" "}
-						<span className="text-zinc-500">16</span>
-					</span>
-					<span className="text-zinc-400">
-						CLI{" "}
-						<span className="text-zinc-500">24</span>
-					</span>
-					<span className="text-zinc-400">
-						FFI{" "}
-						<span className="text-zinc-500">7</span>
-					</span>
-					<span className="text-zinc-400">
-						Total{" "}
-						<span className="text-zinc-300">220+</span>
-					</span>
-				</div>
-			</div>
-
-			{/* Bindings */}
-			<div className="space-y-4">
-				<Label>Bindings</Label>
-				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-400">
-					<span>
-						Rust{" "}
-						<span className="text-zinc-500">(native)</span>
-					</span>
-					<span>
-						Python{" "}
-						<span className="text-zinc-500">(PyO3)</span>
-					</span>
-					<span>
-						Node.js{" "}
-						<span className="text-zinc-500">(napi-rs)</span>
-					</span>
-					<span>C FFI</span>
-					<span>CLI</span>
-				</div>
-			</div>
-
-			{/* Stack */}
-			<div className="space-y-4">
-				<Label>Stack</Label>
-				<div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-400">
-					<span>Rust</span>
-					<span>redb</span>
-					<span>usearch</span>
-					<span>fastembed</span>
-					<span>PyO3</span>
-					<span>napi-rs</span>
-					<span>cbindgen</span>
-				</div>
-			</div>
-
-			{/* Links */}
-			<div className="flex items-center gap-5 text-[10px] text-zinc-400 pt-4">
-				<a
-					href="https://github.com/ericc59/mast"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="hover:text-zinc-300 transition-colors"
-				>
-					GitHub
-				</a>
-			</div>
-		</section>
-	);
+      <div className="flex items-center gap-5 pt-2 text-[10px] text-zinc-400">
+        <a
+          href="https://github.com/ericc59/mast"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors hover:text-zinc-300"
+        >
+          GitHub
+        </a>
+        <Link href="/arc-agi" className="transition-colors hover:text-zinc-300">
+          EricAGI
+        </Link>
+      </div>
+    </section>
+  );
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-	return (
-		<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-			{children}
-		</span>
-	);
+  return (
+    <h2 className="text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-300">
+      {children}
+    </h2>
+  );
 }
 
-function CodeBlock({ code, lang }: { code: string; lang: string }) {
-	const html = highlight(code);
-	return (
-		<div>
-			<span className="text-[10px] text-zinc-500 uppercase tracking-[0.15em]">
-				{lang}
-			</span>
-			<pre className="bg-[#0c0c0e] border border-zinc-800 overflow-x-auto p-4 mt-1 text-[13px] leading-relaxed">
-				<code dangerouslySetInnerHTML={{ __html: html }} />
-			</pre>
-		</div>
-	);
+function InlineCode({ children }: { children: React.ReactNode }) {
+  return (
+    <code className="rounded bg-zinc-800/70 px-1.5 py-0.5 text-xs text-zinc-300">
+      {children}
+    </code>
+  );
 }
 
-function OperationRow({
-	name,
-	description,
+function InfoCard({
+  title,
+  detail,
+  mono,
 }: {
-	name: string;
-	description: string;
+  title: string;
+  detail: string;
+  mono?: boolean;
 }) {
-	return (
-		<div className="py-3 border-b border-zinc-800 group">
-			<div className="flex items-baseline gap-3">
-				<span className="text-xs text-zinc-300 font-mono shrink-0 group-hover:text-zinc-100 transition-colors">
-					{name}
-				</span>
-			</div>
-			<p className="text-xs text-zinc-400 mt-1 leading-relaxed">
-				{description}
-			</p>
-		</div>
-	);
-}
-
-function ArchRow({
-	name,
-	description,
-}: {
-	name: string;
-	description: string;
-}) {
-	return (
-		<div className="py-3 border-b border-zinc-800 group">
-			<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
-				{name}
-			</span>
-			<p className="text-xs text-zinc-400 mt-1 leading-relaxed">
-				{description}
-			</p>
-		</div>
-	);
-}
-
-function InsightRow({
-	title,
-	detail,
-}: {
-	title: string;
-	detail: string;
-}) {
-	return (
-		<div className="py-3 border-b border-zinc-800">
-			<div className="flex items-baseline gap-2">
-				<span className="text-[10px] shrink-0 text-emerald-400/60">
-					+
-				</span>
-				<div>
-					<span className="text-sm text-zinc-300">{title}</span>
-					<p className="text-xs text-zinc-400 mt-1 leading-relaxed">
-						{detail}
-					</p>
-				</div>
-			</div>
-		</div>
-	);
-}
-
-function BenchRow({
-	name,
-	params,
-	description,
-}: {
-	name: string;
-	params: string;
-	description: string;
-}) {
-	return (
-		<div className="py-2.5 border-b border-zinc-800 group">
-			<div className="flex items-baseline gap-3">
-				<span className="text-xs text-zinc-300 font-mono shrink-0 group-hover:text-zinc-100 transition-colors">
-					{name}
-				</span>
-				<span
-					className="text-[10px] text-zinc-500"
-					dangerouslySetInnerHTML={{ __html: params }}
-				/>
-			</div>
-			<p className="text-[11px] text-zinc-500 mt-0.5 leading-relaxed">
-				{description}
-			</p>
-		</div>
-	);
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4">
+      <h3
+        className={
+          mono ? 'font-mono text-sm text-zinc-100' : 'text-sm text-zinc-100'
+        }
+      >
+        {title}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-zinc-400">{detail}</p>
+    </div>
+  );
 }
