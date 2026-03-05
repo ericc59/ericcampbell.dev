@@ -217,9 +217,9 @@ export default function MastPage() {
             graph traversal, snapshots, and time-tiered compaction in one file.
           </p>
           <p className="max-w-3xl text-sm leading-relaxed text-zinc-500">
-            It is designed for long-running local systems that need memory for
-            benchmark histories, failure clusters, traces, regression notes, and
-            retrieval of prior hypotheses without adding another hosted service.
+            It is designed for agent memory: durable recall, relationship
+            tracking, snapshots, and compaction for agents that need local
+            long-term state without adding another hosted service.
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -291,27 +291,27 @@ export default function MastPage() {
       </section>
 
       <section className="space-y-3">
-        <Label>Why It Fits Local Systems</Label>
+        <Label>Why It Fits Agent Memory</Label>
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
           <p className="text-sm leading-relaxed text-zinc-300">
-            The engineering loop around any long-running local system produces a
-            lot of memory: what failed, what overfit, what heuristics helped,
-            what regressions came back, and what experiments are worth
-            revisiting. MAST gives that loop a local memory layer instead of
-            another hosted service.
+            Agent runtimes accumulate memory constantly: user preferences, task
+            history, summaries, retrieved facts, entity relationships, and stale
+            context that needs to be compacted over time. MAST is built to store
+            and retrieve that memory locally instead of splitting it across
+            multiple services.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             <InfoCard
-              title="Experiment memory"
-              detail="Store benchmark outputs, ablation summaries, and regression notes so the next run can retrieve relevant context instead of starting cold."
+              title="Long-term recall"
+              detail="Store user facts, summaries, and prior interactions so agents can retrieve useful context across sessions."
             />
             <InfoCard
-              title="Trace retrieval"
-              detail="Keep solver traces, task clusters, and failure patterns searchable with vector, text, metadata, and graph retrieval in one place."
+              title="Structured relationships"
+              detail="Keep entities and memory linked with graph edges so retrieval can follow relationships, not just text similarity."
             />
             <InfoCard
-              title="Portable local state"
-              detail="Everything lives in a file alongside the project, which fits the same deterministic, local-first mindset as the solver itself."
+              title="Local-first operations"
+              detail="Everything lives in one file with snapshots and compaction, which fits local agents that need portable state and low-latency recall."
             />
           </div>
         </div>
@@ -374,9 +374,6 @@ export default function MastPage() {
         >
           GitHub
         </a>
-        <Link href="/arc-agi" className="transition-colors hover:text-zinc-300">
-          ARC Solver
-        </Link>
       </div>
     </section>
   );
