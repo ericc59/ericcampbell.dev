@@ -15,18 +15,18 @@ const metrics = [
   {
     label: 'ARC-1 Router + Policy',
     train: '327/400 (81.8%)',
-    test: '238/400 (59.5%)',
-    joint: '237/400 (59.2%)',
+    test: '240/400 (60.0%)',
+    joint: '239/400 (59.8%)',
     source:
       'local benchmark: arc-1 training, depth=3, timeout=10s, workers=8, metric=both, router + policy',
   },
 ];
 
 const heroStats = [
-  { label: 'Best ARC-1 joint', value: '237/400', note: 'router + policy' },
-  { label: 'Best ARC-1 test', value: '238/400', note: 'split-aware' },
-  { label: 'Inference engines', value: '147', note: 'deterministic library' },
-  { label: 'Router classes', value: '160', note: 'current stack' },
+  { label: 'Best ARC-1 joint', value: '239/400', note: 'router + policy' },
+  { label: 'Best ARC-1 test', value: '240/400', note: 'split-aware' },
+  { label: 'Inference engines', value: '150', note: 'deterministic library' },
+  { label: 'Router classes', value: '163', note: 'current stack' },
 ];
 
 const progressData = [
@@ -37,7 +37,7 @@ const progressData = [
   { checkpoint: 'v35', train: 89.5, test: 43.5 },
   { checkpoint: 'v36', train: 90.8, test: 49.8 },
   { checkpoint: 'v38', train: 91.5, test: 50.8 },
-  { checkpoint: 'current', train: 81.8, test: 59.5 },
+  { checkpoint: 'current', train: 81.8, test: 60.0 },
 ];
 
 const architectureSteps = [
@@ -93,7 +93,7 @@ const architectureSteps = [
     step: '07',
     title: 'analytical_inference',
     category: 'engine',
-    summary: '147 deterministic inference engines',
+    summary: '150 deterministic inference engines',
     detail:
       'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, and pixel-rule systems. This is the largest single execution layer in the stack.',
   },
@@ -142,7 +142,7 @@ const architectureSteps = [
 export const metadata: Metadata = {
   title: 'ARC Solver Build Log',
   description:
-    'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 237/400 (router + policy).',
+    'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 239/400 (router + policy).',
   openGraph: {
     title: 'ARC Solver Build Log',
     description:
