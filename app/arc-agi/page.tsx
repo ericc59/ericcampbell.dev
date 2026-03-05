@@ -41,38 +41,35 @@ const progressData = [
 
 const howItWorks = [
   {
-    title: 'Read the grid first',
+    title: 'Perception pass',
     detail:
-      'It extracts objects, separators, grouped objects, and scene relationships before solving.',
+      'Each task is converted into multiple structural views: connected components, separator grids, grouped objects, and scene-level relations. Those views are used to route the task before search starts.',
   },
   {
-    title: 'Try direct methods before search',
+    title: 'Analytical specialists',
     detail:
-      'Object-centric, grid decomposition, hierarchical, relational, rule induction, and transform DSL run first.',
+      'The fixed specialist stack is object-centric -> grid decomposition -> hierarchical grouping -> relational reasoning -> rule induction -> transform DSL. These paths try to solve the task directly from structure instead of enumerating programs.',
   },
   {
-    title: 'Use a large engine library',
+    title: 'Inference engine library',
     detail:
-      '147 specialized engines cover recurring pattern families when a known strategy fits.',
+      'If the specialist stack does not finish the task, the solver falls back to 147 deterministic inference engines. These cover recurring families like tiling, projection, separator logic, object assembly, damage repair, and pixel-rule systems.',
   },
   {
-    title: 'Fall back to chained search',
+    title: 'Compositional fallback',
     detail:
-      'If direct methods fail, it tries inference chains and weighted A* search with strict pruning and shared time budgets.',
+      'Single-step methods can be chained when needed: inference -> inference, inference -> DSL, and reverse compositional paths. This handles tasks that need an intermediate transformation before final cleanup.',
   },
-];
-
-const recentChanges = [
-  'Runtime, training, and benchmark method coverage are now aligned.',
-  'Split-aware reporting catches train-only gains earlier.',
-  'The engine library grew without dropping deterministic behavior.',
-  'Router + policy now beats fixed order on ARC-1 test and joint exact.',
-];
-
-const nowBuilding = [
-  'Reduce the train/test gap on harder ARC-1 tasks.',
-  'Run a fresh ARC-2 benchmark on the current stack.',
-  'Keep adding reusable methods instead of one-off fixes.',
+  {
+    title: 'Program search',
+    detail:
+      'The last fallback is weighted A* over the DSL with aggressive pruning, depth-3 search, and a shared per-task deadline. Search is constrained by task features and target-consistency checks to keep branching under control.',
+  },
+  {
+    title: 'Routing and evaluation',
+    detail:
+      'There are 160 total router classes in the current stack. Progress is tracked with split-aware train/test/joint exact metrics, which is the main guard against improving train fit without improving generalization.',
+  },
 ];
 
 export const metadata: Metadata = {
@@ -107,8 +104,8 @@ export default function ArcAgiPage() {
             ARC
           </a>{' '}
           tasks. This is the current product-engineering snapshot: what the
-          stack looks like, how performance is moving, and what I&apos;m working on
-          next.
+          stack looks like, how performance is moving, and what I&apos;m working
+          on next.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {heroStats.map((stat) => (
@@ -140,7 +137,9 @@ export default function ArcAgiPage() {
               key={metric.label}
               className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4"
             >
-              <h3 className="text-xs font-medium text-zinc-200">{metric.label}</h3>
+              <h3 className="text-xs font-medium text-zinc-200">
+                {metric.label}
+              </h3>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <MetricCell label="Train" value={metric.train} />
                 <MetricCell label="Test" value={metric.test} />
@@ -162,14 +161,16 @@ export default function ArcAgiPage() {
       </section>
 
       <section className="space-y-3">
-        <Label>How It Works</Label>
-        <div className="grid gap-3 md:grid-cols-2">
+        <Label>Architecture</Label>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {howItWorks.map((item) => (
             <div
               key={item.title}
               className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"
             >
-              <h3 className="text-xs text-zinc-200 font-medium">{item.title}</h3>
+              <h3 className="text-xs text-zinc-200 font-medium">
+                {item.title}
+              </h3>
               <p className="text-sm text-zinc-400 mt-1 leading-relaxed">
                 {item.detail}
               </p>
@@ -180,36 +181,6 @@ export default function ArcAgiPage() {
           Implementation footprint: 147 inference engines, 7 analytical classes,
           4 chain methods, and 160 total router classes.
         </p>
-      </section>
-
-      <section className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-3">
-          <Label>Recent Changes</Label>
-          <ul className="grid gap-2">
-            {recentChanges.map((item) => (
-              <li
-                key={item}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-3 text-sm leading-relaxed text-zinc-400"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="space-y-3">
-          <Label>Now Building</Label>
-          <ul className="grid gap-2">
-            {nowBuilding.map((item) => (
-              <li
-                key={item}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-3 text-sm leading-relaxed text-zinc-400"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
       </section>
     </section>
   );
