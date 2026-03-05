@@ -29,46 +29,112 @@ const heroStats = [
 ];
 
 const progressData = [
-  { checkpoint: 'v1', train: 76 },
-  { checkpoint: 'v7', train: 130 },
-  { checkpoint: 'v11', train: 227 },
-  { checkpoint: 'v26', train: 274 },
-  { checkpoint: 'v35', train: 358, test: 174 },
-  { checkpoint: 'v36', train: 363, test: 199 },
-  { checkpoint: 'v38', train: 366, test: 203 },
-  { checkpoint: 'current', train: 363, test: 209 },
+  { checkpoint: 'v1', train: 19.0 },
+  { checkpoint: 'v7', train: 32.5 },
+  { checkpoint: 'v11', train: 56.8 },
+  { checkpoint: 'v26', train: 68.5 },
+  { checkpoint: 'v35', train: 89.5, test: 43.5 },
+  { checkpoint: 'v36', train: 90.8, test: 49.8 },
+  { checkpoint: 'v38', train: 91.5, test: 50.8 },
+  { checkpoint: 'current', train: 90.8, test: 52.3 },
 ];
 
-const howItWorks = [
+const architectureSteps = [
   {
-    title: 'Perception pass',
+    step: '01',
+    title: 'object_centric',
+    category: 'specialist',
+    summary: 'Connected-component object solver',
     detail:
-      'Each task is converted into multiple structural views: connected components, separator grids, grouped objects, and scene-level relations. Those views are used to route the task before search starts.',
+      'Runs first in the fixed-order stack. Works over extracted objects and object matches, and tries to solve the task with direct object-level transforms.',
   },
   {
-    title: 'Analytical specialists',
+    step: '02',
+    title: 'grid_decomposition',
+    category: 'specialist',
+    summary: 'Separator-aware grid solver',
     detail:
-      'The fixed specialist stack is object-centric -> grid decomposition -> hierarchical grouping -> relational reasoning -> rule induction -> transform DSL. These paths try to solve the task directly from structure instead of enumerating programs.',
+      'Detects row and column separators, converts the task into cell-level structure, and solves regular grid compositions before broader search runs.',
   },
   {
-    title: 'Inference engine library',
+    step: '03',
+    title: 'hierarchical',
+    category: 'specialist',
+    summary: 'Grouped-object solver',
     detail:
-      'If the specialist stack does not finish the task, the solver falls back to 147 deterministic inference engines. These cover recurring families like tiling, projection, separator logic, object assembly, damage repair, and pixel-rule systems.',
+      'Builds hierarchical scenes by grouping objects through containment, color, shape, alignment, and proximity, then applies per-group operations and inference.',
   },
   {
-    title: 'Compositional fallback',
+    step: '04',
+    title: 'relational',
+    category: 'specialist',
+    summary: 'Scene-graph relational solver',
     detail:
-      'Single-step methods can be chained when needed: inference -> inference, inference -> DSL, and reverse compositional paths. This handles tasks that need an intermediate transformation before final cleanup.',
+      'Builds scene relations and structural diffs, then applies relational rules over objects and layouts instead of enumerating raw pixel programs.',
   },
   {
-    title: 'Program search',
+    step: '05',
+    title: 'rule_induction',
+    category: 'specialist',
+    summary: 'Rule search over object properties',
     detail:
-      'The last fallback is weighted A* over the DSL with aggressive pruning, depth-3 search, and a shared per-task deadline. Search is constrained by task features and target-consistency checks to keep branching under control.',
+      'Induces rules over object properties and relations, then verifies them across training pairs. Used for tasks that can be expressed as consistent object-level rules.',
   },
   {
-    title: 'Routing and evaluation',
+    step: '06',
+    title: 'transform_dsl',
+    category: 'specialist',
+    summary: 'Scene-graph transformation DSL',
     detail:
-      'There are 160 total router classes in the current stack. Progress is tracked with split-aware train/test/joint exact metrics, which is the main guard against improving train fit without improving generalization.',
+      'Searches a higher-level transformation language over selectors and actions on scene structure before falling back to lower-level program search.',
+  },
+  {
+    step: '07',
+    title: 'analytical_inference',
+    category: 'engine',
+    summary: '147 deterministic inference engines',
+    detail:
+      'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, and pixel-rule systems. This is the largest single execution layer in the stack.',
+  },
+  {
+    step: '08',
+    title: 'compositional_inference',
+    category: 'chain',
+    summary: 'Inference + search composition',
+    detail:
+      'Tries a direct inference step followed by a cleanup search when a single solver is close but not exact.',
+  },
+  {
+    step: '09',
+    title: 'reverse_compositional',
+    category: 'chain',
+    summary: 'Reverse composition path',
+    detail:
+      'Runs an analytical step first and then composes it with search in reverse order when that ordering is a better fit for the task.',
+  },
+  {
+    step: '10',
+    title: 'inference_chain',
+    category: 'chain',
+    summary: 'Inference -> inference chaining',
+    detail:
+      'Allows multi-step analytical transformations without dropping immediately into full DSL search.',
+  },
+  {
+    step: '11',
+    title: 'inference_inference_dsl',
+    category: 'chain',
+    summary: 'Inference -> inference -> DSL',
+    detail:
+      'Uses two inference stages to build an intermediate state, then a shallow DSL cleanup pass to finish the task.',
+  },
+  {
+    step: '12',
+    title: 'dsl_search',
+    category: 'search',
+    summary: 'Weighted A* over the DSL',
+    detail:
+      'Final fallback. Depth-3 search with aggressive pruning, target-consistency checks, and shared per-task deadlines to keep the search space bounded.',
   },
 ];
 
@@ -104,8 +170,7 @@ export default function ArcAgiPage() {
             ARC
           </a>{' '}
           tasks. This is the current product-engineering snapshot: what the
-          stack looks like, how performance is moving, and what I&apos;m working
-          on next.
+          stack actually is and how performance is moving.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {heroStats.map((stat) => (
@@ -155,31 +220,56 @@ export default function ArcAgiPage() {
         <Label>Progress</Label>
         <ProgressChart data={progressData} />
         <p className="text-xs text-zinc-500">
-          ARC-1 exact solves by checkpoint. Train is shown across the full
+          ARC-1 exact score by checkpoint. Train is shown across the full
           timeline; test appears where split-aware measurements were recorded.
         </p>
       </section>
 
       <section className="space-y-3">
         <Label>Architecture</Label>
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {howItWorks.map((item) => (
+        <div className="space-y-3">
+          {architectureSteps.map((item, index) => (
             <div
-              key={item.title}
+              key={item.step}
               className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"
             >
-              <h3 className="text-xs text-zinc-200 font-medium">
-                {item.title}
-              </h3>
-              <p className="text-sm text-zinc-400 mt-1 leading-relaxed">
-                {item.detail}
-              </p>
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-700 bg-zinc-950 text-xs font-medium text-zinc-200">
+                  {item.step}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+                    <h3 className="text-sm font-medium text-zinc-100">
+                      {item.title}
+                    </h3>
+                    <span className="w-fit rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-zinc-400">
+                      {item.category}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-zinc-300">
+                    {item.summary}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-zinc-400">
+                    {item.detail}
+                  </p>
+                </div>
+              </div>
+              {index < architectureSteps.length - 1 ? (
+                <div className="ml-5 mt-3 h-4 w-px bg-zinc-800" />
+              ) : null}
             </div>
           ))}
         </div>
         <p className="text-xs text-zinc-500">
-          Implementation footprint: 147 inference engines, 7 analytical classes,
-          4 chain methods, and 160 total router classes.
+          Fixed-order execution in the current solver is{' '}
+          <code>
+            object_centric -&gt; grid_decomposition -&gt; hierarchical -&gt;
+            relational -&gt; rule_induction -&gt; transform_dsl -&gt;
+            analytical_inference -&gt; compositional_inference -&gt;
+            reverse_compositional -&gt; inference_chain -&gt;
+            inference_inference_dsl -&gt; dsl_search
+          </code>
+          .
         </p>
       </section>
     </section>

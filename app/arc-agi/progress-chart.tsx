@@ -33,12 +33,14 @@ export function ProgressChart({ data }: { data: ProgressPoint[] }) {
               tickLine={{ stroke: 'rgb(63 63 70)' }}
             />
             <YAxis
-              domain={[0, 400]}
+              domain={[0, 100]}
               tick={{ fill: 'rgb(113 113 122)', fontSize: 11 }}
               axisLine={{ stroke: 'rgb(63 63 70)' }}
               tickLine={{ stroke: 'rgb(63 63 70)' }}
+              tickFormatter={(value) => `${value}%`}
             />
             <Tooltip
+              formatter={(value) => [`${value}%`, undefined]}
               contentStyle={{
                 backgroundColor: 'rgb(24 24 27)',
                 border: '1px solid rgb(63 63 70)',
