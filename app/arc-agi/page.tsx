@@ -19,16 +19,16 @@ const metrics = [
   },
 ];
 
-const architecture = [
+const howItWorks = [
   {
     title: 'Perception layers',
     detail:
-      'The solver first reads structure: objects, separators, grouped objects, and scene relationships. This narrows the search space before any expensive solving starts.',
+      'The solver first reads structure: objects, separators, grouped objects, and scene relationships. This narrows the search space before expensive solving starts.',
   },
   {
-    title: 'Analytical solvers',
+    title: 'Fast deterministic methods first',
     detail:
-      'Fast deterministic methods run first (object-centric, grid decomposition, hierarchical, relational, rule induction, and transform DSL).',
+      'Object-centric, grid decomposition, hierarchical, relational, rule induction, and transform DSL run before heavy search.',
   },
   {
     title: 'Inference engine library',
@@ -46,33 +46,33 @@ const architecture = [
       'If analytical methods fail, weighted A* program search runs with strict pruning, depth 3, and a shared per-task time budget.',
   },
   {
-    title: 'Deterministic scoring',
+    title: 'Split-aware scoring',
     detail:
-      'Progress is tracked with split-aware train/test/joint exact metrics so improvements reflect generalization, not train-only fit.',
+      'Progress is tracked with train/test/joint exact metrics so improvement reflects generalization, not train-only fit.',
   },
 ];
 
-const recentProgress = [
+const recentChanges = [
   'Unified registry and routing order now keep benchmark, training, and runtime method coverage in sync.',
   'Split-aware reporting is now standard, which made regressions easier to detect early.',
   'Engine count and specialist coverage expanded, while keeping deterministic behavior and full test coverage.',
   'Router+policy mode now improves ARC-1 test and joint exact over fixed-order mode, even when train exact is lower.',
 ];
 
-const nextWork = [
+const nowBuilding = [
   'Stabilize gains from router+policy mode while reducing train/test gap on harder ARC-1 tasks.',
   'Run and publish a fresh ARC-2 benchmark using the current solver stack.',
   'Keep pushing reusable methods that solve families of tasks, not just one-off patterns.',
 ];
 
 export const metadata: Metadata = {
-  title: 'ARC Solver',
+  title: 'ARC Solver Build Log',
   description:
-    'Deterministic ARC puzzle solver built from analytical methods and DSL search. Current ARC-1 joint exact: 203/400 (fixed order) and 208/400 (router + policy).',
+    'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 208/400 (router + policy).',
   openGraph: {
-    title: 'ARC Solver',
+    title: 'ARC Solver Build Log',
     description:
-      'Current architecture and benchmark status for a deterministic ARC puzzle solver.',
+      'Architecture and current benchmark status for an ARC solver built as a product engineering project.',
   },
 };
 
@@ -81,11 +81,13 @@ export default function ArcAgiPage() {
     <section className="space-y-12">
       <header className="space-y-3">
         <span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-          Research
+          Product Engineering
         </span>
-        <h1 className="text-zinc-100 text-lg font-medium">ARC Solver</h1>
+        <h1 className="text-zinc-100 text-lg font-medium">
+          ARC Solver Build Log
+        </h1>
         <p className="text-sm text-zinc-400 leading-relaxed max-w-3xl">
-          A deterministic solver for{' '}
+          I&apos;m building a deterministic solver for{' '}
           <a
             href="https://arcprize.org/"
             target="_blank"
@@ -94,9 +96,9 @@ export default function ArcAgiPage() {
           >
             ARC
           </a>{' '}
-          tasks. This page focuses on what is implemented today: system
-          architecture, current benchmark results, and the next execution
-          priorities.
+          tasks. This page is a practical snapshot of what is in production in
+          the codebase: how it works, current benchmark numbers, and what
+          I&apos;m building next.
         </p>
       </header>
 
@@ -130,9 +132,9 @@ export default function ArcAgiPage() {
       </section>
 
       <section className="space-y-4">
-        <Label>Architecture</Label>
+        <Label>How It Works</Label>
         <div className="space-y-2">
-          {architecture.map((item) => (
+          {howItWorks.map((item) => (
             <div
               key={item.title}
               className="rounded border border-zinc-800 bg-zinc-900/40 p-4"
@@ -153,9 +155,9 @@ export default function ArcAgiPage() {
       </section>
 
       <section className="space-y-4">
-        <Label>Recent Progress</Label>
+        <Label>Recent Changes</Label>
         <ul className="space-y-2">
-          {recentProgress.map((item) => (
+          {recentChanges.map((item) => (
             <li
               key={item}
               className="text-sm text-zinc-400 leading-relaxed rounded border border-zinc-800 bg-zinc-900/30 p-3"
@@ -167,9 +169,9 @@ export default function ArcAgiPage() {
       </section>
 
       <section className="space-y-4">
-        <Label>Next</Label>
+        <Label>Now Building</Label>
         <ul className="space-y-2">
-          {nextWork.map((item) => (
+          {nowBuilding.map((item) => (
             <li
               key={item}
               className="text-sm text-zinc-400 leading-relaxed rounded border border-zinc-800 bg-zinc-900/30 p-3"
