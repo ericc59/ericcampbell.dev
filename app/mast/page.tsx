@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import { CodeTabs } from './code-tabs';
@@ -11,22 +10,22 @@ const heroStats = [
   },
   {
     label: 'Recall',
-    value: 'Hybrid',
-    note: 'vector + BM25 + metadata + graph',
+    value: 'Cosine similarity',
+    note: 'vector search + metadata filters',
   },
   {
     label: 'Bindings',
-    value: 'Rust, Python, Node, CLI',
-    note: 'native interfaces',
+    value: 'Rust, Python, Node, C',
+    note: 'plus CLI tooling',
   },
   { label: 'Core model', value: 'Embeddable', note: 'library, not a server' },
 ];
 
 const problemCards = [
   {
-    title: 'One memory stack instead of four',
+    title: 'Single-file memory store',
     detail:
-      'Most agent memory systems glue together a vector store, metadata DB, graph layer, and compaction job. MAST collapses that into one embeddable engine.',
+      'MAST gives AI applications a local memory database that opens from a file path instead of requiring a separate service.',
   },
   {
     title: 'No daemon, no network hop',
@@ -34,14 +33,14 @@ const problemCards = [
       'It opens like SQLite. Give it a file path, run queries in-process, and keep the latency and operational footprint low.',
   },
   {
-    title: 'Memory-specific primitives',
+    title: 'Vector search with metadata filters',
     detail:
-      'Hybrid recall, graph traversal, TTL cleanup, snapshots, and time-tiered compaction are first-class operations instead of add-ons.',
+      'The core engine focuses on storing memories, cosine-similarity recall, collection isolation, and metadata filtering during search.',
   },
   {
-    title: 'Pluggable models, stable storage',
+    title: 'Pluggable embedders',
     detail:
-      'Core stays vendor-neutral. Embedders and compactors are traits, so you can swap model providers without changing the storage layer.',
+      'The storage layer stays vendor-neutral. Embedders are traits, so OpenAI, Voyage, mock embedders, or your own implementation can sit at the edge.',
   },
 ];
 
@@ -49,22 +48,22 @@ const operations = [
   {
     name: 'STORE',
     description:
-      'Write content, metadata, embedding, timestamps, and graph links in one atomic transaction.',
+      'Write memory content, embeddings, metadata, tier, and timestamps in one ACID transaction.',
   },
   {
     name: 'RECALL',
     description:
-      'Run vector similarity, BM25 text search, metadata filtering, and graph-aware retrieval in one ranked result set.',
+      'Run cosine-similarity search within a collection, optionally constrained by metadata filters.',
   },
   {
-    name: 'RELATE',
+    name: 'GET',
     description:
-      'Attach entity-to-entity and memory-to-entity edges so recall can follow relationships instead of only matching text.',
+      'Fetch a memory directly by collection and ULID when you already know the identifier.',
   },
   {
-    name: 'COMPACT',
+    name: 'INFO',
     description:
-      'Promote raw memories into summaries, patterns, and core facts over time without pushing that logic into a separate system.',
+      'Inspect collection-level stats and database information from the same local engine.',
   },
 ];
 
@@ -75,14 +74,14 @@ const architectureLayers = [
       'Single-file ACID storage via redb. Crash-safe copy-on-write B-trees. The file is the database.',
   },
   {
-    name: 'Indexing',
+    name: 'Vector index',
     detail:
-      'HNSW vector search, BM25 full-text, metadata indexes, and graph traversal primitives in the same engine.',
+      'usearch HNSW indexes with cosine similarity. Per-collection indexes are serialized into redb.',
   },
   {
-    name: 'Application',
+    name: 'Metadata + embedder boundary',
     detail:
-      'Pluggable embedders and compactors, four memory tiers, snapshots, restore, and tier-aware recall weighting.',
+      'Metadata filters are backed by an inverted index in redb, while embedders stay outside the core through a trait-based interface.',
   },
 ];
 
@@ -93,9 +92,9 @@ const keyDecisions = [
       'You link it into the agent process and open a path. That cuts deployment complexity and keeps recall local.',
   },
   {
-    title: 'Compaction as synthesis',
+    title: 'Collection isolation',
     detail:
-      'The goal is not just shorter text. The goal is promoting durable patterns and relationships into higher-value memory.',
+      'Recall in one collection never returns memories from another, so application namespaces stay clean by default.',
   },
   {
     title: 'Core stays vendor-neutral',
@@ -103,9 +102,9 @@ const keyDecisions = [
       'No cloud SDKs or runtime services in the core engine. Model dependencies stay at the edge.',
   },
   {
-    title: 'Graph is built in',
+    title: 'Stable core, optional integrations',
     detail:
-      'Relationships are not bolted on afterward. They are part of the recall model and storage format.',
+      'The core engine stays focused. Bindings, CLI, and plugins like OpenClaw sit around it instead of being baked into storage internals.',
   },
 ];
 
@@ -115,7 +114,7 @@ const installTabs = [
     label: 'Rust',
     lang: 'Cargo.toml',
     blurb: 'Native crate with optional embedders.',
-    code: `# Cargo.toml\n[dependencies]\nmast-core = { git = "https://github.com/ericc59/mast" }\nmast-embed-openai = { git = "https://github.com/ericc59/mast" }  # optional\nmast-embed-local = { git = "https://github.com/ericc59/mast" }   # optional`,
+    code: `# Cargo.toml\n[dependencies]\nmast-core = { git = "https://github.com/ericc59/mast" }\nmast-embed-openai = { git = "https://github.com/ericc59/mast" }  # optional\nmast-embed-voyage = { git = "https://github.com/ericc59/mast" }  # optional`,
   },
   {
     id: 'python',
@@ -135,7 +134,7 @@ const installTabs = [
     id: 'cli',
     label: 'CLI',
     lang: 'bash',
-    blurb: 'Useful for inspection, snapshots, and batch workflows.',
+    blurb: 'Useful for inspection and batch workflows.',
     code: `cargo install --git https://github.com/ericc59/mast mast-cli`,
   },
 ];
@@ -145,40 +144,40 @@ const usageTabs = [
     id: 'rust',
     label: 'Rust',
     lang: 'rust',
-    blurb: 'Full native flow: store, hybrid recall, and graph traversal.',
-    code: `use std::collections::HashMap;\n\nuse mast_core::{config::MastConfig, Mast, types::*};\nuse mast_embed_openai::OpenAIEmbedder;\n\nlet mut mast = Mast::open(MastConfig::default().with_db_path("agent.mast"))?;\nlet embedder = OpenAIEmbedder::new("text-embedding-3-small");\n\nlet mem = mast.store(StoreRequest {\n    collection: "user:alice".into(),\n    content: "Alice prefers dark mode and monospace fonts".into(),\n    metadata: HashMap::from([("source".into(), "onboarding".into())]),\n    tier: Tier::Active,\n    ..Default::default()\n}, &embedder).await?;\n\nlet results = mast.recall(RecallRequest {\n    collection: "user:alice".into(),\n    query: Some("ui preferences".into()),\n    text_query: Some("dark mode".into()),\n    search_mode: SearchMode::Hybrid { vector_weight: 0.6, text_weight: 0.4 },\n    filter: Some(MetadataFilter::Eq("source".into(), "onboarding".into())),\n    limit: 10,\n    ..Default::default()\n}, &embedder).await?;\n\nmast.relate(RelateRequest {\n    collection: "user:alice".into(),\n    source: "alice".into(),\n    target: "dark_mode".into(),\n    relation: "prefers".into(),\n    weight: 0.9,\n})?;\n\nlet edges = mast.traverse(TraverseRequest {\n    collection: "user:alice".into(),\n    start: "alice".into(),\n    max_depth: 3,\n    ..Default::default()\n})?;\n\nmast.close()?;`,
+    blurb: 'Full native flow: store, recall, get, and inspect.',
+    code: `use mast_core::{Mast, config::MastConfig, types::*, embed::MockEmbedder};\nuse std::collections::HashMap;\n\nlet config = MastConfig::default().with_db_path("my.mast");\nlet mut mast = Mast::open(config)?;\nlet embedder = MockEmbedder::new(4);\n\nlet memory = mast.store(StoreRequest {\n    collection: "notes".into(),\n    content: "The quick brown fox".into(),\n    embedding: Some(vec![0.1, 0.9, 0.0, 0.0]),\n    metadata: HashMap::from([("source".into(), "test".into())]),\n    tier: Tier::Active,\n}, &embedder).await?;\n\nlet results = mast.recall(RecallRequest {\n    collection: "notes".into(),\n    query: None,\n    query_embedding: Some(vec![0.1, 0.9, 0.0, 0.0]),\n    limit: 5,\n    filter: Some(MetadataFilter::Eq("source".into(), "test".into())),\n}, &embedder).await?;\n\nlet mem = mast.get("notes", &memory.id)?;\nlet info = mast.info()?;\n\nmast.close()?;`,
   },
   {
     id: 'python',
     label: 'Python',
     lang: 'python',
     blurb: 'Simple local agent memory from Python.',
-    code: `from mast import Mast\n\ndb = Mast("agent.mast")\n\nmemory = db.store(\n    "user:alice",\n    "Alice prefers dark mode",\n    embedder,\n    metadata={"source": "onboarding"},\n    tier="active",\n)\n\nresults = db.recall(\n    "user:alice",\n    embedder,\n    query="ui preferences",\n    text_query="dark mode",\n    search_mode="hybrid",\n    limit=10,\n)\n\ndb.relate("user:alice", "alice", "dark_mode", "prefers", weight=0.9)\nedges = db.traverse("user:alice", "alice", max_depth=3)\n\ndb.snapshot("user:alice", "backup.jsonl")\ndb.close()`,
+    code: `from mast import Mast\n\ndb = Mast("agent.mast")\n\nmemory = db.store(\n    "user:alice",\n    "Alice prefers dark mode",\n    embedder,\n    metadata={"source": "preferences"},\n    tier="active",\n)\n\nresults = db.recall(\n    "user:alice",\n    embedder,\n    limit=5,\n    filter={"source": "preferences"},\n)\n\ndb.close()`,
   },
   {
     id: 'node',
     label: 'Node',
     lang: 'javascript',
     blurb: 'napi bindings for agent runtimes in Node.',
-    code: `const { MastDb } = require('mast-memory');\n\nconst db = new MastDb('agent.mast');\n\nconst memory = db.store(\n  'user:alice',\n  'Alice prefers dark mode',\n  embed,\n  384,\n  { source: 'onboarding' },\n  'active'\n);\n\nconst results = db.recall(\n  'user:alice',\n  embed,\n  384,\n  'ui preferences',\n  'dark mode',\n  'hybrid',\n  10\n);\n\ndb.relate('user:alice', 'alice', 'dark_mode', 'prefers', 0.9);\nconst edges = db.traverse('user:alice', 'alice', 3);\n\ndb.close();`,
+    code: `const { MastDb } = require('mast-memory');\n\nconst db = new MastDb('agent.mast');\n\nconst memory = db.store(\n  'user:alice',\n  'Alice prefers dark mode',\n  embed,\n  384,\n  { source: 'preferences' },\n  'active'\n);\n\nconst results = db.recall(\n  'user:alice',\n  embed,\n  384,\n  undefined,\n  5\n);\n\ndb.close();`,
   },
   {
     id: 'cli',
     label: 'CLI',
     lang: 'bash',
-    blurb: 'Debugging, snapshots, and ops from the shell.',
-    code: `mast store --db agent.mast -c "user:alice" \\\n  --content "Alice prefers dark mode" \\\n  --metadata source=onboarding --tier active\n\nmast recall --db agent.mast -c "user:alice" \\\n  --query "preferences" --text-query "dark mode" \\\n  --search-mode hybrid --limit 10\n\nmast relate --db agent.mast -c "user:alice" \\\n  --source alice --target dark_mode --relation prefers --weight 0.9\n\nmast snapshot --db agent.mast -c "user:alice" --output backup.jsonl`,
+    blurb: 'Store, recall, and inspect from the shell.',
+    code: `mast store --db my.mast \\\n  --collection "user:alice" \\\n  --content "Alice prefers dark mode" \\\n  --embedding 0.1,0.2,0.3,0.4 \\\n  --metadata theme=dark --metadata source=preferences\n\nmast recall --db my.mast \\\n  --collection "user:alice" \\\n  --query-vec 0.1,0.2,0.3,0.4 \\\n  --limit 5\n\nmast info --db my.mast`,
   },
 ];
 
 const benchmarkRows = [
-  'store_single: single memory store with embedding generation and index update',
-  'store_batch: one transaction with batch embedding and index updates',
-  'recall_vector: vector similarity over HNSW',
-  'recall_bm25: full-text BM25 with Porter2 stemming',
-  'recall_hybrid: blended vector + BM25 ranking',
-  'vacuum: bulk TTL expiration cleanup',
-  'compact: tier promotion with synthesis and re-embedding',
+  'store_single: single memory write with embedding and index update',
+  'store_batch: batched writes in one transaction',
+  'recall_vector: cosine-similarity retrieval over HNSW',
+  'metadata_filter: filtered search over indexed metadata',
+  'info: collection and database inspection',
+  'ffi + bindings: integration coverage across interfaces',
+  'tests: unit, integration, embedder, CLI, and FFI coverage',
 ];
 
 const stack = [
@@ -194,11 +193,11 @@ const stack = [
 export const metadata: Metadata = {
   title: 'MAST',
   description:
-    'MAST is an embeddable agent-memory engine: single-file storage, hybrid recall, graph traversal, and time-tiered compaction in one local database.',
+    'MAST is a vector memory storage engine for AI applications: single-file storage, ACID transactions, cosine similarity search, and metadata filtering.',
   openGraph: {
     title: 'MAST',
     description:
-      'The SQLite of agent memory: single-file storage plus vector, text, graph, and compaction primitives for local agents.',
+      'A single-file vector memory engine for AI applications, with ACID storage, cosine similarity search, and metadata filtering.',
   },
 };
 
@@ -212,14 +211,14 @@ export default function MastPage() {
         <div className="space-y-3">
           <h1 className="text-lg font-medium text-zinc-100">MAST</h1>
           <p className="max-w-3xl text-sm leading-relaxed text-zinc-400">
-            The SQLite of agent memory. MAST is an embeddable storage engine for
-            local agents: vector search, full-text search, metadata filters,
-            graph traversal, snapshots, and time-tiered compaction in one file.
+            MAST is a vector memory storage engine for AI applications:
+            single-file storage, ACID transactions, cosine similarity search,
+            and metadata filtering.
           </p>
           <p className="max-w-3xl text-sm leading-relaxed text-zinc-500">
-            It is designed for agent memory: durable recall, relationship
-            tracking, snapshots, and compaction for agents that need local
-            long-term state without adding another hosted service.
+            It is designed for agent memory that runs locally: store memories in
+            one file, query by vector similarity, filter by metadata, and keep
+            the model provider outside the storage layer.
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -294,11 +293,10 @@ export default function MastPage() {
         <Label>Why It Fits Agent Memory</Label>
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
           <p className="text-sm leading-relaxed text-zinc-300">
-            Agent runtimes accumulate memory constantly: user preferences, task
-            history, summaries, retrieved facts, entity relationships, and stale
-            context that needs to be compacted over time. MAST is built to store
-            and retrieve that memory locally instead of splitting it across
-            multiple services.
+            Agent runtimes need durable local recall: user preferences, prior
+            interactions, retrieved facts, and other memories that should be
+            stored and queried without adding a separate vector database or
+            network service.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             <InfoCard
@@ -306,12 +304,12 @@ export default function MastPage() {
               detail="Store user facts, summaries, and prior interactions so agents can retrieve useful context across sessions."
             />
             <InfoCard
-              title="Structured relationships"
-              detail="Keep entities and memory linked with graph edges so retrieval can follow relationships, not just text similarity."
+              title="Simple integration surface"
+              detail="Open a file, call store and recall, and keep the memory layer inside the application process."
             />
             <InfoCard
               title="Local-first operations"
-              detail="Everything lives in one file with snapshots and compaction, which fits local agents that need portable state and low-latency recall."
+              detail="Everything lives in one file, which fits local agents that need portable state and low-latency recall."
             />
           </div>
         </div>
@@ -334,8 +332,8 @@ export default function MastPage() {
         <Label>Benchmarks</Label>
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
           <p className="text-sm leading-relaxed text-zinc-400">
-            Criterion coverage across store, recall, delete, vacuum, and
-            compaction. Run with{' '}
+            Criterion coverage across store, recall, filters, and interface
+            boundaries. Run with{' '}
             <InlineCode>cargo bench -p mast-core</InlineCode>.
           </p>
           <div className="mt-4 grid gap-2 md:grid-cols-2">
