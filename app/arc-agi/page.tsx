@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { ProgressChart } from './progress-chart';
+
 const lastUpdated = 'March 4, 2026';
 
 const metrics = [
@@ -19,50 +21,58 @@ const metrics = [
   },
 ];
 
+const heroStats = [
+  { label: 'Best ARC-1 joint', value: '208/400', note: 'router + policy' },
+  { label: 'Best ARC-1 test', value: '209/400', note: 'split-aware' },
+  { label: 'Inference engines', value: '147', note: 'deterministic library' },
+  { label: 'Router classes', value: '160', note: 'current stack' },
+];
+
+const progressData = [
+  { checkpoint: 'v1', train: 76 },
+  { checkpoint: 'v7', train: 130 },
+  { checkpoint: 'v11', train: 227 },
+  { checkpoint: 'v26', train: 274 },
+  { checkpoint: 'v35', train: 358, test: 174 },
+  { checkpoint: 'v36', train: 363, test: 199 },
+  { checkpoint: 'v38', train: 366, test: 203 },
+  { checkpoint: 'current', train: 363, test: 209 },
+];
+
 const howItWorks = [
   {
-    title: 'Perception layers',
+    title: 'Read the grid first',
     detail:
-      'The solver first reads structure: objects, separators, grouped objects, and scene relationships. This narrows the search space before expensive solving starts.',
+      'It extracts objects, separators, grouped objects, and scene relationships before solving.',
   },
   {
-    title: 'Fast deterministic methods first',
+    title: 'Try direct methods before search',
     detail:
-      'Object-centric, grid decomposition, hierarchical, relational, rule induction, and transform DSL run before heavy search.',
+      'Object-centric, grid decomposition, hierarchical, relational, rule induction, and transform DSL run first.',
   },
   {
-    title: 'Inference engine library',
+    title: 'Use a large engine library',
     detail:
-      '147 specialized inference engines handle recurring pattern families directly when a known strategy fits.',
+      '147 specialized engines cover recurring pattern families when a known strategy fits.',
   },
   {
-    title: 'Compositional chains',
+    title: 'Fall back to chained search',
     detail:
-      'When one step is not enough, the system tries chained methods (inference + inference, inference + DSL, and reverse compositional paths).',
-  },
-  {
-    title: 'DSL search fallback',
-    detail:
-      'If analytical methods fail, weighted A* program search runs with strict pruning, depth 3, and a shared per-task time budget.',
-  },
-  {
-    title: 'Split-aware scoring',
-    detail:
-      'Progress is tracked with train/test/joint exact metrics so improvement reflects generalization, not train-only fit.',
+      'If direct methods fail, it tries inference chains and weighted A* search with strict pruning and shared time budgets.',
   },
 ];
 
 const recentChanges = [
-  'Unified registry and routing order now keep benchmark, training, and runtime method coverage in sync.',
-  'Split-aware reporting is now standard, which made regressions easier to detect early.',
-  'Engine count and specialist coverage expanded, while keeping deterministic behavior and full test coverage.',
-  'Router+policy mode now improves ARC-1 test and joint exact over fixed-order mode, even when train exact is lower.',
+  'Runtime, training, and benchmark method coverage are now aligned.',
+  'Split-aware reporting catches train-only gains earlier.',
+  'The engine library grew without dropping deterministic behavior.',
+  'Router + policy now beats fixed order on ARC-1 test and joint exact.',
 ];
 
 const nowBuilding = [
-  'Stabilize gains from router+policy mode while reducing train/test gap on harder ARC-1 tasks.',
-  'Run and publish a fresh ARC-2 benchmark using the current solver stack.',
-  'Keep pushing reusable methods that solve families of tasks, not just one-off patterns.',
+  'Reduce the train/test gap on harder ARC-1 tasks.',
+  'Run a fresh ARC-2 benchmark on the current stack.',
+  'Keep adding reusable methods instead of one-off fixes.',
 ];
 
 export const metadata: Metadata = {
@@ -78,15 +88,15 @@ export const metadata: Metadata = {
 
 export default function ArcAgiPage() {
   return (
-    <section className="space-y-12">
-      <header className="space-y-3">
+    <section className="space-y-10">
+      <header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
         <span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
           Product Engineering
         </span>
-        <h1 className="text-zinc-100 text-lg font-medium">
+        <h1 className="max-w-2xl text-zinc-100 text-xl font-medium leading-tight">
           ARC Solver Build Log
         </h1>
-        <p className="text-sm text-zinc-400 leading-relaxed max-w-3xl">
+        <p className="max-w-2xl text-sm text-zinc-400 leading-relaxed">
           I&apos;m building a deterministic solver for{' '}
           <a
             href="https://arcprize.org/"
@@ -96,52 +106,70 @@ export default function ArcAgiPage() {
           >
             ARC
           </a>{' '}
-          tasks. This page is a practical snapshot of what is in production in
-          the codebase: how it works, current benchmark numbers, and what
-          I&apos;m building next.
+          tasks. This is the current product-engineering snapshot: what the
+          stack looks like, how performance is moving, and what I&apos;m working on
+          next.
         </p>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {heroStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4"
+            >
+              <p className="text-[11px] uppercase tracking-[0.12em] text-zinc-500">
+                {stat.label}
+              </p>
+              <p className="mt-2 text-xl font-medium text-zinc-100">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-xs text-zinc-500">{stat.note}</p>
+            </div>
+          ))}
+        </div>
       </header>
 
-      <section className="space-y-4">
+      <section className="space-y-3">
         <Label>Current Status</Label>
-        <p className="text-sm text-zinc-500">Last updated: {lastUpdated}</p>
+        <div className="flex items-center justify-between gap-3 text-sm text-zinc-500">
+          <p>Last updated: {lastUpdated}</p>
+          <p className="hidden sm:block">Depth 3, deterministic, split-aware</p>
+        </div>
         <div className="grid gap-3 md:grid-cols-2">
           {metrics.map((metric) => (
             <div
               key={metric.label}
-              className="rounded border border-zinc-800 bg-zinc-900/50 p-4 space-y-2"
+              className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4"
             >
-              <h3 className="text-xs text-zinc-200 font-medium">
-                {metric.label}
-              </h3>
-              <p className="text-xs text-zinc-400">
-                Train exact:{' '}
-                <span className="text-zinc-200">{metric.train}</span>
-              </p>
-              <p className="text-xs text-zinc-400">
-                Test exact: <span className="text-zinc-200">{metric.test}</span>
-              </p>
-              <p className="text-xs text-zinc-400">
-                Joint exact:{' '}
-                <span className="text-zinc-200">{metric.joint}</span>
-              </p>
-              <p className="text-[11px] text-zinc-500">{metric.source}</p>
+              <h3 className="text-xs font-medium text-zinc-200">{metric.label}</h3>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                <MetricCell label="Train" value={metric.train} />
+                <MetricCell label="Test" value={metric.test} />
+                <MetricCell label="Joint" value={metric.joint} />
+              </div>
             </div>
           ))}
         </div>
+        <p className="text-[11px] text-zinc-500">{metrics[1].source}</p>
       </section>
 
-      <section className="space-y-4">
+      <section className="space-y-3">
+        <Label>Progress</Label>
+        <ProgressChart data={progressData} />
+        <p className="text-xs text-zinc-500">
+          ARC-1 exact solves by checkpoint. Train is shown across the full
+          timeline; test appears where split-aware measurements were recorded.
+        </p>
+      </section>
+
+      <section className="space-y-3">
         <Label>How It Works</Label>
-        <div className="space-y-2">
+        <div className="grid gap-3 md:grid-cols-2">
           {howItWorks.map((item) => (
             <div
               key={item.title}
-              className="rounded border border-zinc-800 bg-zinc-900/40 p-4"
+              className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"
             >
-              <h3 className="text-xs text-zinc-200 font-medium">
-                {item.title}
-              </h3>
+              <h3 className="text-xs text-zinc-200 font-medium">{item.title}</h3>
               <p className="text-sm text-zinc-400 mt-1 leading-relaxed">
                 {item.detail}
               </p>
@@ -154,32 +182,34 @@ export default function ArcAgiPage() {
         </p>
       </section>
 
-      <section className="space-y-4">
-        <Label>Recent Changes</Label>
-        <ul className="space-y-2">
-          {recentChanges.map((item) => (
-            <li
-              key={item}
-              className="text-sm text-zinc-400 leading-relaxed rounded border border-zinc-800 bg-zinc-900/30 p-3"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="space-y-3">
+          <Label>Recent Changes</Label>
+          <ul className="grid gap-2">
+            {recentChanges.map((item) => (
+              <li
+                key={item}
+                className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-3 text-sm leading-relaxed text-zinc-400"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <section className="space-y-4">
-        <Label>Now Building</Label>
-        <ul className="space-y-2">
-          {nowBuilding.map((item) => (
-            <li
-              key={item}
-              className="text-sm text-zinc-400 leading-relaxed rounded border border-zinc-800 bg-zinc-900/30 p-3"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className="space-y-3">
+          <Label>Now Building</Label>
+          <ul className="grid gap-2">
+            {nowBuilding.map((item) => (
+              <li
+                key={item}
+                className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-3 text-sm leading-relaxed text-zinc-400"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </section>
   );
@@ -190,5 +220,16 @@ function Label({ children }: { children: string }) {
     <h2 className="text-[11px] text-zinc-300 uppercase tracking-[0.12em] font-medium">
       {children}
     </h2>
+  );
+}
+
+function MetricCell({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3">
+      <p className="text-[10px] uppercase tracking-[0.12em] text-zinc-500">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-medium text-zinc-100">{value}</p>
+    </div>
   );
 }
