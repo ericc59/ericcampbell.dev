@@ -34,7 +34,7 @@ export default function ArcAgiPage() {
 					</a>{" "}
 					puzzles. No LLM required for core solving. Currently at{" "}
 					<span className="text-zinc-100">368/400</span> on ARC-1,{" "}
-					<span className="text-zinc-100">237/400</span> eval,{" "}
+					<span className="text-zinc-100">241/400</span> eval,{" "}
 					<span className="text-zinc-100">469/1000</span> on ARC-2 training,{" "}
 					<span className="text-zinc-100">20/120</span> ARC-2 eval.
 				</p>
@@ -306,9 +306,9 @@ export default function ArcAgiPage() {
 				</div>
 
 				<div className="flex items-center justify-end gap-4 text-[10px] text-zinc-500">
-					<span>5,025 tests</span>
+					<span>5,092 tests</span>
 					<span>100% coverage</span>
-					<span>22,882 stmts</span>
+					<span>23,258 stmts</span>
 				</div>
 			</div>
 
@@ -316,6 +316,19 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>What Worked</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-04 21:30"
+						title="Generalization: Pixel Context + Compound Predicates + Scored Composition + Priors"
+						changes={[
+							"New pixel_rules_context inference engine: 19-feature vector (11 extended + 8 context features: row/col dominant colors, quadrant index, row/col non-bg counts, row/col uniformity, local CC size bucket). 500-rule cap. 147 inference engines total.",
+							"Compound predicates in rule induction: AND(pred1, pred2) conjunction as fallback when no single predicate separates target objects. Partial-match filtering (>= 50% match rate), capped at 50 partials, same-property AND excluded.",
+							"Scored step1 selection in composition: replaced first-come-first-served cap-8 with pixel_diff_ratio scoring. Collection phase uses 30% time budget, sorts by score (lower=better), takes top 8. Better intermediates for 2-step and 3-step chains.",
+							"Core knowledge priors layer: PriorModule protocol with objectness, geometry, numerosity, topology modules. Prior signals feed engine reordering (_prior_bonus: symmetry +3, objects +2, border/frame +2, palette +1) and DSL primitive selection.",
+							"Truthful evaluation: new evaluate_program() with train/test/joint metrics. Benchmark reports all three. verify(split='test'|'both') support.",
+							"Router expanded to 160 classes (147 inference + 7 analytical + 4 chains + 2 special). 67 new tests, 5,092 total tests, 23,258 stmts, 100% coverage.",
+							"ARC-1 training: 368/400 (92.0%). Eval: 241/400 (60.2%, +4). Joint exact: train 202/400, eval 54/400.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-04 15:35"
 						title="Conservative Sketch Filtering + Inference→Inference→DSL Chains"
@@ -596,6 +609,13 @@ export default function ArcAgiPage() {
 			<div className="space-y-4">
 				<Label>Changelog</Label>
 				<div className="space-y-0">
+					<ChangelogEntry
+						date="2026-03-04 21:30"
+						title="Generalization: Pixel Context + Compound Predicates + Scored Composition + Priors"
+						changes={[
+							"pixel_rules_context engine (19 features = 11 extended + 8 context). Compound AND predicates in rule induction fallback. Scored step1 selection in composition chains (pixel_diff_ratio ranking). PriorModule protocol: objectness, geometry, numerosity, topology — feeds engine reordering and primitive selection. Truthful evaluation with train/test/joint metrics. 160 router classes, 5,092 tests, 23,258 stmts.",
+						]}
+					/>
 					<ChangelogEntry
 						date="2026-03-04 12:00"
 						title="Verbose Reasoning Output for Benchmark (-V 4)"
