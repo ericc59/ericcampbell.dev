@@ -140,11 +140,11 @@ const architectureSteps = [
 ];
 
 export const metadata: Metadata = {
-  title: 'ARC Solver Build Log',
+  title: 'EricAGI',
   description:
     'Product engineering build log for a deterministic ARC solver. Current ARC-1 joint exact: 203/400 (fixed order) and 239/400 (router + policy).',
   openGraph: {
-    title: 'ARC Solver Build Log',
+    title: 'EricAGI',
     description:
       'Architecture and current benchmark status for an ARC solver built as a product engineering project.',
   },
@@ -158,7 +158,7 @@ export default function ArcAgiPage() {
           Product Engineering
         </span>
         <h1 className="max-w-2xl text-zinc-100 text-xl font-medium leading-tight">
-          ARC Solver Build Log
+          EricAGI
         </h1>
         <p className="max-w-2xl text-sm text-zinc-400 leading-relaxed">
           I&apos;m building a deterministic solver for{' '}
