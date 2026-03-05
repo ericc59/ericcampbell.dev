@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import { ProgressChart } from './progress-chart';
@@ -239,30 +238,6 @@ export default function ArcAgiPage() {
           ARC-1 exact score by checkpoint. Train is shown across the full
           timeline; test appears where split-aware measurements were recorded.
         </p>
-      </section>
-
-      <section className="space-y-3">
-        <Label>Memory Layer</Label>
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-          <p className="text-sm leading-relaxed text-zinc-300">
-            EricAGI uses{' '}
-            <Link
-              href="/mast"
-              className="text-zinc-100 underline decoration-zinc-700 underline-offset-4 transition-colors hover:decoration-zinc-500"
-            >
-              MAST
-            </Link>{' '}
-            as its local agent-memory layer. That keeps benchmark histories,
-            failure clusters, solver traces, and prior experiment notes
-            searchable without adding a separate hosted memory service to the
-            stack.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-            In practice that matters most around iteration: retrieving similar
-            task failures, remembering which heuristics overfit, and keeping
-            regression context close to the deterministic solver itself.
-          </p>
-        </div>
       </section>
 
       <section className="space-y-3">
