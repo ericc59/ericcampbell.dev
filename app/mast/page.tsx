@@ -217,16 +217,9 @@ export default function MastPage() {
             graph traversal, snapshots, and time-tiered compaction in one file.
           </p>
           <p className="max-w-3xl text-sm leading-relaxed text-zinc-500">
-            We use it in{' '}
-            <Link
-              href="/arc-agi"
-              className="text-zinc-300 transition-colors hover:text-zinc-100"
-            >
-              EricAGI
-            </Link>{' '}
-            to keep long-running experiment memory local: benchmark histories,
-            failure clusters, solver traces, regression notes, and retrieval of
-            prior hypotheses while iterating on the architecture.
+            It is designed for long-running local systems that need memory for
+            benchmark histories, failure clusters, traces, regression notes, and
+            retrieval of prior hypotheses without adding another hosted service.
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -298,14 +291,14 @@ export default function MastPage() {
       </section>
 
       <section className="space-y-3">
-        <Label>Why EricAGI Uses It</Label>
+        <Label>Why It Fits Local Systems</Label>
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
           <p className="text-sm leading-relaxed text-zinc-300">
-            EricAGI is a deterministic solver, but the engineering loop around
-            it produces a lot of memory: which task families failed, what traces
-            overfit, which heuristics helped, which regressions came back, and
-            what experiments are worth revisiting. MAST gives that loop a local
-            memory layer instead of another hosted service.
+            The engineering loop around any long-running local system produces a
+            lot of memory: what failed, what overfit, what heuristics helped,
+            what regressions came back, and what experiments are worth
+            revisiting. MAST gives that loop a local memory layer instead of
+            another hosted service.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             <InfoCard
@@ -382,7 +375,7 @@ export default function MastPage() {
           GitHub
         </a>
         <Link href="/arc-agi" className="transition-colors hover:text-zinc-300">
-          EricAGI
+          ARC Solver
         </Link>
       </div>
     </section>
