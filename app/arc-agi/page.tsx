@@ -210,9 +210,9 @@ export default function ArcAgiPage() {
           tasks: explicit symbolic program synthesis and reasoning, an early
           typed macro-synthesis layer, a cheap symbolic probe before heavy
           inference, and small neural router and policy models that only
-          prioritize search. This page is the current
-          product-engineering snapshot of the stack, the best training-task
-          results, and the real held-out evaluation numbers.
+          prioritize search. This page is the current product-engineering
+          snapshot of the stack, the best training-task results, and the real
+          held-out evaluation numbers.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {heroStats.map((stat) => (
@@ -314,7 +314,9 @@ export default function ArcAgiPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-500">
-          Current execution starts with <code>macro_synthesis</code>, then a cheap <code>simple_symbolic_probe</code> runs before heavy inference, and the fixed-order specialist stack runs as{' '}
+          Current execution starts with <code>macro_synthesis</code>, then a
+          cheap <code>simple_symbolic_probe</code> runs before heavy inference,
+          and the fixed-order specialist stack runs as{' '}
           <code>
             object_centric -&gt; grid_decomposition -&gt; hierarchical -&gt;
             relational -&gt; rule_induction -&gt; transform_dsl -&gt;
@@ -324,10 +326,9 @@ export default function ArcAgiPage() {
           </code>
           . Percentages above are current joint-exact solves attributed to the
           top-level layer that ultimately solved each task. ARC-1 coverage is
-          from{' '}
-          <code>reports/arc1_training_after_probe.jsonl</code>;
-          ARC-2 coverage is from{' '}
-          <code>reports/arc2_router_policy_current.jsonl</code>.
+          from <code>reports/arc1_training_after_probe.jsonl</code>; ARC-2
+          coverage is from <code>reports/arc2_router_policy_current.jsonl</code>
+          .
         </p>
       </section>
     </section>
