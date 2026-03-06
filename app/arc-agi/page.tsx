@@ -13,32 +13,32 @@ const metrics = [
     source: 'reports/arc1_baseline_both.jsonl (repeat=3)',
   },
   {
-    label: 'ARC-1 Router + Policy (best training-task run)',
-    train: '327/400 (81.8%)',
-    test: '240/400 (60.0%)',
-    joint: '239/400 (59.8%)',
+    label: 'ARC-1 Router + Policy + Early Probe (best training-task run)',
+    train: '349/400 (87.2%)',
+    test: '265/400 (66.2%)',
+    joint: '264/400 (66.0%)',
     source:
-      'reports/arc1_router_policy_current.jsonl; local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy',
+      'reports/arc1_training_after_probe.jsonl; local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
   },
   {
     label: 'ARC-1 Evaluation Tasks (current solver)',
-    train: '154/400 (38.5%)',
-    test: '60/400 (15.0%)',
-    joint: '60/400 (15.0%)',
+    train: '155/400 (38.8%)',
+    test: '62/400 (15.5%)',
+    joint: '62/400 (15.5%)',
     source:
-      'reports/arc1_evaluation_phase.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy',
+      'reports/arc1_evaluation_after_probe.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
   },
 ];
 
 const heroStats = [
   {
     label: 'Best ARC-1 train-task joint',
-    value: '239/400',
-    note: 'router + policy',
+    value: '264/400',
+    note: 'router + policy + early probe',
   },
   {
     label: 'ARC-1 evaluation joint',
-    value: '60/400',
+    value: '62/400',
     note: 'held-out task set',
   },
   { label: 'Inference engines', value: '156', note: 'deterministic library' },
@@ -53,7 +53,7 @@ const progressData = [
   { checkpoint: 'v35', train: 89.5, test: 43.5 },
   { checkpoint: 'v36', train: 90.8, test: 49.8 },
   { checkpoint: 'v38', train: 91.5, test: 50.8 },
-  { checkpoint: 'current', train: 84.5, test: 59.0 },
+  { checkpoint: 'current', train: 87.2, test: 66.2 },
 ];
 
 const architectureSteps = [
@@ -64,7 +64,7 @@ const architectureSteps = [
     summary: 'Typed macro synthesis before the heuristic stack',
     detail:
       'Runs first. Synthesizes high-level symbolic programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries before the fixed-order specialist stack starts.',
-    coverage: { arc1: '2.3%', arc2: '0.0%' },
+    coverage: { arc1: '6.0%', arc2: '0.0%' },
   },
   {
     step: '02',
@@ -73,7 +73,7 @@ const architectureSteps = [
     summary: 'Connected-component object solver',
     detail:
       'Works over extracted objects and object matches, and tries to solve the task with direct object-level transforms.',
-    coverage: { arc1: '4.8%', arc2: '2.0%' },
+    coverage: { arc1: '2.8%', arc2: '2.0%' },
   },
   {
     step: '03',
@@ -82,7 +82,7 @@ const architectureSteps = [
     summary: 'Separator-aware grid solver',
     detail:
       'Detects row and column separators, converts the task into cell-level structure, and solves regular grid compositions before broader search runs.',
-    coverage: { arc1: '3.8%', arc2: '2.2%' },
+    coverage: { arc1: '3.5%', arc2: '2.2%' },
   },
   {
     step: '04',
@@ -91,7 +91,7 @@ const architectureSteps = [
     summary: 'Grouped-object solver',
     detail:
       'Builds hierarchical scenes by grouping objects through containment, color, shape, alignment, and proximity, then applies per-group operations and inference.',
-    coverage: { arc1: '0.8%', arc2: '0.3%' },
+    coverage: { arc1: '0.3%', arc2: '0.3%' },
   },
   {
     step: '05',
@@ -100,7 +100,7 @@ const architectureSteps = [
     summary: 'Scene-graph relational solver',
     detail:
       'Builds scene relations and structural diffs, then applies relational rules over objects and layouts instead of enumerating raw pixel programs.',
-    coverage: { arc1: '3.0%', arc2: '1.6%' },
+    coverage: { arc1: '2.3%', arc2: '1.6%' },
   },
   {
     step: '06',
@@ -109,7 +109,7 @@ const architectureSteps = [
     summary: 'Rule search over object properties',
     detail:
       'Induces rules over object properties and relations, then verifies them across training pairs. Used for tasks that can be expressed as consistent object-level rules.',
-    coverage: { arc1: '1.5%', arc2: '0.9%' },
+    coverage: { arc1: '0.8%', arc2: '0.9%' },
   },
   {
     step: '07',
@@ -118,7 +118,7 @@ const architectureSteps = [
     summary: 'Scene-graph transformation DSL',
     detail:
       'Searches a higher-level transformation language over selectors and actions on scene structure before falling back to lower-level program search.',
-    coverage: { arc1: '0.8%', arc2: '0.7%' },
+    coverage: { arc1: '1.0%', arc2: '0.7%' },
   },
   {
     step: '08',
@@ -127,7 +127,7 @@ const architectureSteps = [
     summary: '156 deterministic inference engines',
     detail:
       'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, lattice normalization, and pixel-rule systems. This is still the largest single execution layer in the stack.',
-    coverage: { arc1: '38.3%', arc2: '17.8%' },
+    coverage: { arc1: '39.8%', arc2: '17.8%' },
   },
   {
     step: '09',
@@ -172,18 +172,18 @@ const architectureSteps = [
     summary: 'Weighted A* over the DSL',
     detail:
       'Late fallback. Depth-3 search with aggressive pruning, target-consistency checks, shared per-task deadlines, and macro-aware synthesis hooks to keep the search space bounded.',
-    coverage: { arc1: '0.8%', arc2: '0.7%' },
+    coverage: { arc1: '7.3%', arc2: '0.7%' },
   },
 ];
 
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
-    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 239/400. Current ARC-1 evaluation-task joint exact: 60/400. ARC-2 joint exact: 281/1000.',
+    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 264/400. Current ARC-1 evaluation-task joint exact: 62/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'EricAGI',
     description:
-      'Architecture and current benchmark status for EricAGI, a deterministic hybrid ARC solver with early macro synthesis, symbolic search, and small neural guidance.',
+      'Architecture and current benchmark status for EricAGI, a deterministic hybrid ARC solver with early macro synthesis, a symbolic probe before inference, symbolic search, and small neural guidance.',
   },
 };
 
@@ -208,8 +208,9 @@ export default function ArcAgiPage() {
             ARC
           </a>{' '}
           tasks: explicit symbolic program synthesis and reasoning, an early
-          typed macro-synthesis layer, and small neural router and policy models
-          that only prioritize search. This page is the current
+          typed macro-synthesis layer, a cheap symbolic probe before heavy
+          inference, and small neural router and policy models that only
+          prioritize search. This page is the current
           product-engineering snapshot of the stack, the best training-task
           results, and the real held-out evaluation numbers.
         </p>
@@ -313,8 +314,7 @@ export default function ArcAgiPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-500">
-          Current execution starts with <code>macro_synthesis</code>, then the
-          fixed-order specialist stack runs as{' '}
+          Current execution starts with <code>macro_synthesis</code>, then a cheap <code>simple_symbolic_probe</code> runs before heavy inference, and the fixed-order specialist stack runs as{' '}
           <code>
             object_centric -&gt; grid_decomposition -&gt; hierarchical -&gt;
             relational -&gt; rule_induction -&gt; transform_dsl -&gt;
@@ -325,7 +325,7 @@ export default function ArcAgiPage() {
           . Percentages above are current joint-exact solves attributed to the
           top-level layer that ultimately solved each task. ARC-1 coverage is
           from{' '}
-          <code>reports/arc1_router_policy_macro_batch2_20260306.jsonl</code>;
+          <code>reports/arc1_training_after_probe.jsonl</code>;
           ARC-2 coverage is from{' '}
           <code>reports/arc2_router_policy_current.jsonl</code>.
         </p>
