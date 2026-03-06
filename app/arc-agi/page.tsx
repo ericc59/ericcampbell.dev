@@ -22,11 +22,11 @@ const metrics = [
   },
   {
     label: 'ARC-1 Evaluation Tasks (current solver)',
-    train: '153/400 (38.2%)',
-    test: '59/400 (14.8%)',
-    joint: '59/400 (14.8%)',
+    train: '154/400 (38.5%)',
+    test: '60/400 (15.0%)',
+    joint: '60/400 (15.0%)',
     source:
-      'reports/arc1_evaluation_lattice.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy',
+      'reports/arc1_evaluation_phase.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy',
   },
 ];
 
@@ -38,11 +38,11 @@ const heroStats = [
   },
   {
     label: 'ARC-1 evaluation joint',
-    value: '59/400',
+    value: '60/400',
     note: 'held-out task set',
   },
-  { label: 'Inference engines', value: '155', note: 'deterministic library' },
-  { label: 'Router classes', value: '168', note: 'current stack' },
+  { label: 'Inference engines', value: '156', note: 'deterministic library' },
+  { label: 'Router classes', value: '169', note: 'current stack' },
 ];
 
 const progressData = [
@@ -124,7 +124,7 @@ const architectureSteps = [
     step: '08',
     title: 'analytical_inference',
     category: 'engine',
-    summary: '155 deterministic inference engines',
+    summary: '156 deterministic inference engines',
     detail:
       'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, lattice normalization, and pixel-rule systems. This is still the largest single execution layer in the stack.',
     coverage: { arc1: '38.3%', arc2: '17.8%' },
@@ -179,7 +179,7 @@ const architectureSteps = [
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
-    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 239/400. Current ARC-1 evaluation-task joint exact: 59/400. ARC-2 joint exact: 281/1000.',
+    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 239/400. Current ARC-1 evaluation-task joint exact: 60/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'EricAGI',
     description:
