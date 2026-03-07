@@ -269,6 +269,22 @@ export default function ArcAgiPage() {
       </section>
 
       <section className="space-y-3">
+        <Label>Recent Changes</Label>
+        <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 7, 2026 12:50 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <code>BorderAdjacencyShadowMacro</code> to macro synthesis.
+              Solves evaluation task <code>642248e4</code>: for each marker pixel
+              near two opposing solid borders, places a shadow pixel one step
+              toward the nearest border. Auto-detects border axis per grid
+              (row or column borders).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-3">
         <Label>Architecture</Label>
         <div className="space-y-3">
           {architectureSteps.map((item, index) => (
