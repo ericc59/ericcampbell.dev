@@ -176,6 +176,28 @@ const architectureSteps = [
   },
 ];
 
+const overfitData = [
+  { layer: 'macro_synthesis', trainFit: 14, joint: 14, overfit: 0, overfitRate: '0%' },
+  { layer: 'dsl_search', trainFit: 20, joint: 20, overfit: 0, overfitRate: '0%' },
+  { layer: 'analytical_inference', trainFit: 28, joint: 26, overfit: 2, overfitRate: '7%' },
+  { layer: 'relational', trainFit: 8, joint: 3, overfit: 5, overfitRate: '63%' },
+  { layer: 'compositional_inference', trainFit: 17, joint: 6, overfit: 11, overfitRate: '65%' },
+  { layer: 'transform_dsl', trainFit: 3, joint: 1, overfit: 2, overfitRate: '67%' },
+  { layer: 'hierarchical', trainFit: 17, joint: 1, overfit: 16, overfitRate: '94%' },
+  { layer: 'refinement', trainFit: 19, joint: 0, overfit: 19, overfitRate: '100%' },
+];
+
+const dslGapData = [
+  { ruleType: 'Global color swap', expressible: 'Yes', where: 'recolor primitive' },
+  { ruleType: 'Object-level conditionals', expressible: 'Yes', where: 'Transform DSL, Rule Induction' },
+  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Partially', where: '6 hardcoded conditions' },
+  { ruleType: 'Per-pixel feature lookup', expressible: 'Opaque', where: 'pixel_rules (learned tables, non-composable)' },
+  { ruleType: 'Compound conditions (AND/OR)', expressible: 'No', where: '—' },
+  { ruleType: 'Cellular automaton / iterate-until-stable', expressible: 'No', where: '—' },
+  { ruleType: 'Distance-based predicates', expressible: 'No', where: '—' },
+  { ruleType: 'Region-aware conditionals', expressible: 'No', where: '—' },
+];
+
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
@@ -269,35 +291,6 @@ export default function ArcAgiPage() {
       </section>
 
       <section className="space-y-3">
-        <Label>Recent Changes</Label>
-        <div className="space-y-2">
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-            <p className="text-[11px] text-zinc-500">March 7, 2026 7:30 PM CST</p>
-            <p className="mt-1 text-sm text-zinc-300">
-              New <code>conditional_recolor_solver</code> pre-flight solver.
-              Learns composable per-pixel recolor rules from a 3-tier condition
-              language: neighbor (adj-4/8, count, surrounded), positional
-              (row/col alignment, enclosed-by, border), and distance conditions.
-              Supports AND-composition and iterate-until-stable for
-              cellular-automaton-style tasks. Targets same-dims in-place
-              recoloring tasks that the existing hardcoded neighbor conditions
-              and pixel-rule lookup tables miss.
-            </p>
-          </div>
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-            <p className="text-[11px] text-zinc-500">March 7, 2026 12:50 PM CST</p>
-            <p className="mt-1 text-sm text-zinc-300">
-              Added <code>BorderAdjacencyShadowMacro</code> to macro synthesis.
-              Solves evaluation task <code>642248e4</code>: for each marker pixel
-              near two opposing solid borders, places a shadow pixel one step
-              toward the nearest border. Auto-detects border axis per grid
-              (row or column borders).
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="space-y-3">
         <Label>Architecture</Label>
         <div className="space-y-3">
           {architectureSteps.map((item, index) => (
@@ -359,6 +352,225 @@ export default function ArcAgiPage() {
           coverage is from <code>reports/arc2_router_policy_current.jsonl</code>
           .
         </p>
+      </section>
+
+      <section className="space-y-3">
+        <Label>Research Methodology</Label>
+        <p className="text-sm leading-relaxed text-zinc-400">
+          EricAGI runs two parallel work streams.
+        </p>
+        <div className="space-y-3">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <h3 className="text-sm font-medium text-zinc-100">
+              Automated loop
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              Continuous macro and program synthesis targeting unresolved
+              evaluation capability gaps. The loop replaces brittle inference
+              wins with generalized symbolic programs and works the top
+              unresolved capability on ARC-1 evaluation. It does not optimize
+              for the hard suite or retrain routing models while symbolic changes
+              are still settling.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <h3 className="text-sm font-medium text-zinc-100">
+              Directed architecture work
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              Structural solver changes, new primitive families, and layer
+              redesign that the automated loop is unlikely to discover on its
+              own&nbsp;&mdash; sketch synthesis, candidate selection,
+              dynamic-output scene summarization, and symbolic composition.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <h3 className="text-sm font-medium text-zinc-100">Decision rule</h3>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              When choosing the next piece of work, prefer changes that:
+            </p>
+            <ol className="mt-2 list-decimal pl-5 space-y-1 text-sm leading-relaxed text-zinc-400">
+              <li>
+                Reduce eval <code>method=none</code> (unsolved tasks)
+              </li>
+              <li>Replace heuristic/inference wins with symbolic wins</li>
+              <li>
+                Improve evaluation <code>joint</code>
+              </li>
+              <li>Generalize across a task family</li>
+            </ol>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              Reject work that only improves the hard suite, increases train fit
+              without eval movement, or introduces obvious task-specific logic.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <Label>Generalization Analysis</Label>
+
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-zinc-200">
+            Layer overfit rates
+          </h3>
+          <p className="text-sm leading-relaxed text-zinc-400">
+            Not all solver layers generalize equally. Layers that produce
+            explicit symbolic programs generalize at near 100%. Layers that fit
+            via learned lookup tables or position-specific patches overfit
+            consistently. This breakdown drives architecture priority&nbsp;&mdash;
+            move inference toward symbolic program generation.
+          </p>
+          <div className="overflow-x-auto rounded-xl border border-zinc-800">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-zinc-800 bg-zinc-900/60 text-left text-[11px] uppercase tracking-[0.08em] text-zinc-400">
+                  <th className="px-4 py-2.5 font-medium">Layer</th>
+                  <th className="px-4 py-2.5 font-medium text-right">
+                    Train-fit
+                  </th>
+                  <th className="px-4 py-2.5 font-medium text-right">Joint</th>
+                  <th className="px-4 py-2.5 font-medium text-right">
+                    Overfit
+                  </th>
+                  <th className="px-4 py-2.5 font-medium text-right">
+                    Overfit Rate
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-zinc-300">
+                {overfitData.map((row) => (
+                  <tr
+                    key={row.layer}
+                    className="border-b border-zinc-800/50 last:border-0"
+                  >
+                    <td className="px-4 py-2">
+                      <code>{row.layer}</code>
+                    </td>
+                    <td className="px-4 py-2 text-right">{row.trainFit}</td>
+                    <td className="px-4 py-2 text-right">{row.joint}</td>
+                    <td className="px-4 py-2 text-right">{row.overfit}</td>
+                    <td className="px-4 py-2 text-right">{row.overfitRate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-zinc-200">
+            DSL expressiveness gap
+          </h3>
+          <p className="text-sm leading-relaxed text-zinc-400">
+            The system has strong object-centric reasoning but weak per-pixel
+            programmability. 70% of unsolved evaluation tasks are same-dimensions,
+            colors-subset in-place transforms&nbsp;&mdash; tasks where the output
+            structure is known and the entire challenge is the per-pixel or
+            per-region rule. The current per-pixel capability relies on opaque
+            learned lookup tables, which is why those layers overfit.
+          </p>
+          <div className="overflow-x-auto rounded-xl border border-zinc-800">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-zinc-800 bg-zinc-900/60 text-left text-[11px] uppercase tracking-[0.08em] text-zinc-400">
+                  <th className="px-4 py-2.5 font-medium">Rule type</th>
+                  <th className="px-4 py-2.5 font-medium">Expressible?</th>
+                  <th className="px-4 py-2.5 font-medium">Where</th>
+                </tr>
+              </thead>
+              <tbody className="text-zinc-300">
+                {dslGapData.map((row) => (
+                  <tr
+                    key={row.ruleType}
+                    className="border-b border-zinc-800/50 last:border-0"
+                  >
+                    <td className="px-4 py-2">{row.ruleType}</td>
+                    <td className="px-4 py-2">{row.expressible}</td>
+                    <td className="px-4 py-2 text-zinc-400">{row.where}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm leading-relaxed text-zinc-400">
+            The missing primitive family is composable conditional per-pixel
+            rules&nbsp;&mdash; searchable symbolic programs rather than opaque
+            lookup tables. This is the current top architecture priority.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-zinc-200">
+            Hypothesis testing: candidate frontier
+          </h3>
+          <p className="text-sm leading-relaxed text-zinc-400">
+            57 evaluation tasks are claimed by layers with high overfit rates.
+            The hypothesis was that these claims could be recovered by keeping
+            multiple solver candidates per task and ranking by generalization
+            priors (simplicity, macro preference, lower overfit prior).
+          </p>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.08em] text-zinc-500">
+                Test
+              </p>
+              <p className="mt-1 text-sm text-zinc-300">
+                For each of the 57 overfit tasks, disable the claiming layer and
+                check whether any downstream layer produces a joint-exact solve.
+              </p>
+            </div>
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.08em] text-zinc-500">
+                Result
+              </p>
+              <p className="mt-1 text-sm text-zinc-300">
+                2 out of 57 recoverable (3.5%).
+              </p>
+            </div>
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.08em] text-zinc-500">
+                Conclusion
+              </p>
+              <p className="mt-1 text-sm text-zinc-300">
+                This is a coverage problem, not a selection problem. The system
+                lacks the primitives to express these transformations. No amount
+                of better routing or candidate ranking will help&nbsp;&mdash; the
+                solver needs new symbolic capabilities. This finding directly
+                motivated the DSL expressiveness work above.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <Label>Recent Changes</Label>
+        <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 7, 2026 7:30 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              New <code>conditional_recolor_solver</code> pre-flight solver.
+              Learns composable per-pixel recolor rules from a 3-tier condition
+              language: neighbor (adj-4/8, count, surrounded), positional
+              (row/col alignment, enclosed-by, border), and distance conditions.
+              Supports AND-composition and iterate-until-stable for
+              cellular-automaton-style tasks. Targets same-dims in-place
+              recoloring tasks that the existing hardcoded neighbor conditions
+              and pixel-rule lookup tables miss.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 7, 2026 12:50 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <code>BorderAdjacencyShadowMacro</code> to macro synthesis.
+              Solves evaluation task <code>642248e4</code>: for each marker pixel
+              near two opposing solid borders, places a shadow pixel one step
+              toward the nearest border. Auto-detects border axis per grid
+              (row or column borders).
+            </p>
+          </div>
+        </div>
       </section>
     </section>
   );
