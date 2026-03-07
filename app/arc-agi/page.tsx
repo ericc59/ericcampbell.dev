@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { ProgressChart } from './progress-chart';
 
-const lastUpdated = 'March 6, 2026';
+const lastUpdated = 'March 7, 2026';
 
 const metrics = [
   {
@@ -14,17 +14,17 @@ const metrics = [
   },
   {
     label: 'ARC-1 Router + Policy + Early Probe (best training-task run)',
-    train: '346/400 (86.5%)',
-    test: '271/400 (67.8%)',
-    joint: '270/400 (67.5%)',
+    train: '324/400 (81.0%)',
+    test: '274/400 (68.5%)',
+    joint: '273/400 (68.2%)',
     source:
       'reports/arc1_training_after_probe.jsonl; local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
   },
   {
     label: 'ARC-1 Evaluation Tasks (current solver)',
-    train: '156/400 (39.0%)',
-    test: '64/400 (16.0%)',
-    joint: '64/400 (16.0%)',
+    train: '126/400 (31.5%)',
+    test: '73/400 (18.2%)',
+    joint: '73/400 (18.2%)',
     source:
       'reports/arc1_evaluation_after_probe.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
   },
@@ -33,16 +33,16 @@ const metrics = [
 const heroStats = [
   {
     label: 'Best ARC-1 train-task joint',
-    value: '270/400',
+    value: '273/400',
     note: 'router + policy + early probe',
   },
   {
     label: 'ARC-1 evaluation joint',
-    value: '64/400',
+    value: '73/400',
     note: 'held-out task set',
   },
-  { label: 'Inference engines', value: '156', note: 'deterministic library' },
-  { label: 'Router classes', value: '169', note: 'current stack' },
+  { label: 'Inference engines', value: '158', note: 'deterministic library' },
+  { label: 'Router classes', value: '171', note: 'current stack' },
 ];
 
 const progressData = [
@@ -53,7 +53,7 @@ const progressData = [
   { checkpoint: 'v35', train: 89.5, test: 43.5 },
   { checkpoint: 'v36', train: 90.8, test: 49.8 },
   { checkpoint: 'v38', train: 91.5, test: 50.8 },
-  { checkpoint: 'current', train: 86.5, test: 67.8 },
+  { checkpoint: 'current', train: 81.0, test: 68.5 },
 ];
 
 const architectureSteps = [
@@ -124,7 +124,7 @@ const architectureSteps = [
     step: '08',
     title: 'analytical_inference',
     category: 'engine',
-    summary: '156 deterministic inference engines',
+    summary: '158 deterministic inference engines',
     detail:
       'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, lattice normalization, and pixel-rule systems. This is still the largest single execution layer in the stack.',
     coverage: { arc1: '39.8%', arc2: '17.8%' },
@@ -179,7 +179,7 @@ const architectureSteps = [
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
-    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 270/400. Current ARC-1 evaluation-task joint exact: 64/400. ARC-2 joint exact: 281/1000.',
+    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 273/400. Current ARC-1 evaluation-task joint exact: 73/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'EricAGI',
     description:
