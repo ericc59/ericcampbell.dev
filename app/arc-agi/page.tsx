@@ -272,6 +272,19 @@ export default function ArcAgiPage() {
         <Label>Recent Changes</Label>
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 7, 2026 7:30 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              New <code>conditional_recolor_solver</code> pre-flight solver.
+              Learns composable per-pixel recolor rules from a 3-tier condition
+              language: neighbor (adj-4/8, count, surrounded), positional
+              (row/col alignment, enclosed-by, border), and distance conditions.
+              Supports AND-composition and iterate-until-stable for
+              cellular-automaton-style tasks. Targets same-dims in-place
+              recoloring tasks that the existing hardcoded neighbor conditions
+              and pixel-rule lookup tables miss.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 7, 2026 12:50 PM CST</p>
             <p className="mt-1 text-sm text-zinc-300">
               Added <code>BorderAdjacencyShadowMacro</code> to macro synthesis.
