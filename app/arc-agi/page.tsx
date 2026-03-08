@@ -21,12 +21,20 @@ const metrics = [
       'local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
   },
   {
-    label: 'ARC-1 Evaluation Tasks (current solver)',
+    label: 'ARC-1 Evaluation Tasks (no router)',
+    train: '193/400 (48.2%)',
+    test: '136/400 (34.0%)',
+    joint: '136/400 (34.0%)',
+    source:
+      'reports/eval_post_subgrid.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
+  },
+  {
+    label: 'ARC-1 Evaluation Tasks (router + policy)',
     train: '189/400 (47.2%)',
     test: '142/400 (35.5%)',
     joint: '142/400 (35.5%)',
     source:
-      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
+      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy',
   },
 ];
 
@@ -50,11 +58,11 @@ const progressData = [
   { checkpoint: 'v7', train: 32.5 },
   { checkpoint: 'v11', train: 56.8 },
   { checkpoint: 'v26', train: 68.5 },
-  { checkpoint: 'v35', train: 89.5, test: 43.5 },
-  { checkpoint: 'v36', train: 90.8, test: 49.8 },
-  { checkpoint: 'v38', train: 91.5, test: 50.8 },
-  { checkpoint: 'v39', train: 81.0, test: 68.5 },
-  { checkpoint: 'current', train: 75.0, test: 61.0 },
+  { checkpoint: 'v35', train: 89.5, test: 43.5, eval: 13.5 },
+  { checkpoint: 'v36', train: 90.8, test: 49.8, eval: 13.5 },
+  { checkpoint: 'v38', train: 91.5, test: 50.8, eval: 13.5 },
+  { checkpoint: 'v39', train: 81.0, test: 68.5, eval: 22.8 },
+  { checkpoint: 'current', train: 81.2, test: 68.5, eval: 34.0 },
 ];
 
 const architectureSteps = [

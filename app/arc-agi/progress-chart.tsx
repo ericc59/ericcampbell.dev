@@ -14,6 +14,7 @@ type ProgressPoint = {
   checkpoint: string;
   train: number;
   test?: number;
+  eval?: number;
 };
 
 export function ProgressChart({ data }: { data: ProgressPoint[] }) {
@@ -67,6 +68,16 @@ export function ProgressChart({ data }: { data: ProgressPoint[] }) {
               activeDot={{ r: 5 }}
               connectNulls={false}
               name="Test exact"
+            />
+            <Line
+              type="monotone"
+              dataKey="eval"
+              stroke="rgb(251 146 60)"
+              strokeWidth={2.5}
+              dot={{ r: 3 }}
+              activeDot={{ r: 5 }}
+              connectNulls={false}
+              name="Eval joint"
             />
           </LineChart>
         </ResponsiveContainer>
