@@ -558,6 +558,23 @@ export default function ArcAgiPage() {
         <Label>Recent Changes</Label>
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 8, 2026 12:15 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Widened leave-one-out (LOO) validation guard across hybrid solver.
+              High-overfit methods (hierarchical, compositional, relational,
+              transform_dsl) now <strong>always</strong> trigger LOO validation
+              on 3+ pair tasks &mdash; previously gated behind{' '}
+              <code>same_dimensions</code> and complexity score thresholds.
+              These methods also get &ldquo;suspicious&rdquo; treatment (2
+              holdouts, larger budget) instead of the default single holdout.
+              Removed <code>PixelCorrectionProgram</code> from refinement
+              pipeline (100% overfit rate on eval). Together these changes
+              target the 57 eval overfit tasks identified across refinement
+              (19), hierarchical (16), compositional (11), relational (5),
+              transform_dsl (2), and others.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 8, 2026 8:25 AM CST</p>
             <p className="mt-1 text-sm text-zinc-300">
               Extended <code>grid_decomposition</code> solver with three new
