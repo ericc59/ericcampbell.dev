@@ -73,7 +73,7 @@ const architectureSteps = [
     category: 'synthesis',
     summary: 'Typed symbolic synthesis before the heuristic stack',
     detail:
-      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like rectangular spiral, ordered chain layout, and separator-grid legend rewrite before broader heuristic inference. A recent change is search-space compression: instead of hardcoding exact variants, more families are represented as parametric generators that learn a few control values like start length, step delta, direction cycle, or projection rule. That keeps matching cheaper and lets one family cover multiple variants.',
+      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like fold-symmetry completion, rectangular spiral, ordered chain layout, and separator-grid legend rewrite before broader heuristic inference. A recent change is search-space compression: instead of hardcoding exact variants, more families are represented as parametric generators that learn a few control values like start length, step delta, direction cycle, or projection rule. That keeps matching cheaper and lets one family cover multiple variants.',
     coverage: { arc1: '6.0%', arc2: '0.0%' },
   },
   {
@@ -656,6 +656,20 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 8, 2026 11:55 PM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <code>fold_symmetry_completion</code> sketch synthesis
+              family. Detects a solid mask rectangle (single color filling its
+              bounding box), finds row/col fold axes where line[i] ==
+              line[2k+1-i] ignoring mask cells, then reconstructs masked pixels
+              via fold mirrors with transpose fallback for border cells. Solves
+              eval task 0934a4d8 (train+test). Dispatched before
+              rectangular_spiral in sketch search.
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
               March 8, 2026 11:30 PM CDT
