@@ -73,7 +73,7 @@ const architectureSteps = [
     category: 'synthesis',
     summary: 'Typed symbolic synthesis before the heuristic stack',
     detail:
-      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like ordered chain layout and separator-grid legend rewrite before broader heuristic inference.',
+      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like rectangular spiral, ordered chain layout, and separator-grid legend rewrite before broader heuristic inference.',
     coverage: { arc1: '6.0%', arc2: '0.0%' },
   },
   {
@@ -639,6 +639,19 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 8, 2026 11:30 PM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <code>rectangular_spiral</code> sketch synthesis family.
+              Detects two color swatches at (0,0)/(0,1) and a single blue seed
+              pixel, then draws a rectangular spiral (LEFT/DOWN/RIGHT/UP,
+              segment lengths 2,3,4,5,...) alternating swatch colors, clipping
+              at grid boundary. Solves eval task 08573cc6 (train+test).
+              Dispatched before ordered_chain_layout in sketch search.
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
               March 8, 2026 7:45 PM CDT
