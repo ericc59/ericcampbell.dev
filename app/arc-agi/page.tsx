@@ -558,6 +558,21 @@ export default function ArcAgiPage() {
         <Label>Recent Changes</Label>
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 8, 2026 11:50 AM CDT</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Fixed 3 bugs in <code>conditional_recolor_solver</code>: (1) zero-unchanged
+              guard now emits <code>always</code> condition for unconditional transitions
+              instead of rejecting (fixed 16 tasks), (2) relaxed same-dims guard to
+              per-pair check (fixed 4 tasks), (3) cross-target unchanged augmentation
+              &mdash; unchanged set for transition (src, tgt) now includes pixels from
+              other transitions with same source color (fixed multi-target disambiguation).
+              Added &ge;2 training pairs guard to prevent single-pair overfitting.
+              Raised transition cap from 6 to 10. Result: 15 eval tasks solved by
+              conditional recolor (up from 4), 1 genuinely new test-correct eval solve
+              (140c817e).
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 8, 2026 11:06 PM CST</p>
             <p className="mt-1 text-sm text-zinc-300">
               Extended <code>conditional_recolor_solver</code> condition language
