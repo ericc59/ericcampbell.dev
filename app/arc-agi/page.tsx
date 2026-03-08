@@ -47,7 +47,7 @@ const heroStats = [
   {
     label: 'ARC-1 evaluation joint',
     value: '142/400',
-    note: 'held-out task set',
+    note: 'router + policy',
   },
   { label: 'Inference engines', value: '158', note: 'deterministic library' },
   { label: 'Router classes', value: '171', note: 'current stack' },
@@ -293,9 +293,9 @@ export default function ArcAgiPage() {
         <Label>Progress</Label>
         <ProgressChart data={progressData} />
         <p className="text-xs text-zinc-500">
-          ARC-1 training-task exact score by checkpoint. Train is shown across
-          the full timeline; test appears where split-aware measurements were
-          recorded for the same training-task set.
+          ARC-1 score by checkpoint. Green = training train-fit, blue =
+          training joint (test exact), orange = evaluation joint. All
+          no-router runs.
         </p>
       </section>
 
