@@ -7,9 +7,9 @@ const lastUpdated = 'March 8, 2026';
 const metrics = [
   {
     label: 'ARC-1 Training Tasks (no router)',
-    train: '300/400 (75.0%)',
-    test: '244/400 (61.0%)',
-    joint: '244/400 (61.0%)',
+    train: '290/400 (72.5%)',
+    test: '243/400 (60.8%)',
+    joint: '242/400 (60.5%)',
     source:
       'local benchmark, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
   },
@@ -23,11 +23,11 @@ const metrics = [
   },
   {
     label: 'ARC-1 Evaluation Tasks (no router)',
-    train: '182/400 (45.5%)',
-    test: '143/400 (35.8%)',
-    joint: '143/400 (35.8%)',
+    train: '186/400 (46.5%)',
+    test: '149/400 (37.2%)',
+    joint: '149/400 (37.2%)',
     source:
-      'reports/eval_post_subgrid.jsonl (latest 400-task slice); local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
+      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
   },
   {
     label: 'ARC-1 Evaluation Tasks (router + policy)',
@@ -47,7 +47,7 @@ const heroStats = [
   },
   {
     label: 'Best ARC-1 evaluation joint',
-    value: '143/400',
+    value: '149/400',
     note: 'no router/policy',
   },
   { label: 'Inference engines', value: '158', note: 'deterministic library' },
@@ -63,7 +63,7 @@ const progressData = [
   { checkpoint: 'v36', train: 90.8, test: 49.8, eval: 13.5 },
   { checkpoint: 'v38', train: 91.5, test: 50.8, eval: 13.5 },
   { checkpoint: 'v39', train: 81.0, test: 68.5, eval: 22.8 },
-  { checkpoint: 'current', train: 81.2, test: 68.8, eval: 35.8 },
+  { checkpoint: 'current', train: 81.2, test: 68.8, eval: 37.2 },
 ];
 
 const architectureSteps = [
@@ -639,6 +639,23 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 8, 2026 7:45 PM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Full <code>conditional_recolor_solver</code> rewrite: 9 condition
+              tiers (up from 3), OR/NOT composition, connected-component and
+              zone/region conditions, precomputed bitvec search, LOO validation
+              for &ge;3 pairs, extended-tier gating for &le;2 pairs. Regression
+              guard: rejects multi-target from_colors with inconsistent target
+              sets between pairs when no truly unchanged pixels exist. Fixed 7
+              eval regressions. Added LOO validation to compositional and
+              hierarchical solvers. Removed pixel_correction from refinement.
+              Result: eval joint 149/400 (37.2%, +6), training joint 242/400
+              (60.5%).
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
               March 8, 2026 3:30 PM CDT
