@@ -199,9 +199,9 @@ const overfitData = [
 const dslGapData = [
   { ruleType: 'Global color swap', expressible: 'Yes', where: 'recolor primitive' },
   { ruleType: 'Object-level conditionals', expressible: 'Yes', where: 'Transform DSL, Rule Induction' },
-  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Yes', where: 'conditional_recolor_solver (15+ conditions)' },
+  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Yes', where: 'conditional_recolor_solver (35+ conditions, 7 tiers)' },
   { ruleType: 'Per-pixel feature lookup', expressible: 'Opaque', where: 'pixel_rules (learned tables, non-composable)' },
-  { ruleType: 'Compound conditions (AND)', expressible: 'Yes', where: 'conditional_recolor_solver' },
+  { ruleType: 'Compound conditions (AND/OR/NOT)', expressible: 'Yes', where: 'conditional_recolor_solver' },
   { ruleType: 'Cellular automaton / iterate-until-stable', expressible: 'Yes', where: 'conditional_recolor_solver' },
   { ruleType: 'Distance-based predicates', expressible: 'Yes', where: 'conditional_recolor_solver' },
   { ruleType: 'Region-aware conditionals', expressible: 'Yes', where: 'conditional_recolor_solver (enclosed_by)' },
@@ -557,6 +557,20 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 8, 2026 11:06 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Extended <code>conditional_recolor_solver</code> condition language
+              from 15 to ~35 condition kinds across 7 tiers. New tiers: exact
+              adjacency counts (tier 4), directional predicates &mdash; has_dir
+              and ray_hit in all 8 directions (tier 5), row/col aggregate counts
+              (tier 6), position/parity predicates (tier 7). Added{' '}
+              <code>OR</code> and <code>NOT</code> composition alongside existing
+              AND. Accelerated search with precomputed numpy boolean arrays
+              (bitvec search). Search order: single &rarr; NOT &rarr; AND &rarr;
+              OR. All flat compositions only (no nesting).
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 8, 2026 5:30 PM CST</p>
             <p className="mt-1 text-sm text-zinc-300">
