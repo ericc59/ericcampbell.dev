@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { ProgressChart } from './progress-chart';
 
-const lastUpdated = 'March 7, 2026';
+const lastUpdated = 'March 8, 2026';
 
 const metrics = [
   {
@@ -549,6 +549,21 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 8, 2026 8:25 AM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Extended <code>grid_decomposition</code> solver with three new
+              operation families: sub-grid <strong>selection</strong> (pick one
+              cell by criterion: most/fewest pixels, most/fewest colors,
+              contains_color, max_dominant, most_symmetric), sub-grid{' '}
+              <strong>sorting</strong> (permute cells by feature along
+              flat/row/col axes via <code>SortedGridProgram</code>), and{' '}
+              <strong>learned priority overlay</strong> (per-color priority
+              ordering via pairwise preference graph + topological sort).
+              Targets 47 unsolved eval tasks with grid separators plus 3
+              overfit hierarchical tasks.
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 7, 2026 7:30 PM CST</p>
             <p className="mt-1 text-sm text-zinc-300">
