@@ -558,6 +558,21 @@ export default function ArcAgiPage() {
         <Label>Recent Changes</Label>
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 8, 2026 5:30 PM CST</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <strong>internal</strong> LOO validation to hierarchical and
+              compositional solver layers. Instead of the hybrid solver&apos;s
+              external LOO (which re-runs the entire method), internal LOO
+              re-solves only the last learned step on N-1 training pairs and
+              verifies on the held-out pair. Applied at 6 sites: hierarchical
+              per-group inference (custom group-indexed holdout across all
+              groups), and 5 compositional solve functions (DSL-then-inference,
+              reverse compositional, 2-step chain, 3-step chain,
+              inference-then-DSL). Skipped for 2-pair tasks. Targets 27 eval
+              overfit tasks (16 hierarchical + 11 compositional).
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 8, 2026 12:15 PM CST</p>
             <p className="mt-1 text-sm text-zinc-300">
               Widened leave-one-out (LOO) validation guard across hybrid solver.
