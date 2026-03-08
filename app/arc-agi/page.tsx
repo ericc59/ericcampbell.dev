@@ -6,11 +6,11 @@ const lastUpdated = 'March 7, 2026';
 
 const metrics = [
   {
-    label: 'ARC-1 Fixed Order (no router)',
-    train: '367/400 (91.8%)',
-    test: '204/400 (51.0%)',
-    joint: '203/400 (50.8%)',
-    source: 'reports/arc1_baseline_both.jsonl (repeat=3)',
+    label: 'ARC-1 Training Tasks (no router)',
+    train: '300/400 (75.0%)',
+    test: '244/400 (61.0%)',
+    joint: '244/400 (61.0%)',
+    source: 'local benchmark, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
   },
   {
     label: 'ARC-1 Router + Policy + Early Probe (best training-task run)',
@@ -22,11 +22,11 @@ const metrics = [
   },
   {
     label: 'ARC-1 Evaluation Tasks (current solver)',
-    train: '126/400 (31.5%)',
-    test: '73/400 (18.2%)',
-    joint: '73/400 (18.2%)',
+    train: '148/400 (37.0%)',
+    test: '91/400 (22.8%)',
+    joint: '91/400 (22.8%)',
     source:
-      'reports/arc1_evaluation_after_probe.jsonl; local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
+      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
   },
 ];
 
@@ -38,7 +38,7 @@ const heroStats = [
   },
   {
     label: 'ARC-1 evaluation joint',
-    value: '73/400',
+    value: '91/400',
     note: 'held-out task set',
   },
   { label: 'Inference engines', value: '158', note: 'deterministic library' },
@@ -53,7 +53,8 @@ const progressData = [
   { checkpoint: 'v35', train: 89.5, test: 43.5 },
   { checkpoint: 'v36', train: 90.8, test: 49.8 },
   { checkpoint: 'v38', train: 91.5, test: 50.8 },
-  { checkpoint: 'current', train: 81.0, test: 68.5 },
+  { checkpoint: 'v39', train: 81.0, test: 68.5 },
+  { checkpoint: 'current', train: 75.0, test: 61.0 },
 ];
 
 const architectureSteps = [
@@ -190,18 +191,18 @@ const overfitData = [
 const dslGapData = [
   { ruleType: 'Global color swap', expressible: 'Yes', where: 'recolor primitive' },
   { ruleType: 'Object-level conditionals', expressible: 'Yes', where: 'Transform DSL, Rule Induction' },
-  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Partially', where: '6 hardcoded conditions' },
+  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Yes', where: 'conditional_recolor_solver (15+ conditions)' },
   { ruleType: 'Per-pixel feature lookup', expressible: 'Opaque', where: 'pixel_rules (learned tables, non-composable)' },
-  { ruleType: 'Compound conditions (AND/OR)', expressible: 'No', where: '—' },
-  { ruleType: 'Cellular automaton / iterate-until-stable', expressible: 'No', where: '—' },
-  { ruleType: 'Distance-based predicates', expressible: 'No', where: '—' },
-  { ruleType: 'Region-aware conditionals', expressible: 'No', where: '—' },
+  { ruleType: 'Compound conditions (AND)', expressible: 'Yes', where: 'conditional_recolor_solver' },
+  { ruleType: 'Cellular automaton / iterate-until-stable', expressible: 'Yes', where: 'conditional_recolor_solver' },
+  { ruleType: 'Distance-based predicates', expressible: 'Yes', where: 'conditional_recolor_solver' },
+  { ruleType: 'Region-aware conditionals', expressible: 'Yes', where: 'conditional_recolor_solver (enclosed_by)' },
 ];
 
 export const metadata: Metadata = {
   title: 'ARCitect',
   description:
-    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 273/400. Current ARC-1 evaluation-task joint exact: 73/400. ARC-2 joint exact: 281/1000.',
+    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 273/400. Current ARC-1 evaluation-task joint exact: 91/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'ARCitect',
     description:
@@ -494,9 +495,10 @@ export default function ArcAgiPage() {
             </table>
           </div>
           <p className="text-sm leading-relaxed text-zinc-400">
-            The missing primitive family is composable conditional per-pixel
-            rules&nbsp;&mdash; searchable symbolic programs rather than opaque
-            lookup tables. This is the current top architecture priority.
+            The conditional_recolor_solver now covers composable per-pixel
+            rules with AND-composition, iterate-until-stable, distance, and
+            region-aware conditions. Remaining gaps: OR-composition, more
+            complex spatial predicates, and multi-object conditional logic.
           </p>
         </div>
 
@@ -557,7 +559,9 @@ export default function ArcAgiPage() {
               Supports AND-composition and iterate-until-stable for
               cellular-automaton-style tasks. Targets same-dims in-place
               recoloring tasks that the existing hardcoded neighbor conditions
-              and pixel-rule lookup tables miss.
+              and pixel-rule lookup tables miss. Eval joint: 73/400 &rarr;
+              91/400 (+18 tasks, +4.6pp). Training joint (no router): 244/400
+              (61.0%).
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
