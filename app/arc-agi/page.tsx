@@ -73,7 +73,7 @@ const architectureSteps = [
     category: 'synthesis',
     summary: 'Typed symbolic synthesis before the heuristic stack',
     detail:
-      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like rectangular spiral, ordered chain layout, and separator-grid legend rewrite before broader heuristic inference.',
+      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like rectangular spiral, ordered chain layout, and separator-grid legend rewrite before broader heuristic inference. A recent change is search-space compression: instead of hardcoding exact variants, more families are represented as parametric generators that learn a few control values like start length, step delta, direction cycle, or projection rule. That keeps matching cheaper and lets one family cover multiple variants.',
     coverage: { arc1: '6.0%', arc2: '0.0%' },
   },
   {
@@ -291,11 +291,11 @@ const dslGapData = [
 export const metadata: Metadata = {
   title: 'ARCitect',
   description:
-    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 143/400. ARC-2 joint exact: 281/1000.',
+    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, compressed parametric search families, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 143/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'ARCitect',
     description:
-      'Architecture and current benchmark status for ARCitect, a deterministic hybrid ARC solver with early sketch and macro synthesis, a symbolic probe before inference, symbolic search, and small neural guidance.',
+      'Architecture and current benchmark status for ARCitect, a deterministic hybrid ARC solver with early sketch and macro synthesis, compressed symbolic search families, a symbolic probe before inference, and small neural guidance.',
   },
 };
 
@@ -321,7 +321,8 @@ export default function ArcAgiPage() {
           </a>{' '}
           tasks: explicit symbolic program synthesis and reasoning, an early
           sketch-plus-macro symbolic layer, a cheap symbolic probe before heavy
-          inference, and small neural router and policy models that only
+          inference, search-space compression through parametric symbolic
+          families, and small neural router and policy models that only
           prioritize search. This page is the current product-engineering
           snapshot of the stack, the best training-task results, and the real
           held-out evaluation numbers.
@@ -491,6 +492,22 @@ export default function ArcAgiPage() {
             <p className="mt-2 text-sm leading-relaxed text-zinc-400">
               Reject work that only improves the hard suite, increases train fit
               without eval movement, or introduces obvious task-specific logic.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <h3 className="text-sm font-medium text-zinc-100">
+              Search-space compression
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              The solver is moving away from one-off rule variants and toward
+              compressed symbolic families. Instead of a separate sketch for
+              every exact pattern, the matcher tries to infer a small set of
+              control parameters first — things like step delta, direction
+              order, stencil source, lane ownership, or template placement. A
+              good example is the spiral family: the same program can solve the
+              current task with segment growth <code>+1</code> and also a
+              synthetic <code>+2</code> version by learning different
+              parameters, not by adding a new solver.
             </p>
           </div>
         </div>
