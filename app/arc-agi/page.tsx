@@ -14,17 +14,17 @@ const metrics = [
   },
   {
     label: 'ARC-1 Router + Policy + Early Probe (best training-task run)',
-    train: '324/400 (81.0%)',
-    test: '274/400 (68.5%)',
-    joint: '273/400 (68.2%)',
+    train: '325/400 (81.2%)',
+    test: '275/400 (68.8%)',
+    joint: '274/400 (68.5%)',
     source:
-      'reports/arc1_training_after_probe.jsonl; local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
+      'local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
   },
   {
     label: 'ARC-1 Evaluation Tasks (current solver)',
-    train: '148/400 (37.0%)',
-    test: '91/400 (22.8%)',
-    joint: '91/400 (22.8%)',
+    train: '189/400 (47.2%)',
+    test: '142/400 (35.5%)',
+    joint: '142/400 (35.5%)',
     source:
       'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
   },
@@ -33,12 +33,12 @@ const metrics = [
 const heroStats = [
   {
     label: 'Best ARC-1 train-task joint',
-    value: '273/400',
+    value: '274/400',
     note: 'router + policy + early probe',
   },
   {
     label: 'ARC-1 evaluation joint',
-    value: '91/400',
+    value: '142/400',
     note: 'held-out task set',
   },
   { label: 'Inference engines', value: '158', note: 'deterministic library' },
@@ -202,7 +202,7 @@ const dslGapData = [
 export const metadata: Metadata = {
   title: 'ARCitect',
   description:
-    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 273/400. Current ARC-1 evaluation-task joint exact: 91/400. ARC-2 joint exact: 281/1000.',
+    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early typed macro-synthesis layer, a cheap symbolic probe before inference, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 274/400. Current ARC-1 evaluation-task joint exact: 142/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'ARCitect',
     description:
@@ -561,7 +561,9 @@ export default function ArcAgiPage() {
               <strong>learned priority overlay</strong> (per-color priority
               ordering via pairwise preference graph + topological sort).
               Targets 47 unsolved eval tasks with grid separators plus 3
-              overfit hierarchical tasks.
+              overfit hierarchical tasks. Eval joint: 91/400 &rarr;
+              142/400 (+51 tasks, +12.8pp). Training joint (router +
+              policy): 274/400 (68.5%).
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
