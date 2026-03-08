@@ -31,11 +31,11 @@ const metrics = [
   },
   {
     label: 'ARC-1 Evaluation Tasks (router + policy)',
-    train: '133/400 (33.2%)',
-    test: '83/400 (20.8%)',
-    joint: '83/400 (20.8%)',
+    train: '187/400 (46.8%)',
+    test: '157/400 (39.2%)',
+    joint: '157/400 (39.2%)',
     source:
-      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy',
+      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=24, metric=both, router + policy',
   },
 ];
 
@@ -47,8 +47,8 @@ const heroStats = [
   },
   {
     label: 'Best ARC-1 evaluation joint',
-    value: '149/400',
-    note: 'no router/policy',
+    value: '157/400',
+    note: 'router + policy',
   },
   { label: 'Inference engines', value: '158', note: 'deterministic library' },
   { label: 'Router classes', value: '171', note: 'current stack' },
@@ -63,7 +63,7 @@ const progressData = [
   { checkpoint: 'v36', train: 90.8, test: 49.8, eval: 13.5 },
   { checkpoint: 'v38', train: 91.5, test: 50.8, eval: 13.5 },
   { checkpoint: 'v39', train: 81.0, test: 68.5, eval: 22.8 },
-  { checkpoint: 'current', train: 81.2, test: 68.8, eval: 37.2 },
+  { checkpoint: 'current', train: 81.2, test: 68.8, eval: 39.2 },
 ];
 
 const architectureSteps = [
@@ -291,7 +291,7 @@ const dslGapData = [
 export const metadata: Metadata = {
   title: 'ARCitect',
   description:
-    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, compressed parametric search families, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 143/400. ARC-2 joint exact: 281/1000.',
+    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, compressed parametric search families, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 157/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
     title: 'ARCitect',
     description:
