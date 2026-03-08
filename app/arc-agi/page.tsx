@@ -199,12 +199,12 @@ const overfitData = [
 const dslGapData = [
   { ruleType: 'Global color swap', expressible: 'Yes', where: 'recolor primitive' },
   { ruleType: 'Object-level conditionals', expressible: 'Yes', where: 'Transform DSL, Rule Induction' },
-  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Yes', where: 'conditional_recolor_solver (35+ conditions, 7 tiers)' },
+  { ruleType: 'Per-pixel neighbor recolor', expressible: 'Yes', where: 'conditional_recolor_solver (45+ conditions, 9 tiers)' },
   { ruleType: 'Per-pixel feature lookup', expressible: 'Opaque', where: 'pixel_rules (learned tables, non-composable)' },
   { ruleType: 'Compound conditions (AND/OR/NOT)', expressible: 'Yes', where: 'conditional_recolor_solver' },
   { ruleType: 'Cellular automaton / iterate-until-stable', expressible: 'Yes', where: 'conditional_recolor_solver' },
   { ruleType: 'Distance-based predicates', expressible: 'Yes', where: 'conditional_recolor_solver' },
-  { ruleType: 'Region-aware conditionals', expressible: 'Yes', where: 'conditional_recolor_solver (enclosed_by)' },
+  { ruleType: 'Region-aware conditionals', expressible: 'Yes', where: 'conditional_recolor_solver (enclosed_by, zones, components)' },
 ];
 
 export const metadata: Metadata = {
@@ -557,6 +557,18 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">March 8, 2026 3:30 PM CDT</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added tiers 8&ndash;9 to <code>conditional_recolor_solver</code>: connected-component
+              conditions (size eq/le/ge, touches_border, adj_has) and zone/region conditions
+              (zone_size eq/le, zone_has_color, zone_row_eq, zone_col_eq). Zone detection
+              uses two-stage approach: separator-line detection for grid-based tasks, then
+              flood-fill fallback for barrier-separated regions. Component labeling via
+              <code>scipy.ndimage.label</code>. Up to ~125 new enumerated conditions on top
+              of existing ~390. Diagnostic estimates ~77 newly solvable same-dim eval tasks.
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">March 8, 2026 11:50 AM CDT</p>
             <p className="mt-1 text-sm text-zinc-300">
