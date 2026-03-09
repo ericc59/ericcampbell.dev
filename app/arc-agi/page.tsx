@@ -6,52 +6,68 @@ const lastUpdated = 'March 9, 2026';
 
 const metrics = [
   {
-    label: 'ARC-1 Training Tasks (no router)',
-    train: '290/400 (72.5%)',
-    test: '243/400 (60.8%)',
-    joint: '242/400 (60.5%)',
-    source:
-      'local benchmark, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
+    label: 'Current Baseline: ARC-1 Training Joint',
+    train: '280/400 (70.0%)',
+    test: 'n/a',
+    joint: '280/400 (70.0%)',
+    source: 'current operator-sketch lane baseline, joint exact',
   },
   {
-    label: 'ARC-1 Router + Policy + Early Probe (best training-task run)',
-    train: '325/400 (81.2%)',
-    test: '276/400 (69.0%)',
-    joint: '275/400 (68.8%)',
-    source:
-      'local benchmark on ARC-1 training tasks, depth=3, timeout=10s, workers=8, metric=both, router + policy + early symbolic probe',
+    label: 'Current Baseline: ARC-1 Evaluation Joint',
+    train: '232/400 (58.0%)',
+    test: 'n/a',
+    joint: '232/400 (58.0%)',
+    source: 'current operator-sketch lane baseline, joint exact',
   },
   {
-    label: 'ARC-1 Evaluation Tasks (no router)',
-    train: '186/400 (46.5%)',
-    test: '149/400 (37.2%)',
-    joint: '149/400 (37.2%)',
-    source:
-      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=8, metric=both, no router/policy',
+    label: 'Current Baseline: ARC-2 Evaluation Joint',
+    train: '3/120 (2.5%)',
+    test: 'n/a',
+    joint: '3/120 (2.5%)',
+    source: 'current baseline on the ARC-2 eval slice',
   },
   {
-    label: 'ARC-1 Evaluation Tasks (router + policy)',
-    train: '255/400 (63.8%)',
-    test: '228/400 (57.0%)',
-    joint: '228/400 (57.0%)',
+    label: 'Current Research Focus',
+    train: 'typed operators',
+    test: 'sketches',
+    joint: 'test-time composition',
     source:
-      'local benchmark on ARC-1 evaluation tasks, depth=3, timeout=10s, workers=24, metric=both, router + policy',
+      'push the operator-sketch engine forward instead of adding more family-specific solvers',
   },
 ];
 
 const heroStats = [
   {
-    label: 'Best ARC-1 train-task joint',
-    value: '275/400',
-    note: 'router + policy + early probe',
+    label: 'ARC-1 training joint',
+    value: '280/400',
+    note: 'current baseline',
   },
   {
-    label: 'Best ARC-1 evaluation joint',
-    value: '228/400',
-    note: 'router + policy',
+    label: 'ARC-1 evaluation joint',
+    value: '232/400',
+    note: 'current baseline',
   },
-  { label: 'Inference engines', value: '158', note: 'deterministic library' },
-  { label: 'Router classes', value: '171', note: 'current stack' },
+  { label: 'ARC-2 evaluation joint', value: '3/120', note: 'current baseline' },
+  {
+    label: 'Operator chains',
+    value: '13',
+    note: 'first-class sketch programs',
+  },
+];
+
+const currentFocus = [
+  'Replace family-first fitting with typed operators and first-class sketches.',
+  'Search for the next operator at test time instead of predicting one final family up front.',
+  'Keep adding one real operator chain at a time on real ARC tasks and make it the preferred route in search.',
+];
+
+const recentOperatorChains = [
+  'reference_shape_key_operator_chain - 009d5c81',
+  'extract_select_render_operator_chain - cd3c21df',
+  'anchor_component_completion_operator_chain - 14754a24',
+  'separator_grid_legend_operator_chain - 15113be4',
+  'fold_symmetry_operator_chain - 0934a4d8',
+  'rectangular_spiral_operator_chain - 08573cc6',
 ];
 
 const progressData = [
@@ -291,11 +307,11 @@ const dslGapData = [
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
-    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, compressed parametric search families, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 228/400. ARC-2 joint exact: 281/1000.',
+    'EricAGI is a deterministic ARC solver moving from family-first matching toward typed operators, first-class sketches, and test-time program construction. Current baselines: ARC-1 training joint 280/400, ARC-1 evaluation joint 232/400, ARC-2 evaluation joint 3/120.',
   openGraph: {
     title: 'EricAGI',
     description:
-      'Architecture and current benchmark status for EricAGI, a deterministic hybrid ARC solver with early sketch and macro synthesis, compressed symbolic search families, a symbolic probe before inference, and small neural guidance.',
+      'Architecture and current benchmark status for EricAGI, with the current focus on the operator-sketch engine, typed intermediate state, and test-time symbolic composition.',
   },
 };
 
@@ -319,13 +335,11 @@ export default function ArcAgiPage() {
           >
             ARC
           </a>{' '}
-          tasks: explicit symbolic program synthesis and reasoning, an early
-          sketch-plus-macro symbolic layer, a cheap symbolic probe before heavy
-          inference, search-space compression through parametric symbolic
-          families, and small neural router and policy models that only
-          prioritize search. This page is the current product-engineering
-          snapshot of the stack, the best training-task results, and the real
-          held-out evaluation numbers.
+          tasks. The current architecture work is focused on replacing
+          family-first fitting with typed operators, first-class sketches, and
+          test-time composition of short symbolic programs. The immediate goal
+          is a more fluid operator-sketch engine, not more broad family
+          reordering or more router work.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {heroStats.map((stat) => (
@@ -368,7 +382,33 @@ export default function ArcAgiPage() {
             </div>
           ))}
         </div>
-        <p className="text-[11px] text-zinc-500">{metrics[1].source}</p>
+        <p className="text-[11px] text-zinc-500">{metrics[0].source}</p>
+      </section>
+
+      <section className="space-y-3">
+        <Label>Current Focus</Label>
+        <div className="grid gap-3 lg:grid-cols-[1.2fr,0.8fr]">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <h3 className="text-sm font-medium text-zinc-100">Operator lane</h3>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-zinc-400">
+              {currentFocus.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <h3 className="text-sm font-medium text-zinc-100">
+              Recent operator wins
+            </h3>
+            <ul className="mt-2 space-y-1 text-sm leading-relaxed text-zinc-400">
+              {recentOperatorChains.map((item) => (
+                <li key={item}>
+                  <code>{item}</code>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section className="space-y-3">
@@ -678,8 +718,7 @@ export default function ArcAgiPage() {
               <code>barrier_gap_thread</code> modes to{' '}
               <code>SpatialPropagationProgram</code>.{' '}
               <code>diamond_contour_fill</code>: Manhattan-distance diamond
-              contours around H/V line segments (solves{' '}
-              <code>c97c0139</code>).{' '}
+              contours around H/V line segments (solves <code>c97c0139</code>).{' '}
               <code>barrier_gap_thread</code>: seed propagates through parallel
               barrier lines by threading corridors via per-entry nearest-gap
               ranges (solves <code>f9a67cb5</code>). 10 modes total.
@@ -691,11 +730,10 @@ export default function ArcAgiPage() {
             </p>
             <p className="mt-1 text-sm text-zinc-300">
               Add <code>marker_corner_extend</code> mode to{' '}
-              <code>SpatialPropagationProgram</code>: each isolated
-              single-pixel marker extends L-shaped lines toward its nearest
-              grid corner (Manhattan distance). Solves eval task{' '}
-              <code>705a3229</code>. 8th mode in the spatial propagation
-              family.
+              <code>SpatialPropagationProgram</code>: each isolated single-pixel
+              marker extends L-shaped lines toward its nearest grid corner
+              (Manhattan distance). Solves eval task <code>705a3229</code>. 8th
+              mode in the spatial propagation family.
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
