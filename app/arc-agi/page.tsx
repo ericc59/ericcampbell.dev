@@ -658,6 +658,22 @@ export default function ArcAgiPage() {
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
+              March 9, 2026 3:30 PM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Add <code>diamond_contour_fill</code> and{' '}
+              <code>barrier_gap_thread</code> modes to{' '}
+              <code>SpatialPropagationProgram</code>.{' '}
+              <code>diamond_contour_fill</code>: Manhattan-distance diamond
+              contours around H/V line segments (solves{' '}
+              <code>c97c0139</code>).{' '}
+              <code>barrier_gap_thread</code>: seed propagates through parallel
+              barrier lines by threading corridors via per-entry nearest-gap
+              ranges (solves <code>f9a67cb5</code>). 10 modes total.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
               March 9, 2026 2:30 PM CDT
             </p>
             <p className="mt-1 text-sm text-zinc-300">
