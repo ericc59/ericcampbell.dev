@@ -658,6 +658,19 @@ export default function ArcAgiPage() {
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
+              March 9, 2026 2:30 PM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Add <code>marker_corner_extend</code> mode to{' '}
+              <code>SpatialPropagationProgram</code>: each isolated
+              single-pixel marker extends L-shaped lines toward its nearest
+              grid corner (Manhattan distance). Solves eval task{' '}
+              <code>705a3229</code>. 8th mode in the spatial propagation
+              family.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
               March 9, 2026 12:00 AM CDT
             </p>
             <p className="mt-1 text-sm text-zinc-300">
