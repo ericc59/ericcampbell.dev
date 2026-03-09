@@ -658,6 +658,19 @@ export default function ArcAgiPage() {
         <div className="space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
+              March 9, 2026 4:30 PM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Add <code>marker_bounding_rect</code> mode to{' '}
+              <code>SpatialPropagationProgram</code>: draws a bounding rectangle
+              outline (color 1) around 3 isolated marker pixels (color 8),
+              connecting them with axis-aligned edges. Solves eval task{' '}
+              <code>e7639916</code>. 11 modes total in the spatial propagation
+              family.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
               March 9, 2026 3:30 PM CDT
             </p>
             <p className="mt-1 text-sm text-zinc-300">
