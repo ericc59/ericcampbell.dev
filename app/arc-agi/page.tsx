@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { ProgressChart } from './progress-chart';
 
-const lastUpdated = 'March 8, 2026';
+const lastUpdated = 'March 9, 2026';
 
 const metrics = [
   {
@@ -656,6 +656,41 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 9, 2026 12:00 AM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Add <code>MarkerSnapToBlock</code> macro family:
+              Chebyshev-Voronoi marker-to-block assignment with greedy per-side
+              scan-line matching. Solves <code>e1d2900e</code> (eval). 7730
+              tests, 100% coverage. Total: 176 macro families.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 8, 2026 11:59 PM CDT
+            </p>
+            <p className="text-[11px] font-medium text-zinc-400 mt-0.5">
+              Add 3 in-scene completion fill macros: CrossSpiral, LineBounce,
+              SerpentinePath
+            </p>
+            <ul className="mt-2 space-y-1 text-sm text-zinc-300 list-disc pl-5">
+              <li>
+                CrossSpiral (da515329): Chebyshev-distance ring walk from
+                axis-cross center with seam-position flipping
+              </li>
+              <li>
+                LineBounce (b942fd60): BFS ray-bounce fill with mixed threshold
+                (initial rays &ge;1, bounced rays &ge;2)
+              </li>
+              <li>
+                SerpentinePath (96a8c0cd): Edge-seed serpentine walk with CW/CCW
+                obstacle detours based on obstacle color
+              </li>
+              <li>7346 tests passing, 100% coverage, ~37600 statements</li>
+            </ul>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
               March 8, 2026 11:55 PM CDT
