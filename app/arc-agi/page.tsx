@@ -289,13 +289,13 @@ const dslGapData = [
 ];
 
 export const metadata: Metadata = {
-  title: 'ARCitect',
+  title: 'EricAGI',
   description:
-    'ARCitect is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, compressed parametric search families, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 228/400. ARC-2 joint exact: 281/1000.',
+    'EricAGI is a deterministic hybrid ARC solver: explicit symbolic program synthesis and reasoning, an early sketch-plus-macro symbolic layer, a cheap symbolic probe before inference, compressed parametric search families, and small neural router and policy models used only to prioritize search. Best ARC-1 training-task joint exact: 275/400. Best ARC-1 evaluation-task joint exact: 228/400. ARC-2 joint exact: 281/1000.',
   openGraph: {
-    title: 'ARCitect',
+    title: 'EricAGI',
     description:
-      'Architecture and current benchmark status for ARCitect, a deterministic hybrid ARC solver with early sketch and macro synthesis, compressed symbolic search families, a symbolic probe before inference, and small neural guidance.',
+      'Architecture and current benchmark status for EricAGI, a deterministic hybrid ARC solver with early sketch and macro synthesis, compressed symbolic search families, a symbolic probe before inference, and small neural guidance.',
   },
 };
 
@@ -307,10 +307,10 @@ export default function ArcAgiPage() {
           Product Engineering
         </span>
         <h1 className="max-w-2xl text-zinc-100 text-xl font-medium leading-tight">
-          ARCitect
+          EricAGI
         </h1>
         <p className="max-w-2xl text-sm text-zinc-400 leading-relaxed">
-          ARCitect is a deterministic hybrid solver for{' '}
+          EricAGI is a deterministic hybrid solver for{' '}
           <a
             href="https://arcprize.org/"
             target="_blank"
@@ -447,7 +447,7 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Research Methodology</Label>
         <p className="text-sm leading-relaxed text-zinc-400">
-          ARCitect runs two parallel work streams.
+          EricAGI runs two parallel work streams.
         </p>
         <div className="space-y-3">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
