@@ -2,72 +2,78 @@ import type { Metadata } from 'next';
 
 import { ProgressChart } from './progress-chart';
 
-const lastUpdated = 'March 9, 2026';
+const lastUpdated = 'March 11, 2026';
 
 const metrics = [
   {
-    label: 'Current Baseline: ARC-1 Training Joint',
-    train: '280/400 (70.0%)',
-    test: 'n/a',
-    joint: '280/400 (70.0%)',
-    source: 'current operator-sketch lane baseline, joint exact',
+    label: 'ARC-1 Training',
+    train: '310/400 (77.5%)',
+    test: '301/400 (75.2%)',
+    joint: '301/400 (75.2%)',
+    source:
+      'reports/arc1_training_after_aligned_component_bridge_20260311.jsonl',
   },
   {
-    label: 'Current Baseline: ARC-1 Evaluation Joint',
-    train: '232/400 (58.0%)',
-    test: 'n/a',
-    joint: '232/400 (58.0%)',
-    source: 'current operator-sketch lane baseline, joint exact',
+    label: 'ARC-1 Evaluation',
+    train: '253/400 (63.3%)',
+    test: '221/400 (55.2%)',
+    joint: '221/400 (55.2%)',
+    source: 'reports/arc1_eval_frontier_probe_v2_20260311.jsonl',
   },
   {
-    label: 'Current Baseline: ARC-2 Evaluation Joint',
-    train: '3/120 (2.5%)',
-    test: 'n/a',
-    joint: '3/120 (2.5%)',
-    source: 'current baseline on the ARC-2 eval slice',
+    label: 'Solved Attribution (Joint)',
+    train: 'train: 301 operator_sketch',
+    test: 'eval: 216 operator_sketch',
+    joint: 'eval: 5 dsl_search',
+    source:
+      'legacy layers still exist in dispatch, but current solved coverage is almost entirely operator_sketch',
   },
   {
     label: 'Current Research Focus',
-    train: 'typed operators',
-    test: 'sketches',
-    joint: 'test-time composition',
+    train: 'frontier coverage',
+    test: 'operator generalization',
+    joint: 'eval no-method bucket',
     source:
-      'push the operator-sketch engine forward instead of adding more family-specific solvers',
+      'the biggest gap is no longer layer ordering; it is getting more tasks to produce any usable symbolic candidate before timeout',
   },
 ];
 
 const heroStats = [
   {
     label: 'ARC-1 training joint',
-    value: '280/400',
-    note: 'current baseline',
+    value: '301/400',
+    note: 'current best on disk',
   },
   {
     label: 'ARC-1 evaluation joint',
-    value: '232/400',
-    note: 'current baseline',
+    value: '221/400',
+    note: 'current best on disk',
   },
-  { label: 'ARC-2 evaluation joint', value: '3/120', note: 'current baseline' },
   {
     label: 'Operator chains',
-    value: '13',
-    note: 'first-class sketch programs',
+    value: '129',
+    note: 'named operator_sketch families',
+  },
+  {
+    label: 'Eval no-method bucket',
+    value: '147',
+    note: 'current frontier bottleneck',
   },
 ];
 
 const currentFocus = [
-  'Replace family-first fitting with typed operators and first-class sketches.',
-  'Search for the next operator at test time instead of predicting one final family up front.',
-  'Keep adding one real operator chain at a time on real ARC tasks and make it the preferred route in search.',
+  'Keep consolidating solved behavior into typed operator chains instead of preserving parallel specialist layers as first-class endpoints.',
+  'Push more eval-like tasks into the early symbolic probe so they emit usable candidates before timing out.',
+  'Fix the remaining train-only operator and refinement tail, but treat frontier coverage as the higher-leverage bottleneck.',
 ];
 
 const recentOperatorChains = [
-  'reference_shape_key_operator_chain - 009d5c81',
-  'extract_select_render_operator_chain - cd3c21df',
-  'anchor_component_completion_operator_chain - 14754a24',
-  'separator_grid_legend_operator_chain - 15113be4',
-  'fold_symmetry_operator_chain - 0934a4d8',
-  'rectangular_spiral_operator_chain - 08573cc6',
+  'aligned_component_bridge_operator_chain - ba97ae07',
+  'block_corner_labels_operator_chain - 95990924',
+  'preserve_largest_recolor_others_operator_chain - 9565186b',
+  'two_row_checker_operator_chain - e9afcf9a',
+  'shape_multiplicity_recolor_operator_chain - b230c067',
+  'uniform_line_selector_output_operator_chain - 25d8a9c8',
 ];
 
 const progressData = [
@@ -79,239 +85,108 @@ const progressData = [
   { checkpoint: 'v36', train: 90.8, test: 49.8, eval: 13.5 },
   { checkpoint: 'v38', train: 91.5, test: 50.8, eval: 13.5 },
   { checkpoint: 'v39', train: 81.0, test: 68.5, eval: 22.8 },
-  { checkpoint: 'current', train: 81.2, test: 68.8, eval: 57.0 },
+  { checkpoint: 'current', train: 77.5, test: 75.2, eval: 55.2 },
 ];
 
 const architectureSteps = [
   {
     step: '01',
-    title: 'macro_synthesis',
-    category: 'synthesis',
-    summary: 'Typed symbolic synthesis before the heuristic stack',
+    title: 'operator_sketch',
+    category: 'primary lane',
+    summary: 'Typed operator families are now the main solver surface',
     detail:
-      'Runs first in the symbolic path. Synthesizes high-level programs like region rewrite, selective mirror concat, frame completion, grid-cell rules, and small scene summaries. The search path now also includes an early sketch layer for typed multi-step programs like fold-symmetry completion, rectangular spiral, ordered chain layout, and separator-grid legend rewrite before broader heuristic inference. A recent change is search-space compression: instead of hardcoding exact variants, more families are represented as parametric generators that learn a few control values like start length, step delta, direction cycle, or projection rule. That keeps matching cheaper and lets one family cover multiple variants.',
-    coverage: { arc1: '6.0%', arc2: '0.0%' },
+      'Current solved coverage is overwhelmingly operator_sketch. The latest training report attributes all 301 joint solves to operator_sketch, and the latest eval report attributes 216 of 221 joint solves there. The architecture has moved away from many peer layers competing for final ownership and toward one typed symbolic surface with named operator chains and shared detectors, inference steps, and renderers.',
+    coverage: { arc1: '301 train / 216 eval', arc2: 'primary solved lane' },
   },
   {
     step: '02',
-    title: 'object_centric',
-    category: 'specialist',
-    summary: 'Connected-component object solver',
+    title: 'dsl_search',
+    category: 'fallback',
+    summary: 'Small residual fallback, not the main architecture story',
     detail:
-      'Works over extracted objects and object matches, and tries to solve the task with direct object-level transforms.',
-    coverage: { arc1: '2.8%', arc2: '2.0%' },
+      'Weighted DSL search still exists, but it is now a narrow residual tail rather than the backbone of the solver. In the current eval report only 5 joint solves are attributed to dsl_search, and none are needed on the current training-best report.',
+    coverage: { arc1: '0 train / 5 eval', arc2: 'small residual tail' },
   },
   {
     step: '03',
-    title: 'grid_decomposition',
-    category: 'specialist',
-    summary: 'Separator-aware grid solver',
+    title: 'legacy layers + direct lifts',
+    category: 'infrastructure',
+    summary: 'Older specialist layers still exist, but mostly feed operator_sketch',
     detail:
-      'Detects row and column separators, converts the task into cell-level structure, and solves regular grid compositions before broader search runs.',
-    coverage: { arc1: '3.5%', arc2: '2.2%' },
+      'Macro synthesis, object-centric, grid decomposition, relational, rule induction, transform DSL, and several analytical/compositional paths still exist in dispatch. But they are no longer the public architecture story. In practice they mostly act as proposal generators, lift sources, or residual search lanes whose successful outputs are normalized into operator_sketch.',
+    coverage: { arc1: 'dispatch + lifts', arc2: 'not primary ownership' },
   },
   {
     step: '04',
-    title: 'hierarchical',
-    category: 'specialist',
-    summary: 'Grouped-object solver',
+    title: 'frontier bottleneck',
+    category: 'current gap',
+    summary: 'The hard problem is getting more tasks to emit candidates before timeout',
     detail:
-      'Builds hierarchical scenes by grouping objects through containment, color, shape, alignment, and proximity, then applies per-group operations and inference.',
-    coverage: { arc1: '0.3%', arc2: '0.3%' },
-  },
-  {
-    step: '05',
-    title: 'relational',
-    category: 'specialist',
-    summary: 'Scene-graph relational solver',
-    detail:
-      'Builds scene relations and structural diffs, then applies relational rules over objects and layouts instead of enumerating raw pixel programs.',
-    coverage: { arc1: '2.3%', arc2: '1.6%' },
-  },
-  {
-    step: '06',
-    title: 'rule_induction',
-    category: 'specialist',
-    summary: 'Rule search over object properties',
-    detail:
-      'Induces rules over object properties and relations, then verifies them across training pairs. Used for tasks that can be expressed as consistent object-level rules.',
-    coverage: { arc1: '0.8%', arc2: '0.9%' },
-  },
-  {
-    step: '07',
-    title: 'transform_dsl',
-    category: 'specialist',
-    summary: 'Scene-graph transformation DSL',
-    detail:
-      'Searches a higher-level transformation language over selectors and actions on scene structure before falling back to lower-level program search.',
-    coverage: { arc1: '1.0%', arc2: '0.7%' },
-  },
-  {
-    step: '08',
-    title: 'analytical_inference',
-    category: 'engine',
-    summary: '158 deterministic inference engines',
-    detail:
-      'Covers recurring families like separator logic, projection, tiling, assembly, damage repair, lattice normalization, and pixel-rule systems. This is still the largest single execution layer in the stack.',
-    coverage: { arc1: '39.8%', arc2: '17.8%' },
-  },
-  {
-    step: '09',
-    title: 'compositional_inference',
-    category: 'chain',
-    summary: 'Inference + search composition',
-    detail:
-      'Tries a direct inference step followed by a cleanup search when a single solver is close but not exact.',
-    coverage: { arc1: '2.5%', arc2: '1.8%' },
-  },
-  {
-    step: '10',
-    title: 'reverse_compositional',
-    category: 'chain',
-    summary: 'Reverse composition path',
-    detail:
-      'Runs an analytical step first and then composes it with search in reverse order when that ordering is a better fit for the task.',
-    coverage: { arc1: '0.0%', arc2: '0.0%' },
-  },
-  {
-    step: '11',
-    title: 'inference_chain',
-    category: 'chain',
-    summary: 'Inference -> inference chaining',
-    detail:
-      'Allows multi-step analytical transformations without dropping immediately into full DSL search.',
-    coverage: { arc1: '0.0%', arc2: '0.0%' },
-  },
-  {
-    step: '12',
-    title: 'inference_inference_dsl',
-    category: 'chain',
-    summary: 'Inference -> inference -> DSL',
-    detail:
-      'Uses two inference stages to build an intermediate state, then a shallow DSL cleanup pass to finish the task.',
-    coverage: { arc1: '0.0%', arc2: '0.0%' },
-  },
-  {
-    step: '13',
-    title: 'dsl_search',
-    category: 'search',
-    summary: 'Weighted A* over the DSL',
-    detail:
-      'Late fallback. Depth-3 search with aggressive pruning, target-consistency checks, shared per-task deadlines, and macro-aware synthesis hooks to keep the search space bounded.',
-    coverage: { arc1: '7.3%', arc2: '0.7%' },
+      'The current limiting factor is not another missing top-level layer. It is the frontier. On the current reports, training still has 90 unsolved tasks with method=None and 21 timeouts, while eval has 147 method=None and 41 timeouts. The main leverage now is getting more tasks to produce usable symbolic candidates and shrinking the remaining train-only operator/refinement tail.',
+    coverage: { arc1: '90 train / 147 eval', arc2: 'method=None bottleneck' },
   },
 ];
 
 const overfitData = [
   {
-    layer: 'macro_synthesis',
-    trainFit: 14,
-    joint: 14,
-    overfit: 0,
-    overfitRate: '0%',
+    layer: 'operator_sketch',
+    trainFit: 310,
+    joint: 301,
+    overfit: 9,
+    overfitRate: '2.9%',
   },
   {
     layer: 'dsl_search',
-    trainFit: 20,
-    joint: 20,
+    trainFit: 5,
+    joint: 5,
     overfit: 0,
     overfitRate: '0%',
   },
   {
-    layer: 'analytical_inference',
-    trainFit: 28,
-    joint: 26,
-    overfit: 2,
-    overfitRate: '7%',
-  },
-  {
-    layer: 'relational',
-    trainFit: 8,
-    joint: 3,
-    overfit: 5,
-    overfitRate: '63%',
-  },
-  {
-    layer: 'compositional_inference',
-    trainFit: 17,
-    joint: 6,
-    overfit: 11,
-    overfitRate: '65%',
-  },
-  {
-    layer: 'transform_dsl',
-    trainFit: 3,
-    joint: 1,
-    overfit: 2,
-    overfitRate: '67%',
-  },
-  {
-    layer: 'hierarchical',
-    trainFit: 17,
-    joint: 1,
-    overfit: 16,
-    overfitRate: '94%',
-  },
-  {
     layer: 'refinement',
-    trainFit: 19,
+    trainFit: 6,
     joint: 0,
-    overfit: 19,
+    overfit: 6,
     overfitRate: '100%',
   },
 ];
 
 const dslGapData = [
   {
-    ruleType: 'Global color swap',
-    expressible: 'Yes',
-    where: 'recolor primitive',
+    ruleType: 'operator_sketch',
+    expressible: '301 train / 216 eval joint',
+    where: 'primary solved lane',
   },
   {
-    ruleType: 'Object-level conditionals',
-    expressible: 'Yes',
-    where: 'Transform DSL, Rule Induction',
+    ruleType: 'dsl_search',
+    expressible: '0 train / 5 eval joint',
+    where: 'small fallback tail',
   },
   {
-    ruleType: 'Per-pixel neighbor recolor',
-    expressible: 'Yes',
-    where: 'conditional_recolor_solver (45+ conditions, 9 tiers)',
+    ruleType: 'operator_sketch train-only residual',
+    expressible: '3 train / 22 eval',
+    where: 'real abstraction gaps still left',
   },
   {
-    ruleType: 'Per-pixel feature lookup',
-    expressible: 'Opaque',
-    where: 'pixel_rules (learned tables, non-composable)',
+    ruleType: 'refinement train-only residual',
+    expressible: '6 train / 10 eval',
+    where: 'high-overfit cleanup bucket',
   },
   {
-    ruleType: 'Compound conditions (AND/OR/NOT)',
-    expressible: 'Yes',
-    where: 'conditional_recolor_solver',
-  },
-  {
-    ruleType: 'Cellular automaton / iterate-until-stable',
-    expressible: 'Yes',
-    where: 'conditional_recolor_solver',
-  },
-  {
-    ruleType: 'Distance-based predicates',
-    expressible: 'Yes',
-    where: 'conditional_recolor_solver',
-  },
-  {
-    ruleType: 'Region-aware conditionals',
-    expressible: 'Yes',
-    where: 'conditional_recolor_solver (enclosed_by, zones, components)',
+    ruleType: 'method=None',
+    expressible: '90 train / 147 eval unsolved',
+    where: 'frontier coverage + timeout bottleneck',
   },
 ];
 
 export const metadata: Metadata = {
   title: 'EricAGI',
   description:
-    'EricAGI is a deterministic ARC solver moving from family-first matching toward typed operators, first-class sketches, and test-time program construction. Current baselines: ARC-1 training joint 280/400, ARC-1 evaluation joint 232/400, ARC-2 evaluation joint 3/120.',
+    'EricAGI is a deterministic ARC solver centered on typed operator sketches. Current on-disk reports: ARC-1 training joint 301/400, ARC-1 evaluation joint 221/400, with solved coverage now overwhelmingly attributed to operator_sketch.',
   openGraph: {
     title: 'EricAGI',
     description:
-      'Architecture and current benchmark status for EricAGI, with the current focus on the operator-sketch engine, typed intermediate state, and test-time symbolic composition.',
+      'Architecture and current benchmark status for EricAGI, with the current focus on operator_sketch, frontier coverage, and the remaining train-only generalization tail.',
   },
 };
 
@@ -335,11 +210,12 @@ export default function ArcAgiPage() {
           >
             ARC
           </a>{' '}
-          tasks. The current architecture work is focused on replacing
-          family-first fitting with typed operators, first-class sketches, and
-          test-time composition of short symbolic programs. The immediate goal
-          is a more fluid operator-sketch engine, not more broad family
-          reordering or more router work.
+          tasks. The current system is no longer best described as a wide stack
+          of equally important solver layers. In practice, current solved
+          coverage is mostly <code>operator_sketch</code>, with older layers
+          kept around as dispatch infrastructure, lift sources, and a small
+          residual fallback. The immediate bottleneck is getting more tasks to
+          produce usable symbolic candidates before timeout.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {heroStats.map((stat) => (
@@ -416,7 +292,9 @@ export default function ArcAgiPage() {
         <ProgressChart data={progressData} />
         <p className="text-xs text-zinc-500">
           ARC-1 score by checkpoint. Green = training train-fit, blue = training
-          joint (test exact), orange = evaluation joint. All no-router runs.
+          joint (test exact), orange = evaluation joint. The current point uses
+          the latest on-disk reports, including the current hybrid frontier
+          probe.
         </p>
       </section>
 
@@ -449,11 +327,11 @@ export default function ArcAgiPage() {
                   </p>
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                     <MetricCell
-                      label="ARC-1 solved"
+                      label="Current"
                       value={item.coverage.arc1}
                     />
                     <MetricCell
-                      label="ARC-2 solved"
+                      label="Status"
                       value={item.coverage.arc2}
                     />
                   </div>
@@ -466,21 +344,12 @@ export default function ArcAgiPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-500">
-          Current execution starts with <code>macro_synthesis</code>, then a
-          cheap <code>simple_symbolic_probe</code> runs before heavy inference,
-          and the fixed-order specialist stack runs as{' '}
-          <code>
-            object_centric -&gt; grid_decomposition -&gt; hierarchical -&gt;
-            relational -&gt; rule_induction -&gt; transform_dsl -&gt;
-            analytical_inference -&gt; compositional_inference -&gt;
-            reverse_compositional -&gt; inference_chain -&gt;
-            inference_inference_dsl -&gt; dsl_search
-          </code>
-          . Percentages above are current joint-exact solves attributed to the
-          top-level layer that ultimately solved each task. ARC-1 coverage is
-          from <code>reports/arc1_training_after_probe.jsonl</code>; ARC-2
-          coverage is from <code>reports/arc2_router_policy_current.jsonl</code>
-          .
+          Legacy specialist layers still exist in the execution stack, but they
+          are no longer the right mental model for the system. The current
+          reports are driven by <code>operator_sketch</code> plus a small{' '}
+          <code>dsl_search</code> tail. Coverage above comes from{' '}
+          <code>reports/arc1_training_after_aligned_component_bridge_20260311.jsonl</code>{' '}
+          and <code>reports/arc1_eval_frontier_probe_v2_20260311.jsonl</code>.
         </p>
       </section>
 
@@ -495,12 +364,11 @@ export default function ArcAgiPage() {
               Automated loop
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Continuous macro and program synthesis targeting unresolved
-              evaluation capability gaps. The loop replaces brittle inference
-              wins with generalized symbolic programs and works the top
-              unresolved capability on ARC-1 evaluation. It does not optimize
-              for the hard suite or retrain routing models while symbolic
-              changes are still settling.
+              Continuous symbolic work targeting unresolved ARC-1 capability
+              gaps. The loop increasingly tries to replace non-operator solves
+              or train-only fits with real operator families, and only uses
+              routing/frontier changes when they safely increase candidate
+              coverage.
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
@@ -508,10 +376,10 @@ export default function ArcAgiPage() {
               Directed architecture work
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Structural solver changes, new primitive families, and layer
-              redesign that the automated loop is unlikely to discover on its
-              own&nbsp;&mdash; sketch synthesis, candidate selection,
-              dynamic-output scene summarization, and symbolic composition.
+              Structural solver changes that the automated loop is unlikely to
+              discover on its own: operator family design, detector reuse,
+              direct lifts into operator_sketch, and frontier policy changes
+              for eval-like tasks.
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
@@ -523,10 +391,8 @@ export default function ArcAgiPage() {
               <li>
                 Reduce eval <code>method=none</code> (unsolved tasks)
               </li>
-              <li>Replace heuristic/inference wins with symbolic wins</li>
-              <li>
-                Improve evaluation <code>joint</code>
-              </li>
+              <li>Replace residual non-operator solves with operator_sketch</li>
+              <li>Improve evaluation <code>joint</code></li>
               <li>Generalize across a task family</li>
             </ol>
             <p className="mt-2 text-sm leading-relaxed text-zinc-400">
@@ -561,12 +427,9 @@ export default function ArcAgiPage() {
             Layer overfit rates
           </h3>
           <p className="text-sm leading-relaxed text-zinc-400">
-            Not all solver layers generalize equally. Layers that produce
-            explicit symbolic programs generalize at near 100%. Layers that fit
-            via learned lookup tables or position-specific patches overfit
-            consistently. This breakdown drives architecture
-            priority&nbsp;&mdash; move inference toward symbolic program
-            generation.
+            The architecture has mostly collapsed into one lane, so the useful
+            question is no longer which top-level layer wins. It is whether a
+            solve is a real operator program or a train-only residual.
           </p>
           <div className="overflow-x-auto rounded-xl border border-zinc-800">
             <table className="w-full text-sm">
@@ -607,24 +470,20 @@ export default function ArcAgiPage() {
 
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-zinc-200">
-            DSL expressiveness gap
+            Current frontier buckets
           </h3>
           <p className="text-sm leading-relaxed text-zinc-400">
-            The system has strong object-centric reasoning but weak per-pixel
-            programmability. 70% of unsolved evaluation tasks are
-            same-dimensions, colors-subset in-place transforms&nbsp;&mdash;
-            tasks where the output structure is known and the entire challenge
-            is the per-pixel or per-region rule. The current per-pixel
-            capability relies on opaque learned lookup tables, which is why
-            those layers overfit.
+            The remaining work is now concentrated in a few obvious buckets.
+            The biggest one is still <code>method=None</code>: tasks that never
+            produce a usable symbolic candidate before the budget expires.
           </p>
           <div className="overflow-x-auto rounded-xl border border-zinc-800">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-zinc-800 bg-zinc-900/60 text-left text-[11px] uppercase tracking-[0.08em] text-zinc-400">
-                  <th className="px-4 py-2.5 font-medium">Rule type</th>
-                  <th className="px-4 py-2.5 font-medium">Expressible?</th>
-                  <th className="px-4 py-2.5 font-medium">Where</th>
+                  <th className="px-4 py-2.5 font-medium">Bucket</th>
+                  <th className="px-4 py-2.5 font-medium">Count</th>
+                  <th className="px-4 py-2.5 font-medium">Meaning</th>
                 </tr>
               </thead>
               <tbody className="text-zinc-300">
@@ -642,39 +501,41 @@ export default function ArcAgiPage() {
             </table>
           </div>
           <p className="text-sm leading-relaxed text-zinc-400">
-            The conditional_recolor_solver now covers composable per-pixel rules
-            with AND-composition, iterate-until-stable, distance, and
-            region-aware conditions. Remaining gaps: OR-composition, more
-            complex spatial predicates, and multi-object conditional logic.
+            The cleanest path to higher eval is still frontier coverage first,
+            then the smaller train-only operator and refinement residuals.
           </p>
         </div>
 
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-zinc-200">
-            Hypothesis testing: candidate frontier
+            Current hypothesis
           </h3>
           <p className="text-sm leading-relaxed text-zinc-400">
-            57 evaluation tasks are claimed by layers with high overfit rates.
-            The hypothesis was that these claims could be recovered by keeping
-            multiple solver candidates per task and ranking by generalization
-            priors (simplicity, macro preference, lower overfit prior).
+            Routing is no longer the main story. The current architecture has
+            already normalized most solved behavior into operator_sketch. The
+            next material gains will come from getting more tasks into the
+            symbolic frontier at all, especially on eval-like same-dimension
+            tasks, and then closing the smaller train-only operator tail.
           </p>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
             <div>
               <p className="text-[11px] uppercase tracking-[0.08em] text-zinc-500">
-                Test
+                Training
               </p>
               <p className="mt-1 text-sm text-zinc-300">
-                For each of the 57 overfit tasks, disable the claiming layer and
-                check whether any downstream layer produces a joint-exact solve.
+                301 joint solves, all attributed to <code>operator_sketch</code>
+                . The remaining misses are mostly <code>method=None</code> plus
+                a 9-task train-only residual.
               </p>
             </div>
             <div>
               <p className="text-[11px] uppercase tracking-[0.08em] text-zinc-500">
-                Result
+                Evaluation
               </p>
               <p className="mt-1 text-sm text-zinc-300">
-                2 out of 57 recoverable (3.5%).
+                221 joint solves: 216 <code>operator_sketch</code>, 5{' '}
+                <code>dsl_search</code>. The largest unsolved bucket is still{' '}
+                <code>method=None</code> with 147 tasks.
               </p>
             </div>
             <div>
@@ -682,11 +543,9 @@ export default function ArcAgiPage() {
                 Conclusion
               </p>
               <p className="mt-1 text-sm text-zinc-300">
-                This is a coverage problem, not a selection problem. The system
-                lacks the primitives to express these transformations. No amount
-                of better routing or candidate ranking will help&nbsp;&mdash;
-                the solver needs new symbolic capabilities. This finding
-                directly motivated the DSL expressiveness work above.
+                The current hard problem is candidate coverage, not preserving
+                the old many-layer stack. Legacy layers still matter internally,
+                but the public architecture is now operator_sketch-centered.
               </p>
             </div>
           </div>
@@ -696,6 +555,45 @@ export default function ArcAgiPage() {
       <section className="space-y-3">
         <Label>Recent Changes</Label>
         <div className="space-y-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 11, 2026 11:30 AM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <code>aligned_component_bridge_operator_chain</code> for
+              bridging interrupted aligned same-color components. This replaced
+              a train-only fit on <code>ba97ae07</code> with a real operator
+              family and pushed ARC-1 training to <code>301/400</code> joint.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 11, 2026 10:45 AM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Added <code>block_corner_labels_operator_chain</code> for fixed
+              diagonal corner labels around uniform <code>2x2</code> blocks,
+              replacing the old train-only fit on <code>95990924</code>.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="text-[11px] text-zinc-500">
+              March 11, 2026 9:30 AM CDT
+            </p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Broadened the early symbolic probe for eval-like medium/large
+              same-dimension tasks and capped expensive timed lanes. On the
+              current on-disk reports, that moved eval to <code>221/400</code>{' '}
+              joint and training to <code>299/400</code> before the later
+              operator-family additions.
+            </p>
+          </div>
+          <div className="rounded-xl border border-dashed border-zinc-800 bg-zinc-900/20 p-4">
+            <p className="text-sm text-zinc-400">
+              Older entries below are archival and predate the current
+              operator-sketch consolidation.
+            </p>
+          </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
               March 9, 2026 4:30 PM CDT
