@@ -62,9 +62,9 @@ const heroStats = [
 ];
 
 const currentFocus = [
-  'Keep consolidating solved behavior into typed operator chains instead of preserving parallel specialist layers as first-class endpoints.',
+  'Keep consolidating solved behavior into typed operator chains.',
   'Push more eval-like tasks into the early symbolic probe so they emit usable candidates before timing out.',
-  'Fix the remaining train-only operator and refinement tail, but treat frontier coverage as the higher-leverage bottleneck.',
+  'Treat frontier coverage as the main bottleneck, ahead of small train-only cleanup work.',
 ];
 
 const recentOperatorChains = [
@@ -588,12 +588,16 @@ export default function ArcAgiPage() {
               operator-family additions.
             </p>
           </div>
-          <div className="rounded-xl border border-dashed border-zinc-800 bg-zinc-900/20 p-4">
-            <p className="text-sm text-zinc-400">
-              Older entries below are archival and predate the current
-              operator-sketch consolidation.
+          <details className="rounded-xl border border-dashed border-zinc-800 bg-zinc-900/20 p-4">
+            <summary className="cursor-pointer list-none text-sm font-medium text-zinc-300">
+              Archived change log
+            </summary>
+            <p className="mt-2 text-sm text-zinc-400">
+              Older entries are kept here for reference, but they predate the
+              current operator-sketch consolidation and no longer describe the
+              public architecture well.
             </p>
-          </div>
+            <div className="mt-3 space-y-2">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
             <p className="text-[11px] text-zinc-500">
               March 9, 2026 4:30 PM CDT
@@ -2773,6 +2777,8 @@ export default function ArcAgiPage() {
               maintained
             </p>
           </div>
+            </div>
+          </details>
         </div>
       </section>
     </section>
