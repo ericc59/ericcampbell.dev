@@ -162,6 +162,13 @@ export default function Page() {
 							logo={flowLogo}
 							active
 						/>
+						<WorkRow
+							company="ARC Prize Foundation"
+							role="Full-Stack Engineer (Contract)"
+							period="2026 -"
+							logo={arcPrizeFoundationLogo}
+							href="https://arcprize.org/"
+						/>
 					</div>
 				</div>
 
@@ -219,13 +226,6 @@ export default function Page() {
 				<div>
 					<Label>Contract</Label>
 					<div className="mt-4 space-y-0">
-						<WorkRow
-							company="ARC Prize Foundation"
-							role="Full-Stack Engineer"
-							period="2026 -"
-							logo={arcPrizeFoundationLogo}
-							href="https://arcprize.org/"
-						/>
 						<WorkRow
 							company="Ravenna"
 							role="Full-Stack Engineer"
