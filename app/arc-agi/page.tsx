@@ -102,7 +102,7 @@ export const metadata: Metadata = {
 			"Architecture and current benchmark status for EricAGI, with the current focus on operator_sketch, frontier coverage, and the remaining train-only generalization tail.",
 		images: [
 			{
-				url: "https://www.ericcampbell.com/images/projects/arcagi.png",
+				url: "https://www.ericcampbell.dev/images/projects/arcagi.png",
 				width: 2752,
 				height: 1536,
 				alt: "EricAGI",

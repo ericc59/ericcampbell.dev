@@ -201,7 +201,7 @@ export const metadata: Metadata = {
 			"A single-file vector memory engine for AI applications, with ACID storage, cosine similarity search, and metadata filtering.",
 		images: [
 			{
-				url: "https://www.ericcampbell.com/images/projects/mast.png",
+				url: "https://www.ericcampbell.dev/images/projects/mast.png",
 				width: 2752,
 				height: 1536,
 				alt: "MAST",
@@ -286,9 +286,9 @@ export default function MastPage() {
 				</div>
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Core Operations</Label>
-				<div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+				<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 					{operations.map((item) => (
 						<InfoCard
 							key={item.name}
@@ -300,7 +300,7 @@ export default function MastPage() {
 				</div>
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Install</Label>
 				<CodeTabs tabs={installTabs} defaultTab="rust" />
 			</section>
