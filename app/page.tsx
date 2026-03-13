@@ -8,6 +8,7 @@ import flowLogo from "public/images/projects/flowauctions/flowauctions-logo.png"
 import stack0Logo from "public/images/projects/stack0/logo.png";
 import chariotLogo from "public/images/work/chariot.webp";
 import myenergyLogo from "public/images/work/myenergy.webp";
+import newWaveCapitalLogo from "public/images/work/nwc.png";
 import scootLogo from "public/images/work/scoot.png";
 import sphereLogo from "public/images/work/sphere.png";
 import zapierLogo from "public/images/work/zapier.png";
@@ -141,13 +142,6 @@ export default function Page() {
 					<Label>Now</Label>
 					<div className="mt-4 space-y-0">
 						<WorkRow
-							company="LaunchKit Studios"
-							role="Founder"
-							period="2024 –"
-							href="https://www.launchkitstudios.com/"
-							active
-						/>
-						<WorkRow
 							company="Campbell Ventures"
 							role="Founder"
 							period="2024 –"
@@ -181,6 +175,13 @@ export default function Page() {
 							role="Principal Engineer (Labs)"
 							period="2019 – 22"
 							logo={zapierLogo}
+						/>
+						<WorkRow
+							company="New Wave Capital"
+							role="Founder"
+							period="2016 – 18"
+							exit="Ford"
+							logo={newWaveCapitalLogo}
 						/>
 						<WorkRow
 							company="Chariot"
