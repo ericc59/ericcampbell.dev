@@ -242,25 +242,28 @@ export default function MastPage() {
 						</p>
 					</div>
 				</div>
-				<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-					{heroStats.map((stat) => (
+				<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+					{heroStats.map((stat, index) => (
 						<div
 							key={stat.label}
-							className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4"
+							className="group relative overflow-hidden rounded-xl border border-zinc-800/50 bg-zinc-950/50 p-5 transition-colors hover:border-zinc-700/50"
 						>
-							<p className="text-[11px] uppercase tracking-[0.12em] text-zinc-500">
+							<div className="absolute right-3 top-3 text-[10px] font-mono text-zinc-700">
+								{String(index + 1).padStart(2, '0')}
+							</div>
+							<p className="text-[10px] font-medium uppercase tracking-[0.14em] text-zinc-500">
 								{stat.label}
 							</p>
-							<p className="mt-2 text-xl font-medium text-zinc-100">
+							<p className="mt-3 text-lg font-semibold text-zinc-100">
 								{stat.value}
 							</p>
-							<p className="mt-1 text-xs text-zinc-500">{stat.note}</p>
+							<p className="mt-2 text-xs leading-relaxed text-zinc-600">{stat.note}</p>
 						</div>
 					))}
 				</div>
 			</header>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Why It Exists</Label>
 				<div className="grid gap-3 md:grid-cols-2">
 					{problemCards.map((card) => (
