@@ -3,6 +3,9 @@ import { getProjects } from "app/db/project";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import gsxLogo from "public/images/contracts/gsx/gsx.png";
+import plusDocsLogo from "public/images/contracts/plusdocs/plusdocs.png";
+import safariaiLogo from "public/images/contracts/safariai/safariai.png";
 import profilePhoto from "public/images/home/eric2.jpeg";
 import arcPrizeFoundationLogo from "public/images/work/arcprize.png";
 import chariotLogo from "public/images/work/chariot.webp";
@@ -14,6 +17,7 @@ import scootLogo from "public/images/work/scoot.png";
 import sphereLogo from "public/images/work/sphere.png";
 import stack0Icon from "public/images/work/stack0.png";
 import zapierLogo from "public/images/work/zapier.png";
+
 import ProjectLogo from "./components/project-logo";
 
 export const metadata: Metadata = {
@@ -167,6 +171,7 @@ export default function Page() {
 						<WorkRow
 							company="Zapier"
 							role="Principal Engineer (Labs)"
+							href="https://www.zapier.com"
 							period="2019 – 22"
 							logo={zapierLogo}
 						/>
@@ -214,15 +219,38 @@ export default function Page() {
 					<div className="mt-4 space-y-0">
 						<WorkRow
 							company="ARC Prize Foundation"
-							role="Engineer"
+							role="Full-Stack Engineer"
 							period="2026 -"
 							logo={arcPrizeFoundationLogo}
+							href="https://arcprize.org/"
 						/>
 						<WorkRow
 							company="Ravenna"
-							role="Engineer"
+							role="Full-Stack Engineer"
 							period="2024 - 2025"
 							logo={ravennaLogo}
+							href="https://www.ravenna.ai"
+						/>
+						<WorkRow
+							company="GSX"
+							role="Full-Stack Engineer"
+							period="2024 - 2025"
+							logo={gsxLogo}
+							href="https://www.goldstandardx.com/"
+						/>
+						<WorkRow
+							company="Safari AI"
+							role="Full-Stack Engineer"
+							period="2021"
+							logo={safariaiLogo}
+							href="https://www.safariai.com/"
+						/>
+						<WorkRow
+							company="Plus AI"
+							role="Full-Stack Engineer"
+							period="2021"
+							logo={plusDocsLogo}
+							href="https://www.plusai.com"
 						/>
 					</div>
 				</div>
