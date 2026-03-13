@@ -413,9 +413,12 @@ export default function MastPage() {
 
 function Label({ children }: { children: React.ReactNode }) {
 	return (
-		<h2 className="text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-300">
-			{children}
-		</h2>
+		<div className="flex items-center gap-3">
+			<h2 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-300">
+				{children}
+			</h2>
+			<div className="h-px flex-1 bg-zinc-800/50" />
+		</div>
 	);
 }
 
