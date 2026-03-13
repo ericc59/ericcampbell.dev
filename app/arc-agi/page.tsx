@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
+import arcAgiImage from "public/images/projects/arc-agi.png";
 import { ProgressChart } from "./progress-chart";
 
 const lastUpdated = "March 11, 2026";
@@ -76,68 +78,6 @@ const architectureSteps = [
 			"Macro synthesis, object-centric, grid decomposition, relational, rule induction, transform DSL, and several analytical/compositional paths still exist in dispatch. But they are no longer the public architecture story. In practice they mostly act as proposal generators, lift sources, or residual search lanes whose successful outputs are normalized into operator_sketch.",
 		coverage: { arc1: "dispatch + lifts", arc2: "not primary ownership" },
 	},
-	{
-		step: "04",
-		title: "frontier bottleneck",
-		category: "current gap",
-		summary:
-			"The hard problem is getting more tasks to emit candidates before timeout",
-		detail:
-			"The current limiting factor is not another missing top-level layer. It is the frontier. On the current reports, training still has 90 unsolved tasks with method=None and 21 timeouts, while eval has 147 method=None and 41 timeouts. The main leverage now is getting more tasks to produce usable symbolic candidates and shrinking the remaining train-only operator/refinement tail.",
-		coverage: { arc1: "90 train / 147 eval", arc2: "method=None bottleneck" },
-	},
-];
-
-const overfitData = [
-	{
-		layer: "operator_sketch",
-		trainFit: 310,
-		joint: 301,
-		overfit: 9,
-		overfitRate: "2.9%",
-	},
-	{
-		layer: "dsl_search",
-		trainFit: 5,
-		joint: 5,
-		overfit: 0,
-		overfitRate: "0%",
-	},
-	{
-		layer: "refinement",
-		trainFit: 6,
-		joint: 0,
-		overfit: 6,
-		overfitRate: "100%",
-	},
-];
-
-const dslGapData = [
-	{
-		ruleType: "operator_sketch",
-		expressible: "301 train / 216 eval joint",
-		where: "primary solved lane",
-	},
-	{
-		ruleType: "dsl_search",
-		expressible: "0 train / 5 eval joint",
-		where: "small fallback tail",
-	},
-	{
-		ruleType: "operator_sketch train-only residual",
-		expressible: "3 train / 22 eval",
-		where: "real abstraction gaps still left",
-	},
-	{
-		ruleType: "refinement train-only residual",
-		expressible: "6 train / 10 eval",
-		where: "high-overfit cleanup bucket",
-	},
-	{
-		ruleType: "method=None",
-		expressible: "90 train / 147 eval unsolved",
-		where: "frontier coverage + timeout bottleneck",
-	},
 ];
 
 export const metadata: Metadata = {
@@ -154,6 +94,13 @@ export const metadata: Metadata = {
 export default function ArcAgiPage() {
 	return (
 		<section className="space-y-10">
+			<Image
+				src={arcAgiImage}
+				alt="EricAGI"
+				width={1000}
+				height={1000}
+				className="rounded-2xl"
+			/>
 			<header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
 				<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
 					Product Engineering
