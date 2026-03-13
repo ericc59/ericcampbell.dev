@@ -122,8 +122,9 @@ export default function Page() {
 
 				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
 					<p>
-						Engineering leader with extensive full-stack experience. Currently
-						building <Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
+						Engineering leader with extensive 0-1 full-stack experience.
+						Currently building{" "}
+						<Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
 						<Anchor href="https://www.flowauctions.com/">Flow Auctions</Anchor>.
 					</p>
 					<p className="text-zinc-400">
