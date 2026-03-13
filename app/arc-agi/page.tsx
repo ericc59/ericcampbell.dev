@@ -97,9 +97,11 @@ export default function ArcAgiPage() {
 			<Image
 				src={arcAgiImage}
 				alt="EricAGI"
-				width={1000}
-				height={1000}
+				width={2752}
+				height={1536}
 				className="rounded-2xl"
+				sizes="(max-width: 768px) 213px, 33vw"
+				priority
 			/>
 			<header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
 				<h1 className="max-w-2xl text-zinc-100 text-xl font-medium leading-tight">
