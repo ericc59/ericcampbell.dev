@@ -181,6 +181,7 @@ export default function Page() {
 							period="2016 – 18"
 							exit="Shut down"
 							logo={newWaveCapitalLogo}
+							href="https://medium.com/new-wave-capital/introducing-new-wave-capital-the-intelligent-way-to-invest-in-cryptocurrencies-9bf911d22ad4"
 						/>
 						<WorkRow
 							company="Chariot"
@@ -189,6 +190,7 @@ export default function Page() {
 							exit="acquired by Ford"
 							badge="YC W15"
 							logo={chariotLogo}
+							href="https://en.wikipedia.org/wiki/Chariot_(company)"
 						/>
 						<WorkRow
 							company="Sphere"
