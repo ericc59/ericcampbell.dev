@@ -12,15 +12,24 @@ const metrics = [
 		train: "310/400 (77.5%)",
 		test: "301/400 (75.2%)",
 		joint: "301/400 (75.2%)",
-		source:
-			"reports/arc1_training_after_aligned_component_bridge_20260311.jsonl",
 	},
 	{
 		label: "ARC-1 Evaluation",
 		train: "253/400 (63.3%)",
 		test: "221/400 (55.2%)",
 		joint: "221/400 (55.2%)",
-		source: "reports/arc1_eval_frontier_probe_v2_20260311.jsonl",
+	},
+	{
+		label: "ARC-2 Training",
+		train: "260/1000 (26.0%)",
+		test: "260/1000 (26.0%)",
+		joint: "260/1000 (26.0%)",
+	},
+	{
+		label: "ARC-2 Evaluation",
+		train: "26/120 (22.0%)",
+		test: "26/120 (22.0%)",
+		joint: "26/120 (22.0%)",
 	},
 ];
 
@@ -28,12 +37,18 @@ const heroStats = [
 	{
 		label: "ARC-1 training joint",
 		value: "301/400",
-		note: "current best on disk",
 	},
 	{
 		label: "ARC-1 evaluation joint",
 		value: "221/400",
-		note: "current best on disk",
+	},
+	{
+		label: "ARC-2 training joint",
+		value: "260/1000",
+	},
+	{
+		label: "ARC-2 evaluation joint",
+		value: "26/120",
 	},
 ];
 
