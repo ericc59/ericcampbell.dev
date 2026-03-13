@@ -204,7 +204,7 @@ export const metadata: Metadata = {
 
 export default function MastPage() {
 	return (
-		<section className="space-y-12">
+		<section className="space-y-16">
 			<Image
 				src={mastImage}
 				alt="MAST"
@@ -215,22 +215,32 @@ export default function MastPage() {
 				priority
 			/>
 
-			<header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
-				<span className="text-[10px] uppercase tracking-[0.15em] text-zinc-400">
-					Open Source
-				</span>
-				<div className="space-y-3">
-					<h1 className="text-lg font-medium text-zinc-100">MAST</h1>
-					<p className="max-w-3xl text-sm leading-relaxed text-zinc-400">
-						MAST is a vector memory storage engine for AI applications:
-						single-file storage, ACID transactions, cosine similarity search,
-						and metadata filtering.
-					</p>
-					<p className="max-w-3xl text-sm leading-relaxed text-zinc-500">
-						It is designed for agent memory that runs locally: store memories in
-						one file, query by vector similarity, filter by metadata, and keep
-						the model provider outside the storage layer.
-					</p>
+			<header className="space-y-6">
+				<div className="flex items-center gap-3">
+					<div className="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-500/20 bg-amber-500/10">
+						<div className="h-3 w-3 rounded-sm bg-amber-500" />
+					</div>
+					<span className="text-[10px] font-medium uppercase tracking-[0.15em] text-amber-500">
+						Vector Storage Engine
+					</span>
+				</div>
+				
+				<div className="space-y-4">
+					<h1 className="font-mono text-3xl font-bold tracking-tight text-zinc-50">
+						MAST
+					</h1>
+					<div className="max-w-4xl space-y-3">
+						<p className="text-lg leading-relaxed text-zinc-300">
+							Single-file vector memory storage for AI applications. ACID transactions, 
+							cosine similarity search, and metadata filtering in a library that embeds 
+							directly into your agent runtime.
+						</p>
+						<p className="text-sm leading-relaxed text-zinc-500">
+							No daemon, no network hop, no separate service. Open a file path, 
+							store memories, query by vector similarity, and keep your model 
+							provider at the edge where it belongs.
+						</p>
+					</div>
 				</div>
 				<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 					{heroStats.map((stat) => (
