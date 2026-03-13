@@ -179,7 +179,7 @@ export default function Page() {
 							company="Chariot"
 							role="CTO"
 							period="2014 – 16"
-							exit="Ford"
+							exit="acquired by Ford"
 							badge="YC W15"
 							logo={chariotLogo}
 						/>
@@ -187,21 +187,21 @@ export default function Page() {
 							company="Sphere"
 							role="CTO"
 							period="2012 – 13"
-							exit="Google"
+							exit="acquired by Google"
 							logo={sphereLogo}
 						/>
 						<WorkRow
 							company="Scoot"
 							role="Founding Eng"
 							period="2012 – 13"
-							exit="Bird"
+							exit="acquired by Bird"
 							logo={scootLogo}
 						/>
 						<WorkRow
 							company="My Energy"
 							role="CTO"
 							period="2009 – 12"
-							exit="Nest"
+							exit="acquired by Nest & Google"
 							logo={myenergyLogo}
 						/>
 					</div>
