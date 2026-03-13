@@ -147,7 +147,6 @@ export default function ArcAgiPage() {
 						</div>
 					))}
 				</div>
-				<p className="text-[11px] text-zinc-500">{metrics[0].source}</p>
 			</section>
 
 			<section className="space-y-3">
