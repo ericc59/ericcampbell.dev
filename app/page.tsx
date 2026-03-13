@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import profilePhoto from "public/images/home/eric2.jpeg";
 import flowLogo from "public/images/projects/flowauctions/flowauctions-logo.png";
-import stack0Logo from "public/images/projects/stack0/logo.png";
 import chariotLogo from "public/images/work/chariot.webp";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import newWaveCapitalLogo from "public/images/work/nwc.png";
 import scootLogo from "public/images/work/scoot.png";
 import sphereLogo from "public/images/work/sphere.png";
+import stack0Icon from "public/images/work/stack0.png";
 import zapierLogo from "public/images/work/zapier.png";
 import ProjectLogo from "./components/project-logo";
 
@@ -152,7 +152,7 @@ export default function Page() {
 							role="Founder"
 							period="2022 –"
 							href="https://www.stack0.dev"
-							logo={stack0Logo}
+							logo={stack0Icon}
 							active
 						/>
 						<WorkRow
