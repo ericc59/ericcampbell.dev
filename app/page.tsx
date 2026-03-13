@@ -141,13 +141,6 @@ export default function Page() {
 					<Label>Now</Label>
 					<div className="mt-4 space-y-0">
 						<WorkRow
-							company="Campbell Ventures"
-							role="Founder"
-							period="2024 –"
-							href="https://campbell.ventures/"
-							active
-						/>
-						<WorkRow
 							company="Stack0"
 							role="Founder"
 							period="2022 –"
