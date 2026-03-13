@@ -33,25 +33,6 @@ const metrics = [
 	},
 ];
 
-const heroStats = [
-	{
-		label: "ARC-1 training joint",
-		value: "301/400",
-	},
-	{
-		label: "ARC-1 evaluation joint",
-		value: "221/400",
-	},
-	{
-		label: "ARC-2 training joint",
-		value: "260/1000",
-	},
-	{
-		label: "ARC-2 evaluation joint",
-		value: "26/120",
-	},
-];
-
 const progressData = [
 	{ checkpoint: "v1", train: 19.0 },
 	{ checkpoint: "v7", train: 32.5 },
@@ -141,22 +122,6 @@ export default function ArcAgiPage() {
 					bottleneck is producing enough usable symbolic candidates before
 					timeout.
 				</p>
-				<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-					{heroStats.map((stat) => (
-						<div
-							key={stat.label}
-							className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-4"
-						>
-							<p className="text-[11px] uppercase tracking-[0.12em] text-zinc-500">
-								{stat.label}
-							</p>
-							<p className="mt-2 text-xl font-medium text-zinc-100">
-								{stat.value}
-							</p>
-							<p className="mt-1 text-xs text-zinc-500">{stat.note}</p>
-						</div>
-					))}
-				</div>
 			</header>
 
 			<section className="space-y-3">
