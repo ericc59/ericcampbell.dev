@@ -128,8 +128,9 @@ export default function Page() {
 						<Anchor href="https://www.flowauctions.com/">Flow Auctions</Anchor>.
 					</p>
 					<p className="text-zinc-400">
-						Previously engineering leader at 4 startups with 4 exits (Google,
-						Ford, Nest, Bird). Principal Engineer at Zapier Labs. CTO at YC W15.
+						Previously engineering leader at 4 VC backed startups with 4 exits
+						(Google, Ford, Nest, Bird). Principal Engineer at Zapier Labs. CTO
+						at YC W'15.
 					</p>
 				</div>
 			</div>
