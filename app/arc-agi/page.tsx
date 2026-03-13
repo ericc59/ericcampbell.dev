@@ -41,7 +41,15 @@ const progressData = [
 	{ checkpoint: "v35", train: 89.5, test: 43.5, v1_eval: 13.5 },
 	{ checkpoint: "v36", train: 90.8, test: 49.8, v1_eval: 13.5 },
 	{ checkpoint: "v38", train: 91.5, test: 50.8, v1_eval: 13.5 },
-	{ checkpoint: "v39", train: 81.0, test: 68.5, v1_eval: 22.8 },
+	{
+		checkpoint: "v39",
+		train: 81.0,
+		test: 68.5,
+		v1_eval: 22.8,
+		v2_train: 5.0,
+		v2_test: 5.0,
+		v2_eval: 1.7,
+	},
 	{
 		checkpoint: "current",
 		train: 77.5,
