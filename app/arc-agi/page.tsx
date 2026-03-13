@@ -4,7 +4,7 @@ import Image from "next/image";
 import arcAgiImage from "public/images/projects/arcagi.png";
 import { ProgressChart } from "./progress-chart";
 
-const lastUpdated = "March 11, 2026";
+const lastUpdated = "March 13, 2026";
 
 const metrics = [
 	{
@@ -73,6 +73,16 @@ const architectureSteps = [
 	},
 	{
 		step: "02",
+		title: "dynamic_solver",
+		category: "learned rules",
+		summary:
+			"Structural templates + CART decision trees for open-ended rule learning",
+		detail:
+			"Two-level architecture: 6 structural templates (identity, crop, scale_down, scale_up, tile, grid_decompose) detect task geometry, then hand-rolled CART decision trees learn pixel-level or object-level rules from training pair features (~25 pixel features, ~17 object features). MDL scoring (template cost + tree complexity) selects the simplest correct program. Runs as the first method in the hybrid solver dispatch.",
+		coverage: { arc1: "new layer", arc2: "new layer" },
+	},
+	{
+		step: "03",
 		title: "dsl_search",
 		category: "fallback",
 		summary: "Small residual fallback, not the main architecture story",
@@ -227,6 +237,23 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 13, 2026 2:00 PM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Added <code>dynamic_solver</code> layer: a two-level architecture
+							combining structural templates (identity, crop, scale, tile, grid
+							decompose) with hand-rolled CART decision trees trained on per-pixel
+							and per-object features. Templates detect task geometry, then CART
+							trees learn pixel-level rules from training pairs. MDL scoring
+							selects the simplest correct program. New modules:{" "}
+							<code>cart.py</code>, <code>pixel_features.py</code>,{" "}
+							<code>object_features.py</code>, <code>rule_learner.py</code>,{" "}
+							<code>structural_templates.py</code>,{" "}
+							<code>dynamic_solver.py</code>. 305 new tests, 100% coverage.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 11, 2026 11:30 AM CDT
