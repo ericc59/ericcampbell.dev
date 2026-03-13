@@ -305,7 +305,7 @@ export default function MastPage() {
 				<CodeTabs tabs={installTabs} defaultTab="rust" />
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Usage</Label>
 				<CodeTabs tabs={usageTabs} defaultTab="rust" />
 			</section>
