@@ -199,6 +199,14 @@ export const metadata: Metadata = {
 		title: "MAST",
 		description:
 			"A single-file vector memory engine for AI applications, with ACID storage, cosine similarity search, and metadata filtering.",
+		images: [
+			{
+				url: "https://www.ericcampbell.com/images/projects/mast.png",
+				width: 2752,
+				height: 1536,
+				alt: "MAST",
+			},
+		],
 	},
 };
 
@@ -224,20 +232,20 @@ export default function MastPage() {
 						Vector Storage Engine
 					</span>
 				</div>
-				
+
 				<div className="space-y-4">
 					<h1 className="font-mono text-3xl font-bold tracking-tight text-zinc-50">
 						MAST
 					</h1>
 					<div className="max-w-4xl space-y-3">
 						<p className="text-lg leading-relaxed text-zinc-300">
-							Single-file vector memory storage for AI applications. ACID transactions, 
-							cosine similarity search, and metadata filtering in a library that embeds 
-							directly into your agent runtime.
+							Single-file vector memory storage for AI applications. ACID
+							transactions, cosine similarity search, and metadata filtering in
+							a library that embeds directly into your agent runtime.
 						</p>
 						<p className="text-sm leading-relaxed text-zinc-500">
-							No daemon, no network hop, no separate service. Open a file path, 
-							store memories, query by vector similarity, and keep your model 
+							No daemon, no network hop, no separate service. Open a file path,
+							store memories, query by vector similarity, and keep your model
 							provider at the edge where it belongs.
 						</p>
 					</div>
@@ -249,7 +257,7 @@ export default function MastPage() {
 							className="group relative overflow-hidden rounded-xl border border-zinc-800/50 bg-zinc-950/50 p-5 transition-colors hover:border-zinc-700/50"
 						>
 							<div className="absolute right-3 top-3 text-[10px] font-mono text-zinc-700">
-								{String(index + 1).padStart(2, '0')}
+								{String(index + 1).padStart(2, "0")}
 							</div>
 							<p className="text-[10px] font-medium uppercase tracking-[0.14em] text-zinc-500">
 								{stat.label}
@@ -257,7 +265,9 @@ export default function MastPage() {
 							<p className="mt-3 text-lg font-semibold text-zinc-100">
 								{stat.value}
 							</p>
-							<p className="mt-2 text-xs leading-relaxed text-zinc-600">{stat.note}</p>
+							<p className="mt-2 text-xs leading-relaxed text-zinc-600">
+								{stat.note}
+							</p>
 						</div>
 					))}
 				</div>
@@ -265,7 +275,7 @@ export default function MastPage() {
 
 			<section className="space-y-4">
 				<Label>Why It Exists</Label>
-				<div className="grid gap-3 md:grid-cols-2">
+				<div className="grid gap-4 md:grid-cols-2">
 					{problemCards.map((card) => (
 						<InfoCard
 							key={card.title}
@@ -427,15 +437,19 @@ function InfoCard({
 	mono?: boolean;
 }) {
 	return (
-		<div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4">
+		<div className="group rounded-xl border border-zinc-800/50 bg-zinc-950/30 p-5 transition-colors hover:border-zinc-700/50 hover:bg-zinc-950/50">
 			<h3
 				className={
-					mono ? "font-mono text-sm text-zinc-100" : "text-sm text-zinc-100"
+					mono
+						? "font-mono text-sm font-medium text-zinc-100"
+						: "text-sm font-medium text-zinc-100"
 				}
 			>
 				{title}
 			</h3>
-			<p className="mt-2 text-sm leading-relaxed text-zinc-400">{detail}</p>
+			<p className="mt-3 text-sm leading-relaxed text-zinc-400 group-hover:text-zinc-300 transition-colors">
+				{detail}
+			</p>
 		</div>
 	);
 }
