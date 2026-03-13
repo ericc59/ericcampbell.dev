@@ -124,14 +124,11 @@ export default function Page() {
 					<p>
 						I build developer platforms and infrastructure for AI. Currently
 						building <Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
-						<Anchor href="https://www.launchkitstudios.com/">
-							LaunchKit Studios
-						</Anchor>
-						.
+						<Anchor href="https://www.flowauctions.com/">Flow Auctions</Anchor>.
 					</p>
 					<p className="text-zinc-400">
-						4 startups, 4 exits (Google, Ford, Nest, Bird). Prev Zapier Labs.
-						CTO at YC W15.
+						Previously engineering leader at 4 startups with 4 exits (Google,
+						Ford, Nest, Bird). Principal Engineer at Zapier Labs. CTO at YC W15.
 					</p>
 				</div>
 			</div>
