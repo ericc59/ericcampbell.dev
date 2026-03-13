@@ -42,7 +42,15 @@ const progressData = [
 	{ checkpoint: "v36", train: 90.8, test: 49.8, v1_eval: 13.5 },
 	{ checkpoint: "v38", train: 91.5, test: 50.8, v1_eval: 13.5 },
 	{ checkpoint: "v39", train: 81.0, test: 68.5, v1_eval: 22.8 },
-	{ checkpoint: "current", train: 77.5, test: 75.2, v1_eval: 55.2 },
+	{
+		checkpoint: "current",
+		train: 77.5,
+		test: 75.2,
+		v1_eval: 55.2,
+		v2_train: 26.0,
+		v2_test: 26.0,
+		v2_eval: 22.0,
+	},
 ];
 
 const architectureSteps = [
@@ -64,16 +72,16 @@ const architectureSteps = [
 			"Weighted DSL search still exists, but it is now a narrow residual tail rather than the backbone of the solver. In the current eval report only 5 joint solves are attributed to dsl_search, and none are needed on the current training-best report.",
 		coverage: { arc1: "0 train / 5 eval", arc2: "small residual tail" },
 	},
-	{
-		step: "03",
-		title: "legacy layers + direct lifts",
-		category: "infrastructure",
-		summary:
-			"Older specialist layers still exist, but mostly feed operator_sketch",
-		detail:
-			"Macro synthesis, object-centric, grid decomposition, relational, rule induction, transform DSL, and several analytical/compositional paths still exist in dispatch. But they are no longer the public architecture story. In practice they mostly act as proposal generators, lift sources, or residual search lanes whose successful outputs are normalized into operator_sketch.",
-		coverage: { arc1: "dispatch + lifts", arc2: "not primary ownership" },
-	},
+	// {
+	// 	step: "03",
+	// 	title: "legacy layers + direct lifts",
+	// 	category: "infrastructure",
+	// 	summary:
+	// 		"Older specialist layers still exist, but mostly feed operator_sketch",
+	// 	detail:
+	// 		"Macro synthesis, object-centric, grid decomposition, relational, rule induction, transform DSL, and several analytical/compositional paths still exist in dispatch. But they are no longer the public architecture story. In practice they mostly act as proposal generators, lift sources, or residual search lanes whose successful outputs are normalized into operator_sketch.",
+	// 	coverage: { arc1: "dispatch + lifts", arc2: "not primary ownership" },
+	// },
 ];
 
 export const metadata: Metadata = {
@@ -128,7 +136,6 @@ export default function ArcAgiPage() {
 				<Label>Current Status</Label>
 				<div className="flex items-center justify-between gap-3 text-sm text-zinc-500">
 					<p>Last updated: {lastUpdated}</p>
-					<p className="hidden sm:block">Depth 3, deterministic, split-aware</p>
 				</div>
 				<div className="grid gap-3 md:grid-cols-2">
 					{metrics.map((metric) => (

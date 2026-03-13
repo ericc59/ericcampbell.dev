@@ -50,7 +50,7 @@ export function ProgressChart({ data }: { data: ProgressPoint[] }) {
 							}}
 							labelStyle={{ color: "rgb(212 212 216)" }}
 						/>
-						<Line
+						{/* <Line
 							type="monotone"
 							dataKey="train"
 							stroke="rgb(16 185 129)"
@@ -68,11 +68,21 @@ export function ProgressChart({ data }: { data: ProgressPoint[] }) {
 							activeDot={{ r: 5 }}
 							connectNulls={false}
 							name="Test exact"
-						/>
+						/> */}
 						<Line
 							type="monotone"
 							dataKey="v1_eval"
 							stroke="rgb(251 146 60)"
+							strokeWidth={2.5}
+							dot={{ r: 3 }}
+							activeDot={{ r: 5 }}
+							connectNulls={false}
+							name="Eval joint"
+						/>
+						<Line
+							type="monotone"
+							dataKey="v2_eval"
+							stroke="rgb(59 130 246)"
 							strokeWidth={2.5}
 							dot={{ r: 3 }}
 							activeDot={{ r: 5 }}
