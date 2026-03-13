@@ -4,10 +4,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import profilePhoto from "public/images/home/eric2.jpeg";
+import arcPrizeFoundationLogo from "public/images/work/arcprize.png";
 import chariotLogo from "public/images/work/chariot.webp";
 import flowLogo from "public/images/work/flow.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import newWaveCapitalLogo from "public/images/work/nwc.png";
+import ravennaLogo from "public/images/work/ravenna.png";
 import scootLogo from "public/images/work/scoot.png";
 import sphereLogo from "public/images/work/sphere.png";
 import stack0Icon from "public/images/work/stack0.png";
@@ -203,6 +205,24 @@ export default function Page() {
 							period="2009 – 12"
 							exit="acquired by Nest & Google"
 							logo={myenergyLogo}
+						/>
+					</div>
+				</div>
+
+				<div>
+					<Label>Contract</Label>
+					<div className="mt-4 space-y-0">
+						<WorkRow
+							company="ARC Prize Foundation"
+							role="Engineer"
+							period="2026 -"
+							logo={arcPrizeFoundationLogo}
+						/>
+						<WorkRow
+							company="Ravenna"
+							role="Engineer"
+							period="2024 - 2025"
+							logo={ravennaLogo}
 						/>
 					</div>
 				</div>
