@@ -122,7 +122,7 @@ export default function Page() {
 
 				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
 					<p>
-						I build developer platforms and infrastructure for AI. Currently
+						Engineering leader with extensive full-stack experience. Currently
 						building <Anchor href="https://www.stack0.dev">Stack0</Anchor> and{" "}
 						<Anchor href="https://www.flowauctions.com/">Flow Auctions</Anchor>.
 					</p>
