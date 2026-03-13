@@ -310,9 +310,9 @@ export default function MastPage() {
 				<CodeTabs tabs={usageTabs} defaultTab="rust" />
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Architecture</Label>
-				<div className="grid gap-3 md:grid-cols-3">
+				<div className="grid gap-4 md:grid-cols-3">
 					{architectureLayers.map((layer) => (
 						<InfoCard
 							key={layer.name}
@@ -323,16 +323,16 @@ export default function MastPage() {
 				</div>
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Why It Fits Agent Memory</Label>
-				<div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+				<div className="rounded-xl border border-zinc-800/50 bg-zinc-950/30 p-6">
 					<p className="text-sm leading-relaxed text-zinc-300">
 						Agent runtimes need durable local recall: user preferences, prior
 						interactions, retrieved facts, and other memories that should be
 						stored and queried without adding a separate vector database or
 						network service.
 					</p>
-					<div className="mt-4 grid gap-3 md:grid-cols-3">
+					<div className="mt-6 grid gap-4 md:grid-cols-3">
 						<InfoCard
 							title="Long-term recall"
 							detail="Store user facts, summaries, and prior interactions so agents can retrieve useful context across sessions."
@@ -349,9 +349,9 @@ export default function MastPage() {
 				</div>
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Key Decisions</Label>
-				<div className="grid gap-3 md:grid-cols-2">
+				<div className="grid gap-4 md:grid-cols-2">
 					{keyDecisions.map((item) => (
 						<InfoCard
 							key={item.title}
@@ -362,20 +362,23 @@ export default function MastPage() {
 				</div>
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Benchmarks</Label>
-				<div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+				<div className="rounded-xl border border-zinc-800/50 bg-zinc-950/30 p-6">
 					<p className="text-sm leading-relaxed text-zinc-400">
 						Criterion coverage across store, recall, filters, and interface
 						boundaries. Run with{" "}
 						<InlineCode>cargo bench -p mast-core</InlineCode>.
 					</p>
-					<div className="mt-4 grid gap-2 md:grid-cols-2">
-						{benchmarkRows.map((row) => (
+					<div className="mt-6 grid gap-3 md:grid-cols-2">
+						{benchmarkRows.map((row, index) => (
 							<div
 								key={row}
-								className="rounded-lg border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-xs text-zinc-400"
+								className="group rounded-lg border border-zinc-800/50 bg-zinc-950/50 px-4 py-3 text-xs text-zinc-400 hover:border-zinc-700/50 hover:text-zinc-300 transition-colors"
 							>
+								<span className="font-mono text-zinc-600 mr-2">
+									{String(index + 1).padStart(2, '0')}
+								</span>
 								{row}
 							</div>
 						))}
@@ -383,14 +386,17 @@ export default function MastPage() {
 				</div>
 			</section>
 
-			<section className="space-y-3">
+			<section className="space-y-4">
 				<Label>Stack</Label>
-				<div className="flex flex-wrap gap-2 text-xs text-zinc-400">
-					{stack.map((item) => (
+				<div className="flex flex-wrap gap-3 text-xs">
+					{stack.map((item, index) => (
 						<span
 							key={item}
-							className="rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1.5"
+							className="group rounded-lg border border-zinc-800/50 bg-zinc-950/30 px-4 py-2 text-zinc-400 hover:border-zinc-700/50 hover:bg-zinc-950/50 hover:text-zinc-300 transition-colors"
 						>
+							<span className="font-mono text-zinc-600 mr-2 text-[10px]">
+								{String(index + 1).padStart(2, '0')}
+							</span>
 							{item}
 						</span>
 					))}
