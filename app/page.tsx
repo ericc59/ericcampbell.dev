@@ -235,7 +235,7 @@ export default function Page() {
 						/>
 						<WorkRow
 							company="GSX"
-							role="Full-Stack Engineer"
+							role="Project based contract build"
 							period="2024 - 2025"
 							logo={gsxLogo}
 							href="https://www.goldstandardx.com/"
