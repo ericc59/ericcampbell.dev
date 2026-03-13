@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import arcAgiImage from "public/images/projects/arc-agi.png";
+import arcAgiImage from "public/images/projects/arcagi.png";
 import { ProgressChart } from "./progress-chart";
 
 const lastUpdated = "March 11, 2026";
@@ -102,9 +102,6 @@ export default function ArcAgiPage() {
 				className="rounded-2xl"
 			/>
 			<header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
-				<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-					Product Engineering
-				</span>
 				<h1 className="max-w-2xl text-zinc-100 text-xl font-medium leading-tight">
 					EricAGI
 				</h1>
@@ -118,12 +115,14 @@ export default function ArcAgiPage() {
 					>
 						ARC
 					</a>{" "}
-					tasks. The current system is no longer best described as a wide stack
-					of equally important solver layers. In practice, current solved
-					coverage is mostly <code>operator_sketch</code>, with older layers
-					kept around as dispatch infrastructure, lift sources, and a small
-					residual fallback. The immediate bottleneck is getting more tasks to
-					produce usable symbolic candidates before timeout.
+					tasks. All ARC-1 and ARC-2 solutions are produced as
+					OperatorSketchPrograms: typed operator families with guarded graphs
+					and semantic roles (anchor, legend, target, separator). The pipeline
+					is: propose symbolic candidates → verify on train pairs → refine
+					near-misses → select the best. Shared substrates handle perception,
+					topology, axis layout, and legend/codebook execution. The main
+					bottleneck is producing enough usable symbolic candidates before
+					timeout.
 				</p>
 				<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 					{heroStats.map((stat) => (
