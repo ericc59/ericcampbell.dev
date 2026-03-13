@@ -112,7 +112,7 @@ export default function ArcAgiPage() {
 				width={2752}
 				height={1536}
 				className="rounded-2xl"
-				sizes="(max-width: 768px) 213px, 33vw"
+				sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
 				priority
 			/>
 			<header className="space-y-5 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-6">
