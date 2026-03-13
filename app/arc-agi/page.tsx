@@ -244,14 +244,10 @@ export default function ArcAgiPage() {
 						<p className="mt-1 text-sm text-zinc-300">
 							Added <code>dynamic_solver</code> layer: a two-level architecture
 							combining structural templates (identity, crop, scale, tile, grid
-							decompose) with hand-rolled CART decision trees trained on per-pixel
-							and per-object features. Templates detect task geometry, then CART
-							trees learn pixel-level rules from training pairs. MDL scoring
-							selects the simplest correct program. New modules:{" "}
-							<code>cart.py</code>, <code>pixel_features.py</code>,{" "}
-							<code>object_features.py</code>, <code>rule_learner.py</code>,{" "}
-							<code>structural_templates.py</code>,{" "}
-							<code>dynamic_solver.py</code>. 305 new tests, 100% coverage.
+							decompose) with hand-rolled CART decision trees trained on
+							per-pixel and per-object features. Templates detect task geometry,
+							then CART trees learn pixel-level rules from training pairs. MDL
+							scoring selects the simplest correct program.
 						</p>
 					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
