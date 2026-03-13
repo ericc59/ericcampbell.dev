@@ -179,7 +179,7 @@ export default function Page() {
 							company="New Wave Capital"
 							role="Founder"
 							period="2016 – 18"
-							exit="Ford"
+							exit="Shut down"
 							logo={newWaveCapitalLogo}
 						/>
 						<WorkRow
