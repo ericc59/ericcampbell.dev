@@ -118,7 +118,7 @@ const architectureSteps = [
 			"Dynamic program synthesis: abstraction → frames → action synthesis → residual beam search → generalize",
 		detail:
 			"10-module synthesis engine to replace operator sketch. TaskAbstraction builds rich semantic summaries (scene graphs, diffs, object roles, color flow, separator/symmetry). Frame inference detects 8 dimensional relationships. Action synthesis runs 4 strategies (diff-driven, pixel CART, object-predicate enumeration, global transforms) over 25 ActionKinds with object selectors (by_color, by_size, by_position, by_shape, by_role). Composition search: residual-driven beam search (width 50, depth 1-6) re-analyzes residual after each step. Generalization: MDL cap, CART node cap, structural consistency, LOO. Output construction for different-dims: 6 formulas × 3 fill strategies. 1030 stmts, 269 tests, 100% coverage.",
-		coverage: { arc1: "pending benchmark", arc2: "pending benchmark" },
+		coverage: { arc1: "33 test-exact / 119 train-fit", arc2: "41 test-exact / 258 train-fit" },
 	},
 ];
 
