@@ -4,7 +4,7 @@ import Image from "next/image";
 import arcAgiImage from "public/images/projects/arcagi.png";
 import { ProgressChart } from "./progress-chart";
 
-const lastUpdated = "March 13, 2026";
+const lastUpdated = "March 14, 2026";
 
 const metrics = [
 	{
@@ -237,6 +237,20 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 14, 2026 10:00 AM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Added <code>scene_rule_types</code> module: typed foundations for the
+							upcoming scene rule solver. Defines 9 rule types (recolor, fill,
+							move, remove, stamp, extend, connect, overlay, conditional pixel), 6
+							object roles (background, marker, template, container, static,
+							actor), and <code>SceneRuleProgram</code> which duck-types{" "}
+							<code>Program</code> with execute/verify. MDL scoring selects the
+							simplest correct fitted rule.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 13, 2026 2:00 PM CDT
