@@ -90,16 +90,16 @@ const architectureSteps = [
 			"Weighted DSL search still exists, but it is now a narrow residual tail rather than the backbone of the solver. In the current eval report only 5 joint solves are attributed to dsl_search, and none are needed on the current training-best report.",
 		coverage: { arc1: "0 train / 5 eval", arc2: "small residual tail" },
 	},
-	// {
-	// 	step: "03",
-	// 	title: "legacy layers + direct lifts",
-	// 	category: "infrastructure",
-	// 	summary:
-	// 		"Older specialist layers still exist, but mostly feed operator_sketch",
-	// 	detail:
-	// 		"Macro synthesis, object-centric, grid decomposition, relational, rule induction, transform DSL, and several analytical/compositional paths still exist in dispatch. But they are no longer the public architecture story. In practice they mostly act as proposal generators, lift sources, or residual search lanes whose successful outputs are normalized into operator_sketch.",
-	// 	coverage: { arc1: "dispatch + lifts", arc2: "not primary ownership" },
-	// },
+	{
+		step: "03",
+		title: "scene_rule_solver",
+		category: "learned rules",
+		summary:
+			"Scene-level rule fitting: fixed rule types with CART-learned parameters",
+		detail:
+			"Hybrid between hand-coded operator families and open-ended CART learning. 9 rule types (recolor, fill, move, remove, stamp, extend, connect, overlay, conditional pixel) with 6 object roles assigned via hypothesis strategies (change type, size, color frequency, containment, border, unique color). For each (roles, rule_type) combination, a CART tree is fitted from training pairs and verified with LOO validation. MDL scoring selects the simplest correct program. Runs at layer 0.62 between relational perception and rule induction.",
+		coverage: { arc1: "new layer", arc2: "new layer" },
+	},
 ];
 
 export const metadata: Metadata = {
@@ -237,6 +237,20 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 14, 2026 1:30 PM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Shipped full <code>scene_rule_solver</code>: 4 new modules
+							(types, roles, fitters, solver) integrated at layer 0.62 in the
+							hybrid pipeline. 3 active fitters (recolor, fill_enclosed,
+							conditional_pixel) with CART-learned parameters, 6 role hypothesis
+							strategies, LOO validation, and MDL selection. 142 tests, 100%
+							coverage. 6 stub fitters (move, remove, stamp, extend, connect,
+							overlay) ready for iteration.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 14, 2026 10:00 AM CDT
