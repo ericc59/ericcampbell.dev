@@ -95,9 +95,9 @@ const architectureSteps = [
 		title: "scene_rule_solver",
 		category: "learned rules",
 		summary:
-			"Scene-level rule fitting: fixed rule types with CART-learned parameters",
+			"Scene-level rule fitting: predicate enumeration for object-level rules, CART for pixel-level",
 		detail:
-			"Hybrid between hand-coded operator families and open-ended CART learning. 9 rule types (recolor, fill, move, remove, stamp, extend, connect, overlay, conditional pixel) with 6 object roles assigned via hypothesis strategies (change type, size, color frequency, containment, border, unique color). For each (roles, rule_type) combination, a CART tree is fitted from training pairs and verified with LOO validation. MDL scoring selects the simplest correct program. Runs at layer 0.62 between relational perception and rule induction.",
+			"Hybrid between hand-coded operator families and learned parameters. 9 rule types (recolor, fill, move, remove, stamp, extend, connect, overlay, conditional pixel) with 6 object roles assigned via hypothesis strategies. Object-level fitters (recolor, move, remove) use rank-based predicate enumeration from compute_all_properties (size_rank, color_frequency, containment_depth, etc.) with consistent-mapping search and MDL scoring. Pixel-level fitter (conditional_pixel) retains CART. Runs at layer 0.62.",
 		coverage: { arc1: "new layer", arc2: "new layer" },
 	},
 ];
@@ -237,6 +237,22 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 14, 2026 8:30 PM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Replaced CART with predicate enumeration in{" "}
+							<code>scene_rule_fitters</code> for recolor, move, and remove.
+							New <code>scene_rule_predicates</code> module generates ~40-60
+							rank-based predicates (size_rank, color_frequency, containment_depth,
+							etc.) from <code>compute_all_properties</code> and finds consistent
+							mappings via enumeration + compound AND. CART retained only for
+							conditional_pixel (1000s of samples). Both fit and apply now use
+							the same <code>build_scene</code> + <code>compute_all_properties</code>{" "}
+							pipeline, fixing a segmentation mismatch. 168 tests, 100% coverage.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 14, 2026 4:00 PM CDT
