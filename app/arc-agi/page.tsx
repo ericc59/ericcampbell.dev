@@ -239,6 +239,21 @@ export default function ArcAgiPage() {
 				<div className="space-y-2">
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
+							March 14, 2026 4:00 PM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Activated all 6 stub fitters in{" "}
+							<code>scene_rule_fitters</code>: move (CART-learned displacement),
+							remove (CART classifier), stamp (template extraction from added
+							pixels), extend (row/col/both line extension), connect (horizontal/
+							vertical/direct lines between same-colour pairs), and overlay
+							(template placement at markers). Each has fit + apply functions
+							with full verify loops. 9 fitters now active, 0 stubs. 126 tests,
+							100% coverage.
+						</p>
+					</div>
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
 							March 14, 2026 1:30 PM CDT
 						</p>
 						<p className="mt-1 text-sm text-zinc-300">
