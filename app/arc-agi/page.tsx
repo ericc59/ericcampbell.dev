@@ -100,6 +100,16 @@ const architectureSteps = [
 			"Hybrid between hand-coded operator families and learned parameters. 9 rule types (recolor, fill, move, remove, stamp, extend, connect, overlay, conditional pixel) with 6 object roles assigned via hypothesis strategies. Object-level fitters (recolor, move, remove) use rank-based predicate enumeration from compute_all_properties (size_rank, color_frequency, containment_depth, etc.) with consistent-mapping search and MDL scoring. Pixel-level fitter (conditional_pixel) retains CART. Runs at layer 0.62.",
 		coverage: { arc1: "new layer", arc2: "new layer" },
 	},
+	{
+		step: "04",
+		title: "unified_dynamic",
+		category: "learned rules",
+		summary:
+			"Replacement for dynamic_solver + scene_rule_solver: analyze → fit → compose → verify",
+		detail:
+			"Single dynamic system that learns transformations from training pairs. Pipeline: analyze_task_multi (scene graphs + diffs with multiple bg/connectivity settings) → gated action type selection → fit_all_gated (11 fitters: recolor, move, remove, mirror, rotate, fill_enclosed, connect, pixel_rule + 6 stubs) → search_compositions (1-3 step residual-aware pipelines with compatibility table) → LOO validation → MDL selection. Currently 7/400 ARC-1 eval (1.8%), 28/400 training (7.0%), 36/1000 ARC-2 training (3.6%). Phase A: runs alongside existing solvers. Phase B: replaces operator_sketch once it matches.",
+		coverage: { arc1: "28 train / 7 eval", arc2: "36 train" },
+	},
 ];
 
 export const metadata: Metadata = {
@@ -237,6 +247,21 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 14, 2026 11:30 PM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Shipped <code>unified_dynamic</code> solver (Phase A): 5 new modules
+							(unified_types, unified_analysis, unified_fitters, unified_compose,
+							unified_solver) integrated into hybrid pipeline. 17 action types,
+							11 working fitters, residual-aware 1-3 step composition search,
+							LOO validation, MDL selection. Standalone benchmark: 28/400 ARC-1
+							training (7.0%), 7/400 eval (1.8%), 36/1000 ARC-2 training (3.6%).
+							Next: implement 6 stub fitters + different-dims support to close
+							gap with operator_sketch.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 14, 2026 8:30 PM CDT
