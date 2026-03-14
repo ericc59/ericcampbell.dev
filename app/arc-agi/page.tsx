@@ -110,6 +110,16 @@ const architectureSteps = [
 			"Single dynamic system that learns transformations from training pairs. Pipeline: analyze_task_multi (scene graphs + diffs with multiple bg/connectivity settings) → gated action type selection → fit_all_gated (11 fitters: recolor, move, remove, mirror, rotate, fill_enclosed, connect, pixel_rule + 6 stubs) → search_compositions (1-3 step residual-aware pipelines with compatibility table) → LOO validation → MDL selection. Currently 7/400 ARC-1 eval (1.8%), 28/400 training (7.0%), 36/1000 ARC-2 training (3.6%). Phase A: runs alongside existing solvers. Phase B: replaces operator_sketch once it matches.",
 		coverage: { arc1: "28 train / 7 eval", arc2: "36 train" },
 	},
+	{
+		step: "05",
+		title: "synth",
+		category: "synthesis engine",
+		summary:
+			"Dynamic program synthesis: abstraction → frames → action synthesis → residual beam search → generalize",
+		detail:
+			"10-module synthesis engine to replace operator sketch. TaskAbstraction builds rich semantic summaries (scene graphs, diffs, object roles, color flow, separator/symmetry). Frame inference detects 8 dimensional relationships. Action synthesis runs 4 strategies (diff-driven, pixel CART, object-predicate enumeration, global transforms) over 25 ActionKinds with object selectors (by_color, by_size, by_position, by_shape, by_role). Composition search: residual-driven beam search (width 50, depth 1-6) re-analyzes residual after each step. Generalization: MDL cap, CART node cap, structural consistency, LOO. Output construction for different-dims: 6 formulas × 3 fill strategies. 1030 stmts, 269 tests, 100% coverage.",
+		coverage: { arc1: "pending benchmark", arc2: "pending benchmark" },
+	},
 ];
 
 export const metadata: Metadata = {
@@ -247,6 +257,27 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 14, 2026 11:59 PM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Shipped <code>synth</code> engine v1: 10 modules replacing operator
+							sketch with fully dynamic program synthesis. TaskAbstraction builds
+							rich semantic summaries (scene graphs, diffs, object roles, color
+							flow, separator/symmetry detection). Frame inference detects 8
+							dimensional relationships. Action synthesis runs 4 strategies
+							(diff-driven, pixel CART, object-predicate enumeration, global
+							transforms) over 25 ActionKinds. Composition search uses
+							residual-driven beam search (width 50, depth 1-6) that re-analyzes
+							after each step. Generalization filters (MDL cap, CART node cap,
+							structural consistency, LOO). Output construction handles
+							different-dims via formula enumeration + fill strategies. 1030
+							statements, 269 tests, 100% coverage. Wired into hybrid solver at
+							layer 0.15 (after unified_dynamic, before object_centric). Next:
+							benchmark and iterate.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 14, 2026 11:30 PM CDT
