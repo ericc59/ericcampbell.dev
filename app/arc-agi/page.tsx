@@ -4,7 +4,7 @@ import Image from "next/image";
 import arcAgiImage from "public/images/projects/arcagi.png";
 import { ProgressChart } from "./progress-chart";
 
-const lastUpdated = "March 14, 2026";
+const lastUpdated = "March 15, 2026";
 
 const metrics = [
 	{
@@ -257,6 +257,25 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							March 15, 2026 12:00 AM CDT
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Made extraction loop compound in <code>ericagi2</code>: (1) Split
+							generic PIXEL_RULE into 7 distinct ActionKinds (EXTRACT_COLOR_BBOX,
+							EXTRACT_OBJECT, CROSS_FILL, LINE_EXTEND, BORDER_OUTLINE, COLOR_FLOOD,
+							NEIGHBORHOOD_RULE) so anti-unification groups by operation type, not
+							just &ldquo;pixel rule&rdquo;. (2) Added 5 new task properties
+							(minority_nonbg_color, n_nonbg_colors, color_only_in_input,
+							smallest_object_color, largest_object_color) for richer parameter
+							explanation. (3) Added LOO verification in pipeline &mdash; learned
+							patterns must solve all source tasks&apos; training pairs via
+							execute_pattern. (4) Mapped all new ActionKinds in antiunify.py with
+							proper _translate_params. 562 tests, 100% coverage, 42/400 benchmark
+							maintained.
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 14, 2026 11:59 PM CDT
