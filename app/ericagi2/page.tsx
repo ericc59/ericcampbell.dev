@@ -94,6 +94,13 @@ const candidates: Record<string, string[]> = {
 		"damage-repair",
 		"upscale",
 	],
+	"role-aware": [
+		"stamp-template-at-markers",
+		"template-recolor-at-markers",
+		"frame-fill",
+		"separator-grid-ops",
+		"legend-mapping",
+	],
 };
 
 const totalCandidates = Object.values(candidates).flat().length;
@@ -257,13 +264,23 @@ export default function Ericagi2Page() {
 	return (
 		<>
 			<style>{`
+				.eg2-breakout {
+					width: 100vw;
+					margin-left: calc(-50vw + 50%);
+					display: flex;
+					justify-content: center;
+				}
 				.eg2 {
 					--accent: #e53aa3;
 					--fg: #e4e4e7;
+					--text: #a1a1aa;
 					--muted: #71717a;
 					--dim: #52525b;
 					--border: #27272a;
 					--surface: rgba(24, 24, 27, 0.5);
+					max-width: 56rem;
+					width: 100%;
+					padding: 0 1.5rem;
 				}
 
 				@keyframes eg2-cell-appear {
@@ -291,7 +308,7 @@ export default function Ericagi2Page() {
 					font-size: 10px;
 					text-transform: uppercase;
 					letter-spacing: 0.2em;
-					color: var(--dim);
+					color: var(--muted);
 				}
 
 				.eg2-section-title {
@@ -299,7 +316,7 @@ export default function Ericagi2Page() {
 					text-transform: uppercase;
 					letter-spacing: 0.2em;
 					font-weight: 500;
-					color: var(--muted);
+					color: var(--text);
 				}
 
 				.eg2-divider {
@@ -311,9 +328,9 @@ export default function Ericagi2Page() {
 					display: inline-block;
 					font-size: 10px;
 					letter-spacing: 0.04em;
-					padding: 2px 6px;
+					padding: 3px 7px;
 					border: 1px solid var(--border);
-					color: var(--muted);
+					color: var(--text);
 					white-space: nowrap;
 				}
 
@@ -322,7 +339,7 @@ export default function Ericagi2Page() {
 					text-transform: uppercase;
 					letter-spacing: 0.15em;
 					color: var(--accent);
-					width: 5.5rem;
+					width: 6.5rem;
 					flex-shrink: 0;
 					padding-top: 3px;
 				}
@@ -334,6 +351,7 @@ export default function Ericagi2Page() {
 				}
 			`}</style>
 
+			<div className="eg2-breakout">
 			<section
 				className="eg2"
 				style={{
@@ -373,7 +391,7 @@ export default function Ericagi2Page() {
 					</h1>
 					<p
 						className="mt-2 text-sm leading-relaxed"
-						style={{ color: "var(--muted)", maxWidth: "26rem" }}
+						style={{ color: "var(--text)", maxWidth: "32rem" }}
 					>
 						Pattern-learning ARC solver. Successor to{" "}
 						<a href="/arc-agi" className="eg2-link">
@@ -422,11 +440,11 @@ export default function Ericagi2Page() {
 					<div className="grid grid-cols-3 gap-2">
 						{(
 							[
-								["72/400", "TRAIN"],
+								["73/400", "TRAIN"],
 								["8/400", "EVAL"],
 								["~14s", "TIME"],
-								["3,629", "LINES"],
-								["664", "TESTS"],
+								["3,900", "LINES"],
+								["951", "TESTS"],
 								["8", "PATTERNS"],
 							] as const
 						).map(([val, label]) => (
@@ -494,7 +512,7 @@ export default function Ericagi2Page() {
 								</span>
 								<span
 									className="text-xs"
-									style={{ color: "var(--muted)" }}
+									style={{ color: "var(--text)" }}
 								>
 									{p.desc}
 								</span>
@@ -523,7 +541,7 @@ export default function Ericagi2Page() {
 					</div>
 					<p
 						className="mt-2 text-xs leading-relaxed"
-						style={{ color: "var(--dim)", maxWidth: "28rem" }}
+						style={{ color: "var(--muted)", maxWidth: "36rem" }}
 					>
 						Each grid is parsed into a scene graph: objects detected
 						via connected components, classified by role, linked by
@@ -579,7 +597,7 @@ export default function Ericagi2Page() {
 					</div>
 					<p
 						className="mt-2 text-xs leading-relaxed"
-						style={{ color: "var(--dim)", maxWidth: "28rem" }}
+						style={{ color: "var(--muted)", maxWidth: "36rem" }}
 					>
 						When no library pattern matches, beam search tries these
 						generators. Each proposes candidate actions scored by
@@ -620,7 +638,7 @@ export default function Ericagi2Page() {
 					</div>
 					<p
 						className="mt-2 text-xs leading-relaxed"
-						style={{ color: "var(--dim)", maxWidth: "28rem" }}
+						style={{ color: "var(--muted)", maxWidth: "36rem" }}
 					>
 						Learned patterns are stored as guard \u2192 bind \u2192
 						body programs. Guards check preconditions, binds extract
@@ -658,6 +676,33 @@ export default function Ericagi2Page() {
 					</div>
 				</div>
 
+				<div
+					className="eg2-divider mt-8 eg2-fade"
+					style={{ animationDelay: "700ms" }}
+				/>
+
+				{/* Changelog */}
+				<div
+					className="mt-8 eg2-fade"
+					style={{ animationDelay: "750ms" }}
+				>
+					<p className="eg2-section-title">CHANGELOG</p>
+					<div className="mt-4 space-y-3">
+						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
+							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
+								2026-03-16 20:30 &mdash; Role-aware candidate generators
+							</p>
+							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+								Added 5 scene-graph-driven candidate generators that use role classification
+								(FRAME, SEPARATOR, MARKER, TEMPLATE, LEGEND) to propose structured
+								transformations: stamp template at markers, template recolor at markers,
+								frame interior fill, separator grid operations, and legend color mapping.
+								73/400 train (+1), 951 tests, 100% coverage.
+							</p>
+						</div>
+					</div>
+				</div>
+
 				{/* ARC palette strip */}
 				<div className="mt-12 flex gap-[2px]">
 					{ARC.slice(1).map((color, i) => (
@@ -673,6 +718,7 @@ export default function Ericagi2Page() {
 					))}
 				</div>
 			</section>
+			</div>
 		</>
 	);
 }
