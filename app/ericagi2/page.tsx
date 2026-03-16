@@ -82,6 +82,11 @@ const candidates: Record<string, string[]> = {
 		"line-extension",
 		"border-outline",
 		"flood-fill",
+		"diagonal-connect",
+		"cross-extension",
+		"gravity-align",
+		"gap-fill",
+		"rigid-shift",
 	],
 	structural: [
 		"tile",
@@ -688,6 +693,19 @@ export default function Ericagi2Page() {
 				>
 					<p className="eg2-section-title">CHANGELOG</p>
 					<div className="mt-4 space-y-3">
+						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
+							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
+								2026-03-16 22:45 &mdash; Hypothesis families + ported inference engines
+							</p>
+							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+								Added 6 new hypothesis families (template stamp, color mapping, gravity,
+								symmetry completion, fill enclosed, extract by predicate) for instant
+								pattern recognition before beam search. Ported 5 inference engines as
+								candidates (diagonal connect, cross extension, gravity align, gap fill,
+								rigid shift). 76/400 train (+3), 10 hypotheses, 42 candidate generators,
+								1050 tests, 100% coverage.
+							</p>
+						</div>
 						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
 							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
 								2026-03-16 20:30 &mdash; Role-aware candidate generators
