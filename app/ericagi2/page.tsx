@@ -87,6 +87,18 @@ const candidates: Record<string, string[]> = {
 		"gravity-align",
 		"gap-fill",
 		"rigid-shift",
+		"directed-cross",
+		"gravity-fill",
+		"bbox-complement-fill",
+		"translate-to-target",
+		"connect-over-bg",
+		"recolor-to-closest",
+		"diagonal-stamp",
+		"object-outline",
+		"row-period-fill",
+		"row-period-extend",
+		"col-period-extend",
+		"pattern-substitution",
 	],
 	structural: [
 		"tile",
@@ -424,9 +436,6 @@ export default function Ericagi2Page() {
 								["88/400", "TRAIN"],
 								["8/400", "EVAL"],
 								["~14s", "TIME"],
-								["12,600", "LINES"],
-								["1,226", "TESTS"],
-								["17", "HYPOTHESES"],
 							] as const
 						).map(([val, label]) => (
 							<div
@@ -669,6 +678,18 @@ export default function Ericagi2Page() {
 				>
 					<p className="eg2-section-title">CHANGELOG</p>
 					<div className="mt-4 space-y-3">
+						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
+							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
+								2026-03-17 00:15 &mdash; Port 12 inference engines (batch 3)
+							</p>
+							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+								Ported 12 more inference engines from ericagi as candidate generators:
+								directed cross, gravity fill, bbox complement fill, translate to target,
+								connect over bg, recolor to closest, diagonal stamp, object outline,
+								row period fill/extend, col period extend, pattern substitution.
+								88/400 train (22.0%), 54 candidate generators, 1,168 tests, 100% coverage.
+							</p>
+						</div>
 						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
 							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
 								2026-03-16 23:30 &mdash; Output construction hypothesis families
