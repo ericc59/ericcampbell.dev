@@ -49,12 +49,17 @@ const pipeline = [
 	{ step: "perceive", desc: "64-dim feature vector from grid" },
 	{ step: "recall", desc: "cosine similarity against library" },
 	{ step: "apply", desc: "guard \u2192 bind \u2192 body \u2192 verify" },
-	{ step: "search", desc: "beam search, 13 candidate types" },
+	{ step: "search", desc: "beam search, 21 candidate types" },
 	{ step: "extract", desc: "group by signature, anti-unify" },
 	{ step: "learn", desc: "add patterns for next round" },
 ];
 
 const changelog = [
+	{
+		date: "Mar 16, 5 PM",
+		title: "Port 7 ericagi inference engines",
+		body: "Extract unique object (6 criteria), neighbor recolor, hollow rect ops (cross-hair/gap-spill/size-fill), minority extraction, pattern continuation, damage repair/extract, upscale. 8 new candidate generators, 130 new tests.",
+	},
 	{
 		date: "Mar 15, 8 PM",
 		title: "Perception infrastructure",
