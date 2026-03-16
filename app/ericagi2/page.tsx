@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EB_Garamond } from "next/font/google";
 
 export const metadata: Metadata = {
 	title: "ericagi2",
@@ -7,15 +6,8 @@ export const metadata: Metadata = {
 		"Pattern-learning ARC solver. Learns reusable patterns from solved tasks instead of hand-crafting inference engines.",
 };
 
-const serif = EB_Garamond({
-	subsets: ["latin"],
-	style: ["normal", "italic"],
-	weight: ["400", "500"],
-	display: "swap",
-});
-
 const ARC = [
-	"#0a0a0a",
+	"#111",
 	"#1e93ff",
 	"#f93c31",
 	"#4fcc30",
@@ -26,6 +18,8 @@ const ARC = [
 	"#87ceeb",
 	"#8b0000",
 ];
+
+const LOGO_INDICES = [1, 8, 3, 4, 2, 6, 7, 9];
 
 const INPUT: number[][] = [
 	[0, 0, 0, 0, 3],
@@ -55,6 +49,11 @@ const pipeline = [
 ];
 
 const changelog = [
+	{
+		date: "Mar 16, 9 PM",
+		title: "Object-centric solver candidate generator",
+		body: "Port ericagi object solver as candidate generator. Detect objects, match by IoU+shape+color, infer per-object transforms (delete, translate, recolor, rotate, flip). Consistency check across pairs, 2 connectivity configs. 69\u219272 train solves (17.2%\u219218.0%).",
+	},
 	{
 		date: "Mar 16, 5 PM",
 		title: "Port 7 ericagi inference engines",
@@ -99,10 +98,12 @@ const changelog = [
 
 function ArcGrid({
 	data,
+	size = 18,
 	offset = 0,
 	highlight,
 }: {
 	data: number[][];
+	size?: number;
 	offset?: number;
 	highlight?: Set<string>;
 }) {
@@ -110,28 +111,30 @@ function ArcGrid({
 		<div
 			style={{
 				display: "grid",
-				gridTemplateColumns: `repeat(${data[0].length}, 13px)`,
-				gap: "1.5px",
+				gridTemplateColumns: `repeat(${data[0].length}, ${size}px)`,
+				gap: "2px",
 			}}
 		>
 			{data.flatMap((row, r) =>
 				row.map((v, c) => {
-					const delay = offset + (r * row.length + c) * 35;
+					const delay = offset + (r * row.length + c) * 40;
 					const changed = highlight?.has(`${r}-${c}`);
 					return (
 						<div
 							key={`${r}-${c}`}
 							className="eg2-cell"
 							style={{
-								width: 13,
-								height: 13,
+								width: size,
+								height: size,
 								backgroundColor: ARC[v],
 								animationDelay: `${delay}ms`,
 								...(changed
 									? {
-											animationName: "eg2-cell-appear, eg2-cell-glow",
-											animationDuration: "0.25s, 0.8s",
-											animationTimingFunction: "ease-out, ease-in-out",
+											animationName:
+												"eg2-cell-appear, eg2-cell-glow",
+											animationDuration: "0.3s, 0.8s",
+											animationTimingFunction:
+												"ease-out, ease-in-out",
 										}
 									: {}),
 							}}
@@ -148,23 +151,25 @@ export default function Ericagi2Page() {
 		<>
 			<style>{`
 				.eg2 {
-					--ochre: #c49a6c;
-					--cream: #ede6d8;
-					--sand: #9a8e7d;
-					--bark: #2d2822;
+					--accent: #e53aa3;
+					--accent-dim: rgba(229, 58, 163, 0.15);
+					--fg: #e4e4e7;
+					--muted: #71717a;
+					--dim: #52525b;
+					--border: #27272a;
+					--surface: rgba(24, 24, 27, 0.5);
 				}
 
 				@keyframes eg2-cell-appear {
-					from { opacity: 0; transform: scale(0.3); }
+					from { opacity: 0; transform: scale(0); }
 					to { opacity: 1; transform: scale(1); }
 				}
 				@keyframes eg2-cell-glow {
 					0%, 100% { filter: brightness(1); }
-					40% { filter: brightness(2); }
+					40% { filter: brightness(2.2); }
 				}
 				.eg2-cell {
-					animation: eg2-cell-appear 0.25s ease-out both;
-					border-radius: 1px;
+					animation: eg2-cell-appear 0.3s ease-out both;
 				}
 
 				@keyframes eg2-fade-up {
@@ -173,16 +178,27 @@ export default function Ericagi2Page() {
 				}
 				.eg2-fade { animation: eg2-fade-up 0.5s ease-out both; }
 
-				@keyframes eg2-arrow {
-					0%, 100% { opacity: 0.3; }
-					50% { opacity: 1; }
+				.eg2-link { color: var(--accent); transition: color 0.15s; text-decoration: none; }
+				.eg2-link:hover { color: #f472b6; }
+
+				.eg2-label {
+					font-size: 10px;
+					text-transform: uppercase;
+					letter-spacing: 0.2em;
+					color: var(--dim);
 				}
-				.eg2-link {
-					color: var(--ochre);
-					transition: color 0.15s ease;
+
+				.eg2-section-title {
+					font-size: 11px;
+					text-transform: uppercase;
+					letter-spacing: 0.2em;
+					font-weight: 500;
+					color: var(--muted);
 				}
-				.eg2-link:hover {
-					color: var(--cream);
+
+				.eg2-divider {
+					height: 1px;
+					background: var(--border);
 				}
 			`}</style>
 
@@ -190,96 +206,83 @@ export default function Ericagi2Page() {
 				className="eg2"
 				style={{
 					background:
-						"radial-gradient(ellipse at 20% -10%, rgba(196,154,108,0.035) 0%, transparent 65%)",
-					margin: "-1rem -0.5rem 0",
-					padding: "1rem 0.5rem 0",
+						"radial-gradient(ellipse at 40% 15%, rgba(229,58,163,0.03) 0%, transparent 55%)",
 				}}
 			>
-				{/* Hero */}
-				<div className="flex items-start justify-between gap-6">
-					<div className="eg2-fade">
-						<h1
-							className={serif.className}
-							style={{
-								fontSize: "2.75rem",
-								lineHeight: 1,
-								letterSpacing: "-0.02em",
-								color: "var(--cream)",
-								fontStyle: "italic",
-								fontWeight: 400,
-							}}
-						>
-							ericagi2
-						</h1>
-						<p
-							className="mt-3 leading-relaxed"
-							style={{ fontSize: "13px", color: "var(--sand)" }}
-						>
-							Pattern-learning ARC solver. Successor to{" "}
-							<a
-								href="/arc-agi"
-								className="eg2-link"
-							>
-								EricAGI
-							</a>
-							.
-							<br />
-							3,629 lines of Python. No LLMs.
-						</p>
-					</div>
-
+				{/* ARC logo mark */}
+				<div className="eg2-fade">
 					<div
-						className="flex items-center gap-3 shrink-0 pt-1 eg2-fade"
-						style={{ animationDelay: "150ms" }}
+						style={{
+							display: "grid",
+							gridTemplateColumns: "repeat(4, 8px)",
+							gap: "2px",
+						}}
 					>
-						<div className="text-center">
-							<ArcGrid data={INPUT} offset={300} />
-							<p
-								className="mt-1.5 uppercase"
+						{LOGO_INDICES.map((ci, i) => (
+							<div
+								key={i}
 								style={{
-									fontSize: "9px",
-									letterSpacing: "0.15em",
-									color: "var(--sand)",
+									width: 8,
+									height: 8,
+									backgroundColor: ARC[ci],
 								}}
-							>
-								in
-							</p>
+							/>
+						))}
+					</div>
+				</div>
+
+				{/* Title */}
+				<div className="mt-5 eg2-fade" style={{ animationDelay: "50ms" }}>
+					<h1
+						className="text-xl font-medium tracking-tight"
+						style={{ color: "var(--fg)" }}
+					>
+						ERICAGI2
+					</h1>
+					<p
+						className="mt-2 text-sm leading-relaxed"
+						style={{ color: "var(--muted)" }}
+					>
+						Pattern-learning ARC solver. Successor to{" "}
+						<a href="/arc-agi" className="eg2-link">
+							EricAGI
+						</a>
+						.
+						<br />
+						3,629 lines of Python. No LLMs.
+					</p>
+				</div>
+
+				{/* Grid transformation */}
+				<div
+					className="mt-10 eg2-fade"
+					style={{ animationDelay: "150ms" }}
+				>
+					<div className="flex items-center gap-6">
+						<div>
+							<ArcGrid data={INPUT} offset={400} />
+							<p className="mt-2 eg2-label">input</p>
 						</div>
 						<span
-							style={{
-								fontSize: "1.125rem",
-								color: "var(--ochre)",
-								animation: "eg2-arrow 2.5s ease-in-out infinite",
-								animationDelay: "1.4s",
-							}}
+							className="text-xl"
+							style={{ color: "var(--dim)" }}
 						>
 							&#9656;
 						</span>
-						<div className="text-center">
-							<ArcGrid data={OUTPUT} offset={1100} highlight={CHANGED} />
-							<p
-								className="mt-1.5 uppercase"
-								style={{
-									fontSize: "9px",
-									letterSpacing: "0.15em",
-									color: "var(--sand)",
-								}}
-							>
-								out
-							</p>
+						<div>
+							<ArcGrid
+								data={OUTPUT}
+								offset={1200}
+								highlight={CHANGED}
+							/>
+							<p className="mt-2 eg2-label">output</p>
 						</div>
 					</div>
 				</div>
 
-				{/* Divider */}
 				<div
-					className="mt-8"
-					style={{
-						height: "1px",
-						background:
-							"linear-gradient(to right, var(--ochre), transparent 80%)",
-						opacity: 0.4,
-					}}
+					className="eg2-divider mt-10 eg2-fade"
+					style={{ animationDelay: "200ms" }}
 				/>
 
 				{/* Stats */}
@@ -287,97 +290,40 @@ export default function Ericagi2Page() {
 					className="mt-8 eg2-fade"
 					style={{ animationDelay: "250ms" }}
 				>
-					<div className="flex items-end gap-10">
-						<div>
-							<p
-								className={serif.className}
-								style={{
-									fontSize: "3.5rem",
-									lineHeight: 1,
-									color: "var(--ochre)",
-									fontWeight: 400,
-									letterSpacing: "-0.02em",
-								}}
-							>
-								46
-							</p>
-							<p
-								className="mt-1 uppercase"
-								style={{
-									fontSize: "10px",
-									letterSpacing: "0.15em",
-									color: "var(--sand)",
-								}}
-							>
-								of 400 train tasks
-							</p>
-						</div>
-						<div style={{ borderLeft: "1px solid var(--bark)", paddingLeft: "2rem" }}>
-							<p
-								className={serif.className}
-								style={{
-									fontSize: "2.25rem",
-									lineHeight: 1,
-									color: "var(--cream)",
-									fontWeight: 400,
-									letterSpacing: "-0.02em",
-								}}
-							>
-								8
-							</p>
-							<p
-								className="mt-1 uppercase"
-								style={{
-									fontSize: "10px",
-									letterSpacing: "0.15em",
-									color: "var(--sand)",
-								}}
-							>
-								of 400 eval tasks
-							</p>
-						</div>
-					</div>
-
-					<div className="mt-6 flex gap-8">
+					<div className="grid grid-cols-3 gap-2">
 						{(
 							[
-								["~14s", "400 tasks"],
-								["664", "tests"],
-								["8", "patterns"],
-								["100%", "coverage"],
+								["46/400", "TRAIN"],
+								["8/400", "EVAL"],
+								["~14s", "TIME"],
+								["3,629", "LINES"],
+								["664", "TESTS"],
+								["8", "PATTERNS"],
 							] as const
 						).map(([val, label]) => (
-							<div key={label}>
+							<div
+								key={label}
+								style={{
+									border: "1px solid var(--border)",
+									background: "var(--surface)",
+									padding: "10px 12px",
+								}}
+							>
 								<p
-									className="font-medium"
-									style={{ fontSize: "14px", color: "var(--cream)" }}
+									className="text-sm font-medium tabular-nums"
+									style={{ color: "var(--fg)" }}
 								>
 									{val}
 								</p>
-								<p
-									className="uppercase"
-									style={{
-										fontSize: "10px",
-										letterSpacing: "0.15em",
-										color: "var(--sand)",
-									}}
-								>
-									{label}
-								</p>
+								<p className="mt-0.5 eg2-label">{label}</p>
 							</div>
 						))}
 					</div>
 				</div>
 
-				{/* Divider */}
 				<div
-					className="mt-8"
-					style={{
-						height: "1px",
-						background:
-							"linear-gradient(to right, var(--ochre), transparent 80%)",
-						opacity: 0.4,
-					}}
+					className="eg2-divider mt-8 eg2-fade"
+					style={{ animationDelay: "300ms" }}
 				/>
 
 				{/* Pipeline */}
@@ -385,67 +331,49 @@ export default function Ericagi2Page() {
 					className="mt-8 eg2-fade"
 					style={{ animationDelay: "350ms" }}
 				>
-					<h2
-						className={serif.className}
-						style={{
-							fontSize: "1.25rem",
-							color: "var(--cream)",
-							fontStyle: "italic",
-							fontWeight: 400,
-						}}
-					>
-						How it works
-					</h2>
-					<div className="mt-4 relative" style={{ paddingLeft: "20px" }}>
-						<div
-							className="absolute top-0 bottom-0"
-							style={{
-								left: 0,
-								width: "1px",
-								backgroundColor: "var(--bark)",
-							}}
-						/>
-						<div className="space-y-3">
-							{pipeline.map((p) => (
-								<div key={p.step} className="relative flex items-baseline gap-3">
-									<div
-										className="absolute rounded-full"
-										style={{
-											left: "-23px",
-											top: "5px",
-											width: "7px",
-											height: "7px",
-											backgroundColor: "var(--ochre)",
-										}}
-									/>
-									<p
-										className="shrink-0 font-medium"
-										style={{
-											width: "5rem",
-											fontSize: "12px",
-											color: "var(--cream)",
-										}}
-									>
-										{p.step}
-									</p>
-									<p style={{ fontSize: "12px", color: "var(--sand)" }}>
-										{p.desc}
-									</p>
-								</div>
-							))}
-						</div>
+					<p className="eg2-section-title">HOW IT WORKS</p>
+					<div className="mt-4 space-y-0">
+						{pipeline.map((p, i) => (
+							<div
+								key={p.step}
+								className="flex items-baseline gap-4"
+								style={{
+									padding: "6px 0",
+									borderBottom:
+										i < pipeline.length - 1
+											? "1px solid var(--border)"
+											: "none",
+								}}
+							>
+								<span
+									className="text-[10px] tabular-nums font-medium"
+									style={{ color: "var(--accent)", width: "14px" }}
+								>
+									{String(i + 1).padStart(2, "0")}
+								</span>
+								<span
+									className="text-xs font-medium shrink-0"
+									style={{
+										color: "var(--fg)",
+										width: "5rem",
+									}}
+								>
+									{p.step}
+								</span>
+								<span
+									className="text-xs"
+									style={{ color: "var(--muted)" }}
+								>
+									{p.desc}
+								</span>
+							</div>
+						))}
 					</div>
 				</div>
 
-				{/* Divider */}
 				<div
-					className="mt-8"
-					style={{
-						height: "1px",
-						background:
-							"linear-gradient(to right, var(--ochre), transparent 80%)",
-						opacity: 0.4,
-					}}
+					className="eg2-divider mt-8 eg2-fade"
+					style={{ animationDelay: "400ms" }}
 				/>
 
 				{/* Changelog */}
@@ -453,84 +381,64 @@ export default function Ericagi2Page() {
 					className="mt-8 eg2-fade"
 					style={{ animationDelay: "450ms" }}
 				>
-					<h2
-						className={serif.className}
-						style={{
-							fontSize: "1.25rem",
-							color: "var(--cream)",
-							fontStyle: "italic",
-							fontWeight: 400,
-						}}
-					>
-						Changelog
-					</h2>
-					<div className="mt-4 relative" style={{ paddingLeft: "20px" }}>
-						<div
-							className="absolute top-0"
-							style={{
-								left: 0,
-								width: "1px",
-								bottom: "0.75rem",
-								backgroundColor: "var(--bark)",
-							}}
-						/>
-						<div className="space-y-5">
-							{changelog.map((entry, i) => (
-								<div key={i} className="relative">
-									<div
-										className="absolute rounded-full"
+					<p className="eg2-section-title">CHANGELOG</p>
+					<div className="mt-4 space-y-0">
+						{changelog.map((entry, i) => (
+							<div
+								key={i}
+								style={{
+									padding: "10px 0",
+									borderBottom:
+										i < changelog.length - 1
+											? "1px solid var(--border)"
+											: "none",
+								}}
+							>
+								<div className="flex items-baseline gap-3">
+									<span
+										className="text-[10px] tabular-nums shrink-0"
 										style={{
-											left: "-23px",
-											top: "4px",
-											width: "7px",
-											height: "7px",
-											backgroundColor:
-												i === 0 ? "var(--ochre)" : "transparent",
-											border:
+											color:
 												i === 0
-													? "none"
-													: "1.5px solid var(--sand)",
-											opacity: i === 0 ? 1 : 0.5,
+													? "var(--accent)"
+													: "var(--dim)",
+											width: "6.5rem",
 										}}
-									/>
-									<p
-										className="tabular-nums"
-										style={{ fontSize: "10px", color: "var(--sand)", opacity: 0.7 }}
 									>
 										{entry.date}
-									</p>
-									<p
-										className="mt-0.5 font-medium"
-										style={{ fontSize: "13px", color: "var(--cream)" }}
+									</span>
+									<span
+										className="text-xs font-medium"
+										style={{ color: "var(--fg)" }}
 									>
 										{entry.title}
-									</p>
-									<p
-										className="mt-0.5 leading-relaxed"
-										style={{
-											fontSize: "11px",
-											color: "var(--sand)",
-											opacity: 0.7,
-										}}
-									>
-										{entry.body}
-									</p>
+									</span>
 								</div>
-							))}
-						</div>
+								<p
+									className="mt-1 text-[11px] leading-relaxed"
+									style={{
+										color: "var(--dim)",
+										paddingLeft: "6.5rem",
+										marginLeft: "0.75rem",
+									}}
+								>
+									{entry.body}
+								</p>
+							</div>
+						))}
 					</div>
 				</div>
 
 				{/* ARC palette strip */}
-				<div className="mt-12 mb-2 flex gap-[3px]">
+				<div className="mt-12 flex gap-[2px]">
 					{ARC.slice(1).map((color, i) => (
 						<div
 							key={i}
 							style={{
-								width: "100%",
-								height: "2px",
+								flex: 1,
+								height: "3px",
 								backgroundColor: color,
-								opacity: 0.4,
+								opacity: 0.5,
 							}}
 						/>
 					))}
