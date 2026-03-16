@@ -408,33 +408,9 @@ export default function Ericagi2Page() {
 					</p>
 				</div>
 
-				{/* Grid transformation */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "150ms" }}
-				>
-					<div className="flex items-center gap-6">
-						<div>
-							<ArcGrid data={INPUT} offset={400} />
-							<p className="mt-2 eg2-label">input</p>
-						</div>
-						<span className="text-xl" style={{ color: "var(--dim)" }}>
-							&#9656;
-						</span>
-						<div>
-							<ArcGrid
-								data={OUTPUT}
-								offset={1200}
-								highlight={CHANGED}
-							/>
-							<p className="mt-2 eg2-label">output</p>
-						</div>
-					</div>
-				</div>
-
 				<div
 					className="eg2-divider mt-10 eg2-fade"
-					style={{ animationDelay: "200ms" }}
+					style={{ animationDelay: "150ms" }}
 				/>
 
 				{/* Stats */}
@@ -445,12 +421,12 @@ export default function Ericagi2Page() {
 					<div className="grid grid-cols-3 gap-2">
 						{(
 							[
-								["73/400", "TRAIN"],
+								["88/400", "TRAIN"],
 								["8/400", "EVAL"],
 								["~14s", "TIME"],
-								["3,900", "LINES"],
-								["951", "TESTS"],
-								["8", "PATTERNS"],
+								["12,600", "LINES"],
+								["1,226", "TESTS"],
+								["17", "HYPOTHESES"],
 							] as const
 						).map(([val, label]) => (
 							<div
@@ -693,6 +669,18 @@ export default function Ericagi2Page() {
 				>
 					<p className="eg2-section-title">CHANGELOG</p>
 					<div className="mt-4 space-y-3">
+						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
+							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
+								2026-03-16 23:30 &mdash; Output construction hypothesis families
+							</p>
+							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+								Added 7 new hypothesis families targeting diff-dims tasks: separator cell
+								summary, upscale block, stack objects, crop to colored region, select unique
+								cell from separator grid, 1x1 summary, and input-as-template. These handle
+								the 138 unsolved diff-dims tasks (crop, scale, summary, stacking categories).
+								88/400 train (+12), 17 hypotheses total, 1,226 tests, 100% coverage.
+							</p>
+						</div>
 						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
 							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
 								2026-03-16 22:45 &mdash; Hypothesis families + ported inference engines
