@@ -172,6 +172,19 @@ const patternDSL = {
 		"SEQUENCE",
 		"CONDITIONAL",
 		"LOOKUP",
+		"UPSCALE_BLOCK",
+		"EXTRACT_BY_PREDICATE",
+		"STAMP_AT_MARKERS",
+		"SEPARATOR_SUMMARY",
+		"COLOR_SUBSTITUTE",
+		"STACK_CONCAT",
+		"DRAW_LINE",
+		"RIGID_SHIFT",
+		"DAMAGE_REPAIR",
+		"PATTERN_EXTEND",
+		"NEIGHBOR_RULE",
+		"SLIDE_TO_WALL",
+		"COUNT_ENCODE",
 	],
 };
 
@@ -678,6 +691,21 @@ export default function Ericagi2Page() {
 				>
 					<p className="eg2-section-title">CHANGELOG</p>
 					<div className="mt-4 space-y-3">
+						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
+							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
+								2026-03-16 16:30 &mdash; 13 new BodyKinds for pattern generalization
+							</p>
+							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+								Added 13 new BodyKind enum values with full implementations: UPSCALE_BLOCK,
+								EXTRACT_BY_PREDICATE, STAMP_AT_MARKERS, SEPARATOR_SUMMARY, COLOR_SUBSTITUTE,
+								STACK_CONCAT, DRAW_LINE, RIGID_SHIFT, DAMAGE_REPAIR, PATTERN_EXTEND,
+								NEIGHBOR_RULE, SLIDE_TO_WALL, COUNT_ENCODE. These enable the learning loop
+								to generalize hypothesis solutions into reusable patterns. MOVE and EXTEND_LINE
+								unstubbed (delegate to RIGID_SHIFT and DRAW_LINE). Updated antiunify mappings
+								for 16 action types. Pattern DSL body vocabulary: 21 &rarr; 34.
+								1,313 tests, 100% coverage.
+							</p>
+						</div>
 						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
 							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
 								2026-03-17 00:15 &mdash; Port 12 inference engines (batch 3)
