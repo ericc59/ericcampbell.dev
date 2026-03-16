@@ -40,61 +40,156 @@ const OUTPUT: number[][] = [
 const CHANGED = new Set(["0-0", "1-1", "3-3", "4-4"]);
 
 const pipeline = [
-	{ step: "perceive", desc: "64-dim feature vector from grid" },
-	{ step: "recall", desc: "cosine similarity against library" },
+	{ step: "perceive", desc: "build scene graph, 64-dim feature vector" },
+	{ step: "recall", desc: "cosine similarity against pattern library" },
 	{ step: "apply", desc: "guard \u2192 bind \u2192 body \u2192 verify" },
-	{ step: "search", desc: "beam search, 21 candidate types" },
-	{ step: "extract", desc: "group by signature, anti-unify" },
-	{ step: "learn", desc: "add patterns for next round" },
+	{ step: "search", desc: "beam search with candidate generators" },
+	{ step: "extract", desc: "group solutions, anti-unify, validate" },
+	{ step: "learn", desc: "add new patterns to library for next round" },
 ];
 
-const changelog = [
-	{
-		date: "Mar 16, 9 PM",
-		title: "Object-centric solver candidate generator",
-		body: "Port ericagi object solver as candidate generator. Detect objects, match by IoU+shape+color, infer per-object transforms (delete, translate, recolor, rotate, flip). Consistency check across pairs, 2 connectivity configs. 69\u219272 train solves (17.2%\u219218.0%).",
-	},
-	{
-		date: "Mar 16, 5 PM",
-		title: "Port 7 ericagi inference engines",
-		body: "Extract unique object (6 criteria), neighbor recolor, hollow rect ops (cross-hair/gap-spill/size-fill), minority extraction, pattern continuation, damage repair/extract, upscale. 8 new candidate generators, 130 new tests.",
-	},
-	{
-		date: "Mar 15, 8 PM",
-		title: "Perception infrastructure",
-		body: "Frames, roles, legend detection, object extraction. RoleType enum, 5 directional RelTypes, frame detection via perimeter analysis. 42\u219246 solves.",
-	},
-	{
-		date: "Mar 15, 4:30 PM",
-		title: "Tile pattern learning",
-		body: "Tile tasks extract into reusable pattern. PROPERTY binding fix for eager resolution. 7\u21928 library patterns.",
-	},
-	{
-		date: "Mar 15, 12 AM",
-		title: "Compound extraction loop",
-		body: "7 distinct ActionKinds from generic PIXEL_RULE. 5 new task properties. LOO verification in pipeline.",
-	},
-	{
-		date: "Mar 14, 11 PM",
-		title: "Smart crop + object transforms",
-		body: "Symmetry completion (4 axes), self-tile with mirror, grid decomposition. 39\u219242 solves.",
-	},
-	{
-		date: "Mar 14, 9 PM",
-		title: "Stamp template, grid decompose",
-		body: "Stamp at seed markers, separator-based decomposition, pixel neighborhood rules. 32\u219239.",
-	},
-	{
-		date: "Mar 14, 6 PM",
-		title: "Iterative extraction + dedup",
-		body: "Multi-round extraction pipeline with pattern name deduplication.",
-	},
-	{
-		date: "Mar 14, 3 PM",
-		title: "6 new candidate generators",
-		body: "Pixel remap, object recolor/removal, symmetry, fill enclosed, connect same-color. 11\u219232 solves.",
-	},
-];
+const candidates: Record<string, string[]> = {
+	global: [
+		"flip-h",
+		"flip-v",
+		"rotate-90",
+		"rotate-180",
+		"rotate-270",
+		"transpose",
+	],
+	color: ["color-remap", "object-recolor", "object-removal", "recolor-by-property"],
+	object: [
+		"object-transform",
+		"per-object-mirror-rotate",
+		"sort-objects",
+		"extract-unique-object",
+		"neighbor-recolor",
+		"object-solver",
+	],
+	extraction: [
+		"crop-content",
+		"extract-by-role",
+		"frame-interior",
+		"minority-extraction",
+		"damage-extract",
+	],
+	spatial: [
+		"symmetry-completion",
+		"fill-enclosed",
+		"connect-same-color",
+		"gravity",
+		"cross-fill",
+		"line-extension",
+		"border-outline",
+		"flood-fill",
+	],
+	structural: [
+		"tile",
+		"stamp-template",
+		"grid-decompose",
+		"pixel-rules",
+		"additive-extension",
+		"pattern-continuation",
+		"hollow-rect",
+		"damage-repair",
+		"upscale",
+	],
+};
+
+const totalCandidates = Object.values(candidates).flat().length;
+
+const patternDSL = {
+	guard: [
+		"SAME_DIMS",
+		"DIFFERENT_DIMS",
+		"MIN_OBJECTS",
+		"MAX_OBJECTS",
+		"HAS_COLOR_CHANGE",
+		"HAS_SYMMETRY",
+		"HAS_SEPARATOR",
+		"HAS_MARKERS",
+		"IS_ADDITIVE",
+		"OBJECTS_VARY_BY",
+		"AND",
+		"OR",
+		"NOT",
+	],
+	bind: [
+		"CONSTANT",
+		"BACKGROUND_COLOR",
+		"ALL_OBJECTS",
+		"FILTER_OBJECTS",
+		"PROPERTY",
+		"RANK_BY",
+		"LEARN_COLOR_MAP",
+		"DIFF_COLORS",
+		"UNIQUE_IN_OUTPUT",
+		"MARKER_POSITIONS",
+	],
+	body: [
+		"RECOLOR",
+		"REMOVE",
+		"MOVE",
+		"MIRROR_OBJ",
+		"ROTATE_OBJ",
+		"MIRROR_GRID",
+		"ROTATE_GRID",
+		"TRANSPOSE",
+		"GRAVITY",
+		"FILL_ENCLOSED",
+		"FLOOD_FILL",
+		"EXTEND_LINE",
+		"CONNECT",
+		"CROP_CONTENT",
+		"TILE",
+		"FOLD_SYMMETRY",
+		"GRID_DECOMPOSE",
+		"FOR_EACH",
+		"SEQUENCE",
+		"CONDITIONAL",
+		"LOOKUP",
+	],
+};
+
+const perception = {
+	roles: ["FRAME", "SEPARATOR", "MARKER", "TEMPLATE", "LEGEND", "CONTENT"],
+	relations: [
+		"ADJACENT_4",
+		"ADJACENT_8",
+		"CONTAINS",
+		"SAME_ROW",
+		"SAME_COL",
+		"SAME_COLOR",
+		"SAME_SHAPE",
+		"ALIGNED_H",
+		"ALIGNED_V",
+		"ABOVE",
+		"BELOW",
+		"LEFT_OF",
+		"RIGHT_OF",
+		"INSIDE",
+	],
+	properties: [
+		"n_input_colors",
+		"n_output_colors",
+		"background_color",
+		"n_nonbg_colors",
+		"n_objects",
+		"h_ratio",
+		"w_ratio",
+		"has_symmetry",
+		"tile_mirror",
+		"max_object_size",
+		"min_object_size",
+		"smallest_object_color",
+		"largest_object_color",
+		"most_frequent_input_color",
+		"least_frequent_input_color",
+		"color_only_in_input",
+		"unique_output_color",
+		"changed_color",
+	],
+};
 
 function ArcGrid({
 	data,
@@ -146,13 +241,24 @@ function ArcGrid({
 	);
 }
 
+function Tags({ items }: { items: string[] }) {
+	return (
+		<div className="flex flex-wrap gap-[3px]">
+			{items.map((item) => (
+				<span key={item} className="eg2-tag">
+					{item}
+				</span>
+			))}
+		</div>
+	);
+}
+
 export default function Ericagi2Page() {
 	return (
 		<>
 			<style>{`
 				.eg2 {
 					--accent: #e53aa3;
-					--accent-dim: rgba(229, 58, 163, 0.15);
 					--fg: #e4e4e7;
 					--muted: #71717a;
 					--dim: #52525b;
@@ -200,13 +306,39 @@ export default function Ericagi2Page() {
 					height: 1px;
 					background: var(--border);
 				}
+
+				.eg2-tag {
+					display: inline-block;
+					font-size: 10px;
+					letter-spacing: 0.04em;
+					padding: 2px 6px;
+					border: 1px solid var(--border);
+					color: var(--muted);
+					white-space: nowrap;
+				}
+
+				.eg2-cat {
+					font-size: 10px;
+					text-transform: uppercase;
+					letter-spacing: 0.15em;
+					color: var(--accent);
+					width: 5.5rem;
+					flex-shrink: 0;
+					padding-top: 3px;
+				}
+
+				.eg2-count {
+					font-size: 10px;
+					color: var(--accent);
+					font-weight: 500;
+				}
 			`}</style>
 
 			<section
 				className="eg2"
 				style={{
 					background:
-						"radial-gradient(ellipse at 40% 15%, rgba(229,58,163,0.03) 0%, transparent 55%)",
+						"radial-gradient(ellipse at 40% 8%, rgba(229,58,163,0.03) 0%, transparent 55%)",
 				}}
 			>
 				{/* ARC logo mark */}
@@ -241,21 +373,21 @@ export default function Ericagi2Page() {
 					</h1>
 					<p
 						className="mt-2 text-sm leading-relaxed"
-						style={{ color: "var(--muted)" }}
+						style={{ color: "var(--muted)", maxWidth: "26rem" }}
 					>
 						Pattern-learning ARC solver. Successor to{" "}
 						<a href="/arc-agi" className="eg2-link">
 							EricAGI
 						</a>
-						.
-						<br />
-						3,629 lines of Python. No LLMs.
+						. Instead of hand-crafted inference engines, this system
+						learns reusable patterns from solved tasks and compounds
+						them across rounds. 3,629 lines of Python, no LLMs.
 					</p>
 				</div>
 
 				{/* Grid transformation */}
 				<div
-					className="mt-10 eg2-fade"
+					className="mt-8 eg2-fade"
 					style={{ animationDelay: "150ms" }}
 				>
 					<div className="flex items-center gap-6">
@@ -263,10 +395,7 @@ export default function Ericagi2Page() {
 							<ArcGrid data={INPUT} offset={400} />
 							<p className="mt-2 eg2-label">input</p>
 						</div>
-						<span
-							className="text-xl"
-							style={{ color: "var(--dim)" }}
-						>
+						<span className="text-xl" style={{ color: "var(--dim)" }}>
 							&#9656;
 						</span>
 						<div>
@@ -293,7 +422,7 @@ export default function Ericagi2Page() {
 					<div className="grid grid-cols-3 gap-2">
 						{(
 							[
-								["46/400", "TRAIN"],
+								["72/400", "TRAIN"],
 								["8/400", "EVAL"],
 								["~14s", "TIME"],
 								["3,629", "LINES"],
@@ -331,7 +460,7 @@ export default function Ericagi2Page() {
 					className="mt-8 eg2-fade"
 					style={{ animationDelay: "350ms" }}
 				>
-					<p className="eg2-section-title">HOW IT WORKS</p>
+					<p className="eg2-section-title">PIPELINE</p>
 					<div className="mt-4 space-y-0">
 						{pipeline.map((p, i) => (
 							<div
@@ -347,7 +476,10 @@ export default function Ericagi2Page() {
 							>
 								<span
 									className="text-[10px] tabular-nums font-medium"
-									style={{ color: "var(--accent)", width: "14px" }}
+									style={{
+										color: "var(--accent)",
+										width: "14px",
+									}}
 								>
 									{String(i + 1).padStart(2, "0")}
 								</span>
@@ -355,7 +487,7 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium shrink-0"
 									style={{
 										color: "var(--fg)",
-										width: "5rem",
+										width: "4.5rem",
 									}}
 								>
 									{p.step}
@@ -376,56 +508,153 @@ export default function Ericagi2Page() {
 					style={{ animationDelay: "400ms" }}
 				/>
 
-				{/* Changelog */}
+				{/* Perception */}
 				<div
 					className="mt-8 eg2-fade"
 					style={{ animationDelay: "450ms" }}
 				>
-					<p className="eg2-section-title">CHANGELOG</p>
-					<div className="mt-4 space-y-0">
-						{changelog.map((entry, i) => (
-							<div
-								key={i}
-								style={{
-									padding: "10px 0",
-									borderBottom:
-										i < changelog.length - 1
-											? "1px solid var(--border)"
-											: "none",
-								}}
-							>
-								<div className="flex items-baseline gap-3">
-									<span
-										className="text-[10px] tabular-nums shrink-0"
-										style={{
-											color:
-												i === 0
-													? "var(--accent)"
-													: "var(--dim)",
-											width: "6.5rem",
-										}}
-									>
-										{entry.date}
+					<div className="flex items-baseline justify-between">
+						<p className="eg2-section-title">PERCEPTION</p>
+						<span className="eg2-count">
+							{perception.roles.length +
+								perception.relations.length +
+								perception.properties.length}
+						</span>
+					</div>
+					<p
+						className="mt-2 text-xs leading-relaxed"
+						style={{ color: "var(--dim)", maxWidth: "28rem" }}
+					>
+						Each grid is parsed into a scene graph: objects detected
+						via connected components, classified by role, linked by
+						spatial relations, and summarized as a 64-dim feature
+						vector for library recall.
+					</p>
+					<div className="mt-4 space-y-3">
+						<div className="flex gap-3">
+							<span className="eg2-cat">
+								roles{" "}
+								<span className="eg2-count">
+									{perception.roles.length}
+								</span>
+							</span>
+							<Tags items={perception.roles} />
+						</div>
+						<div className="flex gap-3">
+							<span className="eg2-cat">
+								relations{" "}
+								<span className="eg2-count">
+									{perception.relations.length}
+								</span>
+							</span>
+							<Tags items={perception.relations} />
+						</div>
+						<div className="flex gap-3">
+							<span className="eg2-cat">
+								properties{" "}
+								<span className="eg2-count">
+									{perception.properties.length}
+								</span>
+							</span>
+							<Tags items={perception.properties} />
+						</div>
+					</div>
+				</div>
+
+				<div
+					className="eg2-divider mt-8 eg2-fade"
+					style={{ animationDelay: "500ms" }}
+				/>
+
+				{/* Candidate Generators */}
+				<div
+					className="mt-8 eg2-fade"
+					style={{ animationDelay: "550ms" }}
+				>
+					<div className="flex items-baseline justify-between">
+						<p className="eg2-section-title">
+							CANDIDATE GENERATORS
+						</p>
+						<span className="eg2-count">{totalCandidates}</span>
+					</div>
+					<p
+						className="mt-2 text-xs leading-relaxed"
+						style={{ color: "var(--dim)", maxWidth: "28rem" }}
+					>
+						When no library pattern matches, beam search tries these
+						generators. Each proposes candidate actions scored by
+						minimum description length.
+					</p>
+					<div className="mt-4 space-y-3">
+						{Object.entries(candidates).map(([cat, items]) => (
+							<div key={cat} className="flex gap-3">
+								<span className="eg2-cat">
+									{cat}{" "}
+									<span className="eg2-count">
+										{items.length}
 									</span>
-									<span
-										className="text-xs font-medium"
-										style={{ color: "var(--fg)" }}
-									>
-										{entry.title}
-									</span>
-								</div>
-								<p
-									className="mt-1 text-[11px] leading-relaxed"
-									style={{
-										color: "var(--dim)",
-										paddingLeft: "6.5rem",
-										marginLeft: "0.75rem",
-									}}
-								>
-									{entry.body}
-								</p>
+								</span>
+								<Tags items={items} />
 							</div>
 						))}
+					</div>
+				</div>
+
+				<div
+					className="eg2-divider mt-8 eg2-fade"
+					style={{ animationDelay: "600ms" }}
+				/>
+
+				{/* Pattern DSL */}
+				<div
+					className="mt-8 eg2-fade"
+					style={{ animationDelay: "650ms" }}
+				>
+					<div className="flex items-baseline justify-between">
+						<p className="eg2-section-title">PATTERN DSL</p>
+						<span className="eg2-count">
+							{patternDSL.guard.length +
+								patternDSL.bind.length +
+								patternDSL.body.length}
+						</span>
+					</div>
+					<p
+						className="mt-2 text-xs leading-relaxed"
+						style={{ color: "var(--dim)", maxWidth: "28rem" }}
+					>
+						Learned patterns are stored as guard \u2192 bind \u2192
+						body programs. Guards check preconditions, binds extract
+						task-specific values, and the body applies parameterized
+						actions.
+					</p>
+					<div className="mt-4 space-y-3">
+						<div className="flex gap-3">
+							<span className="eg2-cat">
+								guard{" "}
+								<span className="eg2-count">
+									{patternDSL.guard.length}
+								</span>
+							</span>
+							<Tags items={patternDSL.guard} />
+						</div>
+						<div className="flex gap-3">
+							<span className="eg2-cat">
+								bind{" "}
+								<span className="eg2-count">
+									{patternDSL.bind.length}
+								</span>
+							</span>
+							<Tags items={patternDSL.bind} />
+						</div>
+						<div className="flex gap-3">
+							<span className="eg2-cat">
+								body{" "}
+								<span className="eg2-count">
+									{patternDSL.body.length}
+								</span>
+							</span>
+							<Tags items={patternDSL.body} />
+						</div>
 					</div>
 				</div>
 
