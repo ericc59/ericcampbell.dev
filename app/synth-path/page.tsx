@@ -104,6 +104,8 @@ const candidates: Record<string, string[]> = {
 		"row-period-extend",
 		"col-period-extend",
 		"pattern-substitution",
+		"morpho-grow",
+		"morpho-shrink",
 	],
 	structural: [
 		"tile",
@@ -537,7 +539,8 @@ export default function Ericagi2Page() {
 							Each grid is parsed into a scene graph: objects detected via
 							connected components, classified by role, linked by spatial
 							relations, and summarized as a 64-dim feature vector for library
-							recall.
+							recall. Hierarchical mode detects separator-partitioned grids
+							and builds per-cell sub-scenes for cell-summary tasks.
 						</p>
 						<div className="mt-4 space-y-3">
 							<div className="flex gap-3">
@@ -656,6 +659,349 @@ export default function Ericagi2Page() {
 					<div className="mt-8 eg2-fade" style={{ animationDelay: "750ms" }}>
 						<p className="eg2-section-title">CHANGELOG</p>
 						<div className="mt-4 space-y-3">
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-19 18:30 &mdash; Morphological grow/shrink
+									primitives
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added morphological dilation (grow) and erosion (shrink)
+									as beam search candidate actions. Both support 4-connected
+									and 8-connected neighborhoods. 20 timeout tasks show
+									improved pixel accuracy when grow/shrink is used as a
+									composition step (top: +37px on 6cdd2623 via shrink4).
+									These are fundamental operations that were completely
+									absent from the candidate set. 15 new tests, 1,985 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 17:00 &mdash; Rule-table compression
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Conservative exact compression for neighborhood_rule tables:
+									remove irrelevant feature dimensions, factor dominant default
+									outputs. Example: 7-rule 5-dim table &rarr; 3 rules on 2
+									dims. Compressed at candidate creation time, stored in
+									serializable params. Body executor handles relevant_dims +
+									default_output. Quality audit: is_oversized_rule_table
+									rejects &gt;20-entry tables with weak support. Inspector
+									shows compression ratio. New rule_compress module. 7 new
+									tests, 1,946 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 15:00 &mdash; Explicit neighborhood_rule
+									representation
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Converted neighborhood_rule from hidden-logic closure family
+									to explicit serializable representation. Rule tables now
+									stored in params/body data as JSON-compatible structures.
+									Two formats: pixel_feature (5-tuple feature &rarr; color
+									dict) and neighbor_recolor (conditional rule list). Body
+									executor dispatches by mode, falling back to legacy dict
+									format. hypothesis_to_pattern mapper creates explicit
+									patterns. Quality audit no longer flags neighborhood_rule as
+									hidden_logic when rule_table present. New rule_table_size
+									property. 11 new tests, 1,939 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 13:00 &mdash; Generalized primitive-quality
+									audit
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Quality audit now covers all pattern families, not just
+									classifiers. New properties: extractability_class
+									(explicit/partial/hidden_logic), is_literal_heavy (multi-
+									constant no lifting), has_hidden_logic (closure-dependent
+									families). quality_score penalizes: hidden-logic 70%,
+									literal-heavy 50%, memorizing classifiers 90%.
+									reject_non_primitives gates: hidden-logic single-source,
+									literal-heavy single-source, memorizing classifiers.
+									Inspector shows quality/lit_ratio/family/flags per recalled
+									pattern. Benchmark table adds Ext column with L/H/M flags.
+									14 new tests, 1,928 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 11:00 &mdash; Classifier quality as
+									system-wide filter
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									V6 metrics now gate the entire pattern lifecycle. New
+									PatternEntry fields: classifier_sig_count,
+									classifier_test_unseen, classifier_n_test_cells,
+									classifier_strategy. quality_score applies 90% penalty for
+									memorizing classifiers (&gt;50% unseen rate).
+									reject_non_primitives gates them before promotion. Metrics
+									computed at hypothesis registration time, serialized in
+									library, shown in benchmark table. partition_cell_map mapper
+									added for pattern serialization. 13 new tests, 1,914 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 09:00 &mdash; Compressive cell signatures
+									(Partition V6)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									8 canonicalization strategies ordered by compression: 5
+									compressive (n_nonbg, color_freq_profile, n_colors_n_objs,
+									occupancy, occupancy_n_colors) then 3 exact (color_rank,
+									color_rank_posn, sorted_color_set). Inspector shows
+									per-strategy: signature count, consistency, test unseen rate.
+									Classifier tries compressive first &mdash; genuinely solvable
+									tasks use few signatures that generalize to test; memorization
+									is clearly flagged via test_unseen metric. 3 new tests,
+									1,887 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 07:00 &mdash; Cell pattern classifier
+									(Partition V5)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New partition cell classifier family: treats each cell as a
+									structured token, computes canonical signatures under 4
+									strategies (occupancy, color_rank, color_rank_posn,
+									sorted_color_set), builds sig&rarr;output lookup from
+									training pairs. Distinct from summary modes &mdash; learns a
+									lookup table rather than computing a fixed function. Inspector
+									shows per-strategy consistency/conflict/match status.
+									Correctly train-fits 09629e4f (36 sigs) but flags
+									non-generalization. 6 new tests, 1,883 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 05:00 &mdash; Template completion reasoning
+									(Partition V4)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added 4 template completion modes for position-based
+									reasoning: missing_position_fill (consensus color at absent
+									majority-template position), extra_position_color (color at
+									position unique to this cell), sparse_position_color (color
+									at rarest position), dense_position_color (color at most
+									common position). 20 total partition modes across 4
+									categories (palette/relational/structural/completion).
+									Pre-computes cross-cell position-color maps for O(1) per-cell
+									lookups. Inspector categorizes modes with per-category
+									failure reporting. 6 new tests, 1,875 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 03:00 &mdash; Cross-cell relational reasoning
+									(Partition V2)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Extended partition cell map with 4 cross-cell relational
+									modes: missing_from_global_palette,
+									missing_from_row_palette, missing_from_col_palette,
+									unique_vs_grid. Pre-computes per-cell palette stats and
+									threads them through execution. Inspector now probes all 8
+									modes per partition task, showing match/fail with per-mode
+									cell mismatch counts. Diagnosis reports when all modes fail
+									or when a winning mode is found. Refactored body executor
+									into shared _partition_cell_fill for hypothesis/candidate
+									reuse. 8 new tests, 1,862 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 01:00 &mdash; Partition cell map operator
+									family
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New general partition/cell operator for same-size
+									separator-grid tasks. PARTITION_CELL_MAP operates over
+									detected partition cells, applying per-cell summary
+									functions (dominant non-bg, unique non-bg, max/min color)
+									and rendering back into the same cell layout with scaffold
+									preserved. Added as ActionKind, BodyKind, hypothesis
+									family, and beam search candidate generator. TaskContext
+									now caches partition scenes (has_partition, partitions
+									properties). 17 new tests, 1,854 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-19 23:00 &mdash; Task inspection tool
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New diagnostic inspector: python scripts/inspect_task.py
+									--task-id ID. Shows task summary, hierarchical perception
+									(plain vs partitioned), structural triples by category,
+									hint predictions, library recall with per-pattern
+									guard/bind/verify probing, full solver diagnostics with
+									stage timings, and synthesized bottleneck diagnosis. Reuses
+									existing pipeline (solve_with_diagnostics,
+									recall_with_diagnostics) &mdash; no duplicate solve logic.
+									Supports --json for machine-readable output, --show-grids
+									for cell details. Diagnosis engine identifies 11 bottleneck
+									classes from recorded signals. 25 new tests, 1,837 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-19 21:30 &mdash; Phase 4: separator-aware
+									hierarchical perception
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New perception path for separator-partitioned grids (e.g.
+									09629e4f). Detects full-span separator rows/cols, extracts
+									rectangular cells between them, builds per-cell sub-scenes
+									with local background inference. New types: CellRegion,
+									PartitionScene, HierarchicalScene.
+									build_hierarchical_scene() overlays partition detection on
+									existing scene graph. Structural triples gain 8 partition
+									predicates (has_separator_grid, uniform_cells, cell
+									palette/symmetry/object_count varies, cell_summary_task).
+									SolveDiagnostics extended with perception_mode,
+									partition_rows/cols/cell_count. Benchmark prints partition
+									perception aggregate stats. 19 new tests, 1,809 total, 100%
+									coverage.
+								</p>
+							</div>
 							<div
 								style={{
 									borderLeft: "2px solid var(--accent)",
