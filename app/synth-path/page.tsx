@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "ericagi2",
+	title: "SynthPath",
 	description:
 		"Pattern-learning ARC solver. Learns reusable patterns from solved tasks instead of hand-crafting inference engines.",
 };
@@ -421,7 +421,7 @@ export default function Ericagi2Page() {
 							className="text-xl font-medium tracking-tight"
 							style={{ color: "var(--fg)" }}
 						>
-							ERICAGI2
+							SynthPath
 						</h1>
 						<p
 							className="mt-2 text-sm leading-relaxed"
@@ -429,7 +429,7 @@ export default function Ericagi2Page() {
 						>
 							Pattern-learning ARC solver. Successor to{" "}
 							<a href="/arc-agi" className="eg2-link">
-								EricAGI
+								SynthPath
 							</a>
 							. Instead of hand-crafted inference engines, this system learns
 							reusable patterns from solved tasks and compounds them across
@@ -670,8 +670,8 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
-									2026-03-19 18:00 &mdash; Neural-guided search, tiered
-									library, diagnostics infrastructure
+									2026-03-19 18:00 &mdash; Neural-guided search, tiered library,
+									diagnostics infrastructure
 								</p>
 								<p
 									className="mt-1 text-xs leading-relaxed"
@@ -681,18 +681,18 @@ export default function Ericagi2Page() {
 									family, action kind, flags) to rerank library recall,
 									candidates, and beam search &mdash; model only reranks,
 									verification stays in control. Pattern library now uses
-									candidate/promoted/rejected tiers: promotion requires
-									&ge;2 distinct provenance tasks and non-source success;
-									failure-based auto-demotion for high-use low-success
-									patterns; default recall returns only promoted patterns.
-									New --diag mode in benchmark.py emits per-task JSON with
-									stage timing, recall quality, candidate coverage, beam
-									stats, failure taxonomy, and hint quality metrics. Bug
-									fixes: pixel_infer now tries geometric extractors before
-									color maps (fixes generalization failure on fliplr tasks);
-									action-family grouping now consistent between training and
-									runtime; expensive solver stages (pixel infer, body sweep,
-									neural) now respect timeout budget.
+									candidate/promoted/rejected tiers: promotion requires &ge;2
+									distinct provenance tasks and non-source success;
+									failure-based auto-demotion for high-use low-success patterns;
+									default recall returns only promoted patterns. New --diag mode
+									in benchmark.py emits per-task JSON with stage timing, recall
+									quality, candidate coverage, beam stats, failure taxonomy, and
+									hint quality metrics. Bug fixes: pixel_infer now tries
+									geometric extractors before color maps (fixes generalization
+									failure on fliplr tasks); action-family grouping now
+									consistent between training and runtime; expensive solver
+									stages (pixel infer, body sweep, neural) now respect timeout
+									budget.
 								</p>
 							</div>
 							<div
@@ -714,13 +714,13 @@ export default function Ericagi2Page() {
 									Added SolveDiagnostics dataclass capturing per-task timing,
 									recall quality, failure taxonomy, and hint accuracy metrics.
 									New solve_with_diagnostics() function instruments every
-									pipeline stage (8 stages) with monotonic timing. Library
-									gains recall_with_diagnostics() exposing cosine/hint_bonus/
-									hybrid scores per recalled pattern. Benchmark gets --diag
-									flag that saves per-task JSON and prints aggregated summary:
-									solved-by-stage breakdown, failure taxonomy, recall hit
-									rate, avg stage time, hint quality metrics. 25 new tests,
-									1,695 total, 100% coverage.
+									pipeline stage (8 stages) with monotonic timing. Library gains
+									recall_with_diagnostics() exposing cosine/hint_bonus/ hybrid
+									scores per recalled pattern. Benchmark gets --diag flag that
+									saves per-task JSON and prints aggregated summary:
+									solved-by-stage breakdown, failure taxonomy, recall hit rate,
+									avg stage time, hint quality metrics. 25 new tests, 1,695
+									total, 100% coverage.
 								</p>
 							</div>
 							<div
@@ -733,8 +733,8 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
-									2026-03-16 22:00 &mdash; Meta-strategy: auto-discover
-									abstract rules
+									2026-03-16 22:00 &mdash; Meta-strategy: auto-discover abstract
+									rules
 								</p>
 								<p
 									className="mt-1 text-xs leading-relaxed"
@@ -763,23 +763,22 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
-									2026-03-16 18:00 &mdash; Learning loop fixes: 3
-									param coordination fixes
+									2026-03-16 18:00 &mdash; Learning loop fixes: 3 param
+									coordination fixes
 								</p>
 								<p
 									className="mt-1 text-xs leading-relaxed"
 									style={{ color: "var(--muted)" }}
 								>
-									Three fixes to unblock the pattern learning loop.
-									Fix 1: body executor normalizes short-form fold_symmetry
-									modes (&ldquo;lr&rdquo;&rarr;&ldquo;sym_lr&rdquo;, etc.)
-									so hypothesis params flow through the DSL pipeline.
-									Fix 2: split mixed ActionKind groups &mdash;
-									PATTERN_CONTINUATION, HOLLOW_RECT_OP, FRAME_FILL now have
-									distinct signatures for cleaner extraction grouping.
-									Fix 3: added selector_hint task property for property-based
-									selector explanation in extract_object groups.
-									1,321 tests, 100% coverage.
+									Three fixes to unblock the pattern learning loop. Fix 1: body
+									executor normalizes short-form fold_symmetry modes
+									(&ldquo;lr&rdquo;&rarr;&ldquo;sym_lr&rdquo;, etc.) so
+									hypothesis params flow through the DSL pipeline. Fix 2: split
+									mixed ActionKind groups &mdash; PATTERN_CONTINUATION,
+									HOLLOW_RECT_OP, FRAME_FILL now have distinct signatures for
+									cleaner extraction grouping. Fix 3: added selector_hint task
+									property for property-based selector explanation in
+									extract_object groups. 1,321 tests, 100% coverage.
 								</p>
 							</div>
 							<div

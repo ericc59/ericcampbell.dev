@@ -4,7 +4,7 @@ const navItems = [
 	{ href: "/#work", name: "work" },
 	{ href: "/#projects", name: "projects" },
 	{ href: "/blog", name: "writing" },
-	{ href: "/arc-agi", name: "arc agi solver" },
+	{ href: "/synth-path", name: "synthpath" },
 	{ href: "/mast", name: "mast" },
 ];
 
