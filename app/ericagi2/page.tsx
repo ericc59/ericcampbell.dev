@@ -57,7 +57,12 @@ const candidates: Record<string, string[]> = {
 		"rotate-270",
 		"transpose",
 	],
-	color: ["color-remap", "object-recolor", "object-removal", "recolor-by-property"],
+	color: [
+		"color-remap",
+		"object-recolor",
+		"object-removal",
+		"recolor-by-property",
+	],
 	object: [
 		"object-transform",
 		"per-object-mirror-rotate",
@@ -225,6 +230,7 @@ const perception = {
 		"color_only_in_input",
 		"unique_output_color",
 		"changed_color",
+		"selector_hint",
 	],
 };
 
@@ -262,11 +268,9 @@ function ArcGrid({
 								animationDelay: `${delay}ms`,
 								...(changed
 									? {
-											animationName:
-												"eg2-cell-appear, eg2-cell-glow",
+											animationName: "eg2-cell-appear, eg2-cell-glow",
 											animationDuration: "0.3s, 0.8s",
-											animationTimingFunction:
-												"ease-out, ease-in-out",
+											animationTimingFunction: "ease-out, ease-in-out",
 										}
 									: {}),
 							}}
@@ -382,397 +386,550 @@ export default function Ericagi2Page() {
 			`}</style>
 
 			<div className="eg2-breakout">
-			<section
-				className="eg2"
-				style={{
-					background:
-						"radial-gradient(ellipse at 40% 8%, rgba(229,58,163,0.03) 0%, transparent 55%)",
-				}}
-			>
-				{/* ARC logo mark */}
-				<div className="eg2-fade">
+				<section
+					className="eg2"
+					style={{
+						background:
+							"radial-gradient(ellipse at 40% 8%, rgba(229,58,163,0.03) 0%, transparent 55%)",
+					}}
+				>
+					{/* ARC logo mark */}
+					<div className="eg2-fade">
+						<div
+							style={{
+								display: "grid",
+								gridTemplateColumns: "repeat(4, 8px)",
+								gap: "2px",
+							}}
+						>
+							{LOGO_INDICES.map((ci, i) => (
+								<div
+									key={i}
+									style={{
+										width: 8,
+										height: 8,
+										backgroundColor: ARC[ci],
+									}}
+								/>
+							))}
+						</div>
+					</div>
+
+					{/* Title */}
+					<div className="mt-5 eg2-fade" style={{ animationDelay: "50ms" }}>
+						<h1
+							className="text-xl font-medium tracking-tight"
+							style={{ color: "var(--fg)" }}
+						>
+							ERICAGI2
+						</h1>
+						<p
+							className="mt-2 text-sm leading-relaxed"
+							style={{ color: "var(--text)", maxWidth: "32rem" }}
+						>
+							Pattern-learning ARC solver. Successor to{" "}
+							<a href="/arc-agi" className="eg2-link">
+								EricAGI
+							</a>
+							. Instead of hand-crafted inference engines, this system learns
+							reusable patterns from solved tasks and compounds them across
+							rounds.
+						</p>
+					</div>
+
 					<div
-						style={{
-							display: "grid",
-							gridTemplateColumns: "repeat(4, 8px)",
-							gap: "2px",
-						}}
-					>
-						{LOGO_INDICES.map((ci, i) => (
+						className="eg2-divider mt-10 eg2-fade"
+						style={{ animationDelay: "150ms" }}
+					/>
+
+					{/* Stats */}
+					<div className="mt-8 eg2-fade" style={{ animationDelay: "250ms" }}>
+						<div className="grid grid-cols-3 gap-2">
+							{(
+								[
+									["92/400", "TRAIN"],
+									["8/400", "EVAL"],
+									["~14s", "TIME"],
+								] as const
+							).map(([val, label]) => (
+								<div
+									key={label}
+									style={{
+										border: "1px solid var(--border)",
+										background: "var(--surface)",
+										padding: "10px 12px",
+									}}
+								>
+									<p
+										className="text-sm font-medium tabular-nums"
+										style={{ color: "var(--fg)" }}
+									>
+										{val}
+									</p>
+									<p className="mt-0.5 eg2-label">{label}</p>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<div
+						className="eg2-divider mt-8 eg2-fade"
+						style={{ animationDelay: "300ms" }}
+					/>
+
+					{/* Pipeline */}
+					<div className="mt-8 eg2-fade" style={{ animationDelay: "350ms" }}>
+						<p className="eg2-section-title">PIPELINE</p>
+						<div className="mt-4 space-y-0">
+							{pipeline.map((p, i) => (
+								<div
+									key={p.step}
+									className="flex items-baseline gap-4"
+									style={{
+										padding: "6px 0",
+										borderBottom:
+											i < pipeline.length - 1
+												? "1px solid var(--border)"
+												: "none",
+									}}
+								>
+									<span
+										className="text-[10px] tabular-nums font-medium"
+										style={{
+											color: "var(--accent)",
+											width: "14px",
+										}}
+									>
+										{String(i + 1).padStart(2, "0")}
+									</span>
+									<span
+										className="text-xs font-medium shrink-0"
+										style={{
+											color: "var(--fg)",
+											width: "4.5rem",
+										}}
+									>
+										{p.step}
+									</span>
+									<span className="text-xs" style={{ color: "var(--text)" }}>
+										{p.desc}
+									</span>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<div
+						className="eg2-divider mt-8 eg2-fade"
+						style={{ animationDelay: "400ms" }}
+					/>
+
+					{/* Perception */}
+					<div className="mt-8 eg2-fade" style={{ animationDelay: "450ms" }}>
+						<div className="flex items-baseline justify-between">
+							<p className="eg2-section-title">PERCEPTION</p>
+							<span className="eg2-count">
+								{perception.roles.length +
+									perception.relations.length +
+									perception.properties.length}
+							</span>
+						</div>
+						<p
+							className="mt-2 text-xs leading-relaxed"
+							style={{ color: "var(--muted)", maxWidth: "36rem" }}
+						>
+							Each grid is parsed into a scene graph: objects detected via
+							connected components, classified by role, linked by spatial
+							relations, and summarized as a 64-dim feature vector for library
+							recall.
+						</p>
+						<div className="mt-4 space-y-3">
+							<div className="flex gap-3">
+								<span className="eg2-cat">
+									roles{" "}
+									<span className="eg2-count">{perception.roles.length}</span>
+								</span>
+								<Tags items={perception.roles} />
+							</div>
+							<div className="flex gap-3">
+								<span className="eg2-cat">
+									relations{" "}
+									<span className="eg2-count">
+										{perception.relations.length}
+									</span>
+								</span>
+								<Tags items={perception.relations} />
+							</div>
+							<div className="flex gap-3">
+								<span className="eg2-cat">
+									properties{" "}
+									<span className="eg2-count">
+										{perception.properties.length}
+									</span>
+								</span>
+								<Tags items={perception.properties} />
+							</div>
+						</div>
+					</div>
+
+					<div
+						className="eg2-divider mt-8 eg2-fade"
+						style={{ animationDelay: "500ms" }}
+					/>
+
+					{/* Candidate Generators */}
+					<div className="mt-8 eg2-fade" style={{ animationDelay: "550ms" }}>
+						<div className="flex items-baseline justify-between">
+							<p className="eg2-section-title">CANDIDATE GENERATORS</p>
+							<span className="eg2-count">{totalCandidates}</span>
+						</div>
+						<p
+							className="mt-2 text-xs leading-relaxed"
+							style={{ color: "var(--muted)", maxWidth: "36rem" }}
+						>
+							When no library pattern matches, beam search tries these
+							generators. Each proposes candidate actions scored by minimum
+							description length.
+						</p>
+						<div className="mt-4 space-y-3">
+							{Object.entries(candidates).map(([cat, items]) => (
+								<div key={cat} className="flex gap-3">
+									<span className="eg2-cat">
+										{cat} <span className="eg2-count">{items.length}</span>
+									</span>
+									<Tags items={items} />
+								</div>
+							))}
+						</div>
+					</div>
+
+					<div
+						className="eg2-divider mt-8 eg2-fade"
+						style={{ animationDelay: "600ms" }}
+					/>
+
+					{/* Pattern DSL */}
+					<div className="mt-8 eg2-fade" style={{ animationDelay: "650ms" }}>
+						<div className="flex items-baseline justify-between">
+							<p className="eg2-section-title">PATTERN DSL</p>
+							<span className="eg2-count">
+								{patternDSL.guard.length +
+									patternDSL.bind.length +
+									patternDSL.body.length}
+							</span>
+						</div>
+						<p
+							className="mt-2 text-xs leading-relaxed"
+							style={{ color: "var(--muted)", maxWidth: "36rem" }}
+						>
+							Learned patterns are stored as guard \u2192 bind \u2192 body
+							programs. Guards check preconditions, binds extract task-specific
+							values, and the body applies parameterized actions.
+						</p>
+						<div className="mt-4 space-y-3">
+							<div className="flex gap-3">
+								<span className="eg2-cat">
+									guard{" "}
+									<span className="eg2-count">{patternDSL.guard.length}</span>
+								</span>
+								<Tags items={patternDSL.guard} />
+							</div>
+							<div className="flex gap-3">
+								<span className="eg2-cat">
+									bind{" "}
+									<span className="eg2-count">{patternDSL.bind.length}</span>
+								</span>
+								<Tags items={patternDSL.bind} />
+							</div>
+							<div className="flex gap-3">
+								<span className="eg2-cat">
+									body{" "}
+									<span className="eg2-count">{patternDSL.body.length}</span>
+								</span>
+								<Tags items={patternDSL.body} />
+							</div>
+						</div>
+					</div>
+
+					<div
+						className="eg2-divider mt-8 eg2-fade"
+						style={{ animationDelay: "700ms" }}
+					/>
+
+					{/* Changelog */}
+					<div className="mt-8 eg2-fade" style={{ animationDelay: "750ms" }}>
+						<p className="eg2-section-title">CHANGELOG</p>
+						<div className="mt-4 space-y-3">
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-19 18:00 &mdash; Neural-guided search, tiered
+									library, diagnostics infrastructure
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									HintNet multi-head classifier predicts task priors (size
+									family, action kind, flags) to rerank library recall,
+									candidates, and beam search &mdash; model only reranks,
+									verification stays in control. Pattern library now uses
+									candidate/promoted/rejected tiers: promotion requires
+									&ge;2 distinct provenance tasks and non-source success;
+									failure-based auto-demotion for high-use low-success
+									patterns; default recall returns only promoted patterns.
+									New --diag mode in benchmark.py emits per-task JSON with
+									stage timing, recall quality, candidate coverage, beam
+									stats, failure taxonomy, and hint quality metrics. Bug
+									fixes: pixel_infer now tries geometric extractors before
+									color maps (fixes generalization failure on fliplr tasks);
+									action-family grouping now consistent between training and
+									runtime; expensive solver stages (pixel infer, body sweep,
+									neural) now respect timeout budget.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-19 14:00 &mdash; Comprehensive solve diagnostics
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added SolveDiagnostics dataclass capturing per-task timing,
+									recall quality, failure taxonomy, and hint accuracy metrics.
+									New solve_with_diagnostics() function instruments every
+									pipeline stage (8 stages) with monotonic timing. Library
+									gains recall_with_diagnostics() exposing cosine/hint_bonus/
+									hybrid scores per recalled pattern. Benchmark gets --diag
+									flag that saves per-task JSON and prints aggregated summary:
+									solved-by-stage breakdown, failure taxonomy, recall hit
+									rate, avg stage time, hint quality metrics. 25 new tests,
+									1,695 total, 100% coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-16 22:00 &mdash; Meta-strategy: auto-discover
+									abstract rules
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built diff-driven synthesis that replaces blind beam search
+									with structural analysis. Meta-strategy tries 10 abstract
+									feature extractors (neighbor count, object size rank, border
+									detection) and picks the simplest one consistent across all
+									training pairs. Leave-one-out validation prevents overfitting.
+									Key insight: pixel-level memorization doesn&apos;t generalize;
+									abstract features (IS_BORDER, NEIGHBOR_COUNT, SIZE_RANK) do.
+									Also: candidate filtering by same_dims/diff_dims, param-shape
+									sub-grouping in extraction, first-step decomposition for
+									partial pattern learning. 92/400 train (+4), 1,391 tests, 100%
+									coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-16 18:00 &mdash; Learning loop fixes: 3
+									param coordination fixes
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Three fixes to unblock the pattern learning loop.
+									Fix 1: body executor normalizes short-form fold_symmetry
+									modes (&ldquo;lr&rdquo;&rarr;&ldquo;sym_lr&rdquo;, etc.)
+									so hypothesis params flow through the DSL pipeline.
+									Fix 2: split mixed ActionKind groups &mdash;
+									PATTERN_CONTINUATION, HOLLOW_RECT_OP, FRAME_FILL now have
+									distinct signatures for cleaner extraction grouping.
+									Fix 3: added selector_hint task property for property-based
+									selector explanation in extract_object groups.
+									1,321 tests, 100% coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-16 16:30 &mdash; 13 new BodyKinds for pattern
+									generalization
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added 13 new BodyKind enum values with full implementations:
+									UPSCALE_BLOCK, EXTRACT_BY_PREDICATE, STAMP_AT_MARKERS,
+									SEPARATOR_SUMMARY, COLOR_SUBSTITUTE, STACK_CONCAT, DRAW_LINE,
+									RIGID_SHIFT, DAMAGE_REPAIR, PATTERN_EXTEND, NEIGHBOR_RULE,
+									SLIDE_TO_WALL, COUNT_ENCODE. These enable the learning loop to
+									generalize hypothesis solutions into reusable patterns. MOVE
+									and EXTEND_LINE unstubbed (delegate to RIGID_SHIFT and
+									DRAW_LINE). Updated antiunify mappings for 16 action types.
+									Pattern DSL body vocabulary: 21 &rarr; 34. 1,313 tests, 100%
+									coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-17 00:15 &mdash; Port 12 inference engines (batch 3)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Ported 12 more inference engines from ericagi as candidate
+									generators: directed cross, gravity fill, bbox complement
+									fill, translate to target, connect over bg, recolor to
+									closest, diagonal stamp, object outline, row period
+									fill/extend, col period extend, pattern substitution. 88/400
+									train (22.0%), 54 candidate generators, 1,168 tests, 100%
+									coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-16 23:30 &mdash; Output construction hypothesis
+									families
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added 7 new hypothesis families targeting diff-dims tasks:
+									separator cell summary, upscale block, stack objects, crop to
+									colored region, select unique cell from separator grid, 1x1
+									summary, and input-as-template. These handle the 138 unsolved
+									diff-dims tasks (crop, scale, summary, stacking categories).
+									88/400 train (+12), 17 hypotheses total, 1,226 tests, 100%
+									coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-16 22:45 &mdash; Hypothesis families + ported
+									inference engines
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added 6 new hypothesis families (template stamp, color
+									mapping, gravity, symmetry completion, fill enclosed, extract
+									by predicate) for instant pattern recognition before beam
+									search. Ported 5 inference engines as candidates (diagonal
+									connect, cross extension, gravity align, gap fill, rigid
+									shift). 76/400 train (+3), 10 hypotheses, 42 candidate
+									generators, 1050 tests, 100% coverage.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-16 20:30 &mdash; Role-aware candidate generators
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added 5 scene-graph-driven candidate generators that use role
+									classification (FRAME, SEPARATOR, MARKER, TEMPLATE, LEGEND) to
+									propose structured transformations: stamp template at markers,
+									template recolor at markers, frame interior fill, separator
+									grid operations, and legend color mapping. 73/400 train (+1),
+									951 tests, 100% coverage.
+								</p>
+							</div>
+						</div>
+					</div>
+
+					{/* ARC palette strip */}
+					<div className="mt-12 flex gap-[2px]">
+						{ARC.slice(1).map((color, i) => (
 							<div
 								key={i}
 								style={{
-									width: 8,
-									height: 8,
-									backgroundColor: ARC[ci],
+									flex: 1,
+									height: "3px",
+									backgroundColor: color,
+									opacity: 0.5,
 								}}
 							/>
 						))}
 					</div>
-				</div>
-
-				{/* Title */}
-				<div className="mt-5 eg2-fade" style={{ animationDelay: "50ms" }}>
-					<h1
-						className="text-xl font-medium tracking-tight"
-						style={{ color: "var(--fg)" }}
-					>
-						ERICAGI2
-					</h1>
-					<p
-						className="mt-2 text-sm leading-relaxed"
-						style={{ color: "var(--text)", maxWidth: "32rem" }}
-					>
-						Pattern-learning ARC solver. Successor to{" "}
-						<a href="/arc-agi" className="eg2-link">
-							EricAGI
-						</a>
-						. Instead of hand-crafted inference engines, this system
-						learns reusable patterns from solved tasks and compounds
-						them across rounds. 3,629 lines of Python, no LLMs.
-					</p>
-				</div>
-
-				<div
-					className="eg2-divider mt-10 eg2-fade"
-					style={{ animationDelay: "150ms" }}
-				/>
-
-				{/* Stats */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "250ms" }}
-				>
-					<div className="grid grid-cols-3 gap-2">
-						{(
-							[
-								["88/400", "TRAIN"],
-								["8/400", "EVAL"],
-								["~14s", "TIME"],
-							] as const
-						).map(([val, label]) => (
-							<div
-								key={label}
-								style={{
-									border: "1px solid var(--border)",
-									background: "var(--surface)",
-									padding: "10px 12px",
-								}}
-							>
-								<p
-									className="text-sm font-medium tabular-nums"
-									style={{ color: "var(--fg)" }}
-								>
-									{val}
-								</p>
-								<p className="mt-0.5 eg2-label">{label}</p>
-							</div>
-						))}
-					</div>
-				</div>
-
-				<div
-					className="eg2-divider mt-8 eg2-fade"
-					style={{ animationDelay: "300ms" }}
-				/>
-
-				{/* Pipeline */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "350ms" }}
-				>
-					<p className="eg2-section-title">PIPELINE</p>
-					<div className="mt-4 space-y-0">
-						{pipeline.map((p, i) => (
-							<div
-								key={p.step}
-								className="flex items-baseline gap-4"
-								style={{
-									padding: "6px 0",
-									borderBottom:
-										i < pipeline.length - 1
-											? "1px solid var(--border)"
-											: "none",
-								}}
-							>
-								<span
-									className="text-[10px] tabular-nums font-medium"
-									style={{
-										color: "var(--accent)",
-										width: "14px",
-									}}
-								>
-									{String(i + 1).padStart(2, "0")}
-								</span>
-								<span
-									className="text-xs font-medium shrink-0"
-									style={{
-										color: "var(--fg)",
-										width: "4.5rem",
-									}}
-								>
-									{p.step}
-								</span>
-								<span
-									className="text-xs"
-									style={{ color: "var(--text)" }}
-								>
-									{p.desc}
-								</span>
-							</div>
-						))}
-					</div>
-				</div>
-
-				<div
-					className="eg2-divider mt-8 eg2-fade"
-					style={{ animationDelay: "400ms" }}
-				/>
-
-				{/* Perception */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "450ms" }}
-				>
-					<div className="flex items-baseline justify-between">
-						<p className="eg2-section-title">PERCEPTION</p>
-						<span className="eg2-count">
-							{perception.roles.length +
-								perception.relations.length +
-								perception.properties.length}
-						</span>
-					</div>
-					<p
-						className="mt-2 text-xs leading-relaxed"
-						style={{ color: "var(--muted)", maxWidth: "36rem" }}
-					>
-						Each grid is parsed into a scene graph: objects detected
-						via connected components, classified by role, linked by
-						spatial relations, and summarized as a 64-dim feature
-						vector for library recall.
-					</p>
-					<div className="mt-4 space-y-3">
-						<div className="flex gap-3">
-							<span className="eg2-cat">
-								roles{" "}
-								<span className="eg2-count">
-									{perception.roles.length}
-								</span>
-							</span>
-							<Tags items={perception.roles} />
-						</div>
-						<div className="flex gap-3">
-							<span className="eg2-cat">
-								relations{" "}
-								<span className="eg2-count">
-									{perception.relations.length}
-								</span>
-							</span>
-							<Tags items={perception.relations} />
-						</div>
-						<div className="flex gap-3">
-							<span className="eg2-cat">
-								properties{" "}
-								<span className="eg2-count">
-									{perception.properties.length}
-								</span>
-							</span>
-							<Tags items={perception.properties} />
-						</div>
-					</div>
-				</div>
-
-				<div
-					className="eg2-divider mt-8 eg2-fade"
-					style={{ animationDelay: "500ms" }}
-				/>
-
-				{/* Candidate Generators */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "550ms" }}
-				>
-					<div className="flex items-baseline justify-between">
-						<p className="eg2-section-title">
-							CANDIDATE GENERATORS
-						</p>
-						<span className="eg2-count">{totalCandidates}</span>
-					</div>
-					<p
-						className="mt-2 text-xs leading-relaxed"
-						style={{ color: "var(--muted)", maxWidth: "36rem" }}
-					>
-						When no library pattern matches, beam search tries these
-						generators. Each proposes candidate actions scored by
-						minimum description length.
-					</p>
-					<div className="mt-4 space-y-3">
-						{Object.entries(candidates).map(([cat, items]) => (
-							<div key={cat} className="flex gap-3">
-								<span className="eg2-cat">
-									{cat}{" "}
-									<span className="eg2-count">
-										{items.length}
-									</span>
-								</span>
-								<Tags items={items} />
-							</div>
-						))}
-					</div>
-				</div>
-
-				<div
-					className="eg2-divider mt-8 eg2-fade"
-					style={{ animationDelay: "600ms" }}
-				/>
-
-				{/* Pattern DSL */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "650ms" }}
-				>
-					<div className="flex items-baseline justify-between">
-						<p className="eg2-section-title">PATTERN DSL</p>
-						<span className="eg2-count">
-							{patternDSL.guard.length +
-								patternDSL.bind.length +
-								patternDSL.body.length}
-						</span>
-					</div>
-					<p
-						className="mt-2 text-xs leading-relaxed"
-						style={{ color: "var(--muted)", maxWidth: "36rem" }}
-					>
-						Learned patterns are stored as guard \u2192 bind \u2192
-						body programs. Guards check preconditions, binds extract
-						task-specific values, and the body applies parameterized
-						actions.
-					</p>
-					<div className="mt-4 space-y-3">
-						<div className="flex gap-3">
-							<span className="eg2-cat">
-								guard{" "}
-								<span className="eg2-count">
-									{patternDSL.guard.length}
-								</span>
-							</span>
-							<Tags items={patternDSL.guard} />
-						</div>
-						<div className="flex gap-3">
-							<span className="eg2-cat">
-								bind{" "}
-								<span className="eg2-count">
-									{patternDSL.bind.length}
-								</span>
-							</span>
-							<Tags items={patternDSL.bind} />
-						</div>
-						<div className="flex gap-3">
-							<span className="eg2-cat">
-								body{" "}
-								<span className="eg2-count">
-									{patternDSL.body.length}
-								</span>
-							</span>
-							<Tags items={patternDSL.body} />
-						</div>
-					</div>
-				</div>
-
-				<div
-					className="eg2-divider mt-8 eg2-fade"
-					style={{ animationDelay: "700ms" }}
-				/>
-
-				{/* Changelog */}
-				<div
-					className="mt-8 eg2-fade"
-					style={{ animationDelay: "750ms" }}
-				>
-					<p className="eg2-section-title">CHANGELOG</p>
-					<div className="mt-4 space-y-3">
-						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
-							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
-								2026-03-16 16:30 &mdash; 13 new BodyKinds for pattern generalization
-							</p>
-							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-								Added 13 new BodyKind enum values with full implementations: UPSCALE_BLOCK,
-								EXTRACT_BY_PREDICATE, STAMP_AT_MARKERS, SEPARATOR_SUMMARY, COLOR_SUBSTITUTE,
-								STACK_CONCAT, DRAW_LINE, RIGID_SHIFT, DAMAGE_REPAIR, PATTERN_EXTEND,
-								NEIGHBOR_RULE, SLIDE_TO_WALL, COUNT_ENCODE. These enable the learning loop
-								to generalize hypothesis solutions into reusable patterns. MOVE and EXTEND_LINE
-								unstubbed (delegate to RIGID_SHIFT and DRAW_LINE). Updated antiunify mappings
-								for 16 action types. Pattern DSL body vocabulary: 21 &rarr; 34.
-								1,313 tests, 100% coverage.
-							</p>
-						</div>
-						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
-							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
-								2026-03-17 00:15 &mdash; Port 12 inference engines (batch 3)
-							</p>
-							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-								Ported 12 more inference engines from ericagi as candidate generators:
-								directed cross, gravity fill, bbox complement fill, translate to target,
-								connect over bg, recolor to closest, diagonal stamp, object outline,
-								row period fill/extend, col period extend, pattern substitution.
-								88/400 train (22.0%), 54 candidate generators, 1,168 tests, 100% coverage.
-							</p>
-						</div>
-						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
-							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
-								2026-03-16 23:30 &mdash; Output construction hypothesis families
-							</p>
-							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-								Added 7 new hypothesis families targeting diff-dims tasks: separator cell
-								summary, upscale block, stack objects, crop to colored region, select unique
-								cell from separator grid, 1x1 summary, and input-as-template. These handle
-								the 138 unsolved diff-dims tasks (crop, scale, summary, stacking categories).
-								88/400 train (+12), 17 hypotheses total, 1,226 tests, 100% coverage.
-							</p>
-						</div>
-						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
-							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
-								2026-03-16 22:45 &mdash; Hypothesis families + ported inference engines
-							</p>
-							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-								Added 6 new hypothesis families (template stamp, color mapping, gravity,
-								symmetry completion, fill enclosed, extract by predicate) for instant
-								pattern recognition before beam search. Ported 5 inference engines as
-								candidates (diagonal connect, cross extension, gravity align, gap fill,
-								rigid shift). 76/400 train (+3), 10 hypotheses, 42 candidate generators,
-								1050 tests, 100% coverage.
-							</p>
-						</div>
-						<div style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "12px" }}>
-							<p className="text-xs font-medium" style={{ color: "var(--fg)" }}>
-								2026-03-16 20:30 &mdash; Role-aware candidate generators
-							</p>
-							<p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-								Added 5 scene-graph-driven candidate generators that use role classification
-								(FRAME, SEPARATOR, MARKER, TEMPLATE, LEGEND) to propose structured
-								transformations: stamp template at markers, template recolor at markers,
-								frame interior fill, separator grid operations, and legend color mapping.
-								73/400 train (+1), 951 tests, 100% coverage.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				{/* ARC palette strip */}
-				<div className="mt-12 flex gap-[2px]">
-					{ARC.slice(1).map((color, i) => (
-						<div
-							key={i}
-							style={{
-								flex: 1,
-								height: "3px",
-								backgroundColor: color,
-								opacity: 0.5,
-							}}
-						/>
-					))}
-				</div>
-			</section>
+				</section>
 			</div>
 		</>
 	);
