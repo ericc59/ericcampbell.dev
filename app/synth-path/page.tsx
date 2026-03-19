@@ -427,13 +427,8 @@ export default function Ericagi2Page() {
 							className="mt-2 text-sm leading-relaxed"
 							style={{ color: "var(--text)", maxWidth: "32rem" }}
 						>
-							Pattern-learning ARC solver. Successor to{" "}
-							<a href="/arc-agi" className="eg2-link">
-								SynthPath
-							</a>
-							. Instead of hand-crafted inference engines, this system learns
-							reusable patterns from solved tasks and compounds them across
-							rounds.
+							Pattern-learning ARC solver. This system learns reusable patterns
+							from solved tasks and compounds them across rounds.
 						</p>
 					</div>
 
