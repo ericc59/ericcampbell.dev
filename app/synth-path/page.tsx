@@ -669,6 +669,32 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
+									2026-03-19 19:30 &mdash; Per-color morpho ops +
+									gravity candidates
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New diff_candidates module: per-color grow/shrink and
+									per-color gravity as beam search candidates. Finer-grained
+									than all-color variants &mdash; only expand, erode, or
+									slide one specific color. 49 timeout tasks show improved
+									pixel accuracy, 7 formerly zero-expansion tasks now have
+									beam progress. Motivated by analysis showing 147 tasks
+									generate candidates where zero reduce residual.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
 									2026-03-19 18:30 &mdash; Morphological grow/shrink
 									primitives
 								</p>
