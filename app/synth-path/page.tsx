@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "SynthPath",
 	description:
-		"Pattern-learning ARC solver. Learns reusable patterns from solved tasks instead of hand-crafting inference engines.",
+		"Pattern-learning ARC solver. This system is a neural guided program synthesis solver that learns reusable patterns from solved tasks and compounds them across rounds.",
 };
 
 const ARC = [
@@ -427,8 +427,9 @@ export default function Ericagi2Page() {
 							className="mt-2 text-sm leading-relaxed"
 							style={{ color: "var(--text)", maxWidth: "32rem" }}
 						>
-							Pattern-learning ARC solver. This system learns reusable patterns
-							from solved tasks and compounds them across rounds.
+							Pattern-learning ARC solver. This system is a neural guided
+							program synthesis solver that learns reusable patterns from solved
+							tasks and compounds them across rounds.
 						</p>
 					</div>
 
