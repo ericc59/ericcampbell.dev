@@ -669,6 +669,280 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
+									2026-03-21 15:00 &mdash; General registration for
+									non-hypothesis stages
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Any fresh verified single-action solve with a pattern mapper
+									can now register as a library candidate, not just hypothesis
+									solves. Covers beam_search, diff_synthesis, pixel_infer
+									winners. Multi-action compositions excluded. Extraction
+									pipeline uses register_patterns=False to avoid interference.
+									Registration reasons now include stage source. 2 new tests,
+									2,103 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 13:00 &mdash; Solve-to-library accounting
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Track where solved programs are lost: new
+									registration_result field (registered/no_mapper/duplicate/
+									rejected/not_hypothesis), solve_family, solve_source on
+									SolveDiagnostics. Benchmark prints accounting summary.
+									Validated: 5582e5ca fresh solve &rarr; hypothesis &rarr;
+									object_removal &rarr; registered &rarr; OE leaf. Main
+									leakage: cached solves bypass registration; non-hypothesis
+									stages (beam_search) have no registration path. 8 new
+									tests, 2,103 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 11:00 &mdash; OE empirical validation
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Ran ARC-1 training benchmark: 207 solved (72 beam, 26
+									hypothesis, 9 library, 7 diff, 4 pixel). Library: 6
+									entries (2 promoted, 4 candidate). 0 marker_directed
+									solves, 2 object_removal solves (1 unique task). 0 real OE
+									leaves because: (a) marker_directed doesn&apos;t match any
+									real tasks yet, (b) cached solves bypass hypothesis
+									registration. The OE pipeline is architecturally complete
+									but upstream solve generation is the bottleneck &mdash;
+									the families need to actually solve tasks before leaves
+									can form.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 09:00 &mdash; OE backfill pipeline
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									PatternLibrary.backfill_oe_ir() attaches ObjectEditProgram
+									IR to bridgeable entries (marker_directed, object_removal).
+									scripts/oe_backfill.py runs offline audit: scan &rarr;
+									backfill &rarr; anti-unify &rarr; report. Current library:
+									0 real OE leaves (needs benchmark run with new families).
+									Pipeline validated on synthetic data. Real OE parent
+									creation requires solved tasks first. 10 new tests,
+									2,093 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 07:00 &mdash; OE anti-unification
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Conservative anti-unification for ObjectEditProgram leaves.
+									Groups by transform signature, lifts only safe literal
+									fields (size_le, size_ge, color, derive.value). Rejects
+									when transforms differ, derive sources differ, or non-liftable
+									fields (role, color_source) differ. OEParentCandidate records
+									template + param_slots + child provenance. Library method
+									creates parents only when compressive (&ge;2 children, &ge;1
+									lifted, &ge;2 source tasks). Parents stay candidate-only.
+									Inspector shows OE-parent(Nsteps, Mparams). 15 new tests,
+									2,083 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 05:00 &mdash; Object-edit leaf storage
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									ObjectEditProgram leaves now persist in PatternLibrary via
+									object_edit_ir field. Coexists with existing PatternDef
+									&mdash; supplementary metadata, not replacement. Solver
+									attaches IR at hypothesis registration for MARKER_DIRECTED
+									and OBJECT_REMOVAL. Properties: is_object_edit_leaf,
+									object_edit_step_count. Inspector shows OE-leaf(Nsteps).
+									Save/load round-trips through library persistence. No
+									normalization &mdash; exact operational thresholds stored
+									as-is. Leaf-first only, no parent abstractions yet. 8 new
+									tests, 2,068 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 03:00 &mdash; ObjectEditProgram IR
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Minimal typed IR for object-level transforms:
+									ObjSelector (role/size/color) &rarr; ColorDerivation
+									(literal/scene-derived) &rarr; transform
+									(remove/recolor/fill_interior/flood_adjacent). Fully
+									serializable JSON round-trip, no closures. Multi-step
+									sequential composition. Bridge converts MARKER_DIRECTED
+									and OBJECT_REMOVAL to concrete IR leaves. Execution
+									matches direct body evaluation exactly. Leaf-level
+									infrastructure for future parent abstraction via
+									anti-unification. 22 new tests, 2,060 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 01:00 &mdash; Marker-directed tightening +
+									diagnostics scoping
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Fixed MARKER_DIRECTED serialization: proper
+									BodyKind.MARKER_DIRECTED with dedicated body executor.
+									hypothesis_to_pattern &rarr; execute_pattern round-trips
+									correctly. Marker color derived per-input (minority marker)
+									instead of baked from pair 0. Inspector now diagnoses
+									marker-template tasks where simple modes are exhausted as
+									&ldquo;likely needs object-spatial transform,&rdquo;
+									explicitly scoping 025d127b-class tasks out of simple
+									marker-directed family. 2,038 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 23:00 &mdash; Marker-directed object
+									transforms
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New MARKER_DIRECTED family for same-size tasks where marker
+									objects indicate properties to apply to template objects. 4
+									modes: remove_markers, marker_color_fill_interior,
+									marker_recolor_templates, marker_fill_adjacent. Hypothesis
+									+ candidate generation, gated by marker/template role
+									presence. Targets 50 identified same-size timeout tasks
+									that were falling back to irrelevant global transforms.
+									10 new tests, 2,033 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 21:00 &mdash; Binding diagnostics + failure
+									classification
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New resolve_bindings_with_diagnostics showing per-binding
+									failure reasons (missing property, inconsistent color map,
+									no unique output color). Inspector now shows specific bind
+									failure reasons. Diagnosis distinguishes &ldquo;irrelevant
+									recall&rdquo; (bind ok, verify fails) from &ldquo;real bind
+									failure&rdquo; (specific reason). Library hygiene: rejected
+									non-primitives not inserted (name slot stays open). Deferred
+									stages correctly attributed in traces. 3 new properties. 8
+									new tests, 2,021 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
 									2026-03-19 21:00 &mdash; Overfit-bypass for
 									neighborhood_rule
 								</p>
@@ -790,12 +1064,6 @@ export default function Ericagi2Page() {
 									tests, 1,946 total.
 								</p>
 							</div>
-							<div
-								style={{
-									borderLeft: "2px solid var(--accent)",
-									paddingLeft: "12px",
-								}}
-							>
 								<p
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
@@ -817,6 +1085,58 @@ export default function Ericagi2Page() {
 									patterns. Quality audit no longer flags neighborhood_rule as
 									hidden_logic when rule_table present. New rule_table_size
 									property. 11 new tests, 1,939 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 13:56 &mdash; Immediate learn-progress logging
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Restored visible benchmark progress when running with
+									--learn. iterative_extract now emits task_start events before
+									each solve, so benchmark.py prints an immediate
+									[learn ...] starting line instead of staying silent until the
+									first task finishes. Also fixed the extraction progress
+									helper placement in benchmark.py so diagnostics summary and
+									learn logging stay cleanly separated.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 13:44 &mdash; Cooperative beam-search timeout fix
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Fixed a real timeout bug exposed by task 3631a71a. The
+									pipeline deadline was only checked between stages, so once
+									beam_search started it could run for minutes despite a 5s
+									task budget. beam_search now accepts a cooperative deadline
+									and bails before candidate generation and during candidate
+									evaluation. Repro: 3631a71a previously recorded ~195.6s in
+									beam_search; after the fix, a 6s solve_with_diagnostics run
+									returns in ~6.15s with beam_search capped at ~3.66s. Added
+									regression tests for expired and mid-loop beam deadlines.
 								</p>
 							</div>
 							<div
