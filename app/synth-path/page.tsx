@@ -669,6 +669,33 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
+									2026-03-19 20:15 &mdash; Known-truths candidate filter
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Beam search candidates now filtered by known-truth
+									invariant: reject any candidate that corrupts pixels
+									already correct across all train pairs. Median 80%
+									candidate reduction across 186 timeout tasks. 154 tasks
+									lose &gt;50% of useless candidates (flips, rotates,
+									remaps that destroy correct pixels). Falls back to
+									unfiltered if filter kills everything. Motivated by
+									analysis showing 147 &ldquo;zero-expansion&rdquo; tasks
+									where generic candidates all make things worse.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
 									2026-03-19 19:30 &mdash; Per-color morpho ops +
 									gravity candidates
 								</p>
