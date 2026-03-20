@@ -1064,6 +1064,12 @@ export default function Ericagi2Page() {
 									tests, 1,946 total.
 								</p>
 							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
 								<p
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
