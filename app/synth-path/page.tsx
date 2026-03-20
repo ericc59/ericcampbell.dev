@@ -669,6 +669,31 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
+									2026-03-19 21:00 &mdash; Overfit-bypass for
+									neighborhood_rule
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									When diff_synthesis or pixel_infer returns a
+									neighborhood_rule program, stash as fallback and let beam
+									search try to find a generalizing alternative. Fixes
+									&ldquo;early stage steal&rdquo; where overfitting programs
+									prevent better ones from being found. 50cb2852 flips to
+									solved. b230c067 improves 11&rarr;4 wrong pixels.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
 									2026-03-19 20:15 &mdash; Known-truths candidate filter
 								</p>
 								<p
