@@ -669,6 +669,753 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
+									2026-03-21 22:30 &mdash; Train-vs-eval transfer audit
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Full transfer audit: 104/400 train vs 25/400 eval (0.24
+									ratio). pixel_rule dominates training (50% of solves, 52
+									train) but transfers at 0.19 &mdash; fair but below par.
+									neighborhood_rule weak transfer (12&rarr;1, ratio 0.08).
+									Strong transferrers: damage_repair (3&rarr;3, 1.00),
+									upscale_block (3&rarr;2, 0.67), fill_enclosed/connect/recolor
+									(1:1 each). Library recall: 41 solves on train, only 5 on
+									eval &mdash; guard_failed dominates (2869 eval vs 2519
+									train). Seed schemas transfer well:
+									damage_repair_tile_fill solves 3 eval tasks. 15 families
+									are train-only singletons. Top bottleneck: local-rule
+									reliance (pixel_rule + neighborhood_rule = 62% of training
+									wins but mostly train-side compression). Added
+									scripts/transfer_audit.py for reproducible side-by-side
+									reporting.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 20:45 &mdash; Body-executor parity fixes
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Fixed 5 parity gaps between SynthAction closures and body
+									executors. connect: sequential H&rarr;V for connect_both,
+									diagonal modes (d1/d2/both_diag/h/v). recolor: from_color/to_color
+									substitution, object selectors (is_smallest, by_size_rank),
+									color_map param alias. remove: pixel-level color removal.
+									border_draw: bbox-outline mode. multi_action_verify_failed:
+									8&rarr;6 (remaining are opaque pattern refs + neighbor_rule
+									tables). library_recall: 35&rarr;39 (ProgramIR leaves now
+									registered and recalled). 2,279 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Multi-action lowering audit
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Body mappings added for grow/shrink/object_outline.
+									multi_action_unlowerable: 3&rarr;0. Remaining 8
+									multi_action_verify_failed are body-executor parity gaps
+									in individual steps (connect, recolor, fill_enclosed body
+									executors produce different results from SynthAction closures),
+									not composition issues. 2,247 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Docs consolidation: 102/400,
+									zero fallback
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Docs updated to reflect: 102/400 solved, 32 seed schemas,
+									zero handwritten fallback, 45+ body kinds. STATUS.md
+									rewritten. CLAUDE.md updated. README.md with accounting
+									semantics.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Zero handwritten fallback
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									PARTITION_MAX_CELL_FILL: fill cells with max non-bg count,
+									clear rest. 29623171 was hiding an explicit
+									&ldquo;fill most-marked cells&rdquo; rule, not a classifier.
+									Both former classifier tasks now solve via seed schemas.
+									Handwritten fallback: 0. The entire hypothesis layer is now
+									seed-schema / ProgramIR driven. 2,247 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; PARTITION_CELL_BROADCAST: solve
+									09629e4f
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New body kind PARTITION_CELL_BROADCAST: select one partition
+									cell by criterion (least/most nonbg), broadcast its values
+									as template over partition grid. 09629e4f now SOLVES
+									(test-verified) &mdash; the hardest-analyzed partition task
+									through V1-V6 modes and classifiers. 29623171 correctly does
+									not match (sole remaining handwritten fallback). 6 new
+									tests, 2,246 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; BORDER_DRAW executor + final
+									fallback audit
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added BORDER_DRAW body executor (8-conn and 4-conn border
+									around objects). border_draw now seed-schema-primary.
+									partition_cell_classify (2 tasks) is the sole remaining
+									handwritten fallback &mdash; it builds a per-task learned
+									lookup table that cannot be a fixed seed schema. All other
+									hypothesis families now run through seed schemas. 2,240
+									tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Fix 3 body-executor parity gaps
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									GRID_DECOMPOSE: axis-aware separator detection for row/col-only
+									splits. EXTRACT_BY_PREDICATE: frame_interior predicate uses scene
+									perception for frame + interior crop. SEPARATOR_SUMMARY:
+									unique/most_nonbg/least_nonbg return actual cell content. 3
+									fewer handwritten fallbacks. Remaining: border_draw (1),
+									partition_cell_classify (2). 2,240 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Fallback audit: 6 body-executor
+									parity gaps
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Audited remaining 6 handwritten fallback tasks. All are
+									genuine body-executor parity gaps, not missing schemas:
+									border_draw (algorithm differs), frame_interior (missing
+									extraction), select_unique_cell (wrong cell values),
+									separator_operation (axis param ignored),
+									partition_cell_classify (complex canonicalization). Need
+									per-family body executor fixes, not more seed schemas.
+									No code changes &mdash; measurement result. 2,240 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Parity fixes: retire handwritten
+									fallback
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added missing body executors for MIRROR_CONCAT (h/v concat +
+									flip) and OBJECT_EXTENSION (directional pixel extension).
+									Fixed fill_enclosed to derive output-only colors. 11 of 13
+									previously-handwritten tasks now use seed schemas. Remaining
+									handwritten fallback: border_draw (1), frame_interior (1),
+									partition-specific (4). 2,240 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Partition seed schemas (complete
+									de-hardcoding)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									4 partition schemas: select_unique_cell (3 modes),
+									separator_cell_summary (5 modes), partition_cell_map
+									(20 modes derived), partition_cell_classify (8 strategies
+									derived). 30 total schemas. The entire hypothesis layer
+									is now covered &mdash; every _hyp_* family has a seed
+									schema that runs first. Handwritten code remains only as
+									fallback. 7 new tests, 2,239 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Quantitative/object seed schemas
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									4 quantitative/object schemas: object_sort (3 keys),
+									stack_objects (axis&times;sort derived), object_extension
+									(4 dirs&times;2 stop modes), color_count_output. 26 total
+									schemas. Honest note: object_extension body executor differs
+									from handwritten _hyp_* &mdash; seed schema registered but
+									match depends on body executor canonicality. Remaining
+									handwritten: only partition families and
+									separator_cell_summary. 5 new tests, 2,230 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Template/region seed schemas
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									3 template/region schemas: row_col_projection (3 modes),
+									input_as_template (derives scale from dim ratios, 3 upscale
+									modes), template_stamp (clear_source True/False). 22 total
+									schemas. 9172f3a0 upscale now via seed schema. Remaining
+									handwritten: stack_objects, object_extension/sort,
+									color_count_output, partition families. 6 new tests,
+									2,225 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Diff-derived seed schemas
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									3 diff-derived schemas: color_mapping (learns remap from
+									diffs), crop_to_colored_region (per-color bbox crop),
+									1x1_summary (5 summary modes). ProgramIR executor now
+									auto-separates complex values into bindings. 19 total
+									schemas. b1948b0a color remap now via seed schema.
+									Remaining handwritten: template_stamp, stack_objects,
+									object_extension/sort, input_as_template, row_col_projection,
+									partition families. 6 new tests, 2,219 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Object-level seed schemas
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									4 object-level seed schemas: object_removal (predicates:
+									smallest/markers/color_X), marker_directed (4 modes),
+									predicate_recolor (predicate&times;color combos),
+									border_draw (connectivity&times;color). 16 total schemas.
+									5582e5ca now solves via seed_schema:marker_directed.
+									Handwritten _hyp_* only for complex object-relational,
+									partition, stack/crop. 7 new tests, 2,213 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Scene-derived seed schemas
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									4 new scene-derived seed schemas: extract_by_predicate
+									(enumerates predicates), fill_enclosed (derives fill colors),
+									damage_repair (detects damage color + symmetry),
+									damage_repair_tile_fill (2-step with residual detection).
+									12 total seed schemas. damage_repair and extract now solve
+									via seed schema path, not handwritten Python. Handwritten
+									_hyp_* only for complex object-relational and partition
+									families. 6 new tests, 2,206 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Seed schemas: ProgramIR as primary
+									hypothesis path
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									8 seed schemas lower manual hypotheses to explicit ProgramIR:
+									gravity, mirror_grid, rotate_grid, transpose, fold_symmetry,
+									mirror_concat, upscale_block, grid_decompose.
+									solve_by_hypothesis tries seed schemas first, falls back to
+									handwritten _hyp_* for unsupported families. hypothesis_source
+									diagnostic tracks solve origin. Verified: flip/rotate tasks
+									now solve via seed_schema path, damage_repair correctly falls
+									back. 12 new tests, 2,200 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; ProgramIR compositional substrate
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Architecture pivot: explicit ProgramIR with ordered
+									ProgramSteps (body_kind + params). Serializable, executable
+									through existing body eval, no closures. Lowering from
+									SynthProgram and PatternDef. Multi-action solver wins now
+									register as ProgramIR-bearing library entries.
+									search_compositional() searches 1-2 step programs.
+									Verified: 0dfd9992 2-action solve &rarr; ProgramIR leaf.
+									16 new tests, 2,188 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; PERIODIC_TILE_FILL composition
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New PERIODIC_TILE_FILL body kind: infers smallest 2D tile
+									from non-damage pixels, fills residual holes. Damage repair
+									hypothesis emits 2-action composition when peer symmetry
+									repair leaves periodic residuals. +3 new solves: 0dfd9992,
+									29ec7d0e, c3f564a4 (all test-verified). b8825c91 unaffected.
+									3631a71a correctly not solved. 10 new tests, 2,172 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 &mdash; Damage-repair interpolation audit
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Audited 5 transpose-only damage-repair tasks with residual
+									peer-repair holes. Cluster is heterogeneous: 3 tasks
+									(0dfd9992, 29ec7d0e, c3f564a4) are 2D-periodic tile fill,
+									2 tasks (3631a71a, 73251a56) are non-periodic context
+									interpolation. Added inspector diagnostic: &ldquo;partial
+									damage repair&rdquo; reports dc, symmetry, %resolved,
+									residual count, and whether holes are periodic. No new
+									family implemented &mdash; cluster too heterogeneous.
+									2,166 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Registration accounting fix
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									no_registration_attempted was 100% library-recall solves
+									(pixel_color_remap), not a leak. Tagged as
+									&ldquo;already_in_library&rdquo;. Overfit-rejected local
+									rules tagged as &ldquo;rejected_overfit_local_rule.&rdquo;
+									Pure accounting, no solver change. 1 new test, 2,162 total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Overfit local-rule rejection
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Reject neighborhood_rule and pixel_rule beam winners with
+									&gt;15 original rules. These large memorized lookup tables
+									produce train-fit-but-test-fail results (0-11% test
+									accuracy). Verified: 2 worst offenders now rejected, small
+									legitimate rules preserved, correct solves unaffected. New
+									deferred_local_rule diagnostic flag. 6 new tests, 2,161
+									total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 &mdash; Damage-repair family overhaul
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Audited 3631a71a and found 13-task damage-repair /
+									symmetry-repair cluster (0/13 solved). Fixed existing
+									DAMAGE_REPAIR family: body executor param mismatch
+									(method vs mode), added transpose/rot90/rot180 support,
+									iterative peer repair for chained damage, multi-symmetry
+									repair, explicit damage-color detection. +1 new solve
+									(b8825c91). 5 transpose-only tasks need pattern
+									interpolation for diagonal self-peer regions &mdash;
+									identified as future work, not a simple peer-repair
+									extension. 2,159 tests, all passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Semantic edit-feature clustering
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New edit-semantic feature extraction: additive/recolor/
+									deletive, periodic/diagonal, aligned objects, single fill
+									color. scripts/semantic_clusters.py groups timeout tasks by
+									edit semantics with heterogeneity warnings. Key finding:
+									of 56 additive+aligned tasks, 46 are periodic/diagonal
+									(pattern-gen, NOT line-fill). Previous coarse clustering
+									was misleading &mdash; now explicit. 15 new tests, 2,155
+									total.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Timeout cluster deep dive
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Deep examination of the &ldquo;6 clean extension tasks&rdquo;
+									cluster revealed they are NOT simple line-fills: they are
+									complex pattern-generation tasks (fractals, checkerboards,
+									growing L-shapes). No narrow reusable primitive covers them.
+									Only 3 tasks in the entire timeout set have genuine
+									straight-line fills. The timeout residual is genuinely hard
+									&mdash; each task needs its own spatial reasoning logic.
+									Train-fit-but-test-fail is dominated by overfit neighborhood
+									_rule (7) and pixel_rule (3). No code changes &mdash; this
+									is an honest measurement result.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 12:32 &mdash; Benchmark summary shows seed-schema sources
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Benchmark main output now prints a top-level hypothesis-source
+									summary for solved hypothesis tasks, so seed_schema vs
+									handwritten fallback counts are visible without digging into
+									the diagnostics footer or per-task JSON. The benchmark and
+									diagnostics summary now share the same rendering helper, and a
+									targeted benchmark-output test covers the new path.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 12:15 &mdash; Seed-schema source visible in diagnostics
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									inspect_task now prints solve_source, solve_family,
+									hypothesis_source, registration_result, and program step
+									count in the solver section, so seed_schema vs handwritten
+									fallback is visible without opening raw JSON. Benchmark
+									diagnostics summary also reports hypothesis-source counts and
+									top schemas/fallbacks for solved hypothesis tasks. Targeted
+									diagnostics tests pass.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 &mdash; Accounting fix: hard-timeout
+									diagnostics
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Fixed benchmark denominator mismatch (400 vs 399): when
+									_SolverTimeout kills solver before diagnostics are created,
+									benchmark now creates minimal SolveDiagnostics with
+									failure_reason=&ldquo;hard_timeout.&rdquo; Remaining
+									no_mapper: 11 (hollow_rect_op=3, 8 one-offs at 1 each).
+									All low-volume one-offs left unmapped. 2,139 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-20 &mdash; Pattern mappers for top
+									no_mapper families
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									5 new mappers: transpose, move, rotate_grid,
+									bbox_complement (new BodyKind + eval_body),
+									recolor_closest (new BodyKind + eval_body). Covers
+									10/21 no_mapper cases from benchmark accounting.
+									hollow_rect_op deliberately left unmapped (multi-mode
+									semantics too complex for clean mapping). 2,144 tests
+									pass.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
 									2026-03-21 15:00 &mdash; General registration for
 									non-hypothesis stages
 								</p>
