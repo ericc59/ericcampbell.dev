@@ -4,7 +4,7 @@ import Image from "next/image";
 import arcAgiImage from "public/images/projects/arcagi.png";
 import { ProgressChart } from "./progress-chart";
 
-const lastUpdated = "March 15, 2026";
+const lastUpdated = "April 14, 2026";
 
 const metrics = [
 	{
@@ -27,9 +27,9 @@ const metrics = [
 	},
 	{
 		label: "ARC-2 Evaluation",
-		train: "26/120 (22.0%)",
-		test: "26/120 (22.0%)",
-		joint: "26/120 (22.0%)",
+		train: "24/120 (20.0%)",
+		test: "24/120 (20.0%)",
+		joint: "24/120 (20.0%)",
 	},
 ];
 
@@ -257,6 +257,27 @@ export default function ArcAgiPage() {
 			<section className="space-y-3">
 				<Label>Recent Changes</Label>
 				<div className="space-y-2">
+					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+						<p className="text-[11px] text-zinc-500">
+							April 14, 2026 12:00 AM CDT
+						</p>
+						<p className="mt-1 text-sm font-medium text-zinc-200">
+							Generalization Guards + Extraction Solver
+						</p>
+						<p className="mt-1 text-sm text-zinc-300">
+							Phase 1A: Killed refinement method on same-dims tasks &mdash; was
+							100% overfit on ARC-2 (22/22 overfit eliminated). Phase 1B:
+							Tightened operator_sketch rejection for high-complexity same-dims
+							low-pair candidates. Phase 2A: New ExtractionSolver with 7
+							extraction modes for diff-dims tasks (nonbg_bbox_crop,
+							color_bbox_crop, object_extract, subgrid_select, half_crop,
+							color_strip, transpose_extract), registered as{" "}
+							<code>extraction_summary_operator_chain</code> family. ARC-2 eval:
+							20/120 &rarr; 24/120 (20.0%), +4 tasks gained, 0 lost. ARC-2
+							training overfit: 119 &rarr; 97 (&minus;22, all from refinement
+							kill). ARC-2 training test-ok: 500/1000 (unchanged, no regression).
+						</p>
+					</div>
 					<div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
 						<p className="text-[11px] text-zinc-500">
 							March 15, 2026 12:00 AM CDT
