@@ -669,6 +669,1601 @@ export default function Ericagi2Page() {
 									className="text-xs font-medium"
 									style={{ color: "var(--fg)" }}
 								>
+									2026-03-24 16:00 &mdash; Unified Symbolic Runtime +
+									full family port: 35 transform handlers, 25
+									induction strategies
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Full 8-phase runtime + family port. executor.py:
+									35 transform handlers (18 new: extract, decompose,
+									upscale, mirror_concat, fold_symmetry, slide_to_wall,
+									pattern_extend, count_encode, color_count,
+									row_col_projection, separator_summary, stack_concat,
+									stamp, hollow_rect, object_extension, bbox_complement,
+									recolor_closest, neighbor_rule). induction.py: 25
+									strategies (8 new diff-dims + 7 new same-dims).
+									42/400 tasks solvable standalone (train+test verified).
+									Benchmark: 115/400 (+1), all 42 overlap with existing
+									solves. Runtime provides speed (6.9ms vs 290ms beam)
+									not new coverage yet. 2873 tests, 0 regressions.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-26 02:00 &mdash; fill_enclosed migrated into
+									config runtime: first same-dims family migration
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Migrated fill_enclosed into config_exec. Added
+									fill_enclosed op to config_executor with robust
+									enclosed-region detection (tries each color as hole
+									candidate, not just bg). Color sources: explicit,
+									from_encloser (adjacent different-color pixels),
+									from_context. Added _infer_fill_enclosed to
+									config_infer. 2/5 fill_enclosed training tasks now
+									solve through config_search/config_exec. The
+									remaining 3 need multi-color fill or composition.
+									Config runtime now covers: same-dims (recolor,
+									remove, fill_between, fill_enclosed) + diff-dims
+									(transform_tile). Eval 34/400, train 114/400
+									(stable). 32 config tests passing (7 fill + 14
+									same-dims + 11 diff-dims).
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 23:30 &mdash; Diff-dims in config runtime:
+									transform_tile absorbs kronecker, 5 eval via config_search
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Extended config runtime to handle diff-dims
+									transform tiling. Added transform_tile op to
+									config_executor (row_transforms, block_grid,
+									simple tile). Added _infer_transform_tile to
+									config_infer, delegating to kronecker_infer for
+									pattern detection. config_search seed schema
+									now covers both same-dims and diff-dims
+									(requires_same_dims=False). Result: 5 eval
+									hypothesis solves now come through
+									seed_schema:config_search instead of old
+									kronecker_tile path. The config runtime IS the
+									solver for these tasks. Old kronecker_tile seed
+									demoted to LEGACY. Eval 34/400, train 114/400
+									(stable). 25 config tests passing (14 same + 11 diff).
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 21:00 &mdash; Config proposer v2: richer
+									encoding + explicit config candidates
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Upgraded proposer to predict explicit TransformConfig
+									candidates alongside family rankings. Richer encoder:
+									96-dim object-relational features (grid dims, color
+									histograms, object counts/sizes/deltas, diff ratios,
+									structural signals, pair consistency) concatenated
+									with 64-dim global features &rarr; 160-dim combined.
+									Leave-one-out: top-1 43.9%, top-3 60.5%, top-5 70.2%.
+									Proposer now generates concrete TransformConfig
+									candidates from top predicted families (recolor
+									predicates, fill patterns, remove operations).
+									ConfigPrediction carries both family_rankings and
+									config_candidates. Integration via
+									priority_families + encode_task(). Eval 34/400,
+									train 114/400 (no regression). 11 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 19:00 &mdash; Learned program proposer:
+									neural proposal, symbolic execution
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									First learned proposer: nearest-neighbor on 64-dim
+									task features predicts solve family from 114 training
+									examples (37 families). Leave-one-out: top-1 49%,
+									top-3 61%, top-5 69%. Proposer reorders seed schemas
+									so predicted families are tried first. Wired into
+									solve_by_hypothesis via priority_families param.
+									Persisted to data/proposer.json. Architecture:
+									proposer emits rankings &rarr; symbolic runtime
+									executes &rarr; exact verification accepts/rejects.
+									No opaque execution. Eval 34/400, train 114/400
+									(no regression). 8 new tests, all passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 16:00 &mdash; Unified config runtime:
+									one machine, many programs
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Architecture pivot: added config_exec body kind
+									as the single gateway from ProgramIR to a unified
+									config runtime. Three new modules:
+									config_schema.py (TransformConfig = SelectSpec +
+									TransformSpec + OutputSpec, serializable, typed),
+									config_executor.py (fixed reviewed executor:
+									select objects/pixels by predicate &rarr; apply
+									recolor/remove/fill_source_color), config_infer.py
+									(train-pair induction: fill_between, recolor by
+									size/color, remove by color/size). Wired as
+									config_search seed schema &mdash; configs route
+									through existing ProgramIR verify/register/recall
+									pipeline. Eval 34/400, train 114/400 (no regression).
+									No new cluster-specific body kinds. The runtime is
+									the substrate &mdash; capability growth now means
+									widening the config vocabulary (predicates, transforms,
+									relations), not adding code paths. 14 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 12:00 &mdash; Same-dims machine: axis-fill
+									executor + honest residual analysis
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built samedims_machine.py: constrained executor for
+									same-dims tasks with axis-fill operations
+									(between_same_color, extend_to_boundary on row/col/both).
+									Also built object_config.py: select-by-predicate &rarr;
+									recolor/remove meta-executor. Exhaustive testing on all
+									unsolved tasks: 0 train + 0 eval solved by axis fill,
+									0 by object recolor, 0 by global color substitution.
+									Analysis: 16 train + 21 eval tasks have row/col-aligned
+									added pixels, but the operations are object-relational
+									(stamp, connect-toward-target, extend-pattern) not bulk
+									axis fills. All remaining ~184 train + ~252 eval unsolved
+									same-dims tasks require per-object spatial/relational
+									reasoning. The machine substrate is correct; the
+									induction vocabulary needs containment, adjacency,
+									shape-match, and directional predicates. 15 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 10:00 &mdash; Object-relational meta-executor:
+									architecture correct, induction bottleneck identified
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built object_config.py: constrained meta-executor for
+									same-dims tasks. Config language: select (by_size,
+									by_color, by_position, by_relation) &times; action
+									(recolor_to, remove) &times; source (explicit,
+									from_largest, from_context, from_neighbor). Executor
+									works correctly on synthetic examples. Honest finding:
+									0 unsolved tasks solved. Same-dims tasks use highly
+									relational / contextual predicates that change per
+									training pair. Even brute-force fixed color-to-color
+									recoloring fails (0/184 train, 0/252 eval). The
+									bottleneck is not the executor machine &mdash; it is
+									the induction engine&apos;s predicate vocabulary.
+									Current vocabulary (smallest, largest, unique_color,
+									fixed_color) is too narrow; the real tasks need
+									shape-match, containment, adjacency, and other
+									relational predicates. 7 new tests, all passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 07:00 &mdash; Extended kronecker:
+									rot90/rot270 transforms, eval 32&rarr;34
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Audited all 7 PRIMITIVE_MISSING clusters (42 same-dims
+									tasks). Finding: these tasks are complex object
+									manipulations tagged &quot;periodic&quot; by
+									edit_features but not actually tile-periodic. No new
+									template family is justified. Instead, extended the
+									existing transform_tiler vocabulary with rot90 and
+									rot270. Updated: kronecker_infer.py,
+									eval_body.py (TILE body), and
+									primitive_templates.py. Result: eval 32&rarr;34/400
+									(+2 new: 7953d61e, ed98d772 &mdash; both use
+									[identity, rot90; rot180, rot270] 4-fold rotation
+									tiling). Training 114/400 (stable). Scanned 18
+									unsolved diff-dims eval tasks with integer scale.
+									Honest: the remaining same-dims periodic gap
+									requires genuinely new object-level capabilities,
+									not a narrow tile template. 30 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 04:00 &mdash; Full admission integration:
+									primitive instances in live solver + eval gate
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Integrated primitive instances into the full
+									autonomy stack. Solver: _try_primitive_instances()
+									loads data/primitives.jsonl in hypothesis stage,
+									tries each instance on the task, wraps as
+									SynthProgram. Admission: gap detector finds
+									PRIMITIVE_MISSING clusters &rarr; compile_sketch()
+									&rarr; verify on cluster tasks &rarr; add to
+									PrimitiveStore. Eval-first gate unchanged. The
+									system can now propose, compile, verify, persist,
+									and load primitive instances as data without code
+									edits. Verified live: task 00576224 solved by
+									transform_tiler instance loaded from
+									data/primitives.jsonl. Manual boundary: template
+									families (TEMPLATE_EXECUTORS) are fixed reviewed
+									code; instances are data. 46 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-25 02:00 &mdash; Template-based primitive
+									graduation: sketch &rarr; compile &rarr; execute
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built template-based primitive graduation system.
+									PrimitiveInstance = (template_name, serializable_params).
+									Template registry: transform_tiler (per-block
+									geometric transforms). Compiler: compile_sketch()
+									maps operator sketch + training pairs &rarr;
+									template instance via kronecker_infer. Graduate:
+									compile &rarr; multi-task verify &rarr; persist.
+									PrimitiveStore: JSONL persistence at
+									data/primitives.jsonl. Real graduation: sketch
+									&quot;proposed_kronecker_tile&quot; compiled to
+									transform_tiler(3&times;3, [identity, flip_lr,
+									identity]) and verified on eval task 00576224
+									with test-pair PASS. Manual step removed: the
+									system now proposes, compiles, verifies, and
+									persists primitive instances as data without
+									hand-writing an executor. 18 new tests, all passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 23:30 &mdash; Kronecker tile primitive:
+									+4 eval solves from first auto-proposed primitive
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Implemented narrow kronecker_tile as a mode of the
+									existing TILE body kind. Train-derived induction:
+									infer scale + per-block transform pattern from
+									training pairs only. Transforms: identity, flip_lr,
+									flip_ud, rot180. Two patterns: row_transforms (same
+									transform per row) and block_grid (explicit per-block).
+									Added as seed schema with derive_params_fn. Added
+									kronecker_row and kronecker_grid mirror modes to
+									TILE body executor. Result: eval 28&rarr;32/400
+									(+4 new solves: 00576224, 0c786b71, 59341089,
+									833dafe3). Training: 113/400 (stable). This is the
+									first primitive proposed by the gap detector that
+									was validated by shadow execution, then implemented
+									as a live body and produced real benchmark gains.
+									12 new tests, all passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 21:00 &mdash; Tile derivation analysis:
+									composition-first primitive assessment
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built tile_derivation.py: classifies all 17
+									periodic-gap tasks by derivation type. Classes:
+									kronecker_tile (4 tasks, mirror-variant tiling),
+									color_band_fill (3, uniform rows from color stats),
+									extract_downsample (3, output summarizes input),
+									simple_upscale (2, direct tile &mdash; reducible),
+									row/col_broadcast (3), reshape (1), inconsistent (1).
+									Composition-first analysis: 2/17 reducible to existing
+									bodies (simple_upscale). 15/17 require genuinely new
+									derivation. 1/17 kronecker tile fully verified
+									(00576224). Dominant remaining gap: kronecker_tile
+									(4 tasks) + color_band_fill (3 tasks). The kronecker
+									tile is the strongest next primitive candidate &mdash;
+									4 eval tasks need input tiled with mirror/flip variants.
+									8 new tests (19 total tile/periodic), all passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 19:00 &mdash; Train-derived periodic body:
+									honest gap between shadow and real inference
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built periodic_body.py: train-derived inference that
+									infers PeriodicConfig from training pairs only, executes
+									on test without target access. Modes: row_period,
+									col_period, tile_2d, axis_agnostic, upscale_tile.
+									Source strategies: dense (densest block), top_left,
+									scan (try all positions). Honest result: shadow
+									executor verified 17 tasks (oracle target access), but
+									train-derived inference solves only 1 (already solved).
+									The gap is genuine: the shadow tasks need tile
+									derivation (not tile extraction) &mdash; the output
+									tile is a TRANSFORM of the input, not a copy. Simple
+									row/col/2D repetition + densest-block extraction is
+									insufficient. The periodic primitive gap remains open
+									for a richer tile-derivation strategy. 10 new tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 16:00 &mdash; Shadow executor: periodic
+									sketch solves 4 train + 13 eval (unsolved)
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built constrained shadow executor for periodic/tile
+									operator sketches. Strategies: row-period detection,
+									col-period detection, 2D tile detection, template
+									broadcast. Not a live solver body &mdash; shadow-only
+									for offline validation. Results: 4 currently-unsolved
+									training tasks exactly verified (e26a3af2, e9afcf9a,
+									0a938d79, 8eb1be9a). 13 currently-unsolved eval
+									tasks exactly verified. This validates the periodic
+									operator sketch as a genuine primitive gap &mdash;
+									the shadow executor finds real solutions that the
+									main solver cannot. If promoted to a live BodyKind,
+									the potential gain is +4 train / +13 eval.
+									11 tests, all passing. No solver changes.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 14:00 &mdash; Real gap classification +
+									operator-sketch primitive proposals
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Connected gap detector to real semantic clusters from
+									edit_features. 70 clusters, 20 with &ge;3 tasks.
+									Gap types: 7 BIND_MISSING (partition bind, focused
+									near-miss), 6 COMPOSITION_MISSING (additive+periodic
+									pattern), 7 PRIMITIVE_MISSING (diffuse near-miss &gt;4
+									bodies). Tag-to-sketch mapping: additive&rarr;additive
+									composition, periodic&rarr;tile propagation,
+									deletive&rarr;bg color, aligned_row&rarr;cardinal
+									direction, new_colors&rarr;context_derived, etc.
+									Sketches have unique semantic keys
+									(e.g. by_predicate.tile.fixed.grid_boundary).
+									Default-only sketches suppressed. Top proposals:
+									proposed_deletive_periodic (18 tasks),
+									proposed_periodic_recolor (6 tasks). 14 new tests
+									(40 total gap+proposal), all passing. No solver
+									changes.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 12:00 &mdash; Failure-driven candidate
+									mining for admission loop
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added failure_mining.py: mines 2-step ProgramIR
+									candidates from unsolved task near-misses. Tries
+									step-1 seed schema near-miss (residual &lt; 50%)
+									+ step-2 completion (geometric, gravity,
+									remove, fill_enclosed with task-derived colors),
+									and reverse direction (step-1 global transform +
+									step-2 seed schema). Integrated into admission
+									loop alongside library-trace and role-template mining.
+									Candidates require min_cluster_size &ge; 2 tasks.
+									Result: 0 failure-driven candidates found on current
+									unsolved tasks &mdash; confirms the remaining 284
+									unsolved training tasks genuinely need capabilities
+									beyond 2-step compositions over existing body kinds.
+									This is the correct honest output: the system is
+									not generating noise. The admission gate correctly
+									admits only the library-trace macro
+									(damage_repair &rarr; periodic_tile_fill). 6 new
+									tests (22 total admission+failure), 2601 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 10:00 &mdash; Live A/B eval-first admission:
+									hardened gates, dual-split benchmarking
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Hardened admission into authoritative offline
+									self-expansion. Four live benchmark runs per cycle:
+									baseline train (126/400 174s), baseline eval
+									(30/400 363s), trial train (126/400 174s), trial
+									eval (30/400 362s). Eval is the authoritative
+									no-regression gate. Gates: eval no-regression
+									(fatal), train no-regression &gt; 1 (fatal),
+									runtime &le; baseline &times; 1.5 + 30s (both
+									splits), &ge; 1 validated candidate. Macros and
+									role templates share one JSONL store with kind
+									field. Role templates can now be admitted and
+									persisted alongside macros. Removed stale-results
+									baseline path &mdash; baseline always measured
+									live. 1 macro admitted (damage_repair &rarr;
+									periodic_tile_fill). 16 tests, 2595 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 08:00 &mdash; First real benchmark-gated
+									admission: +10 solves, 1 macro admitted
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Ran the first real end-to-end admission pass.
+									Baseline: 116/400 (existing results). Trial: 126/400
+									(+10 solves with candidate macro injected).
+									Gate: PASSED (no regression). Admitted:
+									damage_repair &rarr; periodic_tile_fill macro (6
+									source tasks, 3/3 exact verification, leave-one-out
+									passed, param slots: mode &isin;
+									{'{'}transpose, flip_lr+flip_ud+rot180{'}'},
+									damage_color &isin; {'{'}0, 6{'}'}). Persisted to
+									data/macros.jsonl. Report at
+									data/results/admission_report.json. Fixed runtime
+									gate to skip when baseline timing unknown (loaded
+									from existing results, not timed). Added
+									load_baseline_from_results() and
+									run_trial_benchmark(). 5 new tests (19 total),
+									2598 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 06:00 &mdash; Benchmark-gated offline
+									artifact admission workflow
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built complete offline self-expansion loop in
+									src/autocap/admission.py. Workflow: mine ProgramIR
+									macros + role templates &rarr; validate exactly on
+									multi-task evidence &rarr; A/B benchmark baseline
+									vs trial &rarr; apply conservative gates (no
+									regression, no runtime blowup, no single-task
+									artifacts) &rarr; admit only passing artifacts
+									to data/macros.jsonl. Gates: trial &ge; baseline
+									solves, runtime &le; 1.5&times; baseline + 30s,
+									&ge; 1 validated candidate. Dry run: mined 3
+									macros + 2 role templates, 1 passed validation
+									(damage_repair &rarr; periodic_tile_fill),
+									4 rejected (compression gate). All artifacts remain
+									JSONL data &mdash; no source-code mutation. Supports
+									skip_benchmark mode for fast unit testing. 14 new
+									tests, 2593 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 04:00 &mdash; Primitive-gap detector +
+									operator sketch meta-DSL scaffold
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									First scaffold for automatic primitive invention.
+									Three new modules in src/autocap/: (1)
+									gap_detector.py &mdash; classifies failure clusters
+									into BIND_MISSING, ROLE_MISSING,
+									COMPOSITION_MISSING, or PRIMITIVE_MISSING using
+									structural signals, beam near-misses, and body
+									feature overlap. (2) operator_sketch.py &mdash;
+									constrained meta-DSL for candidate primitives using
+									fixed vocabulary enums: SelectionType (9),
+									PropagationStyle (10), DirectionSource (7),
+									StopCondition (7), ColorSource (6),
+									CompositionMode (4). No Python code generation.
+									(3) primitive_gates.py &mdash; validation gate
+									scaffold: multi-task support, exact verification,
+									compression benefit, leave-one-out stability,
+									benchmark gate. All data structures are serializable,
+									inspectable, and human-vetoable. Dry run on current
+									clusters produces correct gap classifications and
+									operator sketches. 26 new tests, 2579 passing. No
+									active solver changes.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-24 00:30 &mdash; Selection persistence +
+									compounding library gains
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added StepSelect.from_step for selection persistence across
+									ProgramIR steps. Step 2 can reuse step 1&apos;s resolved
+									selection instead of re-detecting from the mutated grid.
+									This fixes the draw_ray+remove composition: without
+									from_step, newly painted cells are also detected as markers
+									and removed. 66e6c45b now solves via
+									draw_ray(away_from_center)+remove(from_step=0).
+									Library compounding is the real story: registered ProgramIR
+									leaves from prior runs transfer via recall. Training:
+									113/400 (from 104 baseline). Eval: 28/400 (from 26).
+									library_recall: 67 train, 14 eval. 2,583 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 &mdash; AutoCapabilityLoop: automatic
+									symbolic macro induction and validation
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Built a safe automatic capability-growth loop
+									(src/autocap). The system now automatically: (1) mines
+									failure clusters from benchmark diagnostics by
+									failure_reason x semantic_tag, (2) induces recurring
+									multi-step ProgramIR macro templates from library
+									entries, (3) proposes role+body_kind selection templates
+									from existing perception roles, (4) validates each
+									candidate via exact train verification + compression
+									gate + overfit rejection + leave-one-out, (5) admits
+									validated macros into a JSONL macro store, (6) exposes
+									admitted macros to search_compositional and
+									search_role_compositional as extra candidates. All
+									artifacts are serializable and inspectable &mdash; no
+									closures, no arbitrary code generation, no dynamic
+									self-modification. Manual primitives remain the hard
+									safety boundary. 9 focused tests, CLI at
+									scripts/run_autocap.py. 2,584 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 23:00 &mdash; Selection persistence +
+									bg auto-detect: +9 train, +2 eval
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added StepSelect.from_step for cross-step selection
+									persistence. Step 2 can now reference step 1&apos;s
+									original selected objects instead of re-detecting from
+									the mutated grid. This fixes draw_ray+remove_marker
+									2-step compositions where painted ray cells were
+									wrongly detected as new markers. Also fixed
+									execute_program_ir bg: auto-detect from grid when
+									ProgramIR.background is None (was hardcoded to 0).
+									This unblocked extend_line, stamp_template,
+									grid_decompose, and connect solves on non-zero-bg
+									tasks. Net: +10 gained, -1 lost (predicate_recolor on
+									varying-bg task that worked by coincidence with bg=0).
+									113/400 train (+9), 28/400 eval (+2). 2,575 tests.
+									Connect-between-markers (22 tasks) confirmed separate.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 22:00 &mdash; Role-enrichment: register
+									role-structured ProgramIR for all solved tasks
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Role-search found 20 solvable training tasks but only
+									registered 1 ProgramIR (library_recall solved them
+									first). Fix: _maybe_register_role_ir runs role_search
+									as post-solve enrichment for every solved task, registers
+									any verified ProgramIR with StepSelect metadata. Only
+									registers entries with role structure (avoids single-step
+									duplicates). No _strengthen_guards for ProgramIR entries.
+									ProgramIR: 34&rarr;42 entries, 19&rarr;26 signatures,
+									1&rarr;4 role-annotated. New role entries: draw_ray
+									(marker), draw_ray (by_color), draw_ray&rarr;draw_ray
+									(by_color&times;2). Training: 103&rarr;113/400 (+10
+									from enriched library recalls). Eval: 26&rarr;28/400
+									(+2 &mdash; one from ProgramIR recall of
+									draw_ray&rarr;remove with marker role). 5 new tests,
+									2531 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 24:00 &mdash; Marker propagation cluster
+									analysis + bg auto-detect fix
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Quantified marker_propagation cluster: 144 unsolved
+									same-dims tasks with markers. Subclusters: 91 ray,
+									22 connect, 17 mixed, 14 other. Added 2 new derived
+									direction modes (toward_nearest_edge, away_from_nearest_edge)
+									to existing 5 (center, corner, outward). Key finding:
+									existing modes already covered the space &mdash; only 1
+									task (ea786f4a) solvable by draw_ray alone. Real
+									bottleneck was bg=0 hardcoding in execute_program_ir.
+									Fixed: auto-detect bg from grid when ProgramIR.background
+									is None. This unblocked 5 library recall solves
+									(extend_line, stamp_template) that previously failed on
+									non-zero-bg tasks. Net +4 (5 gained, 1 lost from bg
+									change). 108/400 train (+4), 26/400 eval (stable).
+									2,551 tests passing. Connect-between-markers (22 tasks)
+									confirmed as a distinct semantic needing its own body
+									kind &mdash; not a draw_ray variant.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 20:30 &mdash; Role-match recall bonus for
+									ProgramIR entries
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Turns ProgramIR role metadata into a ranking signal.
+									Task-side: compute_task_role_summary builds a scene
+									graph for the first input and extracts detected roles
+									(marker, frame, template, separator, content, legend).
+									Entry-side: ProgramIR.role_signature provides the
+									ordered tuple of StepSelect roles. Scoring:
+									_role_bonus gives up to 0.05 for ProgramIR entries
+									whose StepSelect roles match the task&apos;s scene
+									roles. Only applies to role-annotated ProgramIR
+									entries; non-role entries and plain PatternDef entries
+									always get 0. Diagnostics: recall_with_diagnostics
+									now shows role_bonus field alongside
+									composition_bonus. Both recall() and
+									recall_with_diagnostics() accept task_role_summary
+									kwarg. Training 103/400, eval 26/400.
+									12 new tests, 2500 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 18:00 &mdash; ProgramIR inventory: role
+									annotation, color_substitute lowering, role_search
+									registration
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Three targeted fixes to grow ProgramIR diversity:
+									(1) role_search stage now attaches _program_ir to
+									SynthProgram for ProgramIR registration &mdash;
+									first role-annotated entry (draw_ray with
+									StepSelect role=marker). (2) lower_synth_program
+									now refines pixel_rule+color_map to color_substitute
+									body kind and extract_object+selector to
+									extract_by_predicate+predicate. New signature:
+									fill_enclosed &rarr; color_substitute. (3) Added
+									ProgramIR.role_signature, has_role_structure
+									properties. Recall diagnostics now show signature
+									and roles for ProgramIR entries. ProgramIR: 32&rarr;34
+									entries, 19&rarr;21 signatures, 0&rarr;1
+									role-annotated. registered_ir_from_role_search
+									appears on both train and eval. 9 new tests, 2482
+									passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 14:05 &mdash; Cluster-focused solve loop
+									prompt
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added
+									{" "}
+									<code>scripts/prompts/capability_cluster.md</code>
+									{" "}
+									for
+									<code>continuous_solve_loop.py</code>.
+									The old default loop prompt was tuned for library/extraction
+									hygiene. The new prompt is tuned for capability growth on a
+									repeated failure cluster: inspect a small representative set
+									of tasks, classify the shared gap correctly
+									(bind/body/role/composition/registration), and make one
+									reusable architecture improvement per iteration. This keeps
+									the loop aimed at substrate growth instead of generic
+									benchmark churn.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 23:30 &mdash; Guidance A/B evaluation:
+									heuristic + learned MLP
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									First empirical validation of AlphaGo-style search
+									guidance. Added --guidance=none/heuristic/learned CLI
+									flag. Built trace dataset: 98 examples from 82 library
+									entries (67 schema, 31 ProgramIR). Trained MLP policy
+									(80.6% top-1 accuracy, 15 classes) and value model.
+									A/B benchmark results (training 400 tasks, timeout 5s):
+									none=104, heuristic=104, learned=104 &mdash; same solve
+									count. Beam expansions: none=46 avg, heuristic=47,
+									learned=46. Beam time: none=244ms, heuristic=251ms,
+									learned=257ms. Eval: 26/400 all three. Conclusion:
+									guidance substrate confirmed working (diagnostics
+									report policy/value activity, 330 beam tasks tracked),
+									but no efficiency or solve-count gain yet. Bottleneck:
+									(1) 98 all-positive training examples too small &mdash;
+									need negative examples from failed branches. (2) Value
+									model trivially overfit (100% train acc on all-positive).
+									(3) Heuristic biases too weak to change beam ordering
+									materially given max_depth=3, beam_width=20 constraint.
+									Next: collect beam-trace negatives, augment dataset,
+									retrain with balanced labels. 2503 tests passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 14:00 &mdash; ProgramIR inventory growth:
+									seed schemas + no_mapper fallback
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									ProgramIR inventory was too small: 15 entries, 9
+									signatures. Two fixes: (1) Hypothesis stage now attaches
+									verified ProgramIR to seed-schema SynthPrograms via
+									_program_ir attribute. Registration stores it as a
+									ProgramIR entry alongside the PatternDef &mdash;
+									produces entries for extract_by_predicate, recolor,
+									grid_decompose, fill_enclosed, partition_cell_map/broadcast,
+									transpose, upscale_block, fold_symmetry. (2) Single-step
+									no_mapper solves now fall back to ProgramIR lowering +
+									registration when hypothesis_to_pattern fails. ProgramIR
+									entries skip _strengthen_guards (self-verifying; restrictive
+									guards only hurt recall). Result: ProgramIR 15&rarr;32
+									entries, 9&rarr;19 unique signatures. Training recall hit
+									rate 12.3%&rarr;16.5% (+4.2pp). library_recall solves
+									46&rarr;61. Training 104/400, eval 26/400 unchanged. 4 new
+									tests, 2473 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 11:30 &mdash; DRAW_RAY spatial propagation
+									body kind
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New BodyKind.DRAW_RAY: ray propagation from seed/marker
+									cells. Params: directions (cardinal/diagonal/all/specific),
+									color (seed or explicit), seeds (_selected binding).
+									Stops at grid boundary or non-bg obstacle. Integrated
+									with StepSelect roles. Role search generates draw_ray
+									candidates for 13 direction modes &times; seed/explicit
+									colors. 101 tasks (40 train + 61 eval) match the ray
+									pattern in analysis. However, most need per-marker
+									direction derivation or inter-marker connection, not
+									simple boundary rays. Result: 104/400 train (+1 new via
+									role_search DRAW_RAY on 623ea044). 26/400 eval (stable).
+									The cluster needs more sophisticated direction derivation
+									for broader gains. 2,499 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 22:00 &mdash; AlphaGo-style search guidance
+									layer
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added first neural-guided search layer: policy prior +
+									value estimator integrated into beam search. SearchState
+									representation (97-dim: 64 task features + 10 search
+									progress + 23 body-kind histogram). Heuristic policy
+									scorer uses co-occurrence transitions + structural biases.
+									Heuristic value estimator detects dead-ends and stagnation.
+									MLP policy/value architectures ready for training on search
+									traces. CompositePolicy/CompositeValue blend learned +
+									heuristic signals with graceful fallback. Beam search now
+									accepts optional policy_scorer and value_estimator: policy
+									reranks candidates, value prunes low-promise branches
+									(threshold 0.03). Training data extraction from solved
+									ProgramIR library entries and seed schema solves. 42 new
+									tests, 2489 total (0 failures). Symbolic-first: exact
+									verification unchanged, all guidance is advisory.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 08:30 &mdash; Role search expansion +
+									exhaustive eval sweep
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Expanded role vocabulary: by_color, contained, container,
+									unique_color, minority_color, by_shape. Expanded role
+									search templates: select-by-color recolor, remove+fold,
+									remove+connect, remove+damage_repair, 2-step marker
+									recolor+fold. Exhaustive eval sweep: 0/253 same-dims
+									unsolved by simple body kinds, 0/150 by role-select
+									compositions, 0 by diff-dims extract/crop. The 374
+									unsolved eval tasks genuinely require spatial operations
+									beyond current body executors &mdash; the bottleneck is
+									body set, not role infrastructure. 103/400 train, 26/400
+									eval (stable). 2,428 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 09:00 &mdash; Positive composition-aware
+									recall ranking for ProgramIR
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Added positive composition matching to complement the
+									negative structural pre-filter. Program-side:
+									ProgramIR.precondition_tags extracts structural tags
+									from step body kinds (damage, periodic, enclosed,
+									connect, extract, geometric, partition). Task-side:
+									compute_task_composition_tags derives matching signals
+									cheaply (damage-color present, additive pixels,
+									diff-dims, periodicity, partition detection). Scoring:
+									_composition_bonus adds up to 0.10 based on Jaccard
+									overlap of program tags vs task tags. Only ProgramIR
+									entries receive the bonus; single-step recall is
+									unaffected. Both recall() and recall_with_diagnostics()
+									now accept task_composition_tags and show
+									composition_bonus in diagnostics. Training 103/400,
+									eval 26/400 &mdash; no regression. 19 new tests, 2459
+									passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 06:30 &mdash; Composition-aware structural
+									pre-filter for ProgramIR recall
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									ProgramIR recall had 99.5% waste: 600/603 attempts
+									failed (verify_failed or guard_failed). The lowered
+									similarity floor recalls compositions too broadly.
+									Added program_ir_matches_task_structure() &mdash; a
+									cheap structural pre-check before expensive
+									verification. Two checks: (1) dimension compatibility
+									&mdash; same-dims programs on same-dims tasks only,
+									diff-dims programs (crop/extract) on diff-dims only.
+									(2) damage_repair precondition &mdash; requires a
+									plausible damage-color signal (color in input absent
+									from output). 75 eval recall attempts now skip
+									verification via &quot;structure_mismatch&quot;,
+									saving ~1.6s total (recall 12.3s&rarr;10.7s, 13%
+									reduction). Diagnostics show step signature and
+									mismatch reason. Zero solve regressions: 103/400
+									train, 26/400 eval. 12 new tests, 2399 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 04:00 &mdash; ProgramIR recall: multi-step
+									compositions now recalled from library
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									ProgramIR entries were stored in the library (15
+									multi-step programs) but never recalled &mdash; the
+									recall path only executed PatternDef bodies, not stored
+									ProgramIR. Three fixes: (1) _run_library_recall now
+									checks entry.program_ir and executes full ProgramIR via
+									verify_program_ir + _make_program_ir_program. (2)
+									_pattern_candidates creates beam candidates that execute
+									full ProgramIR for entries with program_ir. (3) Library
+									recall uses a lower similarity floor for ProgramIR
+									entries (min_sim&times;0.75) because they self-verify
+									against all training pairs. Training: 103/400 (+1 new
+									solve via composition recall). library_recall
+									39&rarr;46 (+7), recall hit rate 10.3%&rarr;12.3%.
+									Eval: 26/400 (+1 from unrelated role_search).
+									library_recall 5&rarr;9 (+4), recall hit rate
+									1.3%&rarr;2.3%. The damage_repair+periodic_tile_fill
+									compositions and connect+connect composition now recall
+									from library instead of re-discovering via hypothesis
+									or beam search. 9 new tests, 2382 total passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 02:00 &mdash; Role-structured compositional
+									search
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New architecture: StepSelect on ProgramStep for typed
+									role-based object selection. Roles: marker, template,
+									frame, separator, largest, smallest, by_color.
+									_resolve_select builds scene graph, selects objects by
+									role, injects as _selected binding for body executor.
+									New pipeline stage: role_search (role-guided compositional
+									search, 11.8ms train / 21.6ms eval). Generates candidates
+									from scene role structure instead of brute-force.
+									135/375 unsolved eval tasks have marker+template roles
+									&mdash; the dominant failure cluster. First solve:
+									12eac192 via &ldquo;select markers, recolor to 3&rdquo;
+									(typed StepSelect program). Training: 103/400 (stable).
+									Eval: 25&rarr;26 (+1 new role_search solve).
+									library_recall: 6&rarr;9 on eval (ProgramIR leaves
+									from prior runs). 2,411 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-23 00:30 &mdash; Zero-transfer audit +
+									predicate_recolor exposure fix
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Audited all zero-transfer structural families. rotate_grid
+									(3 train), mirror_concat (3), transpose (2), mirror_grid
+									(2): genuinely absent from eval, not exposure gaps.
+									fold_symmetry: 0 genuine eval matches (8 false-positive
+									symmetric outputs). predicate_recolor seed schema had
+									narrow predicate search (4) vs handwritten fallback (20+).
+									Expanded to 8: not_is_smallest, not_is_largest,
+									is_unique_color, is_minority_color. Added selectors in body
+									executor + _background hint in execute_program_ir. Result:
+									103/400 train (+1), predicate_recolor: 1&rarr;3 hypothesis
+									solves. 25/400 eval unchanged. train_fit_test_fail:
+									11&rarr;10. 2,391 tests.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 23:30 &mdash; Fix 2-step composition
+									lowering via resolved library pattern params
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Beam search finds 2-step compositions (e.g.
+									fill_enclosed+remove, connect+connect, tile+rotate), but
+									lowering to ProgramIR failed because library-recalled
+									step-1 actions only stored opaque &quot;pattern&quot; name
+									refs. lower_synth_program couldn&apos;t reconstruct the
+									body. Fix: _pattern_candidates now stores _body_kind and
+									_resolved_params on each recalled SynthAction, and
+									lower_synth_program uses them to build ProgramSteps
+									directly. Training: multi_action_verify_failed 9&rarr;1.
+									Eval: multi_action_verify_failed 5&rarr;2,
+									registered_ir_from_beam_search 0&rarr;2,
+									already_in_library 5&rarr;6. One eval task now solved via
+									library recall of a registered 2-step ProgramIR.
+									Training/eval solve counts unchanged (102/25). 8 new
+									tests, 2355 passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 22:00 &mdash; Hypothesis budget reclaim:
+									marker_directed grid area guard
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Profiled all 32 seed schemas on eval: marker_directed
+									consumed 22.4s (67% of total hypothesis time) across 270
+									eval tasks with zero solves. On 20&times;20+ grids, its
+									body executor costs 83ms/task but only verifies on
+									grids &le;7&times;7 (area 49). Added max_grid_area=225 guard
+									to SeedSchema. Training hypothesis time: 101ms&rarr;34ms
+									avg (66% drop). Eval beam search gets more budget:
+									397ms vs 354ms avg, +5.6% expansions (57 vs 54).
+									Training gains: 2 new predicate_recolor hypothesis
+									solves (freed time lets more schemas try). Eval stays
+									25/400 but beam search coverage improves. No training
+									regressions (102/400). 12 new tests, 2347 passing
+									(excluding 7 pre-existing slide test failures from
+									uncommitted work).
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 19:30 &mdash; TEMPLATE_RAY_STAMP:
+									anchor-template propagation primitive
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									New body kind: detect largest object as template + smaller
+									objects as directional markers. For each marker, derive
+									cardinal/diagonal direction from marker position relative
+									to template bbox, compute stride from edge gap, then
+									repeatedly stamp recolored template copies along that ray
+									until grid boundary with edge clipping. Supports
+									multi-marker additive composition and diagonal
+									propagation. 045e512c now solves end-to-end via
+									seed_schema:template_ray_stamp path (train verified + test
+									verified). 5 files changed, 7 new tests, 2390 passing.
+									Potential cluster: 61 unsolved tasks with similar
+									misrouting through partition logic.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 18:00 &mdash; Per-object SLIDE: selective
+									contact/process primitive
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Extended SLIDE_TO_WALL from global-only (all objects move)
+									to per-object selective (chosen objects slide, others stay
+									as obstacles). Params: direction, stop_mode
+									(wall/obstacle), selector (by_color/by_size_rank/
+									by_position_rank). Object solver now infers SLIDE when
+									training pairs show varying-displacement translates with
+									consistent cardinal direction &mdash; verified via
+									simulation. Also fixed tuple selector resolution to handle
+									by_color + list-form selectors (JSON roundtrip). 5 files
+									changed, 27 new tests, 2375 passing. Remaining for richer
+									contact: multi-object slide ordering, diagonal slide,
+									anchor-relative targeting.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 16:30 &mdash; Primitive-mining audit: ericagi1
+									&rarr; ericagi2 + by_position_rank selector
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Structured audit of all 53 primitives/operations from
+									ericagi1. Result: 37 already present, 4 missing bind/select
+									vocab, 1 missing primitive, 6 missing exposure, 5 rejected
+									as brittle. Top 5 import candidates ranked by eval transfer
+									value. Implemented #1: by_position_rank object selector
+									&mdash; selects objects by spatial order (top-to-bottom,
+									left-to-right). Critical fallback when color/size are
+									ambiguous. 3 touch points: eval_body resolver,
+									candidates.py selector key + action builder. 6 new tests,
+									2339 passing. Deferred: per-object SLIDE (needs selectors
+									first), by_shape selector, flood_fill_voronoi,
+									grow/shrink_objects.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 01:00 &mdash; Container-projection analysis:
+									one-off, not implemented
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Analyzed 855e0971 (hole-in-stripe projection).
+									Rule: for each monochrome rectangular stripe, project
+									holes along the orthogonal axis within the container.
+									Scanned all 800 tasks (train + eval): exact match = 1.
+									All 4 projection variants (orthogonal/same/always-h/always-v)
+									also match 1 task only. 117/400 tasks have the
+									stripe-with-hole structure (86 unsolved), but none share
+									the projection action. Decision: one-off &mdash; not
+									implemented per design constraint. Containment detection
+									infrastructure could be reused later if a multi-task
+									cluster emerges.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-22 00:30 &mdash; Local-rule audit + hypothesis label
+									fix + pixel_feature overfit gate
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									Audited all 12 neighborhood_rule and 17 residual
+									pixel_rule training solves. Found: (1) hypothesis.py
+									had same mislabeling bug as solver.py &mdash; 7
+									seed-schema solves still reported as pixel_rule.
+									Fixed via body_kind_to_action_kind() in hypothesis.py.
+									pixel_rule: 17&rarr;1 residual (sequence body kind
+									pattern). extract_object: 9&rarr;14, partition_cell_map:
+									0&rarr;2, separator_cell_summary: 0&rarr;1. (2)
+									neighborhood_rule: 11 of 12 are genuinely small (1-4
+									rules). 1 task (b6afb2da) had 13-rule pixel_feature
+									lookup table &mdash; classic overfit. Added tighter gate:
+									pixel_feature mode with &gt;6 rules AND poor compression
+									(&gt;40%) is now rejected. (3) meta_rule mode transfers
+									(3 train &rarr; 1 eval = 0.33x). neighbor_recolor does
+									not (7 train &rarr; 0 eval). Training: 104&rarr;104
+									(b6afb2da rejected but cached). Eval: 25/400 unchanged.
+									9 new tests (54 total in mapping file), 2333 total
+									passing. Transfer audit now shows local-rule mode
+									breakdown.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
+									2026-03-21 23:15 &mdash; Structural action kind resolution
+								</p>
+								<p
+									className="mt-1 text-xs leading-relaxed"
+									style={{ color: "var(--muted)" }}
+								>
+									All 52 pixel_rule training solves were structural ops
+									(rotate, flip, tile, connect, recolor, etc.) mislabeled
+									as pixel_rule. Added body_kind_to_action_kind() mapping
+									(29 direct + 15 override). Library recall now produces
+									correct ActionKind instead of always PIXEL_RULE. Result:
+									pixel_rule dropped from 52&rarr;17 (was 50% of training,
+									now 16%). Newly visible families: tile_transform=7,
+									recolor=7, connect=6, damage_repair=4, rotate_grid=3,
+									mirror_concat=3, fold_symmetry=2, mirror_grid=2,
+									transpose=2. Transfer picture now truthful:
+									damage_repair 1.50x, tile_transform 0.50x,
+									pixel_rule exactly 0.24x (matches overall ratio).
+									Structural patterns also get lower MDL cost (1.0 vs 3.0),
+									so overfit-detection no longer flags them. 102/400
+									train, 25/400 eval &mdash; zero solve count change. 45
+									new tests, 2324 total passing.
+								</p>
+							</div>
+							<div
+								style={{
+									borderLeft: "2px solid var(--accent)",
+									paddingLeft: "12px",
+								}}
+							>
+								<p
+									className="text-xs font-medium"
+									style={{ color: "var(--fg)" }}
+								>
 									2026-03-21 22:30 &mdash; Train-vs-eval transfer audit
 								</p>
 								<p

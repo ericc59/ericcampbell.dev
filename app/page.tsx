@@ -10,6 +10,7 @@ import profilePhoto from "public/images/home/eric2.jpeg";
 import arcPrizeFoundationLogo from "public/images/work/arcprize.png";
 import chariotLogo from "public/images/work/chariot.webp";
 import flowLogo from "public/images/work/flow.png";
+import mastAgentsLogo from "public/images/work/mastagents.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import newWaveCapitalLogo from "public/images/work/nwc.png";
 import ravennaLogo from "public/images/work/ravenna.png";
@@ -160,6 +161,14 @@ export default function Page() {
 							period="2024 –"
 							href="https://marketing.flowauctions.com/platform/sellers"
 							logo={flowLogo}
+							active
+						/>
+						<WorkRow
+							company="MAST Agents"
+							role="Founder"
+							period="2026 –"
+							href="https://www.mastagents.com/"
+							logo={mastAgentsLogo}
 							active
 						/>
 						<WorkRow
