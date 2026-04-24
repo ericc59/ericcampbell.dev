@@ -4,6 +4,7 @@ const navItems = [
 	{ href: "/#work", name: "work" },
 	{ href: "/#projects", name: "projects" },
 	{ href: "/blog", name: "writing" },
+	{ href: "https://pylonsync.com", name: "pylon" },
 	{ href: "/synth-path", name: "synthpath" },
 	{ href: "/mast", name: "mast" },
 ];
