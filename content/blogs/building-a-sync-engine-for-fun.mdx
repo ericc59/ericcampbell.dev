@@ -18,9 +18,11 @@ That is not the architecture I would start with for a global, multi-tenant cloud
 
 ## The first thing I got wrong
 
-I spent two days building a custom wire protocol before accepting that JSON over WebSockets was fine. Binary framing would have saved payload bytes I did not need to save yet. JSON saved a week, made the test fixtures obvious, and let the browser tooling stay useful.
+I treated transport as one problem. It is not. Durable application sync and tick-driven simulation traffic have different failure modes.
 
-That lesson kept repeating. When I reached for a custom buffer pool, a clever subscription index, or a storage layer on top of SQLite, the boring version was usually the right first version. I did not have a throughput problem yet. I had a correctness problem.
+The sync path wants debuggable, policy-filtered change events with cursor and resync semantics. The shard path wants compact snapshot and input frames, and binary WebSocket frames make sense there. Trying to make one elegant protocol cover both blurred the boundary.
+
+Once that split was clear, the hard problems moved back where they belonged: ordering, authorization, replay, and backpressure. Binary framing was not the mistake. Making transport the center of the design too early was.
 
 ## What's actually hard
 
