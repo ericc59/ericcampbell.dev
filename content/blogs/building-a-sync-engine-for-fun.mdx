@@ -4,9 +4,9 @@ publishedAt: '2026-04-24'
 summary: I spent a weekend trying to replace my realtime stack with one binary. Three weeks later I had a framework. Notes from building Pylon.
 ---
 
-I have somewhere around twenty side projects in various states of half-finished. Most of them need the same thing: a database, an API, and a WebSocket layer where two browsers can see the same state update live. Every time I start a new one I end up in the same place — Supabase or Convex or a Postgres behind a Next.js API route with a Pusher channel stapled on.
+I have somewhere around twenty side projects in various states of half-finished. Most of them need the same thing: a database, an API, and a WebSocket layer where two browsers can see the same state update live. Every time I start a new one I end up in the same place — Convex, or a Postgres behind a Next.js API route with a Pusher channel stapled on, or some flavor of Firebase.
 
-None of these are bad. They just feel like three systems pretending to be one. The realtime path and the CRUD path don't share a schema. Row-level security lives in one place; the subscription filter lives in another. You denormalize for pub/sub and then the query layer doesn't know. It works, but you're paying for the seams.
+None of them are wrong exactly. They just feel like three systems pretending to be one. The realtime path and the CRUD path don't share a schema. Row-level security lives in one place; the subscription filter lives in another. You denormalize for pub/sub and then the query layer doesn't know. It works, but you're paying for the seams.
 
 One Saturday I got tired of it and wrote some Rust.
 
