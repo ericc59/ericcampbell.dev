@@ -12,7 +12,7 @@ One Saturday I got tired of paying that tax and wrote some Rust.
 
 ## The question I started with
 
-What if the database, the API, and the realtime notification path were the same runtime? A write would go through one process, commit to storage, append an ordered change event, and notify connected clients. If a client missed the live event, it could catch up from its cursor. No external queue. No separate pub/sub server. No version skew between what the API accepted and what the realtime layer emitted.
+What if the database, the API, and the realtime notification path were the same runtime? A write would go through one process, commit to storage, append to an ordered change log, and emit a notification as an optimization. If a client missed or dropped the live event, it could catch up from its cursor. No external queue. No separate pub/sub server. No version skew between what the API accepted and what the realtime layer exposed.
 
 That is not the architecture I would start with for a global, multi-tenant cloud service. But for a single product, an internal tool, a multiplayer prototype, or a side project with dozens of users instead of millions, splitting the stack early is often operational overhead disguised as maturity.
 
@@ -28,19 +28,19 @@ Three parts ended up mattering much more than the transport.
 
 **Ordering and resync.** The server keeps an append-only change log and clients track a cursor. That sounds simple until you handle reconnects, server restarts, retained-log windows, local persistence, and deletes. If a client advances its cursor before the row is safely written to IndexedDB, it can skip data forever after a crash. If an old insert replays after a delete, the client can resurrect a row that should stay gone. Most of the real sync work is in those edge cases.
 
-**Policy checks.** Sync is not allowed to become a side door around authorization. I did not want database-level RLS as the source of truth; I wanted the runtime to make the authorization decision once and apply it consistently to reads, writes, functions, and sync. That pushed the policy language toward a small expression grammar: `auth.userId != null`, `auth.userId == data.authorId`, role checks, boolean operators. It is not a general-purpose programming language, and that is the point. It should fail closed and be readable during an incident.
+**Policy checks.** Sync is not allowed to become a side door around authorization. I did not want the database to be the authorization boundary; I wanted the runtime to own policy decisions near the API and sync boundaries, so reads, writes, and catch-up paths did not drift. That pushed the policy language toward a small expression grammar: `auth.userId != null`, `auth.userId == data.authorId`, role checks, boolean operators. It is not a general-purpose programming language, and that is the point. It should fail closed and be readable during an incident.
 
-**Idempotency and backpressure.** Clients retry. Networks lie. Browsers suspend tabs. If a mutation times out and the client sends it again, the server needs an operation id so it can avoid applying the same logical write twice. If a WebSocket subscriber is slow, the server cannot let an unbounded queue eat the process. These are not glamorous problems, but they determine whether the demo survives contact with real users.
+**Idempotency and backpressure.** Clients retry. Networks lie. Browsers suspend tabs. Any at-least-once write path needs an operation id so the server can avoid applying the same logical write twice. If a WebSocket subscriber is slow, the server cannot let an unbounded queue eat the process. These are not glamorous problems, but they determine whether the demo survives contact with real users.
 
 ## What I kept simple
 
-SQLite is the default storage path. There is a Postgres adapter path, but SQLite is the path I trust first because it keeps the deployment model honest: one binary, one database file, one thing to back up.
+SQLite is the default storage path. There is an experimental Postgres adapter path, but SQLite is the path I trust first because it keeps the deployment model honest: one binary, one database file, one thing to back up.
 
 The runtime is Rust. The app definitions and client surface are TypeScript. That is the right split for this project: Rust owns the server, storage, and concurrency; TypeScript owns the ergonomics developers touch every day.
 
 Policies are expressions, not TypeScript functions. I had a branch where policies ran as user-defined code in a worker. It was flexible, but it made static analysis worse, deployment larger, and failure modes less obvious. A constrained expression language is less exciting and easier to operate.
 
-The realtime protocol sends per-row change events. The client maintains a local replica and React hooks derive the view from that replica. That is less magical than server-side live-query invalidation, but it made the first version much easier to reason about.
+The realtime protocol sends per-row change events, while the cursor protocol remains the correctness layer. The client maintains a local replica and React hooks derive the view from that replica. That is less magical than server-side live-query invalidation, but it made the first version much easier to reason about.
 
 ## Where I am now
 
