@@ -1,0 +1,57 @@
+---
+title: Building a Sync Engine for Fun
+publishedAt: '2026-04-24'
+summary: I spent a weekend trying to replace my realtime stack with one binary. Three weeks later I had a framework. Notes from building Pylon.
+---
+
+I have somewhere around twenty side projects in various states of half-finished. Most of them need the same thing: a database, an API, and a WebSocket layer where two browsers can see the same state update live. Every time I start a new one I end up in the same place — Supabase or Convex or a Postgres behind a Next.js API route with a Pusher channel stapled on.
+
+None of these are bad. They just feel like three systems pretending to be one. The realtime path and the CRUD path don't share a schema. Row-level security lives in one place; the subscription filter lives in another. You denormalize for pub/sub and then the query layer doesn't know. It works, but you're paying for the seams.
+
+One Saturday I got tired of it and wrote some Rust.
+
+## The question I started with
+
+What if the database, the API, and the realtime pub/sub were literally the same process? You write a mutation. The same code path that commits it to storage also walks the set of live queries that would see the write, and pushes the diff to every subscribed client. No external queue. No separate pub/sub server. No version-skew between what the API thinks the row looks like and what the realtime layer broadcasts.
+
+You can see why BaaS vendors don't do this — it's much easier to scale three services than one. But for an app with 20 users or 20 rooms, scaling three services is a tax, not a feature.
+
+## The first thing I got wrong
+
+I spent two days building a custom wire protocol before realizing JSON over WebSockets was fine for everything I cared about. Binary framing would save me maybe 30% on payload size. JSON would save me a week. I deleted the frame parser and moved on.
+
+The lesson keeps repeating itself. Every time I reached for a "real" engineering solution — a custom buffer pool, a lock-free subscription index, a LSM layer on top of SQLite — the naive version was good enough and I lost three days.
+
+## What's actually hard
+
+Three things genuinely require thought:
+
+**Subscription fan-out.** When a row changes, you have to find every live query that would include it. The naive approach is O(N) over all subscriptions. That's fine at 100 clients, bad at 10,000. The trick is indexing subscriptions by the entity + the filter columns they care about, so a write to `Message` only traverses subscriptions that filter on `Message.roomId = X`. The index ends up looking a lot like the database's own index — and if you're using SQLite, you can basically piggyback on it.
+
+**Policy evaluation in the hot path.** Every row that hits a live query has to be checked against the reader's policy. If the policy is a string expression (`auth.userId == data.authorId`), you're parsing + evaluating on every write. I ended up compiling policies to a small bytecode at manifest-load time. It's not clever — a `Vec<Op>` with six opcodes — but it makes the hot path allocation-free.
+
+**Client diff protocol.** When a subscription's result changes, you don't want to re-send the entire array. You want to send "row 47 changed, row 12 removed, row 93 is new." Keeping those diffs correct across reconnects and out-of-order packets is where you earn your keep. Mine still has bugs, honestly. A chat example works great. A paginated table with ordering ≠ primary-key ordering finds them.
+
+## What I kept simple
+
+SQLite by default, Postgres if you need it. I was tempted to invent a storage layer. Then I remembered my own lesson and used rusqlite.
+
+One binary. No plugin system, no service mesh, no mandatory Docker Compose. `cargo install pylon-cli && pylon start app.ts`.
+
+TypeScript SDK on the client, Rust on the server. No, I didn't consider a Rust WASM client. Yes, I thought about it for five minutes.
+
+Policies are strings. I had a branch where they were TypeScript functions evaluated in a worker. The idea was nice — same language everywhere — but it doubled deploy size and made the static analyzer blind. Strings parse in a microsecond and produce actually-useful errors.
+
+## Where I am now
+
+Pylon (the thing I ended up calling it) has a working sync engine, an admin studio, auth with magic links and OAuth, file uploads, a jobs system, background workflows, and a claim-to-fame: twelve example apps that all run against the same binary. CRM. ERP. A 3D multiplayer avatar world. A trading dashboard. Chat. A load-test harness that hammers the sync engine at 10,000 mutations per second and graphs latency percentiles.
+
+The whole thing is about 25,000 lines of Rust and 5,000 lines of TypeScript. Small enough that I can still hold it in my head. Some days.
+
+## The honest version of why I built this
+
+I don't think Pylon is going to beat Convex at being Convex. They have more engineers than I have weekends. But I wanted to know what was underneath — and the only way I know to understand a system is to build a worse version of it. Now I can read Convex's papers and Firebase's whitepapers and actually know what they're doing in the parts that don't make the marketing site. That alone was worth the time.
+
+The framework is open source. Other people are starting to use it. Someone built a game with it. That's fun too.
+
+Code lives at [github.com/pylonsync/pylon](https://github.com/pylonsync/pylon). Docs at [docs.pylonsync.com](https://docs.pylonsync.com). If you want to poke at it, the chat example is the smallest thing that demonstrates the whole stack end to end.
