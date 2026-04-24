@@ -4,7 +4,7 @@ publishedAt: '2026-04-24'
 summary: I spent a weekend trying to replace my realtime stack with one binary. Three weeks later I had a framework. Notes from building Pylon.
 ---
 
-I have somewhere around twenty side projects in various states of half-finished. Most of them need the same unglamorous substrate: durable state, an API, and a realtime path where two browsers can see the same update without a refresh. Every time I start a new one I end up reaching for Convex, Firebase, Supabase, or Postgres behind a Next.js API route with a Pusher channel attached.
+I have somewhere around twenty side projects in various states of half-finished. Most of them need the same unglamorous substrate: durable state, an API, and a realtime path where two browsers can see the same update without a refresh. Every time I start a new one I end up reaching for Convex, or Postgres behind a Next.js API route with a Pusher channel attached.
 
 Those are reasonable choices. The friction is that the application model tends to split across them. The CRUD path has one schema. The realtime path has another shape. Access control lives in one place; subscription behavior lives in another. You can make that work, but the glue becomes part of the product.
 
