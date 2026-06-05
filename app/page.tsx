@@ -13,7 +13,7 @@ import flowLogo from "public/images/work/flow.png";
 import flowDealersIcon from "public/images/projects/app-icon-dealers.png";
 import cmpIcon from "public/images/projects/coinmanagerpro-icon.png";
 import mastAgentsLogo from "public/images/projects/mast-icon@3x.png";
-import pylonIcon from "public/images/work/pylon-icon@3x.png";
+import pylonIcon from "public/images/projects/pylon-icon@3x.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import newWaveCapitalLogo from "public/images/work/nwc.png";
 import ravennaLogo from "public/images/work/ravenna.png";
