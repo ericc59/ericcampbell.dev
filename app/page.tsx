@@ -207,19 +207,20 @@ export default function Page() {
 							active
 						/>
 						
-						<WorkRow
-							company="ARC Prize Foundation"
-							role="Full-Stack Engineer (Contract)"
-							period="2026 -"
-							logo={arcPrizeFoundationLogo}
-							href="https://arcprize.org/"
-						/>
+						
 					</div>
 				</div>
 
 				<div>
 					<Label>Previously</Label>
 					<div className="mt-4 space-y-0">
+						<WorkRow
+							company="ARC Prize Foundation"
+							role="Contract"
+							period="2026"
+							logo={arcPrizeFoundationLogo}
+							href="https://arcprize.org/"
+						/>
 						<WorkRow
 							company="Zapier"
 							role="Principal Engineer (Labs)"
