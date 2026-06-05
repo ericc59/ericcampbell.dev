@@ -134,7 +134,7 @@ export default function Page() {
 				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
 					<p>
 						Product-oriented engineering leader with extensive 0-1 full-stack experience.
-						Currently building AI apps and infrastructure for agents.
+						Currently building AI apps and infrastructure for AI agents.
 					</p>
 					<p className="text-zinc-400">
 						Previously engineering leader at 4 VC backed startups with 4 exits
