@@ -10,6 +10,8 @@ import profilePhoto from "public/images/home/eric2.jpeg";
 import arcPrizeFoundationLogo from "public/images/work/arcprize.png";
 import chariotLogo from "public/images/work/chariot.webp";
 import flowLogo from "public/images/work/flow.png";
+import flowDealersIcon from "public/images/work/app-icon-dealers.png";
+import cmpIcon from "public/images/work/coinmanagerpro-icon.png";
 import mastAgentsLogo from "public/images/work/mast-icon@3x.png";
 import pylonIcon from "public/images/work/pylon-icon@3x.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
@@ -185,7 +187,7 @@ export default function Page() {
 							role="Founder"
 							period="2025 –"
 							href="https://www.coinmanagerpro.com"
-							logo={flowLogo}
+							logo={cmpIcon}
 							active
 						/>
 						<WorkRow
@@ -193,7 +195,7 @@ export default function Page() {
 							role="Co-Founder"
 							period="2025 –"
 							href="https://www.flowdealers.com"
-							logo={flowLogo}
+							logo={flowDealersIcon}
 							active
 						/>
 						<WorkRow
