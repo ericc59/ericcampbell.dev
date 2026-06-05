@@ -181,6 +181,22 @@ export default function Page() {
 							active
 						/>
 						<WorkRow
+							company="CoinManagerPro"
+							role="Founder"
+							period="2025 –"
+							href="https://www.coinmanagerpro.com"
+							logo={flowLogo}
+							active
+						/>
+						<WorkRow
+							company="Flow Dealers"
+							role="Co-Founder"
+							period="2025 –"
+							href="https://www.flowdealers.com"
+							logo={flowLogo}
+							active
+						/>
+						<WorkRow
 							company="Flow Auctions"
 							role="Co-Founder"
 							period="2024 –"
@@ -188,6 +204,7 @@ export default function Page() {
 							logo={flowLogo}
 							active
 						/>
+						
 						<WorkRow
 							company="ARC Prize Foundation"
 							role="Full-Stack Engineer (Contract)"
