@@ -17,6 +17,7 @@ import pylonIcon from "public/images/projects/pylon-icon@3x.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import newWaveCapitalLogo from "public/images/work/nwc.png";
 import ravennaLogo from "public/images/work/ravenna.png";
+import anatrackLogo from "public/images/contracts/anatrackit.png";
 import scootLogo from "public/images/work/scoot.png";
 import sphereLogo from "public/images/work/sphere.png";
 import stack0Icon from "public/images/work/stack0.png";
@@ -272,6 +273,13 @@ export default function Page() {
 				<div>
 					<Label>Contract</Label>
 					<div className="mt-4 space-y-0">
+					 	<WorkRow
+							company="ANATrack"
+							role="Full project build"
+							period="2025 -"
+							logo={anatrackLogo}
+							href="https://www.anatrackit.com"
+						/>
 						<WorkRow
 							company="Ravenna"
 							role="Full-Stack Engineer"
@@ -281,7 +289,7 @@ export default function Page() {
 						/>
 						<WorkRow
 							company="GSX"
-							role="Project based contract build"
+							role="Full project build"
 							period="2024 - 2025"
 							logo={gsxLogo}
 							href="https://www.goldstandardx.com/"
