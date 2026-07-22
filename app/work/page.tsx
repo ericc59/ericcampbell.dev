@@ -23,7 +23,8 @@ export default function Page() {
 					Work & Experience
 				</h1>
 				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
-					Building products people love with high-performance engineering teams.
+					I’ve spent my career building new products and the engineering teams
+					behind them.
 				</p>
 			</div>
 
@@ -36,8 +37,7 @@ export default function Page() {
 					href="https://www.launchkitstudios.com/"
 				>
 					<p>
-						An app studio focused on shipping AI-powered products. We build and
-						launch apps at high velocity, from concept to market.
+						An app studio that builds and launches AI products.
 					</p>
 				</Entry>
 
@@ -49,8 +49,7 @@ export default function Page() {
 					href="https://campbell.ventures/"
 				>
 					<p>
-						Consulting and holding company for advisory work, investments, and
-						strategic partnerships in AI and developer tools.
+						My consulting and holding company for work in AI and developer tools.
 					</p>
 				</Entry>
 
@@ -62,9 +61,8 @@ export default function Page() {
 					href="https://flowauctions.com"
 				>
 					<p>
-						Building the world's first AI-Native Auction House Management
-						Platform. GenAI workflows for lot descriptions, auto-pricing, and
-						marketing.
+						Auction house software with AI workflows for lot descriptions,
+						pricing, and marketing.
 					</p>
 				</Entry>
 
@@ -75,8 +73,8 @@ export default function Page() {
 					href="https://www.stack0.dev"
 				>
 					<p>
-						AI-native infrastructure platform. Email, CDN, video transcoding, AI
-						workflows, and a unified integrations API across 5 languages.
+						Infrastructure for email, CDN, video transcoding, AI workflows, and
+						integrations, with SDKs in five languages.
 					</p>
 				</Entry>
 
@@ -87,8 +85,8 @@ export default function Page() {
 					href="https://www.zapier.com"
 				>
 					<p>
-						Led ideation, build, and launch of Maker, Forms, Tables, and
-						Interfaces products on the Labs team.
+						Led the work that took Maker, Forms, Tables, and Interfaces from idea
+						to launch on the Labs team.
 					</p>
 				</Entry>
 
@@ -117,9 +115,9 @@ export default function Page() {
 					logo={sphere}
 				>
 					<p>
-						First fully spherical panoramic imaging for mobile. Featured 600+
-						times by Apple, #1 travel app worldwide. Built C/C++ SDKs, backend,
-						and mobile apps.
+						Built the first fully spherical panoramic camera app for mobile,
+						including the C/C++ SDKs, backend, and mobile apps. Apple featured it
+						600+ times, and it reached #1 in Travel worldwide.
 					</p>
 				</Entry>
 

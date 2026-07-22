@@ -24,7 +24,7 @@ export default function ProjectPage() {
 					Projects & Experiments
 				</h1>
 				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
-					Things I've made trying to put a dent in the universe.
+					Products, tools, and experiments I’ve built.
 				</p>
 			</div>
 

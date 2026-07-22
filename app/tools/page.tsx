@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
 	title: "Free Developer Tools",
 	description:
-		"Free tools for developers: product screenshot generator, App Store asset creator. Create beautiful marketing assets for your apps.",
+		"Free tools for framing product screenshots and generating iOS App Store assets.",
 };
 
 export default function ToolsPage() {
@@ -24,8 +24,7 @@ export default function ToolsPage() {
 					Resources
 				</h1>
 				<p className="text-stone text-lg max-w-2xl leading-relaxed">
-					Free tools I've built to make life easier. Use them for your own
-					projects.
+					Free tools I built for product and App Store work.
 				</p>
 			</div>
 
@@ -73,8 +72,8 @@ export default function ToolsPage() {
 										Product Screenshot
 									</h2>
 									<p className="text-stone leading-relaxed">
-										Create beautiful product screenshots with customizable
-										backgrounds, device frames, and export options.
+										Frame product screenshots, customize the background, and
+										export the result.
 									</p>
 								</div>
 
@@ -147,8 +146,8 @@ export default function ToolsPage() {
 										App Store Assets
 									</h2>
 									<p className="text-stone leading-relaxed">
-										Generate all required iOS App Store assets including icons
-										and screenshots in every required size.
+										Generate App Store icons and screenshots at every required
+										iOS size.
 									</p>
 								</div>
 

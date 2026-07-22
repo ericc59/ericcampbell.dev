@@ -133,13 +133,13 @@ export default function Page() {
 
 				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
 					<p>
-						Product-oriented engineering leader with extensive 0-1 full-stack experience.
-						Currently building AI apps and infrastructure for AI agents.
+						I build products and the systems behind them, usually from zero to
+						one. Right now, I’m building AI apps and infrastructure for agents.
 					</p>
 					<p className="text-zinc-400">
-						Previously engineering leader at 4 VC backed startups with 4 exits
-						(Google, Ford, Nest, Bird). Principal Engineer at Zapier Labs. CTO
-						at YC W'15.
+						Before that, I led engineering at four VC-backed startups acquired by
+						Google, Ford, Nest, and Bird. I was a Principal Engineer at Zapier
+						Labs and CTO of Chariot (YC W15).
 					</p>
 				</div>
 			</div>
@@ -205,8 +205,6 @@ export default function Page() {
 							logo={flowLogo}
 							active
 						/>
-						
-						
 					</div>
 				</div>
 

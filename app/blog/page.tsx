@@ -23,7 +23,7 @@ export default function BlogPage() {
 					Blog & Thoughts
 				</h1>
 				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
-					Signal, not noise.
+					Notes on AI infrastructure, SDK design, and building products.
 				</p>
 			</div>
 
