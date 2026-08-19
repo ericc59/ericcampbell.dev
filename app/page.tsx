@@ -222,7 +222,7 @@ export default function Page() {
 							company="Zapier"
 							role="Principal Engineer (Labs)"
 							href="https://www.zapier.com"
-							period="2019 – 22"
+							period="2020 – 22"
 							logo={zapierLogo}
 						/>
 						<WorkRow
