@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { TweetComponent } from './tweet';
-import { highlight } from 'sugar-high';
+import rehypePrettyCode from 'rehype-pretty-code';
 import React from 'react';
 import { LiveCode } from './sandpack';
 
@@ -113,9 +113,10 @@ function ConsCard({ title, cons }) {
   );
 }
 
+// Fenced blocks are tokenized at build time by rehype-pretty-code. Inline code
+// only needs the monospace styling from global.css.
 function Code({ children, ...props }) {
-  let codeHTML = highlight(children);
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+  return <code {...props}>{children}</code>;
 }
 
 function slugify(str) {
@@ -165,11 +166,22 @@ let components = {
   LiveCode,
 };
 
+const prettyCodeOptions = {
+  theme: 'vesper',
+  // Let global.css own the block background so code matches the site palette.
+  keepBackground: false,
+};
+
 export function CustomMDX(props) {
   return (
     <MDXRemote
       {...props}
       components={{ ...components, ...(props.components || {}) }}
+      options={{
+        mdxOptions: {
+          rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+        },
+      }}
     />
   );
 }

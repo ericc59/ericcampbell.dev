@@ -100,9 +100,11 @@ export default function Page() {
 					logo={chariot}
 				>
 					<p>
-						Dynamic bus routes for underserved transit neighborhoods. Built
-						backend, frontend, admin dashboard, proprietary ETA system and route
-						finding algorithms.
+						Dynamic bus routes for underserved transit neighborhoods. Led the
+						backend and web apps, including the proprietary ETA system, live
+						vehicle tracking, and the reverse-commute algorithm that generated
+						revenue on the return leg of trips. Built the charter booking system,
+						the company's highest-revenue product.
 					</p>
 				</Entry>
 
@@ -145,7 +147,8 @@ export default function Page() {
 				>
 					<p>
 						Consumer utility analytics. Connected online utility accounts and
-						displayed electricity, water, and gas usage on a web dashboard.
+						displayed electricity, water, and gas usage on a web dashboard. Led
+						development on the scraping system, the ETL pipeline, and the web app.
 					</p>
 				</Entry>
 			</div>
