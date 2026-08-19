@@ -34,6 +34,9 @@ export default function BlogPage() {
 				<div className="space-y-0">
 					{allBlogs
 						.sort((a, b) => {
+							const aLow = a.metadata.deprioritized === "true";
+							const bLow = b.metadata.deprioritized === "true";
+							if (aLow !== bLow) return aLow ? 1 : -1;
 							if (
 								new Date(a.metadata.publishedAt) >
 								new Date(b.metadata.publishedAt)

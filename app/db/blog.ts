@@ -6,6 +6,9 @@ type Metadata = {
   publishedAt: string;
   summary: string;
   image?: string;
+  // 'true' keeps a post reachable by URL but off the homepage and at the
+  // bottom of the index. Frontmatter values parse as strings.
+  deprioritized?: string;
 };
 
 function parseFrontmatter(fileContent: string) {

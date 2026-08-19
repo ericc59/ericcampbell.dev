@@ -48,6 +48,7 @@ export default function Page() {
 		);
 
 	const recentPosts = getBlogPosts()
+		.filter((p) => p.metadata.deprioritized !== "true")
 		.sort((a, b) => {
 			if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt))
 				return -1;
