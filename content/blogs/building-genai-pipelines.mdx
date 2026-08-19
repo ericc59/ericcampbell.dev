@@ -4,13 +4,13 @@ publishedAt: '2026-01-15'
 summary: How we integrated Claude, GPT-5, and computer vision at Flow Auctions. Prompt management, cost optimization, and why RAG isn't always the answer.
 ---
 
-At Flow Auctions, I built GenAI pipelines for generating lot descriptions, auto-pricing items, creating marketing emails, and producing listing images. These aren't demos — they run in production.
+At Flow Auctions, I built GenAI pipelines for generating lot descriptions, auto-pricing items, creating marketing emails, and producing listing images. They run in production.
 
-Some notes from the trenches.
+Some notes from building them.
 
 ## Start With the Workflow, Not the Model
 
-The first mistake I see teams make: starting with "let's use GPT-5" instead of "what's the workflow?"
+Teams often start with "let's use GPT-5" instead of "what's the workflow?"
 
 For lot descriptions, the workflow is:
 
@@ -77,7 +77,7 @@ We use different models for different tasks:
 - **GPT-5.2** for image analysis — slightly better at reading text in photos (mint marks, dates)
 - **GPT-5 nano** for classification — fast and cheap for "is this a coin or a bill?"
 
-This isn't about benchmarks. It's about testing each model on your actual data and seeing what works.
+Benchmarks don't settle this. Test each model on your own data and keep the one that works.
 
 We also use fallbacks. If Claude is slow (happens during high load), we fall back to GPT-5. The prompts are slightly different, but the output schema is identical. Users don't notice.
 
@@ -128,7 +128,7 @@ This approach has several benefits:
 
 ## Cost Optimization
 
-AI costs add up fast. A naive implementation of our lot description feature would cost $0.15 per item. At 10,000 items per month, that's $1,500 — just for descriptions.
+AI costs add up fast. A naive implementation of our lot description feature would cost $0.15 per item. At 10,000 items per month, that's $1,500 for descriptions alone.
 
 We got it down to $0.02 per item:
 
@@ -142,11 +142,11 @@ We got it down to $0.02 per item:
 
 ## Why RAG Wasn't the Answer
 
-Everyone's first instinct for domain-specific AI: build a RAG pipeline. Index your documents, retrieve relevant chunks, stuff them in the context.
+Most teams reach for a RAG pipeline first. Index your documents, retrieve relevant chunks, stuff them in the context.
 
 We tried this for coin grading guidelines. It didn't work well.
 
-The problem: coin grading is about visual assessment combined with encyclopedic knowledge. The model needs to know that a 1909-S VDB Lincoln cent in Good condition is worth 100x more than a 1909 Lincoln cent in Good condition. That's not something you retrieve — it's something you need to know.
+Coin grading combines visual assessment with encyclopedic knowledge. The model needs to know that a 1909-S VDB Lincoln cent in Good condition is worth 100x more than a 1909 Lincoln cent in Good condition. You can't retrieve that. The model has to already know it.
 
 What worked better: fine-tuning examples in the prompt. We include 5-10 example listings for similar items directly in the context. The model pattern-matches effectively.
 
@@ -168,11 +168,11 @@ Now create a listing for the new item:
 `
 ```
 
-This is retrieval, but it's not RAG in the traditional sense. We're retrieving examples, not knowledge chunks.
+This is still retrieval, but we retrieve examples rather than knowledge chunks.
 
 ## Human-in-the-Loop
 
-The biggest lesson: don't try to remove humans from the loop. Try to make their job easier.
+The biggest lesson is to make the human's job easier instead of removing them from the loop.
 
 Our lot descriptions go into a review queue. Sellers can accept, edit, or regenerate. We track:
 
@@ -182,7 +182,7 @@ Our lot descriptions go into a review queue. Sellers can accept, edit, or regene
 
 When regeneration rate spikes for a category, we investigate. Usually it means the prompt needs adjustment for that item type.
 
-This feedback loop is more valuable than any benchmark. Real users, real items, real acceptance criteria.
+This feedback loop is more valuable than any benchmark. It runs on real users, real items, and real acceptance criteria.
 
 ## What's Next
 
@@ -193,4 +193,4 @@ The next step is multi-step workflows where the AI plans its own execution. For 
 3. Generates individual listings
 4. Suggests lot groupings for the auction
 
-The AI would decide how many steps to take based on what it sees. That's where this is heading — agents that adapt their workflow to the input.
+The AI would decide how many steps to take based on what it sees. The workflow adapts to the input instead of being fixed in advance.

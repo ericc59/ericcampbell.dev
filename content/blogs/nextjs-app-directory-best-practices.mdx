@@ -1,14 +1,14 @@
 ---
 title: Next.js App Router Patterns That Actually Matter
 publishedAt: '2026-01-20'
-summary: The patterns I've found most impactful in production Next.js apps — eliminating waterfalls, reducing bundle size, and avoiding common RSC mistakes.
+summary: "The patterns that made the biggest difference in production Next.js apps: eliminating waterfalls, reducing bundle size, and avoiding common RSC mistakes."
 ---
 
-After shipping Stack0 and Flow Auctions on the App Router, I've developed opinions about what actually matters for performance. Here's what moved the needle.
+After shipping Stack0 and Flow Auctions on the App Router, I have opinions about what matters for performance. These are the changes that made a measurable difference.
 
 ## Waterfalls Will Kill You
 
-The most common performance mistake: sequential awaits where parallel would work.
+The most common performance mistake is sequential awaits where parallel would work.
 
 ```typescript
 // This is 3 round trips

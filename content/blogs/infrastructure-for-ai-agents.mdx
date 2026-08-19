@@ -1,14 +1,14 @@
 ---
 title: "Infrastructure for AI Agents: What's Missing"
 publishedAt: '2026-01-01'
-summary: Agents can think but can't act. Here's what we need to build to give agents real-world capabilities — and why approval workflows are the key to trust.
+summary: Agents can think but can't act. What we still need to build, and why approval workflows are what make agents trustworthy.
 ---
 
-The discourse around AI agents is mostly about capabilities. Can they reason? Can they plan? Can they use tools?
+Most agent discussion is about capabilities. Can they reason? Can they plan? Can they use tools?
 
-These are mostly solved problems. Claude and GPT-5 can reason through complex tasks. They can decompose problems into steps. They can call APIs.
+Those are mostly solved. Claude and GPT-5 reason through complex tasks, break problems into steps, and call APIs.
 
-What's missing is infrastructure. The boring stuff that lets agents actually do things in the real world.
+The infrastructure is missing. These are the unglamorous parts that let an agent do real work.
 
 ## The Gap Between Demo and Production
 
@@ -21,7 +21,7 @@ Every agent demo follows the same pattern:
 
 This works great when the tools are "search the web" or "write a file." It falls apart when the tools are "send an email to the CEO" or "deploy to production" or "transfer $10,000."
 
-The demo assumes the agent should just... do things. Production requires gates, approvals, and audit trails.
+The demo assumes the agent should act on its own. Production needs gates, approvals, and audit trails.
 
 ## What Agents Actually Need
 
@@ -81,7 +81,7 @@ When an agent does something, you need to know:
 - Who approved it (if applicable)
 - What the outcome was
 
-This isn't just for debugging. It's for compliance, for trust, for "what happened at 3am last Tuesday?"
+You need this for debugging, for compliance, and for answering "what happened at 3am last Tuesday?"
 
 ```typescript
 {
@@ -169,11 +169,11 @@ The bottleneck is moving from "what can the agent do?" to "what should we let th
 
 Without approval workflows, you can't deploy agents on anything important. Without audit logging, you can't debug or comply. Without permissions, you can't limit blast radius.
 
-This is the infrastructure gap. It's not glamorous, but it's what separates demos from production.
+This is the infrastructure gap, and it separates demos from production.
 
 ## What Needs to Exist
 
-Someone needs to build this infrastructure. The same way Stripe made payments easy and Twilio made messaging easy, we need platforms that make agent deployment easy.
+Someone needs to build this infrastructure. Stripe did it for payments and Twilio did it for messaging. Agent deployment needs the same treatment.
 
 The primitives:
 
@@ -182,4 +182,4 @@ The primitives:
 - Audit logging as a service
 - Cost and rate limit controls
 
-The goal: make it as easy to deploy a production agent as it is to deploy a production API.
+Deploying a production agent should be as easy as deploying a production API.
