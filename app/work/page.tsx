@@ -80,7 +80,7 @@ export default function Page() {
 
 				<Entry
 					company="Zapier"
-					role="Principal Engineer"
+					role="Principal Engineer (contract)"
 					period="2020 – 2022"
 					href="https://www.zapier.com"
 				>

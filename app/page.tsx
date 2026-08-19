@@ -220,7 +220,7 @@ export default function Page() {
 						/>
 						<WorkRow
 							company="Zapier"
-							role="Principal Engineer (Labs)"
+							role="Principal Engineer (Labs), contract"
 							href="https://www.zapier.com"
 							period="2020 – 22"
 							logo={zapierLogo}
