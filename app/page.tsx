@@ -1,4 +1,3 @@
-import { getBlogPosts } from "app/db/blog";
 import { getProjects } from "app/db/project";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -46,15 +45,6 @@ export default function Page() {
 				FEATURED_PROJECT_SLUGS.indexOf(a.slug) -
 				FEATURED_PROJECT_SLUGS.indexOf(b.slug),
 		);
-
-	const recentPosts = getBlogPosts()
-		.filter((p) => p.metadata.deprioritized !== "true")
-		.sort((a, b) => {
-			if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt))
-				return -1;
-			return 1;
-		})
-		.slice(0, 3);
 
 	return (
 		<section className="space-y-20">
@@ -159,10 +149,10 @@ export default function Page() {
 							active
 						/>
 						<WorkRow
-							company="Pylon Cloud"
+							company="Pylon Cloud / Smallware"
 							role="Founder"
 							period="2026 –"
-							href="https://cloud.pylonsync.com"
+							href="https://www.usesmallware.com"
 							logo={pylonIcon}
 							active
 						/>
@@ -345,40 +335,6 @@ export default function Page() {
 					className="inline-block mt-4 text-[10px] text-zinc-400 hover:text-zinc-400 transition-colors"
 				>
 					all projects →
-				</Link>
-			</div>
-
-			{/* Writing */}
-			<div id="writing" className="scroll-mt-24">
-				<Label>Writing</Label>
-				{recentPosts.length > 0 ? (
-					<div className="mt-4 space-y-0">
-						{recentPosts.map((post) => (
-							<Link
-								key={post.slug}
-								href={`/blog/${post.slug}`}
-								className="group flex items-baseline justify-between py-2.5 border-b border-zinc-900 hover:border-zinc-800 transition-colors"
-							>
-								<span className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors">
-									{post.metadata.title}
-								</span>
-								<span className="text-[10px] text-zinc-400 shrink-0 ml-4">
-									{new Date(post.metadata.publishedAt).toLocaleDateString(
-										"en-US",
-										{ month: "short", year: "2-digit" },
-									)}
-								</span>
-							</Link>
-						))}
-					</div>
-				) : (
-					<p className="mt-4 text-sm text-zinc-600">Coming soon.</p>
-				)}
-				<Link
-					href="/blog"
-					className="inline-block mt-4 text-[10px] text-zinc-400 hover:text-zinc-400 transition-colors"
-				>
-					all posts →
 				</Link>
 			</div>
 
