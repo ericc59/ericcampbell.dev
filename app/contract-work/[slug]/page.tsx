@@ -16,9 +16,8 @@ import ViewCounter from "../view-counter";
 export async function generateMetadata({
 	params,
 }): Promise<Metadata | undefined> {
-	const project = getContracts().find(
-		(project) => project?.slug === params.slug,
-	);
+	const { slug } = await params;
+	const project = getContracts().find((project) => project?.slug === slug);
 	if (!project) {
 		return;
 	}
@@ -57,10 +56,9 @@ export async function generateMetadata({
 	};
 }
 
-export default function Project({ params }) {
-	const project = getContracts().find(
-		(project) => project?.slug === params.slug,
-	);
+export default async function Project({ params }) {
+	const { slug } = await params;
+	const project = getContracts().find((project) => project?.slug === slug);
 
 	if (!project) {
 		notFound();

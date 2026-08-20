@@ -16,7 +16,8 @@ import ProjectBrowserImage from 'app/components/project-browser-image';
 export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
-  let project = getProjects().find((project) => project.slug === params.slug);
+  let { slug } = await params;
+  let project = getProjects().find((project) => project.slug === slug);
   if (!project) {
     return;
   }
@@ -55,8 +56,9 @@ export async function generateMetadata({
   };
 }
 
-export default function Project({ params }) {
-  let project = getProjects().find((project) => project.slug === params.slug);
+export default async function Project({ params }) {
+  let { slug } = await params;
+  let project = getProjects().find((project) => project.slug === slug);
 
   if (!project) {
     notFound();
@@ -136,20 +138,13 @@ export default function Project({ params }) {
         <div className="mb-4">
           <div className="text-sm font-medium">Tech Stack</div>
           <div className="grid grid-cols-3 gap-2">
+            {/* Text rather than the sprite: Chrome and Safari do not render
+                <use> pointing at an external SVG file, so the icons were blank. */}
             {project.metadata.technologies?.map((tech) => (
               <Badge key={tech} size="lg">
-                <svg
-                  role="img"
-                  aria-label="technology logo"
-                  className="h-6 w-auto"
-                >
-                  <use href={`/sprite.svg#${tech}`} />
-                </svg>
-                {tech === 'shadcnui' && (
-                  <span className="text-lg text-neutral-900 dark:text-neutral-100">
-                    shadcnui
-                  </span>
-                )}
+                <span className="text-zinc-300">
+                  {tech}
+                </span>
               </Badge>
             ))}
           </div>
@@ -160,9 +155,9 @@ export default function Project({ params }) {
           <div className="grid grid-cols-3 gap-2">
             {project.metadata.infrastructure?.map((infra) => (
               <Badge key={infra} size="lg">
-                <svg className="h-6 w-auto" role="img" aria-label="infra logo">
-                  <use href={`/sprite.svg#${infra}`} />
-                </svg>
+                <span className="text-zinc-300">
+                  {infra}
+                </span>
               </Badge>
             ))}
           </div>
