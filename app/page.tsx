@@ -429,7 +429,13 @@ function WorkRow({
 				)}
 				{logo && (
 					<div className="relative w-5 h-5 rounded-sm overflow-hidden bg-zinc-900 shrink-0">
-						<Image src={logo} alt={company} fill className="object-cover" />
+						<Image
+							src={logo}
+							alt={company}
+							fill
+							sizes="20px"
+							className="object-cover"
+						/>
 						{active && (
 							<span className="absolute -top-px -right-px w-1.5 h-1.5 rounded-full bg-emerald-400 border border-zinc-950" />
 						)}
