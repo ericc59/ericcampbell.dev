@@ -16,10 +16,7 @@ export default function Page() {
 	return (
 		<section className="space-y-16">
 			<div>
-				<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
-					Career Timeline
-				</span>
-				<h1 className="text-zinc-200 text-lg font-medium mt-3">
+				<h1 className="text-zinc-200 text-lg font-medium">
 					Work & Experience
 				</h1>
 				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">

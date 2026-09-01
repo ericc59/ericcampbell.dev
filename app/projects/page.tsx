@@ -17,10 +17,7 @@ export default function ProjectPage() {
 	return (
 		<section className="space-y-12">
 			<div>
-				<span className="text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
-					Portfolio
-				</span>
-				<h1 className="text-zinc-200 text-lg font-medium mt-3">
+				<h1 className="text-zinc-200 text-lg font-medium">
 					Projects & Experiments
 				</h1>
 				<p className="text-sm text-zinc-400 mt-2 max-w-lg leading-relaxed">
