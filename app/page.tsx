@@ -377,9 +377,9 @@ export default function Page() {
 
 function Label({ children }: { children: React.ReactNode }) {
 	return (
-		<span className="text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
+		<h2 className="text-[10px] text-zinc-400 uppercase tracking-[0.15em] font-normal">
 			{children}
-		</span>
+		</h2>
 	);
 }
 
