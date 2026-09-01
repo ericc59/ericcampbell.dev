@@ -122,7 +122,7 @@ export default function Page() {
 					</div>
 				</div>
 
-				<div className="text-sm leading-relaxed space-y-3 max-w-lg">
+				<div className="text-base leading-relaxed space-y-3 max-w-lg">
 					<p>
 						I build products and the systems behind them, usually from zero to
 						one. Right now, I’m building AI apps and infrastructure for agents.
