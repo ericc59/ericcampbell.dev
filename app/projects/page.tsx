@@ -26,7 +26,7 @@ export default function ProjectPage() {
 			</div>
 
 			<div>
-				<div className="text-[10px] text-zinc-700 mb-6">
+				<div className="text-[10px] text-zinc-400 mb-6">
 					{String(allProjects.length).padStart(2, "0")} projects
 				</div>
 				<div className="grid grid-cols-1 gap-4">

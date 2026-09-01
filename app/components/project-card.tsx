@@ -29,26 +29,26 @@ export function ProjectCard({
 
 				<div className="flex-1 min-w-0">
 					<div className="flex items-baseline justify-between gap-2">
-						<h3 className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors truncate">
+						<h2 className="text-base font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
 							{project.metadata.title}
-						</h3>
-						<span className="text-[9px] text-zinc-700 uppercase tracking-wider shrink-0">
+						</h2>
+						<span className="text-[10px] text-zinc-400 uppercase tracking-wider shrink-0">
 							{project.metadata.category}
 						</span>
 					</div>
 
-					<p className="text-xs text-zinc-700 mt-0.5">
+					<p className="text-xs text-zinc-400 mt-1">
 						{formatDate(project.metadata.publishedAt)}
 					</p>
 
-					<p className="text-xs text-zinc-600 leading-relaxed mt-2 line-clamp-2">
+					<p className="text-sm text-zinc-400 leading-relaxed mt-2 line-clamp-2">
 						{project.metadata.summary}
 					</p>
 				</div>
 			</div>
 
 			{project.metadata.image && (
-				<div className="mt-2 overflow-hidden border border-zinc-900 rounded-sm">
+				<div className="mt-3 overflow-hidden border border-zinc-900 rounded-sm opacity-75 group-hover:opacity-100 transition-opacity">
 					<ProjectBrowserImage
 						src={project.metadata.image}
 						alt={project.metadata.title}
