@@ -332,7 +332,7 @@ export default function Page() {
 				</div>
 				<Link
 					href="/projects"
-					className="inline-block mt-4 text-[10px] text-zinc-400 hover:text-zinc-400 transition-colors"
+					className="inline-block mt-4 text-[10px] text-zinc-400 hover:text-zinc-200 transition-colors"
 				>
 					all projects →
 				</Link>
@@ -344,7 +344,7 @@ export default function Page() {
 					href="https://twitter.com/ericcampbell59"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="hover:text-zinc-400 transition-colors"
+					className="hover:text-zinc-200 transition-colors"
 				>
 					twitter
 				</a>
@@ -352,7 +352,7 @@ export default function Page() {
 					href="https://www.linkedin.com/in/ericcampbell59/"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="hover:text-zinc-400 transition-colors"
+					className="hover:text-zinc-200 transition-colors"
 				>
 					linkedin
 				</a>
@@ -360,13 +360,13 @@ export default function Page() {
 					href="https://github.com/ericc59"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="hover:text-zinc-400 transition-colors"
+					className="hover:text-zinc-200 transition-colors"
 				>
 					github
 				</a>
 				<a
 					href="mailto:eric@campbell.ventures"
-					className="hover:text-zinc-400 transition-colors"
+					className="hover:text-zinc-200 transition-colors"
 				>
 					email
 				</a>
