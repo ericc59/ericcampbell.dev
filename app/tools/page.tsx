@@ -12,18 +12,9 @@ export default function ToolsPage() {
 	return (
 		<section className="space-y-16">
 			{/* Page header */}
-			<div className="space-y-6">
-				<div className="flex items-center gap-4">
-					<div className="w-12 h-px bg-lime-400" />
-					<span className="font-mono text-xs text-lime-400 tracking-widest uppercase">
-						Utilities
-					</span>
-				</div>
-				<h1 className="font-display text-4xl lg:text-6xl tracking-tight">
-					Tools <span className="text-lime-400 text-glow-subtle">&</span>{" "}
-					Resources
-				</h1>
-				<p className="text-stone text-lg max-w-2xl leading-relaxed">
+			<div>
+				<h1 className="text-zinc-200 text-lg font-medium">Tools & Resources</h1>
+				<p className="text-base text-zinc-400 mt-2 max-w-lg leading-relaxed">
 					Free tools I built for product and App Store work.
 				</p>
 			</div>
@@ -32,8 +23,8 @@ export default function ToolsPage() {
 			<div className="relative">
 				{/* Section header */}
 				<div className="flex items-center gap-4 mb-8">
-					<span className="font-mono text-xs text-ash">02 TOOLS</span>
-					<div className="flex-1 h-px bg-elevated" />
+					<span className="font-mono text-xs text-zinc-400">02 TOOLS</span>
+					<div className="flex-1 h-px bg-zinc-800" />
 				</div>
 
 				{/* Grid */}
@@ -41,14 +32,14 @@ export default function ToolsPage() {
 					{/* Product Screenshot Tool */}
 					<Link
 						href="/tools/product-screenshot"
-						className="group relative block bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300"
+						className="group relative block bg-zinc-900/30 border border-zinc-800 hover:border-emerald-400/30 transition-all duration-300"
 					>
 						{/* Corner accent */}
-						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
+						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-emerald-400/30 transition-colors duration-300" />
 
 						<div className="flex flex-col md:flex-row">
 							{/* Image */}
-							<div className="md:w-80 shrink-0 border-b md:border-b-0 md:border-r border-elevated/50 overflow-hidden">
+							<div className="md:w-80 shrink-0 border-b md:border-b-0 md:border-r border-zinc-800/50 overflow-hidden">
 								<Image
 									src="/images/tools/product-screenshot.png"
 									alt="Product Screenshot Tool"
@@ -63,26 +54,26 @@ export default function ToolsPage() {
 							<div className="flex-1 p-6 flex flex-col justify-between">
 								<div className="space-y-4">
 									<div className="flex items-center gap-3">
-										<span className="font-mono text-xs text-ash">01</span>
-										<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-0.5 border border-lime-400/20">
+										<span className="font-mono text-xs text-zinc-400">01</span>
+										<span className="font-mono text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 border border-emerald-400/20">
 											FREE
 										</span>
 									</div>
-									<h2 className="font-display text-2xl text-cream group-hover:text-lime-400 transition-colors">
+									<h2 className="text-base font-medium text-zinc-200 group-hover:text-emerald-400 transition-colors">
 										Product Screenshot
 									</h2>
-									<p className="text-stone leading-relaxed">
+									<p className="text-zinc-400 leading-relaxed">
 										Frame product screenshots, customize the background, and
 										export the result.
 									</p>
 								</div>
 
-								<div className="flex items-center justify-between mt-6 pt-4 border-t border-elevated/50">
-									<span className="font-mono text-xs text-stone group-hover:text-cream transition-colors">
+								<div className="flex items-center justify-between mt-6 pt-4 border-t border-zinc-800/50">
+									<span className="font-mono text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors">
 										Launch tool
 									</span>
 									<svg
-										className="w-4 h-4 text-stone group-hover:text-lime-400 group-hover:translate-x-1 transition-all duration-300"
+										className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all duration-300"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -99,24 +90,24 @@ export default function ToolsPage() {
 						</div>
 
 						{/* Bottom accent line */}
-						<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+						<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 					</Link>
 
 					{/* App Store Assets Tool */}
 					<Link
 						href="/tools/app-store-assets"
-						className="group relative block bg-surface/30 border border-elevated hover:border-lime-400/30 transition-all duration-300"
+						className="group relative block bg-zinc-900/30 border border-zinc-800 hover:border-emerald-400/30 transition-all duration-300"
 					>
 						{/* Corner accent */}
-						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-lime-400/30 transition-colors duration-300" />
+						<div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-transparent group-hover:border-emerald-400/30 transition-colors duration-300" />
 
 						<div className="flex flex-col md:flex-row">
 							{/* Placeholder Image */}
-							<div className="md:w-80 shrink-0 border-b md:border-b-0 md:border-r border-elevated/50 bg-surface flex items-center justify-center h-48 md:h-auto">
+							<div className="md:w-80 shrink-0 border-b md:border-b-0 md:border-r border-zinc-800/50 bg-zinc-900 flex items-center justify-center h-48 md:h-auto">
 								<div className="text-center">
-									<div className="w-16 h-16 mx-auto mb-3 border-2 border-dashed border-elevated rounded-lg flex items-center justify-center">
+									<div className="w-16 h-16 mx-auto mb-3 border-2 border-dashed border-zinc-800 rounded-lg flex items-center justify-center">
 										<svg
-											className="w-8 h-8 text-ash"
+											className="w-8 h-8 text-zinc-400"
 											fill="none"
 											viewBox="0 0 24 24"
 											stroke="currentColor"
@@ -129,7 +120,7 @@ export default function ToolsPage() {
 											/>
 										</svg>
 									</div>
-									<span className="font-mono text-xs text-ash">PREVIEW</span>
+									<span className="font-mono text-xs text-zinc-400">PREVIEW</span>
 								</div>
 							</div>
 
@@ -137,26 +128,26 @@ export default function ToolsPage() {
 							<div className="flex-1 p-6 flex flex-col justify-between">
 								<div className="space-y-4">
 									<div className="flex items-center gap-3">
-										<span className="font-mono text-xs text-ash">02</span>
-										<span className="font-mono text-xs text-lime-400 bg-lime-400/10 px-2 py-0.5 border border-lime-400/20">
+										<span className="font-mono text-xs text-zinc-400">02</span>
+										<span className="font-mono text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 border border-emerald-400/20">
 											FREE
 										</span>
 									</div>
-									<h2 className="font-display text-2xl text-cream group-hover:text-lime-400 transition-colors">
+									<h2 className="text-base font-medium text-zinc-200 group-hover:text-emerald-400 transition-colors">
 										App Store Assets
 									</h2>
-									<p className="text-stone leading-relaxed">
+									<p className="text-zinc-400 leading-relaxed">
 										Generate App Store icons and screenshots at every required
 										iOS size.
 									</p>
 								</div>
 
-								<div className="flex items-center justify-between mt-6 pt-4 border-t border-elevated/50">
-									<span className="font-mono text-xs text-stone group-hover:text-cream transition-colors">
+								<div className="flex items-center justify-between mt-6 pt-4 border-t border-zinc-800/50">
+									<span className="font-mono text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors">
 										Launch tool
 									</span>
 									<svg
-										className="w-4 h-4 text-stone group-hover:text-lime-400 group-hover:translate-x-1 transition-all duration-300"
+										className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all duration-300"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -173,7 +164,7 @@ export default function ToolsPage() {
 						</div>
 
 						{/* Bottom accent line */}
-						<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+						<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 					</Link>
 				</div>
 			</div>
