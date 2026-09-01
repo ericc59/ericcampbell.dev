@@ -11,15 +11,15 @@ const navItems = [
 export function Navbar() {
 	return (
 		<header className="pt-12 pb-16 lg:pt-16 lg:pb-20">
-			<nav className="flex items-center justify-between text-xs">
+			<nav className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-xs">
 				<Link
 					href="/"
-					className="text-zinc-400 hover:text-zinc-200 transition-colors"
+					className="whitespace-nowrap text-zinc-400 hover:text-zinc-200 transition-colors"
 				>
 					eric campbell
 				</Link>
 
-				<div className="flex items-center gap-5">
+				<div className="flex flex-wrap items-center gap-x-5 gap-y-3">
 					{navItems.map(({ href, name }) => (
 						<Link
 							key={href}
