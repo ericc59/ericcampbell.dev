@@ -421,8 +421,8 @@ function WorkRow({
 	active?: boolean;
 	logo?: any;
 }) {
-	return (
-		<div className="flex items-center justify-between py-2.5 border-b border-zinc-900 text-sm">
+	const row = (
+		<div className="flex items-center justify-between py-3 border-b border-zinc-900 text-sm min-h-[44px]">
 			<div className="flex items-center gap-2">
 				{active && !logo && (
 					<span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
@@ -442,18 +442,9 @@ function WorkRow({
 					</div>
 				)}
 				<div className="flex items-baseline gap-2 flex-wrap">
-					{href ? (
-						<a
-							href={href}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-zinc-300 hover:text-zinc-100 transition-colors"
-						>
-							{company}
-						</a>
-					) : (
-						<span className="text-zinc-300">{company}</span>
-					)}
+					<span className="text-zinc-300 group-hover:text-zinc-100 transition-colors">
+						{company}
+					</span>
 					<span className="text-zinc-400 text-xs">{role}</span>
 					{badge && (
 						<span className="text-[9px] text-zinc-400 border border-zinc-800 px-1 py-px">
@@ -465,5 +456,20 @@ function WorkRow({
 			</div>
 			<span className="text-[10px] text-zinc-400 shrink-0 ml-4">{period}</span>
 		</div>
+	);
+
+	if (!href) {
+		return row;
+	}
+
+	return (
+		<a
+			href={href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className="group block"
+		>
+			{row}
+		</a>
 	);
 }
