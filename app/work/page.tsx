@@ -40,18 +40,6 @@ export default function Page() {
 
 				<Entry
 					status="active"
-					company="Campbell Ventures"
-					role="Founder"
-					period="2024 – Present"
-					href="https://campbell.ventures/"
-				>
-					<p>
-						My consulting and holding company for work in AI and developer tools.
-					</p>
-				</Entry>
-
-				<Entry
-					status="active"
 					company="Flow Auctions"
 					role="Co-Founder"
 					period="2024 – Present"
@@ -64,14 +52,16 @@ export default function Page() {
 				</Entry>
 
 				<Entry
+					status="active"
 					company="Stack0"
 					role="Founder"
 					period="2022 – Present"
 					href="https://www.stack0.dev"
 				>
 					<p>
-						Infrastructure for email, CDN, video transcoding, AI workflows, and
-						integrations, with SDKs in five languages.
+						The autonomous product stack. Agents build, deploy, monitor, operate,
+						and iterate on software. Includes Pylon Sync, a full-stack realtime
+						framework in Rust and TypeScript.
 					</p>
 				</Entry>
 

@@ -75,11 +75,6 @@ export default function Page() {
 								name: "LaunchKit Studios",
 								url: "https://www.launchkitstudios.com/",
 							},
-							{
-								"@type": "Organization",
-								name: "Campbell Ventures",
-								url: "https://campbell.ventures/",
-							},
 						],
 						alumniOf: [
 							{ "@type": "Organization", name: "Zapier" },
