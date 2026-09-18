@@ -28,18 +28,6 @@ export default function Page() {
 			<div className="space-y-6">
 				<Entry
 					status="active"
-					company="LaunchKit Studios"
-					role="Founder"
-					period="2024 – Present"
-					href="https://www.launchkitstudios.com/"
-				>
-					<p>
-						An app studio that builds and launches AI products.
-					</p>
-				</Entry>
-
-				<Entry
-					status="active"
 					company="Flow Auctions"
 					role="Co-Founder"
 					period="2024 – Present"

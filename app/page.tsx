@@ -11,7 +11,6 @@ import chariotLogo from "public/images/work/chariot.webp";
 import flowLogo from "public/images/work/flow.png";
 import flowDealersIcon from "public/images/projects/app-icon-dealers.png";
 import cmpIcon from "public/images/projects/coinmanagerpro-icon.png";
-import mastAgentsLogo from "public/images/projects/mast-icon@3x.png";
 import pylonIcon from "public/images/projects/pylon-icon@3x.png";
 import myenergyLogo from "public/images/work/myenergy.webp";
 import newWaveCapitalLogo from "public/images/work/nwc.png";
@@ -69,11 +68,6 @@ export default function Page() {
 								"@type": "Organization",
 								name: "Flow Auctions",
 								url: "https://marketing.flowauctions.com/platform/sellers",
-							},
-							{
-								"@type": "Organization",
-								name: "LaunchKit Studios",
-								url: "https://www.launchkitstudios.com/",
 							},
 						],
 						alumniOf: [
@@ -149,14 +143,6 @@ export default function Page() {
 							period="2026 –"
 							href="https://www.usesmallware.com"
 							logo={pylonIcon}
-							active
-						/>
-						<WorkRow
-							company="Mast Agents"
-							role="Founder"
-							period="2026 –"
-							href="https://www.mastagents.com/"
-							logo={mastAgentsLogo}
 							active
 						/>
 						<WorkRow
