@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import gsxLogo from "public/images/contracts/gsx/gsx.png";
+import oncoEverythingLogo from "public/images/contracts/oncoeverything/oncoeverything.png";
 import plusDocsLogo from "public/images/contracts/plusdocs/plusdocs.png";
 import safariaiLogo from "public/images/contracts/safariai/safariai.png";
 import profilePhoto from "public/images/home/eric2.jpeg";
@@ -167,13 +168,6 @@ export default function Page() {
 					<Label>Previously</Label>
 					<div className="mt-4 space-y-0">
 						<WorkRow
-							company="ARC Prize Foundation"
-							role="Contract"
-							period="2026"
-							logo={arcPrizeFoundationLogo}
-							href="https://arcprize.org/"
-						/>
-						<WorkRow
 							company="Zapier"
 							role="Principal Engineer (Labs), contract"
 							href="https://www.zapier.com"
@@ -224,7 +218,21 @@ export default function Page() {
 				<div>
 					<Label>Contract</Label>
 					<div className="mt-4 space-y-0">
-					 	<WorkRow
+						<WorkRow
+							company="OncoEverything"
+							role="Full project build"
+							period="2026"
+							logo={oncoEverythingLogo}
+							href="https://oncoeverything.vercel.app/"
+						/>
+						<WorkRow
+							company="ARC Prize Foundation"
+							role="Contract"
+							period="2026"
+							logo={arcPrizeFoundationLogo}
+							href="https://arcprize.org/"
+						/>
+						<WorkRow
 							company="ANATrack"
 							role="Full project build"
 							period="2025 -"
